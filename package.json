@@ -7,7 +7,8 @@
     "start:dev": "webpack-dev-server --config webpack.config.dev.js --progress --colors",
     "start": "webpack --config webpack.config.prod.js",
     "style-lint": "stylelint \"client/**/*.scss\" --syntax scss",
-    "test": "cypress run"
+    "test": "cypress run",
+    "precommit": "lint-staged"
   },
   "author": "",
   "license": "MIT",
@@ -51,6 +52,20 @@
   },
   "devDependencies": {
     "cypress": "^3.0.1",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^17.0.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-prettier": "^2.6.0",
+    "eslint-plugin-react": "^7.10.0",
+    "lint-staged": "^7.2.0",
+    "prettier": "^1.13.5",
     "redux-devtools": "^3.4.0"
+  },
+  "lint-staged": {
+    "client/**/*.{js,jsx,json,scss,css}": [
+      "prettier --write"
+    ]
   }
 }

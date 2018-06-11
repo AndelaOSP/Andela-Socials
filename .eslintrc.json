@@ -1,0 +1,20 @@
+{
+  "extends": [
+    "airbnb",
+    "prettier/react"
+  ],
+  "plugins": [
+    "prettier"
+  ],
+  "rules": {
+    "react/jsx-filename-extension": [1, { "extensions": [".js"] }],
+    "object-curly-newline": ["error", {
+        "ObjectExpression": "always",
+        "ObjectPattern": { "multiline": true },
+        "ExportDeclaration": { "multiline": true, "minProperties": 3 }
+    }],
+    "comma-dangle": ["error", {
+        "imports": "never"
+    }]
+  }
+}
