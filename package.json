@@ -5,7 +5,8 @@
   "repository": "https://github.com/BolajiOlajide/a_socials.git",
   "scripts": {
     "start:dev": "webpack-dev-server --config webpack.config.dev.js --progress --colors",
-    "start": "webpack --config webpack.config.prod.js"
+    "start": "webpack --config webpack.config.prod.js",
+    "test": "cypress run"
   },
   "author": "",
   "license": "MIT",
@@ -47,6 +48,7 @@
     "webpack-dev-server": "2.7.1"
   },
   "devDependencies": {
+    "cypress": "^3.0.1",
     "redux-devtools": "^3.4.0"
   }
 }
