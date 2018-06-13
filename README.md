@@ -14,6 +14,12 @@ git@github.com:AndelaOSP/Andela-Socials.git
 
 Create a `.env` file with the content of the `.env.sample` and edit with your personal details.
 
+#### Node Installation
+It is advisable to use node version 8 for this project. Check your node version using `node --version`. To help manage the node versions you can install and run on your system you can use nvm. Follow this [guide](https://gist.github.com/d2s/372b5943bce17b964a79#install-nvm-for-managing-nodejs-versions) to help install nvm.
+
+You would then run `nvm install v8.0` to install node version 8 and `nvm use v8` to use that specific node version, but this will only work with that running bash session. To make version 8 the default node version for your system you would use `nvm alias default 8.0`
+
+#### Project Setup
 Navigate into the root directory of the project and run the script `setup.sh` with the command:
 ```
 ./setup.sh
@@ -30,7 +36,7 @@ Subsequently, if you need to start the application after the initial setup has c
 ### DB CREATION
 Use the createdb.sh script to setup your database for the application
 
-Your .env variable should look like this, you can aslo reference the file to see how it is used. 
+Your .env variable should look like this, you can aslo reference the file to see how it is used.
 ```
     DB_USER=a_socials
     DB_PASS=a_socials
