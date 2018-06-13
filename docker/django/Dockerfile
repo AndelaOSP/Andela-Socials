@@ -14,10 +14,8 @@ COPY requirements.txt /app/
 
 RUN pip install -r /app/requirements.txt
 
-COPY ./docker/django/start_django.sh /start_django.sh
 COPY ./docker/django/entrypoint.sh /entrypoint.sh
 
-RUN chmod +x /start_django.sh
 RUN chmod +x /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]

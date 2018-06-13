@@ -21,10 +21,6 @@ done
 
 >&2 echo "Postgres is up - continuing..."
 
-function setup_server() {
-	python manage.py makemigrations
-	python manage.py migrate
-}
-
-setup_server
+python manage.py makemigrations
+python manage.py migrate
 python manage.py runserver 0.0.0.0:8000

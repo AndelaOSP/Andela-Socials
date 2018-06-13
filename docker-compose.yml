@@ -16,26 +16,26 @@ services:
       - postgres_backup:/backups
     env_file: .env
 
-  django:
-    container_name: django_server
-    build:
-      context: .
-      dockerfile: ./docker/django/Dockerfile
-    depends_on:
-      - postgres
-    command: /start.sh
-    env_file: .env
-    ports:
-      - "8000:8000"
-
   node:
     container_name: node_client
     build:
       context: .
       dockerfile: ./docker/node/Dockerfile
     depends_on:
-      - django
+      - postgres
     env_file: .env
     command: /start.sh
     ports:
       - "9000:9000"
+
+  django:
+    container_name: django_server
+    build:
+      context: .
+      dockerfile: ./docker/django/Dockerfile
+    depends_on:
+      - node
+    command: /start.sh
+    env_file: .env
+    ports:
+      - "8000:8000"
