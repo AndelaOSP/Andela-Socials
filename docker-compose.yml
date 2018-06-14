@@ -1,28 +1,44 @@
 version: '3'
 
 volumes:
-  postgres_data: {}
-  postgres_backup: {}
+  andela_socials_db_data: {}
+  andela_social_db_backup: {}
 
 services:
   postgres:
-    container_name: postgres_server
+    container_name: postgres_db
     build:
-      context: .
-      dockerfile: ./docker/postgres/Dockerfile
-    build: ./docker/postgres
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - postgres_backup:/backups
-    env_file: .env
+      context: ./docker/database/
+      dockerfile: Dockerfile
+    ports:
+      - 5434:5432
 
-  django:
-    container_name: django_server
+    volumes:
+      - andela_socials_db_data:/var/lib/postgresql/data
+      - andela_social_db_backup:/backups
+
+
+  andela_socials:
+    container_name: andela_socials_server
     build:
       context: .
-      dockerfile: ./docker/django/Dockerfile
-    command: /start.sh
-    env_file: .env
+      dockerfile: ./docker/server/Dockerfile
+    command:
+      - /start.sh
+    environment:
+      - CLIENT_ID=${CLIENT_ID}
+      - CLIENT_SECRET=${CLIENT_SECRET}
+      - SLACK_BOT_TOKEN=${SLACK_BOT_TOKEN}
+      - G_SUITE_DOMAIN=${G_SUITE_DOMAIN}
+      - SECRET_KEY=${SECRET_KEY}
+      - DB_PORT=${DB_PORT}
+      - DB_HOST=${DB_HOST}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DEBUG=${DEBUG}
     ports:
       - "8000:8000"
       - "9000:9000"
+    depends_on:
+      - postgres

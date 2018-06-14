@@ -5,7 +5,7 @@ ENV PYTHONUNBUFFERED 1
 # Setup Debian linux
 RUN export DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get -y install build-essential curl
-RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
 RUN apt-get install -y nodejs
 RUN nodejs -v && npm -v
 
@@ -23,7 +23,7 @@ RUN pip install -r /app/requirements.txt && npm install
 # Load project files to new work directory
 COPY . /app
 
-COPY ./docker/django/entrypoint.sh /entrypoint.sh
+COPY ./docker/server/entrypoint.sh /entrypoint.sh
 
 RUN chmod +x /entrypoint.sh
 
