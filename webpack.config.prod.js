@@ -2,6 +2,7 @@ const path = require("path");
 const webpack = require('webpack');
 const BundleTracker = require('webpack-bundle-tracker');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const ExtractAppCSS = new ExtractTextPlugin({
   filename: 'css/app.css',
@@ -18,6 +19,10 @@ module.exports = {
     extensions: ['.js', '.jsx'],
   },
   plugins: [
+    new HtmlWebpackPlugin({
+      template: './client/public/index.html',
+      filename: './index.html'
+    }),
     new webpack.LoaderOptionsPlugin({
       minimize: true,
       debug: false
@@ -49,10 +54,11 @@ module.exports = {
     './client/index.js',
   ],
   target: 'web',
-  output: {
-    path: path.join(__dirname, 'static'),
-    filename: 'js/app.js'
-  },
+    output: {
+  path: path.join(__dirname, '/client/public/'),
+  filename: 'js/bundle.js',
+  publicPath: '/',
+},
   module: {
     rules: [
       {
@@ -84,5 +90,8 @@ module.exports = {
         loader: 'url-loader'
       }
     ]
-  }
+  },
+    node: {
+    fs: 'empty',
+  },
 };

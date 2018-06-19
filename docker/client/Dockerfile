@@ -1,21 +1,17 @@
-FROM python:3.6.2
-
-ENV PYTHONUNBUFFERED 1
+FROM node:8
 
 WORKDIR /apps/
 
-#Update pip version
-RUN pip install --upgrade pip
-
 # Requirements have to be pulled and installed here, otherwise caching won't work
-COPY requirements.txt /apps/
+COPY package.json /apps/
 
-RUN pip install -r /apps/requirements.txt
+
+RUN npm install --save
 
 # Load project files to new work directory
 COPY . /apps
 
-COPY ./docker/server/entrypoint.sh /entrypoint.sh
+COPY ./docker/client/entrypoint.sh /entrypoint.sh
 
 RUN chmod +x /entrypoint.sh
 
