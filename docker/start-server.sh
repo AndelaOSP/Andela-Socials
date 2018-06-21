@@ -15,8 +15,8 @@ function start_server() {
   if [ $ENVIRONMENT = "production" ]; then
     echo Starting Gunicorn server..
     exec gunicorn a_socials.wsgi:application \
-      --bind 0.0.0.0:8000 \
-      --workers 3
+      --bind 0.0.0.0:80 \
+      --workers 3 --chdir=/andela_social
   else
     echo Starting Django development server..
     python manage.py runserver 0.0.0.0:8000

@@ -25,6 +25,9 @@ dotenv.load()
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = dotenv.get('DEBUG', True)
 
+# Set Environment 
+ENVIRONMENT = dotenv.get('ENVIRONMENT')
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/

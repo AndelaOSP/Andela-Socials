@@ -15,18 +15,14 @@ WORKDIR /andela_social
 COPY . /andela_social
 
 # Install node modules and bundle client files
-RUN npm install && npm start
+RUN npm install && npm rebuild node-sass --force && npm start
 
 # Build wheel archive for requirement and dependencies
 RUN pip install --upgrade pip wheel
-RUN pip wheel --wheel-dir=/wheelhouse -r requirements.txt
+RUN pip install -r requirements.txt
 
 # Install pip packages from wheel archives
 RUN pip install --no-index -f /wheelhouse -r requirements.txt
-
-# OUTPUT: Build artefacts (Wheels) and staticfiles are output here
-VOLUME /staticfiles
-VOLUME /wheelhouse
 
 COPY docker/start-server.sh /start-server.sh
 COPY docker/wait_for_database.sh /wait_for_database.sh

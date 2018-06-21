@@ -3,6 +3,7 @@ version: '3'
 volumes:
     postgres_data: {}
     postgres_backup: {}
+    static_dir: {}
 
 services:
   application:
@@ -14,10 +15,16 @@ services:
      - database
     env_file:
       - ../../.env
-    ports:
-      - "8000:8000"
+    environment:
+      - VIRTUAL_HOST=localhost
+    # ports:
+    #   - "8000:8000"
+    expose:
+      - "80"
     depends_on:
       - database
+    volumes:
+      - static_dir:/andela_social/staticfiles
 
   database:
     container_name: prod_andela_socials_db
@@ -32,3 +39,14 @@ services:
       - postgres_backup:/backups
     expose:
       - "5432"
+  
+  nginx:
+    container_name: nginx_server
+    build: ../../docker/nginx
+    depends_on:
+      - application
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - static_dir:/andela_social/staticfiles
