@@ -21,7 +21,7 @@ from api import views
 
 urlpatterns = [
     url(r'^admin/?', admin.site.urls),
-    url(r'^v1/?', include('api.urls')),
+    url(r'^api/v1/?', include('api.urls')),
     url(r'^/', include('api.urls')),
     url(r'^.*/?', views.DashBoardView.as_view(), name='base')
 ]

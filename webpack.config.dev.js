@@ -11,8 +11,8 @@ module.exports = {
   entry: './client/index.js',
   target: 'web',
   output: {
-  path: path.join(__dirname, '/client/public/'),
-  filename: 'js/bundle.js',
+  path: path.join(__dirname, '/client/dist/'),
+  filename: 'bundle.js',
   publicPath: '/',
 },
   plugins: [

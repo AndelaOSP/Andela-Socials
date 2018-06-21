@@ -1,4 +1,4 @@
-FROM node:8
+FROM node:8 as builder
 
 WORKDIR /apps/
 
@@ -11,8 +11,4 @@ RUN npm install --save
 # Load project files to new work directory
 COPY . /apps
 
-COPY ./docker/client/entrypoint.sh /entrypoint.sh
-
-RUN chmod +x /entrypoint.sh
-
-ENTRYPOINT ["/entrypoint.sh"]
+CMD ["npm", "run", "start:dev"]
