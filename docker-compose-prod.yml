@@ -1,0 +1,49 @@
+version: '3'
+
+volumes:
+  andela_socials_db_data: {}
+  andela_social_db_backup: {}
+
+services:
+  postgres:
+    container_name: postgres_db
+    build:
+      context: ./docker/database/
+      dockerfile: Dockerfile
+    ports:
+      - 5434:5432
+
+    volumes:
+      - andela_socials_db_data:/var/lib/postgresql/data
+      - andela_social_db_backup:/backups
+
+
+  web_server:
+    container_name: web_server
+    build:
+      context: .
+      dockerfile: ./docker/server/Dockerfile
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+    volumes:
+      - '.:/usr/src/app'
+
+  web_client:
+    container_name: web_client
+    build:
+      context: .
+      dockerfile: ./docker/client/Dockerfile-prod
+    env_file:
+      - .env
+    ports:
+      - ${CLIENT_PORT}:80
+    volumes:
+      - '.:/usr/src/app'
+      - '/usr/src/app/node_modules'
+
+
+

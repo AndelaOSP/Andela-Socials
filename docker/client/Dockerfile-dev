@@ -1,0 +1,14 @@
+FROM node:8 as builder
+
+WORKDIR /apps/
+
+# Requirements have to be pulled and installed here, otherwise caching won't work
+COPY package.json /apps/
+
+
+RUN npm install --save
+
+# Load project files to new work directory
+COPY . /apps
+
+CMD ["npm", "run", "start:dev"]

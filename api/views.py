@@ -48,9 +48,10 @@ class ExemptCSRFMixn(object):
     request, *args, **kwargs)
 
 
-class DashBoardView(TemplateView):
+class DashBoardView(APIView):
 
-    template_name = 'index.html'
+  def get(self):
+    return Response('welcome to Andela social API')
 
 
 class GoogleLoginView(APIView):

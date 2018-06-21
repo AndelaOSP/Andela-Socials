@@ -22,6 +22,7 @@ DATABASES = {
       'USER': dotenv.get('DB_USER'),
       'PASSWORD': dotenv.get('DB_PASSWORD'),
       'PORT': dotenv.get('DB_PORT'),
+      'HOST': dotenv.get('DB_HOST'),
       'TEST': {
         'CHARSET': None, 
         'COLLATION': None,
