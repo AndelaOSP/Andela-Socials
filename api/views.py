@@ -11,7 +11,6 @@ from django.contrib.auth import login
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from django.conf import settings
 
 from rest_framework import status
 from rest_framework import filters
@@ -52,11 +51,6 @@ class ExemptCSRFMixn(object):
 class DashBoardView(TemplateView):
 
     template_name = 'index.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['environment'] = settings.ENVIRONMENT
-        return context
 
 
 class GoogleLoginView(APIView):
