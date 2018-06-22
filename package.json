@@ -6,9 +6,15 @@
   "scripts": {
     "start:dev": "webpack-dev-server --config webpack.config.dev.js --progress --colors",
     "start": "webpack --config webpack.config.prod.js",
-    "style-lint": "stylelint \"client/**/*.scss\" --syntax scss",
-    "test": "cypress run",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "stylelint-staged": "stylelint \"client/**/*.scss\" --syntax scss",
+    "test": "cypress run"
+  },
+  "lint-staged": {
+    "client/**/*.{js,jsx,json,scss,css}": [
+      "prettier --write"
+    ],
+    "client/**/*.scss": "npm run stylelint-staged --"
   },
   "author": "",
   "license": "MIT",
@@ -43,7 +49,6 @@
     "sass-loader": "6.0.6",
     "source-map-loader": "0.2.1",
     "style-loader": "0.18.2",
-    "stylelint": "^9.3.0",
     "toastr": "2.1.2",
     "url-loader": "0.5.9",
     "webpack": "3.5.6",
@@ -61,11 +66,8 @@
     "eslint-plugin-react": "^7.10.0",
     "lint-staged": "^7.2.0",
     "prettier": "^1.13.5",
-    "redux-devtools": "^3.4.0"
-  },
-  "lint-staged": {
-    "client/**/*.{js,jsx,json,scss,css}": [
-      "prettier --write"
-    ]
+    "redux-devtools": "^3.4.0",
+    "husky": "^0.14.3",
+    "stylelint": "^9.3.0"
   }
 }
