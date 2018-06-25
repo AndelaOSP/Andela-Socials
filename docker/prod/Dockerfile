@@ -25,7 +25,6 @@ RUN pip wheel --wheel-dir=/wheelhouse -r requirements.txt
 RUN pip install --no-index -f /wheelhouse -r requirements.txt
 
 # OUTPUT: Build artefacts (Wheels) and staticfiles are output here
-VOLUME /staticfiles
 VOLUME /wheelhouse
 
 COPY docker/start-server.sh /start-server.sh
