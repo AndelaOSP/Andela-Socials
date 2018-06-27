@@ -1,8 +1,5 @@
 FROM node:8.4.0
 
-# uninstall node sass to remove any previous version
-RUN npm uninstall node-sass -g
-
 # Set andela_social as working directory
 WORKDIR /andela_social
 

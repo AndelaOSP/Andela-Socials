@@ -1,2 +1,2 @@
 #Setup database environment
-FROM postgres:latest
+FROM postgres:10.4

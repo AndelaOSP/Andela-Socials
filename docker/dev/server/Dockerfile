@@ -9,7 +9,7 @@ COPY ./requirements.txt /requirements.txt
 RUN pip install --upgrade pip \
  && pip install -r /requirements.txt
 
-# Load project files to new work directory
+# Go to work directory
 WORKDIR /andela_social
 
 # Copy setup scripts to folder

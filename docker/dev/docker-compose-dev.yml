@@ -5,7 +5,7 @@ volumes:
   postgres_backup: {}
 
 services:
-  db:
+  database:
     container_name: dev_andela_social_db
     build:
       context: ../../docker/database
@@ -27,11 +27,9 @@ services:
       context: ../../
       dockerfile: docker/dev/server/Dockerfile
     depends_on:
-      - db
+      - database
     ports:
       - "8000:8000"
-    links:
-      - db
     volumes:
       - ../.././:/andela_social
     
