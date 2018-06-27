@@ -7,12 +7,14 @@ import initialState from './initialState';
  * @param {object} action
  * @returns {array} new state of socialClubs
  */
-export function socialClubs(state = initialState.socialClubs, action) {
+export const socialClubs = (state = initialState.socialClubs, action) => {
   switch(action.type){
     case GET_CLUBS:
       return action.payload;
+
     case SIGN_OUT:
       return initialState.socialClubs;
+
     default:
       return state;
   }
@@ -24,16 +26,19 @@ export function socialClubs(state = initialState.socialClubs, action) {
  * @param {object} action
  * @returns {array} new state of the socialClub
  */
-export function socialClub(state = initialState.socialClub, action) {
+export const socialClub = (state = initialState.socialClub, action) => {
   switch(action.type){
     case GET_CLUB:
       return action.payload;
+
     case CREATE_EVENT:
       return Object.assign({}, state, {
         events: state.events.concat(action.payload)
       });
+
     case SIGN_OUT:
       return initialState.socialClub;
+
     default:
       return state;
   }
@@ -45,14 +50,17 @@ export function socialClub(state = initialState.socialClub, action) {
  * @param {object} action
  * @returns {array} new state of joined clubs
  */
-export function joinedClubs(state = initialState.joinedClubs, action) {
+export const joinedClubs = (state = initialState.joinedClubs, action) => {
   switch(action.type){
     case JOINED_CLUBS:
       return action.payload.map(interest => interest.follower_category);
+
     case JOIN_CLUB:
       return state.concat(action.payload.follower_category);
+
     case UNJOIN_CLUB:
       return state.filter(club => club !== action.payload.club_id);
+
     default:
       return state;
   }

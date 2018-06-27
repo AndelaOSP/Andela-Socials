@@ -30,16 +30,21 @@ class Jumbotron extends Component {
                   this.props.clubs && this.props.clubs.map(club =>
                       <div key={club.id} className="col-sm-4 club-card">
                         <Link to={`/clubs/${club.id}`}>
-                          <div className="club hvr-glow"
-                               style={{
-                                 backgroundImage: `url(${club.featured_image})`
-                               }}
+                          <div
+                            className="club hvr-glow"
+                            style={{backgroundImage: `url(${club.featured_image})`}}
                           >
                             {club.name}
                           </div>
                           <section className='button-group hvr-glow'>
-                            <button><span className="glyphicon glyphicon-eye-open"></span><span>preview</span></button>
-                            <button><span className="glyphicon glyphicon-plus"></span><span>join</span></button>
+                            <button>
+                              <span className="glyphicon glyphicon-eye-open"></span>
+                              <span>preview</span>
+                            </button>
+                            <button>
+                              <span className="glyphicon glyphicon-plus">
+                              </span><span>join</span>
+                            </button>
                           </section>
                         </Link>
                       </div>
@@ -53,11 +58,8 @@ class Jumbotron extends Component {
   }
 }
 
-function mapStateToProps(state, ownProps) {
-  return {
-    clubs: state.socialClubs
-  }
-}
-
+const mapStateToProps = (state, ownProps) => ({
+  clubs: state.socialClubs,
+});
 
 export default connect(mapStateToProps, { getAllClubs })(Jumbotron);

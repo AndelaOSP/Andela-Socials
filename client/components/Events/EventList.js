@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 
-function EventList({ event }){
+const EventList = ({ event }) => {
   const defaultImageUrl = 'https://www.omnihotels.com/-/media/images/hotels/pueave/hotel/pueave-omni-puerto-aventuras-beach-resort.jpg?h=660&la=en&w=1170';
+
   return (
     <div className="event">
-      <div className="event-image"
-         style={{
-           backgroundImage: `url(${event.featured_image || defaultImageUrl})`
-         }}>
+      <div
+        className="event-image"
+         style={{backgroundImage: `url(${event.featured_image || defaultImageUrl})`}}
+      >
 
       </div>
       <div className="event-details">
@@ -20,8 +21,10 @@ function EventList({ event }){
           </div>
         </div>
         <div className="event-meta">
-          <Link to={`/clubs/${event.social_event}/events/${event.id}`}
-                className="btn btn-primary btn-lg">
+          <Link
+            to={`/clubs/${event.social_event}/events/${event.id}`}
+            className="btn btn-primary btn-lg"
+          >
             See who is going
           </Link>
         </div>

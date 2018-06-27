@@ -28,6 +28,7 @@ class EventPage extends Component {
     this.joinThisEvent = this.joinThisEvent.bind(this);
     this.unsubscribeThisEvent = this.unsubscribeThisEvent.bind(this);
   }
+
   // TODO: There will be two API calls here
   // To get the clicked event and a recommended event
   componentDidMount() {
@@ -183,7 +184,6 @@ class EventPage extends Component {
                       </div>
                     </div>
                   </div>
-
                   <div className="col-lg-3 bordered sidebar">
                     <div className="heading">Recommended Event</div>
                     <div
@@ -223,15 +223,13 @@ class EventPage extends Component {
   }
 }
 
-function mapStateToProps(state, ownProps) {
-  return {
-    user: state.access.user,
-    event: state.event,
-    club: state.socialClub,
-    subscribedClubs: state.joinedClubs,
-    subscribedEvents: state.subscribedEvents
-  };
-}
+const mapStateToProps = (state, ownProps) => ({
+  user: state.access.user,
+  event: state.event,
+  club: state.socialClub,
+  subscribedClubs: state.joinedClubs,
+  subscribedEvents: state.subscribedEvents,
+});
 
 export default connect(
   mapStateToProps,

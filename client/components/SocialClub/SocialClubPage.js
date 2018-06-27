@@ -229,12 +229,12 @@ class SocialClubPage extends Component {
   }
 }
 
-function mapStateToProps(state, ownProps) {
-  return {
-    club: state.socialClub,
-    user: state.access.user,
-    subscribedClubs: state.joinedClubs
-  };
-}
+const mapStateToProps = (state, ownProps) => ({
+  club: state.socialClub,
+  user: state.access.user,
+  subscribedClubs: state.joinedClubs,
+});
 
-export default connect(mapStateToProps, { getClub, joinClub, unjoinClub, joinedClubs, createEvent })(SocialClubPage);
+export default connect(
+  mapStateToProps, { getClub, joinClub, unjoinClub, joinedClubs, createEvent }
+)(SocialClubPage);

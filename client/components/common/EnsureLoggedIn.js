@@ -4,12 +4,14 @@ import { browserHistory } from 'react-router';
 import toastr from 'toastr';
 
 import { setRedirectUrl } from "../../actions/userActions";
-
-
 class EnsureLoggedIn extends Component {
 
   componentDidMount() {
-    const { setRedirectUrl, currentUrl, isAuthenticated } = this.props;
+    const {
+      setRedirectUrl,
+      currentUrl,
+      isAuthenticated,
+    } = this.props;
 
     if (!isAuthenticated) {
       setRedirectUrl(currentUrl);
@@ -27,11 +29,9 @@ class EnsureLoggedIn extends Component {
   }
 }
 
-function mapStateToProps(state, ownProps) {
-  return {
-    isAuthenticated: state.access.isAuthenticated,
-    currentUrl: ownProps.location.pathname
-  }
-}
+const mapStateToProps = (state, ownProps) => ({
+  isAuthenticated: state.access.isAuthenticated,
+  currentUrl: ownProps.location.pathname,
+});
 
 export default connect(mapStateToProps, { setRedirectUrl })(EnsureLoggedIn);

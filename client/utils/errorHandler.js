@@ -2,11 +2,12 @@ import toastr from 'toastr';
 
 /**
  * Handles errors coming from api calls
+ * 
  * @param {object} error
  * @param {function} dispatch
  * @returns {function} error display
  */
-export function handleError(error, dispatch) {
+export const handleError = (error, dispatch) => {
   if (error) {
     return toastr.error(error);
   }
@@ -17,11 +18,11 @@ export function handleError(error, dispatch) {
  * @param {object} error
  * @param {function} dispatch
  */
-export function throwError(error, dispatch) {
+export const throwError = (error, dispatch) => {
   throw error;
 }
 
-export function authenticationFailed(error) {
+export const authenticationFailed = (error) => {
   if (error) {
     return toastr.error(error);
   }

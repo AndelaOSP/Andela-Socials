@@ -2,33 +2,24 @@ import axios from 'axios';
 import { SET_REDIRECT_URL, SIGN_OUT, SIGN_IN } from './constants';
 import { authenticationFailed } from '../utils/errorHandler';
 
-export function login(payload, type){
-  return {
-    payload,
-    type,
-    error: false
-  };
-}
+export const login = (payload, type) => ({
+  payload,
+  type,
+  error: false,
+});
 
-export function setRedirectUrl(url){
-  return {
-    type: SET_REDIRECT_URL,
-    payload: url
-  };
-}
+export const setRedirectUrl = (url) => ({
+  type: SET_REDIRECT_URL,
+  payload: url,
+});
 
-export function signOut(){
-  return {
-    type: SIGN_OUT
-  };
-}
+export const signOut = () => ({ type: SIGN_OUT });
 
-export function signIn(id_token){
-  return (dispatch) => {
+export const signIn = (id_token) =>
+  (dispatch) => {
     return axios.post('/api/v1/auth/login/', {'ID_Token': id_token})
       .then((res) => {
         dispatch(login(res, SIGN_IN));
       })
       .catch(error => authenticationFailed(error));
   };
-}

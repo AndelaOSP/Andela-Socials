@@ -2,7 +2,7 @@ import axios from 'axios';
 import {GET_EVENT, JOIN_EVENT, CREATE_EVENT, SUBSCRIBED_EVENTS, UNSUBSCRIBE_EVENT} from './constants';
 import { handleError } from "../utils/errorHandler";
 
-export function getEvent(event_id) {
+export const getEvent = (event_id) => {
   return (dispatch) => {
     return axios.get(`/api/v1/event/${event_id}`)
       .then((res) => {
@@ -16,7 +16,7 @@ export function getEvent(event_id) {
   };
 }
 
-export function joinEvent(details) {
+export const joinEvent = (details) => {
   return (dispatch) => {
     return axios.post('/api/v1/attend', details)
       .then((res) => {
@@ -30,7 +30,7 @@ export function joinEvent(details) {
   };
 }
 
-export function createEvent(eventData) {
+export const createEvent = (eventData) => {
   return (dispatch) => {
     return axios.post('/api/v1/create/event', eventData)
       .then((res) => {
@@ -44,7 +44,7 @@ export function createEvent(eventData) {
   };
 }
 
-export function getSubscribedEvents() {
+export const getSubscribedEvents = () => {
   return (dispatch) => {
     return axios.get('/api/v1/subscribed')
       .then((res) => {
@@ -58,7 +58,7 @@ export function getSubscribedEvents() {
   };
 }
 
-export function unsubscribeEvent(event) {
+export const unsubscribeEvent = (event) => {
   return (dispatch) => {
     return axios.post('/api/v1/unsubscribe', event)
       .then((res) => {

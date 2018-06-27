@@ -7,20 +7,24 @@ import initialState from './initialState';
  * @param {object} action
  * @returns {array} new state of the event
  */
-export function event(state = initialState.event, action) {
+export const event = (state = initialState.event, action) => {
   switch(action.type) {
     case GET_EVENT:
       return action.payload;
+
     case JOIN_EVENT:
       return Object.assign({}, state, {
         attendees: state.attendees.concat(action.payload)
       });
+
     case UNSUBSCRIBE_EVENT:
       return Object.assign({}, state, {
         attendees: state.attendees.filter(attendee => attendee.event !== action.payload.event_id)
       });
+
     case SIGN_OUT:
       return initialState.event;
+
     default:
       return state;
   }
@@ -32,14 +36,17 @@ export function event(state = initialState.event, action) {
  * @param {object} action
  * @returns {array} new state of subscribedEvents
  */
-export function subscribedEvents(state = initialState.subscribedEvents, action) {
+export const subscribedEvents = (state = initialState.subscribedEvents, action) => {
   switch(action.type) {
     case SUBSCRIBED_EVENTS:
       return action.payload.map(interest => interest.event);
+
     case JOIN_EVENT:
       return state.concat(action.payload.event);
+
     case UNSUBSCRIBE_EVENT:
       return state.filter(event => event !== action.payload.event_id);
+
     default:
       return state;
   }

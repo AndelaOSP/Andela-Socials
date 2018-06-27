@@ -2,9 +2,10 @@ import React from 'react';
 
 /**
  * Renders the footer element
+ * 
  * @returns {object} jsx
  */
-function Footer() {
+const Footer = () => {
   return (
     <footer className="page-footer">
       <div className="footer-copyright">

@@ -7,15 +7,17 @@ import initialState from './initialState';
  * @param {object} action
  * @returns {object} access state
  */
-function access(state = initialState.access, action) {
+const access = (state = initialState.access, action) => {
   switch (action.type) {
     case SIGN_IN_SUCCESS:
       return {
         isAuthenticated: true,
         user: action.payload
       };
+
     case SIGN_OUT:
       return initialState.access;
+
     default:
       return state;
   }

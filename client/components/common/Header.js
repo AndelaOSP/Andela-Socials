@@ -21,7 +21,14 @@ class Header extends Component {
         <nav className="navbar navbar-default navbar-fixed-top nav-menu no-margin no-padding">
           <div className="container-fluid">
             <div className="navbar-header">
-              <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#nav-bar" aria-expanded="false" aria-controls="navbar">
+              <button
+                type="button"
+                className="navbar-toggle collapsed"
+                data-toggle="collapse"
+                data-target="#nav-bar"
+                aria-expanded="false"
+                aria-controls="navbar"
+              >
                 <span className="sr-only">Toggle navigation</span>
                 <span className="icon-bar"></span>
                 <span className="icon-bar"></span>
@@ -29,7 +36,6 @@ class Header extends Component {
               </button>
               <Link to="/home" className="navbar-brand">Andela Socials</Link>
             </div>
-
             <div className="collapse navbar-collapse" id="nav-bar">
               <ul className="nav navbar-nav navbar-right">
                 <li>
@@ -37,7 +43,6 @@ class Header extends Component {
                 </li>
               </ul>
             </div>
-
           </div>
         </nav>
       </div>

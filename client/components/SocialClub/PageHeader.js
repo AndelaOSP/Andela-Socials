@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-function PageHeader({ image, title, buttonTitle, joinClub }) {
+const PageHeader = ({ image, title, buttonTitle, joinClub }) => {
   const divStyle = {
     backgroundImage: 'url(' + image + ')',
   };
@@ -13,7 +13,6 @@ function PageHeader({ image, title, buttonTitle, joinClub }) {
         <button onClick={joinClub}>{buttonTitle}</button>
       </div>
       <div className="black-cover"></div>
-
     </div>
   );
 }

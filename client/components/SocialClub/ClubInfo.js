@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-function ClubInfo({ joinClub, joinedClub, club }) {
+const ClubInfo = ({ joinClub, joinedClub, club }) => {
   return (
     <div className="click-bait">
       <div className="container">

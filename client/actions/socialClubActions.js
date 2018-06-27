@@ -2,26 +2,23 @@ import axios from 'axios';
 import { GET_CLUB, GET_CLUBS, JOIN_CLUB, UNJOIN_CLUB, JOINED_CLUBS } from './constants';
 import { handleError } from "../utils/errorHandler";
 
-export function getClubs(socialClubs) {
-  return {
+export const getClubs = (socialClubs) => ({
     type: GET_CLUBS,
     payload: socialClubs,
-    error: false
-  }
-}
+    error: false,
+});
 
-export function getAllClubs() {
-  return (dispatch) => {
+export const getAllClubs = () =>
+  (dispatch) => {
     return axios.get('/api/v1/categories/')
       .then((socialClubs) => {
         dispatch(getClubs(socialClubs.data.results));
       })
       .catch(error => handleError(error, dispatch));
   };
-}
 
-export function getClub(club_id) {
-  return (dispatch) => {
+export const getClub = (club_id) =>
+  (dispatch) => {
     return axios.get(`/api/v1/category/${club_id}/events/`)
       .then((res) => {
         dispatch({
@@ -32,10 +29,9 @@ export function getClub(club_id) {
       })
       .catch(error => handleError(error, dispatch));
   };
-}
 
-export function joinClub(details) {
-  return (dispatch) => {
+export const joinClub = (details) =>
+  (dispatch) => {
     return axios.post('/api/v1/join/', details)
       .then((res) => {
         dispatch({
@@ -46,10 +42,9 @@ export function joinClub(details) {
       })
       .catch(error => handleError(error, dispatch));
   };
-}
 
-export function unjoinClub(details) {
-  return (dispatch) => {
+export const unjoinClub = (details) =>
+  (dispatch) => {
     return axios.post('/api/v1/unjoin/', details)
       .then((res) => {
         dispatch({
@@ -60,10 +55,9 @@ export function unjoinClub(details) {
       })
       .catch(error => handleError(error, dispatch));
   };
-}
 
-export function joinedClubs() {
-  return (dispatch) => {
+export const joinedClubs = () =>
+  (dispatch) => {
     return axios.get('/api/v1/joined/')
       .then((res) => {
         dispatch({
@@ -74,4 +68,3 @@ export function joinedClubs() {
       })
       .catch(error => handleError(error, dispatch));
   };
-}

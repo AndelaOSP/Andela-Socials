@@ -40,12 +40,10 @@ class App extends Component {
   }
 }
 
-function mapStateToProps(state, ownProps) {
-  return {
-    isAuthenticated: state.access.isAuthenticated,
-    redirectUrl: state.url,
-    currentUrl: ownProps.location.pathname
-  }
-}
+const mapStateToProps = (state, ownProps) => ({
+  isAuthenticated: state.access.isAuthenticated,
+  redirectUrl: state.url,
+  currentUrl: ownProps.location.pathname,
+});
 
 export default connect(mapStateToProps)(App);
