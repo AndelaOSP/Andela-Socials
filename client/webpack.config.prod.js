@@ -46,11 +46,11 @@ module.exports = {
     })
   ],
   entry: [
-    './client/index.js',
+    './index.js',
   ],
   target: 'web',
   output: {
-    path: path.join(__dirname, 'static'),
+    path: path.join(__dirname, '..', 'static'),
     filename: 'js/app.js'
   },
   module: {

@@ -1,20 +1,23 @@
 #set up python runtime environment
-FROM python:3.6.2
+FROM python:3.6.5
 ENV PYTHONUNBUFFERED 1
 
 # Copy the requirements.txt to a tmp folder
 COPY ./requirements.txt /requirements.txt
 
-# Update pip version and install dependencies from requirements.txt
-RUN pip install --upgrade pip \
- && pip install -r /requirements.txt
+# Update pip version and build wheel archive
+RUN pip install --upgrade pip wheel
+RUN pip wheel --wheel-dir=/wheelhouse -r requirements.txt
 
-# Load project files to new work directory
+# Install pip packages from wheel archives
+RUN pip install --no-index -f /wheelhouse -r requirements.txt
+
+# Go to work directory
 WORKDIR /andela_social
 
 # Copy setup scripts to folder
-COPY docker/start-server.sh /start-server.sh
-COPY docker/wait_for_database.sh /wait_for_database.sh
+COPY start-server.sh /start-server.sh
+COPY wait_for_database.sh /wait_for_database.sh
 
 # Make the setup scripts executable
 RUN chmod +x /start-server.sh \

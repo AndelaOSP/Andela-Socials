@@ -1,4 +1,4 @@
-FROM python:3.6
+FROM python:3.6.5
 
 # Set mirroes to Nearest Zone for faster builds
 RUN sed -i "s/http:\/\/archive./http:\/\/nz.archive./g" /etc/apt/sources.list
@@ -12,22 +12,28 @@ RUN nodejs -v && npm -v
 
 
 WORKDIR /andela_social
-COPY . /andela_social
+COPY server /andela_social/server
+COPY client /andela_social/client
 
 # Install node modules and bundle client files
-RUN npm install && npm rebuild node-sass --force && npm start
+WORKDIR /andela_social/client
+RUN npm install && npm start
 
 # Build wheel archive for requirement and dependencies
+WORKDIR /andela_social/server
 RUN pip install --upgrade pip wheel
-RUN pip install -r requirements.txt
+RUN pip wheel --wheel-dir=/wheelhouse -r requirements.txt
 
 # Install pip packages from wheel archives
 RUN pip install --no-index -f /wheelhouse -r requirements.txt
 
-COPY docker/start-server.sh /start-server.sh
-COPY docker/wait_for_database.sh /wait_for_database.sh
+# OUTPUT: Build artefacts (Wheels) and staticfiles are output here
+VOLUME /wheelhouse
+
+COPY server/start-server.sh /start-server.sh
+COPY server/wait_for_database.sh /wait_for_database.sh
 
 RUN chmod +x /start-server.sh
 RUN chmod +x /wait_for_database.sh
 
-ENTRYPOINT ["/wait_for_database.sh", "prod"]
+ENTRYPOINT ["/wait_for_database.sh"]

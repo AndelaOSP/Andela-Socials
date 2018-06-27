@@ -1,0 +1,41 @@
+# virtual environments
+venv
+
+# Python files
+*.pyc
+__pycache__
+
+# Python Notebook dot files
+.ipynb*
+
+# Secret environment settings
+.env
+env
+
+# Node and Webpack files
+client/node_modules
+client/npm-debug.log
+client/webpack-stats*
+
+# Static assests
+staticfiles
+static_cdn
+media_cdn
+
+# Apple files
+.DS_Store
+
+# Docker folders and files
+**/Dockerfile
+.dockerignore
+
+# Scripts
+setup.sh
+start.sh
+init.sh
+createdb.sh
+
+# Others
+.vscode
+.github
+Procfile

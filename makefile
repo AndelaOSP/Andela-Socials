@@ -16,9 +16,6 @@ build:
 	@ echo "Building the required docker images"
 	@ docker-compose -f $(DOCKER_COMPOSE_FILE) build
 	@ echo "Build Completed successfully"
-	@ echo " "
-	@ echo "Starting local development server and database"
-	@ docker-compose -f $(DOCKER_COMPOSE_FILE) up
 
 # Start all the containers
 start:
@@ -28,6 +25,7 @@ start:
 
 # stop all the containers
 stop:
-	@ echo "Stop development docker containers"
+	@ echo "Stopping docker containers"
+	@ echo " "
 	@ docker-compose -f $(DOCKER_COMPOSE_FILE) down -v
 	@ echo "All containers stopped successfully"

@@ -1,5 +1,5 @@
 import json
-
+import dotenv
 from django.http import Http404
 from django import http
 from django.views.generic.base import TemplateView, View
@@ -12,6 +12,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
+from django.shortcuts import render
 from rest_framework import status
 from rest_framework import filters
 from rest_framework.response import Response
@@ -48,9 +49,14 @@ class ExemptCSRFMixn(object):
     request, *args, **kwargs)
 
 
-class DashBoardView(TemplateView):
+class DashBoardView(APIView):
 
-    template_name = 'index.html'
+    permission_classes = (AllowAny,)
+
+    def get(self, request):
+      if dotenv.get('NODE_ENV') == 'development':
+        return Response('welcome to Andela social API')
+      return render(request, 'index.html', {'environment': dotenv.get('NODE_ENV')})
 
 
 class GoogleLoginView(APIView):

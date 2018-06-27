@@ -1,2 +1,2 @@
-FROM jwilder/nginx-proxy
-COPY ./conf/nginx.conf /etc/nginx/vhost.d/default_location
+FROM nginx:latest
+COPY nginx.conf /etc/nginx/nginx.conf

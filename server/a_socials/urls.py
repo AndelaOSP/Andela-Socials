@@ -23,5 +23,5 @@ urlpatterns = [
     url(r'^admin/?', admin.site.urls),
     url(r'^api/v1/?', include('api.urls')),
     url(r'^/', include('api.urls')),
-    url(r'^.*/?', views.DashBoardView.as_view(template_name="index.html"), name='base')
+    url(r'^.*/?', views.DashBoardView.as_view(), name='base'),
 ]
