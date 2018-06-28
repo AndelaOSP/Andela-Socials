@@ -1,0 +1,46 @@
+version: '3'
+
+volumes:
+  postgres_data: {}
+  postgres_backup: {}
+
+services:
+  database:
+    container_name: dev_andela_social_db
+    build:
+      context: ../../docker/database
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - ../../.env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - postgres_backup:/backups
+    ports:
+      - "5432"
+
+  server:
+    container_name: dev_andela_social_server
+    env_file:
+      - ../../.env
+    build:
+      context: ../../
+      dockerfile: docker/dev/server/Dockerfile
+    depends_on:
+      - database
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../.././:/andela_social
+    
+  client:
+    container_name: dev_andela_social_client
+    build:
+      context: ../../
+      dockerfile: docker/dev/client/Dockerfile
+    env_file:
+      - ../../.env
+    depends_on:
+      - server
+    ports:
+      - "9000:9000"
