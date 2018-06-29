@@ -16,7 +16,7 @@ Create a `.env` file with the content of the `.env.sample` and edit with your pe
 
 Navigate into the root directory of the project and run the script `setup.sh` with the command:
 ```
-./setup.sh
+./scripts/setup.sh
 ```
 
 This scripts automatically sets up the project automatically and starts the application once that is done.
@@ -24,7 +24,7 @@ This scripts automatically sets up the project automatically and starts the appl
 ### STARTING THE APP
 Subsequently, if you need to start the application after the initial setup has completed you can run the command:
 ```
-./start.sh
+./scripts/start.sh
 ```
 
 ### DB CREATION
