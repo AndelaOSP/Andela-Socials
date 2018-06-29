@@ -39,9 +39,7 @@ function setup_client() {
 	yarn install
 }
 
-venv
-setup_server
-setup_client
+venv && setup_server && setup_client
 
-yarn start:dev & python manage.py runserver 0.0.0.0:8000
+yarn start:dev && python manage.py runserver 0.0.0.0:8000
 exit 0
