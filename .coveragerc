@@ -1,0 +1,37 @@
+[run]
+branch = True
+source = server
+omit =
+    */server/api/migrations/*
+    */site-packages/*
+    .venv/*
+    */server/manage.py
+    */server/tests/*
+    */server/static/*
+    */server/fixtures/*
+    */server/a_socials/settings/*
+    */server/a_socials/urls.py
+    */server/a_socials/wsgi.py
+    */server/a_socials/app.py
+    */server/api/context_processors.py
+    */server/a_socials/wsgi.py
+    */__init__.py
+
+[report]
+omit =
+    */server/api/migrations/*
+    */site-packages/*
+    .venv/*
+    */server/manage.py
+    */server/tests/*
+    */server/static/*
+    */server/fixtures/*
+    */server/a_socials/settings/*
+    */server/a_socials/urls.py
+    */server/a_socials/wsgi.py
+    */server/a_socials/app.py
+    */server/api/context_processors.py
+    */server/a_socials/wsgi.py
+    */__init__.py
+show_missing = True
+

@@ -24,3 +24,4 @@ static/
 venv/
 cypress.env.json
 yarn-error.log
+.coverage
