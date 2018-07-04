@@ -35,3 +35,5 @@ urllib3==1.22
 virtualenv==16.0.0
 websocket-client==0.44.0
 whitenoise==3.3.0
+graphene-django==2.1rc1
+django-filter==1.0.4
