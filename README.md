@@ -34,6 +34,12 @@ To STOP the application run the command:
 ```
 scripts/stop.sh
 ```
+### TEST
+To run server side test run the command below:
+```
+$ tox
+```
+
 
 ### SETTING UP WITH DOCKER
 Before booting up the environment (`make build`) ensure that you have [docker](https://docs.docker.com/docker-for-mac/install/) **installed** and **running** on your machine.
@@ -76,7 +82,7 @@ Please note that you only need to build the dockerized application once. Subsequ
 ### DB CREATION
 Use the createdb.sh script to setup your database for the application
 
-Your .env variable should look like this, you can aslo reference the file to see how it is used. 
+Your .env variable should look like this, you can aslo reference the file to see how it is used.
 ```
     DB_USER=a_socials
     DB_PASS=a_socials
@@ -92,8 +98,8 @@ You can seed the dummy data into your database using the command `python manage.
 *username:* _andelasocials_
 *password:* _testuser_
 
-### DEFAULT ADMIN 
-Navigate to django's default admin page `/admin` using the credentials below to gain access. 
+### DEFAULT ADMIN
+Navigate to django's default admin page `/admin` using the credentials below to gain access.
 
 USERNAME: admin
 PASSWORD: nimda
