@@ -14,7 +14,6 @@ class LoginPage extends Component {
   }
 
   onSignIn() {
-    console.log("i was called... ");
     let googleAuth = gapi.auth2.getAuthInstance();
     if (googleAuth) {
       googleAuth.signIn()
