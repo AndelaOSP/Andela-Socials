@@ -16,3 +16,5 @@ slackclient==1.0.9
 urllib3==1.22
 websocket-client==0.44.0
 whitenoise==3.3.0
+graphene-django==2.1rc1
+django-filter==1.0.4
