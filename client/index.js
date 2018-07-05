@@ -19,11 +19,20 @@ if (localStorage.getItem('a_socials')) {
   axios.defaults.headers.common['Authorization'] = `JWT ${jwt}`;
 }
 
-ReactDOM.render(
-  <Provider store={store}>
-    <PersistGate persistor={persistor}>
-      <Router routes={routes} history={browserHistory} />
-    </PersistGate>
-  </Provider>,
-  document.getElementById("app")
-);
+
+gapi.load('auth2', () => {
+  gapi.auth2.init({
+    client_id: process.env.CLIENT_ID,
+    hosted_domain: process.env.G_SUITE_DOMAIN,
+    ux_mode: 'popup'
+  }).then(() => {
+    ReactDOM.render(
+      <Provider store={store}>
+        <PersistGate persistor={persistor}>
+          <Router routes={routes} history={browserHistory} />
+        </PersistGate>
+      </Provider>,
+      document.getElementById("app")
+    );
+  });
+});

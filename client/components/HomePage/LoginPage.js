@@ -11,24 +11,10 @@ class LoginPage extends Component {
   constructor(props){
     super(props);
     this.onSignIn = this.onSignIn.bind(this);
-    this.initializeAuth = this.initializeAuth.bind(this);
-  }
-
-  componentDidMount() {
-    window.addEventListener('google-loaded', this.initializeAuth);
-  }
-
-  initializeAuth() {
-    gapi.load('auth2', () => {
-      gapi.auth2.init({
-        client_id: process.env.CLIENT_ID,
-        hosted_domain: process.env.G_SUITE_DOMAIN,
-        ux_mode: 'popup',
-      });
-    });
   }
 
   onSignIn() {
+    console.log("i was called... ");
     let googleAuth = gapi.auth2.getAuthInstance();
     if (googleAuth) {
       googleAuth.signIn()
