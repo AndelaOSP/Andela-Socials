@@ -21,7 +21,7 @@ from api import views
 urlpatterns = [
   url(r'^admin/?', admin.site.urls),
   url(r'^api/v1/?', include('api.urls')),
-  url(r'^graphql/?', include('graphql_schemas.urls')),
+  url(r'^', include('graphql_schemas.urls')),
   url(r'^/', include('api.urls')),
   url(r'^.*/?', views.DashBoardView.as_view(), name='base'),
 ]
