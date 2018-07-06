@@ -1,11 +1,10 @@
 import graphene
 from graphene_django.debug import DjangoDebug
 
+from .attend.schema import Query as AttendQuery, Mutation as AttendMutation
 from .category.schema import Query as CategoryQuery
-from .interest.schema import Query as InterestQuery
-from .event.schema import Query as EventQuery
-from .event.schema import Mutation as EventMutation
-from .attend.schema import Query as AttendQuery
+from .event.schema import Query as EventQuery, Mutation as EventMutation
+from .interest.schema import Query as InterestQuery, Mutation as InterestMutation
 
 
 class Query(
@@ -13,17 +12,19 @@ class Query(
   InterestQuery,
   EventQuery,
   AttendQuery,
-  graphene.ObjectType,
+  graphene.ObjectType
 ):
   debug = graphene.Field(DjangoDebug, name='__debug')
   pass
 
-
 class Mutation(
+  InterestMutation,
   EventMutation,
+  AttendMutation,
   graphene.ObjectType
 ):
   pass
 
 
-schema = graphene.Schema(query=Query, mutation=Mutation,)
+schema = graphene.Schema(query=Query, mutation=Mutation)
+
