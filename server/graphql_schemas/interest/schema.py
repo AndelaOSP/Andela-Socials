@@ -3,6 +3,7 @@ from api.models import Interest, Category
 from graphene import relay
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
+from graphql_relay import from_global_id
 
 
 class InterestNode(DjangoObjectType):
@@ -18,20 +19,19 @@ class JoinSocialClub(relay.ClientIDMutation):
   class Input:
     club_id = graphene.String(required=True)  # get the book id
 
-  errors = graphene.List(graphene.String)
   joined_social_club = graphene.Field(InterestNode)
 
   @classmethod
-  def mutate_and_get_payload(cls, args, context, info):
-    club_id = args.get('club_id')
-    user_category = Category.objects.get(id=club_id)
-    user_interest = Interest(
+  def mutate_and_get_payload(cls, root, info, **input):
+    club_id = input.get('club_id')
+    user_category = Category.objects.get(pk=from_global_id(club_id)[1])
+    joined_social_club = Interest(
       follower=info.context.user,
       follower_category=user_category
     )
-    user_interest.save()
+    joined_social_club.save()
 
-    return cls(joined_social_club=user_interest)
+    return JoinSocialClub(joined_social_club=joined_social_club)
 
 
 class UnJoinSocialClub(relay.ClientIDMutation):
@@ -40,20 +40,19 @@ class UnJoinSocialClub(relay.ClientIDMutation):
   class Input:
     club_id = graphene.String(required=True)  # get the book id
 
-  errors = graphene.List(graphene.String)
   unjoined_social_club = graphene.Field(InterestNode)
 
   @classmethod
-  def mutate_and_get_payload(cls, args, context, info):
-    club_id = args.get('club_id')
+  def mutate_and_get_payload(cls, root, info, **input):
+    club_id = from_global_id(input.get('club_id'))[1]
     user = info.context.user
-    user_interest = Interest.objects.filter(
+    unjoined_social_club = Interest.objects.filter(
       follower_category_id=club_id,
       follower_id=user.id
     ).delete()
-    user_interest.delete()
+    unjoined_social_club.delete()
 
-    return cls(unjoined_social_club=user_interest)
+    return cls(unjoined_social_club=unjoined_social_club)
 
 
 class Query(object):
