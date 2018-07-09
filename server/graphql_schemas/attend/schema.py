@@ -3,7 +3,7 @@ from api.models import Attend, Event, GoogleUser
 from graphene import relay, ObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
-
+from graphql import GraphQLError
 
 class AttendNode(DjangoObjectType):
   class Meta:
@@ -22,8 +22,8 @@ class AttendSocialEvent(relay.ClientIDMutation):
         event_id = input.get('event_id')
         event = Event.objects.get(id=event_id)
         user = info.context.user
-        googleUser = GoogleUser.objects.get(app_user_id=1)
-        # Resolve error for users that already signified interest
+        googleUser = GoogleUser.objects.get(app_user_id=user.id)
+        # Resolve error for users that already signified interest here
         user_attendance = Attend(
             user=googleUser,
             event=event
@@ -43,10 +43,12 @@ class UnsubscribeEvent(relay.ClientIDMutation):
     def mutate_and_get_payload(cls, root, info, **input):
         event_id = input.get('event_id')
         user = info.context.user
-        googleUser = GoogleUser.objects.get(app_user_id=1)
-        unsubscribe = Attend.objects.filter(event_id=event_id, user_id=googleUser.id)
-        unsubscribe.delete()
-        return cls(unsubscribed_event=unsubscribe)
+        googleUser = GoogleUser.objects.get(app_user_id=user.id)
+        subscribedEvent = Attend.objects.filter(event_id=event_id, user_id=googleUser.id).first()
+        if not subscribedEvent:
+          raise GraphQLError("The User {0}, has not subscribed to this event".format(user))
+        subscribedEvent.delete()
+        return cls(unsubscribed_event=subscribedEvent)
 
 class Query(object):
   ####
