@@ -1,5 +1,7 @@
 import graphene
 from graphene_django.debug import DjangoDebug
+
+from .event.schema import Mutation as EventMutation
 from .attend.schema import Query as AttendQuery
 
 
@@ -10,7 +12,11 @@ class Query(
   debug = graphene.Field(DjangoDebug, name='__debug')
   pass
 
-class Mutation(graphene.ObjectType):
-    pass
 
-schema = graphene.Schema(query=Query)
+class Mutation(
+  EventMutation,
+  graphene.ObjectType
+):
+  pass
+
+schema = graphene.Schema(query=Query, mutation=Mutation,)
