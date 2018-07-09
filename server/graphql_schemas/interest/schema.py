@@ -12,7 +12,6 @@ class InterestNode(DjangoObjectType):
     filter_fields = {}
     interfaces = (relay.Node,)
 
-
 class JoinSocialClub(relay.ClientIDMutation):
   """Join a social club"""
 
@@ -64,6 +63,7 @@ class Query(object):
 
   # Joined Club --> Query
   joined_clubs = graphene.List(InterestNode)
+  user = graphene.Field(graphene.String)
 
   def resolve_joined_clubs(self, info):
     user = info.context.user
