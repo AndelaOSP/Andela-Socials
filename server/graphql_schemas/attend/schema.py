@@ -1,5 +1,5 @@
 import graphene
-from api.models import Attend, Event
+from api.models import Attend, Event, GoogleUser
 from graphene import relay, ObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
@@ -18,11 +18,14 @@ class AttendSocialEvent(relay.ClientIDMutation):
     new_attendance = graphene.Field(AttendNode)
 
     @classmethod
-    def mutate_and_get_payload(cls, args, context, info):
-        event_id = args.get('event_id')
+    def mutate_and_get_payload(cls, root, info, **input):
+        event_id = input.get('event_id')
         event = Event.objects.get(id=event_id)
+        user = info.context.user
+        googleUser = GoogleUser.objects.get(app_user_id=1)
+        # Resolve error for users that already signified interest
         user_attendance = Attend(
-            user=info.context.user,
+            user=googleUser,
             event=event
         )
         user_attendance.save()
@@ -37,10 +40,12 @@ class UnsubscribeEvent(relay.ClientIDMutation):
     unsubscribed_event = graphene.Field(AttendNode)
 
     @classmethod
-    def mutate_and_get_payload(cls, args, context, info):
-        event_id = args.get('event_id')
+    def mutate_and_get_payload(cls, root, info, **input):
+        event_id = input.get('event_id')
         user = info.context.user
-        unsubscribe = Attend.objects.filter(event_id=event_id, user_id=user.id).delete()
+        googleUser = GoogleUser.objects.get(app_user_id=1)
+        unsubscribe = Attend.objects.filter(event_id=event_id, user_id=googleUser.id)
+        unsubscribe.delete()
         return cls(unsubscribed_event=unsubscribe)
 
 class Query(object):
@@ -55,3 +60,4 @@ class Query(object):
 
 class Mutation(ObjectType):
     attend_event = AttendSocialEvent.Field()
+    unattend_event = UnsubscribeEvent.Field()
