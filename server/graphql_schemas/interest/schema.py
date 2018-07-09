@@ -1,9 +1,8 @@
 import graphene
-from api.models import Interest
+from api.models import Interest, Category
 from graphene import relay
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
-from rest_framework.permissions import IsAuthenticated
 
 
 class InterestNode(DjangoObjectType):
@@ -13,14 +12,48 @@ class InterestNode(DjangoObjectType):
     interfaces = (relay.Node,)
 
 
-# JoinSocialClub --> Mutation
-# UnjoinSocialClub --> Mutation
+class JoinSocialClub(relay.ClientIDMutation):
+  """Join a social club"""
 
-class Mutation(relay.ClientIDMutation):
-  def mutate_and_get_payload(self):
-    pass
+  class Input:
+    club_id = graphene.String(required=True)  # get the book id
 
-  pass
+  errors = graphene.List(graphene.String)
+  joined_social_club = graphene.Field(InterestNode)
+
+  @classmethod
+  def mutate_and_get_payload(cls, args, context, info):
+    club_id = args.get('club_id')
+    user_category = Category.objects.get(id=club_id)
+    user_interest = Interest(
+      follower=info.context.user,
+      follower_category=user_category
+    )
+    user_interest.save()
+
+    return cls(joined_social_club=user_interest)
+
+
+class UnJoinSocialClub(relay.ClientIDMutation):
+  """Unsubscribe from a social club"""
+
+  class Input:
+    club_id = graphene.String(required=True)  # get the book id
+
+  errors = graphene.List(graphene.String)
+  unjoined_social_club = graphene.Field(InterestNode)
+
+  @classmethod
+  def mutate_and_get_payload(cls, args, context, info):
+    club_id = args.get('club_id')
+    user = info.context.user
+    user_interest = Interest.objects.filter(
+      follower_category_id=club_id,
+      follower_id=user.id
+    ).delete()
+    user_interest.delete()
+
+    return cls(unjoined_social_club=user_interest)
 
 
 class Query(object):
@@ -37,5 +70,11 @@ class Query(object):
   def resolve_joined_clubs(self, info):
     user = info.context.user
     return Interest.objects.filter(follower_id=user.id).all()
-  def resolve_user(self, info):
-    return  info.context.user
+
+
+class Mutation(graphene.ObjectType):
+  # JoinSocialClub --> Mutation
+  join_social_club = JoinSocialClub.Field()
+
+  # UnjoinSocialClub --> Mutation
+  un_join_social_club = UnJoinSocialClub.Field()

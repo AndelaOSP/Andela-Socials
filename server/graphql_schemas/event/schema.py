@@ -41,17 +41,16 @@ class CreateEvent(relay.ClientIDMutation):
 
 class Query(object):
   event = graphene.Field(EventNode,
-                            id=graphene.Int(),
-                            title=graphene.String())
-  all_events = DjangoFilterConnectionField(EventNode)      
-                    
+                         id=graphene.Int(),
+                         title=graphene.String())
+  all_events = DjangoFilterConnectionField(EventNode)
+
   def resolve_event(self, info, **kwargs):
     id = kwargs.get('id')
 
     if id is not None:
-        return Event.objects.get(pk=id)
+      return Event.objects.get(pk=id)
     return None
-
 
 class Mutation(ObjectType):
      create_event = CreateEvent.Field()
