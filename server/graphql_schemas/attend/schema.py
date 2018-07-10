@@ -1,15 +1,19 @@
 import graphene
-from api.models import Attend, Event, GoogleUser
+
 from graphene import relay, ObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
 from graphql import GraphQLError
+
+from api.models import Attend, Event, GoogleUser
+
 
 class AttendNode(DjangoObjectType):
   class Meta:
     model = Attend
     filter_fields = {}
     interfaces = (relay.Node,)
+
 
 class AttendSocialEvent(relay.ClientIDMutation):
     class Input:
@@ -32,8 +36,8 @@ class AttendSocialEvent(relay.ClientIDMutation):
 
         return cls(new_attendance=user_attendance)
 
-class UnsubscribeEvent(relay.ClientIDMutation):
 
+class UnsubscribeEvent(relay.ClientIDMutation):
     class Input:
       event_id = graphene.String(required=True)
 
@@ -50,8 +54,8 @@ class UnsubscribeEvent(relay.ClientIDMutation):
         subscribedEvent.delete()
         return cls(unsubscribed_event=subscribedEvent)
 
+
 class Query(object):
-  ####
   attending = relay.Node.Field(AttendNode)
   all_attenders = DjangoFilterConnectionField(AttendNode)
   subscribed_events = graphene.List(AttendNode)
@@ -59,6 +63,7 @@ class Query(object):
   def resolve_subscribed_events(self, info, **kwargs):
     user = info.context.user
     return Attend.objects.filter(user_id=user.id).all()
+
 
 class Mutation(ObjectType):
     attend_event = AttendSocialEvent.Field()

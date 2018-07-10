@@ -1,10 +1,12 @@
 import graphene
-from api.models import Interest, Category
+
 from graphene import relay
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
 from graphql import GraphQLError
 from graphql_relay import from_global_id
+
+from api.models import Interest, Category
 
 
 class InterestNode(DjangoObjectType):
@@ -60,7 +62,6 @@ class UnJoinSocialClub(relay.ClientIDMutation):
 
 
 class Query(object):
-  ####
   # Single Interest  --> Query
   interest = relay.Node.Field(InterestNode)
   # Interest List

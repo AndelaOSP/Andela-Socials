@@ -1,7 +1,8 @@
-from api.models import Category
 from graphene import relay
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
+
+from api.models import Category
 
 
 class CategoryNode(DjangoObjectType):
@@ -15,6 +16,5 @@ class CategoryNode(DjangoObjectType):
 
 
 class Query(object):
-  ####
   category = relay.Node.Field(CategoryNode)
   category_list = DjangoFilterConnectionField(CategoryNode)

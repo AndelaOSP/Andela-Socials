@@ -1,9 +1,11 @@
 import graphene
-from api.models import Event, Category, Attend, GoogleUser
+
 from graphene import relay, InputObjectType, ObjectType
 from graphql_relay.node.node import from_global_id
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
+
+from api.models import Event, Category, Attend, GoogleUser
 
 
 class EventNode(DjangoObjectType):
@@ -11,6 +13,7 @@ class EventNode(DjangoObjectType):
     model = Event
     filter_fields = {}
     interfaces = (relay.Node,)
+
 
 class CreateEvent(relay.ClientIDMutation):
     class Input:
@@ -44,6 +47,7 @@ class CreateEvent(relay.ClientIDMutation):
 
         return cls(new_event=new_event)
 
+
 class Query(object):
   event = graphene.Field(EventNode,
                          id=graphene.Int(),
@@ -55,6 +59,7 @@ class Query(object):
     if id is not None:
       return Event.objects.get(pk=id)
     return None
+
 
 class Mutation(ObjectType):
      create_event = CreateEvent.Field()

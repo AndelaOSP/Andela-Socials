@@ -1,9 +1,11 @@
 import rest_framework
+
 from django.conf.urls import url
 from graphene_django.views import GraphQLView
 from rest_framework.decorators import authentication_classes, permission_classes, api_view
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.settings import api_settings
+
 
 class DRFAuthenticatedGraphQLView(GraphQLView):
   def parse_body(self, request):
@@ -18,6 +20,7 @@ class DRFAuthenticatedGraphQLView(GraphQLView):
     view = authentication_classes(api_settings.DEFAULT_AUTHENTICATION_CLASSES)(view)
     view = api_view(['GET', 'POST'])(view)
     return view
+
 
 ## To use the Authenticated View switch to Using DRFAuthenticatedGraphQLView in url
 urlpatterns = [
