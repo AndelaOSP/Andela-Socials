@@ -48,22 +48,35 @@ class UserProxy(User):
 
     @classmethod
     def create_user(cls, user_data):
+
+        """It helps to create a new user
+
+        :param user_data: A dictionary containing user data ( like  first_name, email, username)
+        :return:
+        """
         user = UserProxy.objects.create(email=user_data['email'], username=user_data['username'],
                                         first_name=user_data['first_name'], last_name=user_data['last_name'])
         return user
 
     @classmethod
-    def get_and_update_user(cls, payload):
+    def get_user(cls, user_data):
 
-        user = UserProxy.objects.get(username=payload['username'])
-        user.check_diff(payload)
+        """It fetches a user by it's username
+
+        :param user_data: it contains user data (username is required to fetch the user)
+        :return: it returns an existing user if it exist
+        """
+
+        user = UserProxy.objects.get(username=user_data['username'])
         return user
 
 
 class AndelaUserProfile(models.Model):
-    """Class that defines user profile model.
-    Attributes: user
+
+    """Class that defines Andela user profile model.
+    Attributes: user, google_id, user_picture, slack_name
     """
+
     google_id = models.CharField(max_length=60, unique=True)
     user = models.OneToOneField(User, related_name='base_user', on_delete=models.CASCADE)
     user_picture = models.TextField()
@@ -89,16 +102,27 @@ class AndelaUserProfile(models.Model):
 
     @classmethod
     def create_user_profile(cls, user_data, user_id):
+
+        """It helps to create a new user profile
+
+        :param user_data: A dictionary containing user data ( required elements are  email, picture)
+        :param user_id: An Existing User ID
+        :return: It newly created user_profile data
+        """
         user_profile = AndelaUserProfile.objects.create(slack_name=get_slack_name({"email": user_data["email"]}),
-                                                  user_id=user_id, google_id=user_data['id'],
-                                                  user_picture=user_data['picture'])
+                                                        user_id=user_id, google_id=user_data['id'],
+                                                        user_picture=user_data['picture'])
         return user_profile
 
     @classmethod
-    def get_and_update_user_profile(cls, user_data):
+    def get_user_profile(cls, user_data):
+        """It fetches user profile
+
+        :param user_data: it contains andela user google id
+        :return:
+        """
 
         user_profile = AndelaUserProfile.objects.get(google_id=user_data['id'])
-        user_profile.check_diff(user_data)
         return user_profile
 
 

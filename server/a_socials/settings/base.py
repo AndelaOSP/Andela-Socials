@@ -163,10 +163,12 @@ JWT_AUTH = {
 REST_FRAMEWORK = {
   'DEFAULT_PERMISSION_CLASSES': (
     'rest_framework.permissions.IsAuthenticated',
+    'api.permissions.IsTokenAuthenticated',
   ),
 
   'DEFAULT_AUTHENTICATION_CLASSES': (
     'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    'api.utils.auth.AndelaTokenAuthentication',
   ),
 
   'DEFAULT_PARSER_CLASSES': (
