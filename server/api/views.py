@@ -24,7 +24,7 @@ from rest_framework_jwt.settings import api_settings
 
 from .models import Category, Interest, Event, Attend
 from .serializers import CategorySerializer, EventSerializer, AttendanceSerializer,\
-  EventDetailSerializer, GoogleUserSerializer, UserSerializer, InterestSerializer
+  EventDetailSerializer, InterestSerializer
 from .setpagination import LimitOffsetpage
 from .slack import get_slack_name, notify_channel, notify_user
 

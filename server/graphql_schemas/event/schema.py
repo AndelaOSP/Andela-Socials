@@ -54,11 +54,11 @@ class EventQuery(object):
                            title=graphene.String())
     events_list = DjangoFilterConnectionField(EventNode)
 
-  def resolve_event(self, info, **kwargs):
-      id = kwargs.get('id')
-      if id is not None:
-        return Event.objects.get(pk=id)
-      return None
+    def resolve_event(self, info, **kwargs):
+        id = kwargs.get('id')
+        if id is not None:
+            return Event.objects.get(pk=id)
+        return None
 
 
 class EventMutation(ObjectType):

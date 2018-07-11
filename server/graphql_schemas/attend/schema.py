@@ -9,15 +9,15 @@ from api.models import Attend, Event, AndelaUserProfile
 
 
 class AttendNode(DjangoObjectType):
-  class Meta:
-    model = Attend
-    filter_fields = {}
-    interfaces = (relay.Node,)
+    class Meta:
+        model = Attend
+        filter_fields = {}
+        interfaces = (relay.Node,)
 
 
 class AttendSocialEvent(relay.ClientIDMutation):
     class Input:
-      event_id = graphene.String(required=True)
+        event_id = graphene.String(required=True)
 
     new_attendance = graphene.Field(AttendNode)
 
@@ -39,7 +39,7 @@ class AttendSocialEvent(relay.ClientIDMutation):
 
 class UnsubscribeEvent(relay.ClientIDMutation):
     class Input:
-      event_id = graphene.String(required=True)
+        event_id = graphene.String(required=True)
 
     unsubscribed_event = graphene.Field(AttendNode)
 
@@ -48,21 +48,22 @@ class UnsubscribeEvent(relay.ClientIDMutation):
         event_id = input.get('event_id')
         user = info.context.user
         andela_user_profile = AndelaUserProfile.objects.get(user_id=user.id)
-        event_subscription = Attend.objects.filter(event_id=event_id, user_id=andela_user_profile.id).first()
+        event_subscription = Attend.objects.filter(event_id=event_id,
+                                                   user_id=andela_user_profile.id).first()
         if not event_subscription:
-          raise GraphQLError("The User {0}, has not subscribed to this event".format(user))
+            raise GraphQLError("The User {0}, has not subscribed to this event".format(user))
         event_subscription.delete()
         return cls(unsubscribed_event=event_subscription)
 
 
 class AttendQuery(object):
-  event_attendance = relay.Node.Field(AttendNode)
-  attenders_list = DjangoFilterConnectionField(AttendNode)
-  subscribed_events = graphene.List(AttendNode)
+    event_attendance = relay.Node.Field(AttendNode)
+    attenders_list = DjangoFilterConnectionField(AttendNode)
+    subscribed_events = graphene.List(AttendNode)
 
-  def resolve_subscribed_events(self, info, **kwargs):
-    user = info.context.user
-    return Attend.objects.filter(user_id=user.id).all()
+    def resolve_subscribed_events(self, info, **kwargs):
+        user = info.context.user
+        return Attend.objects.filter(user_id=user.id).all()
 
 
 class AttendMutation(ObjectType):

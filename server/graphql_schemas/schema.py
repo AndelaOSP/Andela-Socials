@@ -15,7 +15,7 @@ class Query(
   AttendQuery,
   graphene.ObjectType
 ):
-  debug = graphene.Field(DjangoDebug, name='__debug')
+    debug = graphene.Field(DjangoDebug, name='__debug')
 
 
 class Mutation(
@@ -24,7 +24,7 @@ class Mutation(
   AttendMutation,
   graphene.ObjectType
   ):
-  debug = graphene.Field(DjangoDebug, name='__debug')
+    debug = graphene.Field(DjangoDebug, name='__debug')
 
 
 schema = graphene.Schema(query=Query, mutation=Mutation)

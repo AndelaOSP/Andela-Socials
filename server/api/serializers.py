@@ -15,7 +15,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('id', 'username', 'email', 'first_name', 'last_name')
 
 
-class GoogleUserSerializer(serializers.ModelSerializer):
+class AndelaUserProfileSerializer(serializers.ModelSerializer):
     """GoogleUser Model serializer class."""
 
     class Meta:
@@ -24,18 +24,9 @@ class GoogleUserSerializer(serializers.ModelSerializer):
         depth = 1
 
 
-class CustomUserSerializer(serializers.ModelSerializer):
-    """Custom User Model serializer class."""
-
-    class Meta:
-        model = AndelaUserProfile
-        fields = ('slack_name', 'app_user')
-        depth = 1
-
-
 class EventSerializer(serializers.ModelSerializer):
 
-    creator = CustomUserSerializer(read_only=True)
+    creator = AndelaUserProfileSerializer(read_only=True)
 
     class Meta:
         model = Event
@@ -46,7 +37,7 @@ class EventSerializer(serializers.ModelSerializer):
 class AttendanceSerializer(serializers.ModelSerializer):
     """Attend Model serializer class."""
 
-    user = CustomUserSerializer(read_only=True)
+    user = AndelaUserProfileSerializer(read_only=True)
 
     class Meta:
         model = Attend
@@ -56,7 +47,7 @@ class AttendanceSerializer(serializers.ModelSerializer):
 class EventDetailSerializer(serializers.ModelSerializer):
 
     attendees = AttendanceSerializer(many=True, read_only=True)
-    creator = CustomUserSerializer(read_only=True)
+    creator = AndelaUserProfileSerializer(read_only=True)
 
     class Meta:
         model = Event

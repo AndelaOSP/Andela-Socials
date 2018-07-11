@@ -1,13 +1,16 @@
-import jwt, os
+import jwt
+import os
+
 from base64 import b64decode
 
-from django.contrib.auth.models import User
-from rest_framework import authentication, exceptions
+from django.conf import settings
+
+from rest_framework import (authentication, exceptions)
 
 from ..models import AndelaUserProfile, UserProxy
 
 
-class AndelaTokenAuthentication(authentication.BaseAuthentication):
+class TokenAuth(authentication.BaseAuthentication):
 
     """A custom token authentication class
 
@@ -16,6 +19,7 @@ class AndelaTokenAuthentication(authentication.BaseAuthentication):
     It subclass BaseAuthentication and override the authenticate(self, request) method.
 
     """
+
     def authenticate(self, request, user_payload=None):
 
         """This method override the authenticate(self, request) method.
@@ -31,7 +35,8 @@ class AndelaTokenAuthentication(authentication.BaseAuthentication):
         token = request.META.get('HTTP_TOKEN') or request.META.get('Token')
 
         # This should be set as part of environment variables
-        andela_public_key64 = os.getenv('ANDELA_PUBLIC_KEY')
+        andela_public_key64 = os.getenv('ANDELA_PUBLIC_KEY') if not settings.TESTING \
+            else os.getenv('TEST_PUBLIC_KEY')
 
         if not token:
             raise exceptions.AuthenticationFailed('Authorization token is required')
@@ -55,12 +60,14 @@ class AndelaTokenAuthentication(authentication.BaseAuthentication):
             raise exceptions.AuthenticationFailed('Token has expired')
         except jwt.InvalidAlgorithmError as error:
             if str(error):
-                raise exceptions.AuthenticationFailed('User Authorization failed. Enter a valid token.')
+                raise exceptions.AuthenticationFailed('User Authorization'
+                                                      ' failed. Enter a valid token.')
         except jwt.DecodeError as error:
             if str(error) == 'Signature verification failed':
                 raise exceptions.AuthenticationFailed('Token Signature verification failed.')
             else:
-                raise exceptions.AuthenticationFailed('Authorization failed due to an Invalid token.')
+                raise exceptions.AuthenticationFailed('Authorization failed'
+                                                      ' due to an Invalid token.')
 
         if not user_payload:
             return None
@@ -70,7 +77,7 @@ class AndelaTokenAuthentication(authentication.BaseAuthentication):
         try:
 
             user = UserProxy.get_user(user_data)
-        except User.DoesNotExist:
+        except UserProxy.DoesNotExist:
             user = UserProxy.create_user(user_data)
         try:
             AndelaUserProfile.get_user_profile(user_data)
