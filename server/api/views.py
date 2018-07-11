@@ -22,8 +22,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from rest_framework_jwt.settings import api_settings
 
-from .utils import resolve_google_oauth
-from .models import GoogleUser, UserProxy, Category, Interest, Event, Attend
+from .models import Category, Interest, Event, Attend
 from .serializers import CategorySerializer, EventSerializer, AttendanceSerializer,\
   EventDetailSerializer, GoogleUserSerializer, UserSerializer, InterestSerializer
 from .setpagination import LimitOffsetpage
@@ -57,58 +56,6 @@ class DashBoardView(APIView):
       if dotenv.get('NODE_ENV') == 'development':
         return Response('welcome to Andela social API')
       return render(request, 'index.html', {'environment': dotenv.get('NODE_ENV')})
-
-
-class GoogleLoginView(APIView):
-
-    permission_classes = (AllowAny,)
-
-    def get_oauth_token(self, userproxy, google_user):
-        jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
-        jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
-        payload = jwt_payload_handler(userproxy)
-        token = jwt_encode_handler(payload)
-
-        serializer = GoogleUserSerializer(google_user)
-
-        body = {
-          'token': token,
-          'user': serializer.data,
-        }
-
-        return body
-
-    def post(self, request, format=None):
-
-        idinfo = resolve_google_oauth(request)
-
-        # check if it is a returning user.
-        try:
-            google_user = GoogleUser.objects.get(google_id=idinfo['sub'])
-            google_user.check_diff(idinfo)
-            userproxy = UserProxy.objects.get(id=google_user.app_user.id)
-            userproxy.check_diff(idinfo)
-
-        except GoogleUser.DoesNotExist:
-            # proceed to create the user
-            email_length = len(idinfo['email'])
-            hd_length = len(idinfo['hd']) + 1
-            userproxy = UserProxy(
-                username=idinfo['email'][:email_length - hd_length],
-                email=idinfo['email'],
-                first_name=idinfo['given_name'],
-                last_name=idinfo['family_name'],
-            )
-            userproxy.save()
-            google_user = GoogleUser(google_id=idinfo['sub'],
-                                     app_user=userproxy,
-                                     appuser_picture=idinfo['picture'],
-                                     slack_name=get_slack_name({'email': idinfo['email']}),
-                                     )
-            google_user.save()
-
-        response = self.get_oauth_token(userproxy, google_user)
-        return Response(response, status=status.HTTP_200_OK)
 
 
 class CategoryListView(ListAPIView):
