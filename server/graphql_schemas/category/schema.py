@@ -15,6 +15,6 @@ class CategoryNode(DjangoObjectType):
     interfaces = (relay.Node,)
 
 
-class Query(object):
+class CategoryQuery(object):
   category = relay.Node.Field(CategoryNode)
   category_list = DjangoFilterConnectionField(CategoryNode)

@@ -20,7 +20,7 @@ class JoinSocialClub(relay.ClientIDMutation):
   """Join a social club"""
 
   class Input:
-    club_id = graphene.String(required=True)  # get the book id
+    club_id = graphene.String(required=True)
 
   joined_social_club = graphene.Field(InterestNode)
 
@@ -61,24 +61,17 @@ class UnJoinSocialClub(relay.ClientIDMutation):
     return UnJoinSocialClub(unjoined_social_club=unjoined_social_club)
 
 
-class Query(object):
-  # Single Interest  --> Query
+class InterestQuery(object):
   interest = relay.Node.Field(InterestNode)
-  # Interest List
   interests_list = DjangoFilterConnectionField(InterestNode)
 
-  # Joined Club --> Query
   joined_clubs = graphene.List(InterestNode)
-  user = graphene.Field(graphene.String)
 
   def resolve_joined_clubs(self, info):
     user = info.context.user
     return Interest.objects.filter(follower_id=user.id).all()
 
 
-class Mutation(graphene.ObjectType):
-  # JoinSocialClub --> Mutation
+class InterestMutation(graphene.ObjectType):
   join_social_club = JoinSocialClub.Field()
-
-  # UnjoinSocialClub --> Mutation
   un_join_social_club = UnJoinSocialClub.Field()

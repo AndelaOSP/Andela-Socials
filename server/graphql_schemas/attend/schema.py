@@ -26,10 +26,10 @@ class AttendSocialEvent(relay.ClientIDMutation):
         event_id = input.get('event_id')
         event = Event.objects.get(id=event_id)
         user = info.context.user
-        googleUser = GoogleUser.objects.get(app_user_id=user.id)
+        google_user = GoogleUser.objects.get(app_user_id=user.id)
         # Resolve error for users that already signified interest here
         user_attendance = Attend(
-            user=googleUser,
+            user=google_user,
             event=event
         )
         user_attendance.save()
@@ -47,17 +47,17 @@ class UnsubscribeEvent(relay.ClientIDMutation):
     def mutate_and_get_payload(cls, root, info, **input):
         event_id = input.get('event_id')
         user = info.context.user
-        googleUser = GoogleUser.objects.get(app_user_id=user.id)
-        subscribedEvent = Attend.objects.filter(event_id=event_id, user_id=googleUser.id).first()
-        if not subscribedEvent:
+        google_user = GoogleUser.objects.get(app_user_id=user.id)
+        event_subscription = Attend.objects.filter(event_id=event_id, user_id=google_user.id).first()
+        if not event_subscription:
           raise GraphQLError("The User {0}, has not subscribed to this event".format(user))
-        subscribedEvent.delete()
-        return cls(unsubscribed_event=subscribedEvent)
+        event_subscription.delete()
+        return cls(unsubscribed_event=event_subscription)
 
 
-class Query(object):
-  attending = relay.Node.Field(AttendNode)
-  all_attenders = DjangoFilterConnectionField(AttendNode)
+class AttendQuery(object):
+  event_attendance = relay.Node.Field(AttendNode)
+  attenders_list = DjangoFilterConnectionField(AttendNode)
   subscribed_events = graphene.List(AttendNode)
 
   def resolve_subscribed_events(self, info, **kwargs):
@@ -65,6 +65,6 @@ class Query(object):
     return Attend.objects.filter(user_id=user.id).all()
 
 
-class Mutation(ObjectType):
+class AttendMutation(ObjectType):
     attend_event = AttendSocialEvent.Field()
     unattend_event = UnsubscribeEvent.Field()
