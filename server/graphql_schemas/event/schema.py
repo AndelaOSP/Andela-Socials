@@ -5,7 +5,7 @@ from graphql_relay.node.node import from_global_id
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
 
-from api.models import Event, Category, Attend, GoogleUser
+from api.models import Event, Category, Attend, AndelaUserProfile
 
 
 class EventNode(DjangoObjectType):
@@ -32,7 +32,7 @@ class CreateEvent(relay.ClientIDMutation):
         social_event_id = input.get('social_event_id')
         social_event = Category.objects.get(id=int(social_event_id))
         user = info.context.user
-        googleUser = GoogleUser.objects.get(app_user_id=user.id)
+        andela_user_profile = AndelaUserProfile.objects.get(user_id=user.id)
         new_event = Event(
           title=input.get('title'),
           description=input.get('description'),
@@ -40,7 +40,7 @@ class CreateEvent(relay.ClientIDMutation):
           date=input.get('date'),
           time=input.get('time'),
           featured_image=input.get('featured_image'),
-          creator=googleUser,
+          creator=AndelaUserProfile,
           social_event=social_event
         )
         new_event.save()

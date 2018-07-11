@@ -5,7 +5,7 @@ from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
 from graphql import GraphQLError
 
-from api.models import Attend, Event, GoogleUser
+from api.models import Attend, Event, AndelaUserProfile
 
 
 class AttendNode(DjangoObjectType):
@@ -26,10 +26,10 @@ class AttendSocialEvent(relay.ClientIDMutation):
         event_id = input.get('event_id')
         event = Event.objects.get(id=event_id)
         user = info.context.user
-        google_user = GoogleUser.objects.get(app_user_id=user.id)
+        andela_user_profile = AndelaUserProfile.objects.get(app_user_id=user.id)
         # Resolve error for users that already signified interest here
         user_attendance = Attend(
-            user=google_user,
+            user=andela_user_profile,
             event=event
         )
         user_attendance.save()
@@ -47,8 +47,8 @@ class UnsubscribeEvent(relay.ClientIDMutation):
     def mutate_and_get_payload(cls, root, info, **input):
         event_id = input.get('event_id')
         user = info.context.user
-        google_user = GoogleUser.objects.get(app_user_id=user.id)
-        event_subscription = Attend.objects.filter(event_id=event_id, user_id=google_user.id).first()
+        andela_user_profile = AndelaUserProfile.objects.get(user_id=user.id)
+        event_subscription = Attend.objects.filter(event_id=event_id, user_id=andela_user_profile.id).first()
         if not event_subscription:
           raise GraphQLError("The User {0}, has not subscribed to this event".format(user))
         event_subscription.delete()
