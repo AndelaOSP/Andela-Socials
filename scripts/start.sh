@@ -8,8 +8,12 @@ echo 'Enter y or n'
 
 read response
 
-if [ $response == "n" ]; then
-  source venv/bin/activate
+if [[ $response == "n" ]]; then
+  if [ -d "venv" ] ; then
+    source venv/bin/activate
+  else
+    echo -e '\n\n\033[31mYou do not have a venv folder!\033[0m\n'
+  fi
 else
   echo "Virtualenv Wrapper in use!"
 fi
