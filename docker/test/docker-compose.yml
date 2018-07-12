@@ -1,8 +1,0 @@
-version: '2.1'
-services:
-  test:
-    build:
-      context: ../../
-      dockerfile: docker/test/Dockerfile
-    volumes:
-      - /application/node_modules
