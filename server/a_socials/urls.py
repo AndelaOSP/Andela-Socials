@@ -16,12 +16,12 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
-from django.views.generic.base import TemplateView
 from api import views
 
 urlpatterns = [
-    url(r'^admin/?', admin.site.urls),
-    url(r'^api/v1/?', include('api.urls')),
-    url(r'^/', include('api.urls')),
-    url(r'^.*/?', views.DashBoardView.as_view(), name='base'),
+  url(r'^admin/?', admin.site.urls),
+  url(r'^api/v1/?', include('api.urls')),
+  url(r'^', include('graphql_schemas.urls')),
+  url(r'^/', include('api.urls')),
+  url(r'^.*/?', views.DashBoardView.as_view(), name='base'),
 ]
