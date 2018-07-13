@@ -47,7 +47,7 @@ $ tox
 ```
 Or run the command below:
 ```
-$ make test
+$ make server test
 ```
 
 

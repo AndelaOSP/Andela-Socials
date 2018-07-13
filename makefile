@@ -52,6 +52,6 @@ CHECK := @bash -c 'if [[ $(INSPECT) -ne 0 ]]; then exit $(INSPECT); fi' VALUE
 IMAGE_ID = $$(docker images $(REPO_NAME)rel  -q)
 # run test
 server test:
-	@ coverage run server/manage.py test server/api/tests/ server/graphql_schemas/
+	@ coverage run server/manage.py test server/api/tests/ server/graphql_schemas/tests/
 
 
