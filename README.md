@@ -45,6 +45,10 @@ To run server side test run the command below:
 ```
 $ tox
 ```
+Or run the command below:
+```
+$ make test
+```
 
 
 ### SETTING UP WITH DOCKER
