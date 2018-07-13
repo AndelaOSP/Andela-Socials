@@ -1,11 +1,12 @@
 import graphene
 
-from graphene import relay, InputObjectType, ObjectType
-from graphql_relay.node.node import from_global_id
+from graphene import relay, ObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
+from graphql import GraphQLError
 
-from api.models import Event, Category, Attend, AndelaUserProfile
+from api.models import Event, Category, AndelaUserProfile
+from graphql_schemas.utils.helpers import is_not_admin
 
 
 class EventNode(DjangoObjectType):
@@ -24,7 +25,6 @@ class CreateEvent(relay.ClientIDMutation):
         time = graphene.String(required=False)
         featured_image = graphene.String(required=False)
         social_event_id = graphene.Int(required=False)
-
     new_event = graphene.Field(EventNode)
 
     @classmethod
@@ -56,10 +56,39 @@ class EventQuery(object):
 
     def resolve_event(self, info, **kwargs):
         id = kwargs.get('id')
+
         if id is not None:
-            return Event.objects.get(pk=id)
+            event = Event.objects.get(pk=id)
+            if not event.active:
+                return None
+            return event
         return None
+
+    def resolve_events_list(self, info, **kwargs):
+        return Event.objects.exclude(active=False)
+
+
+class DeactivateEvent(relay.ClientIDMutation):
+    action_message = graphene.String()
+
+    class Input:
+        event_id = graphene.Int(required=True)
+
+    @classmethod
+    def mutate_and_get_payload(cls, root, info, **input):
+        user = info.context.user
+        event_id = input.get('event_id')
+        event = Event.objects.get(id=event_id)
+        if not event:
+            raise GraphQLError('Invalid event')
+
+        if user.id != event.creator.user_id and is_not_admin(user):
+            raise GraphQLError("You aren't authorised to deactivate the event")
+
+        Event.objects.filter(id=event_id).update(active=False)
+        return cls(action_message="Event deactivated")
 
 
 class EventMutation(ObjectType):
-     create_event = CreateEvent.Field()
+    create_event = CreateEvent.Field()
+    deactivate_event = DeactivateEvent.Field()

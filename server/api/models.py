@@ -177,6 +177,7 @@ class Event(BaseInfo):
     creator = models.ForeignKey(AndelaUserProfile, on_delete=models.CASCADE)
     social_event = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="events")
     featured_image = models.URLField()
+    active = models.BooleanField(default=1)
 
     @property
     def attendees(self):

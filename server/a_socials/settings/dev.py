@@ -34,3 +34,5 @@ DATABASES = {
 
 # SET WEBPACK_LOADER_CACHE
 WEBPACK_LOADER['DEFAULT']['CACHE'] = not DEBUG
+
+TEST_RUNNER = 'snapshottest.django.TestRunner'
