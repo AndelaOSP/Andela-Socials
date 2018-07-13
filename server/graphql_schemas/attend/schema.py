@@ -1,5 +1,4 @@
 import graphene
-
 from graphene import relay, ObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
@@ -26,13 +25,15 @@ class AttendSocialEvent(relay.ClientIDMutation):
         event_id = input.get('event_id')
         event = Event.objects.get(id=event_id)
         user = info.context.user
-        andela_user_profile = AndelaUserProfile.objects.get(app_user_id=user.id)
-        # Resolve error for users that already signified interest here
-        user_attendance = Attend(
+        andela_user_profile = AndelaUserProfile.objects.get(
+            app_user_id=user.id)
+        user_attendance, created = Attend.objects.get_or_create(
             user=andela_user_profile,
-            event=event
-        )
-        user_attendance.save()
+            event=event)
+
+        if user_attendance and not created:
+            raise GraphQLError(
+                "The user is already subscribed to the event")
 
         return cls(new_attendance=user_attendance)
 
@@ -48,10 +49,12 @@ class UnsubscribeEvent(relay.ClientIDMutation):
         event_id = input.get('event_id')
         user = info.context.user
         andela_user_profile = AndelaUserProfile.objects.get(user_id=user.id)
-        event_subscription = Attend.objects.filter(event_id=event_id,
-                                                   user_id=andela_user_profile.id).first()
+        event_subscription = Attend.objects.filter(
+            event_id=event_id,
+            user_id=andela_user_profile.id).first()
         if not event_subscription:
-            raise GraphQLError("The User {0}, has not subscribed to this event".format(user))
+            raise GraphQLError(
+                "The User {0}, has not subscribed to this event".format(user))
         event_subscription.delete()
         return cls(unsubscribed_event=event_subscription)
 
