@@ -16,7 +16,7 @@ class AttendNode(DjangoObjectType):
 
 class AttendSocialEvent(relay.ClientIDMutation):
     class Input:
-        event_id = graphene.String(required=True)
+        event_id = graphene.Int(required=True)
 
     new_attendance = graphene.Field(AttendNode)
 
@@ -26,7 +26,7 @@ class AttendSocialEvent(relay.ClientIDMutation):
         event = Event.objects.get(id=event_id)
         user = info.context.user
         andela_user_profile = AndelaUserProfile.objects.get(
-            app_user_id=user.id)
+            user_id=user.id)
         user_attendance, created = Attend.objects.get_or_create(
             user=andela_user_profile,
             event=event)
