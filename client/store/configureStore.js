@@ -5,6 +5,7 @@ import { persistStore, persistCombineReducers } from 'redux-persist';
 import storage from 'redux-persist/es/storage';
 import { saveTokenMiddleware } from '../middleware/auth';
 
+
 const config = {
   key: 'root',
   storage,

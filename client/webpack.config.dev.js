@@ -1,4 +1,4 @@
-const path = require("path");
+const path = require('path');
 const webpack = require('webpack');
 const BundleTracker = require('webpack-bundle-tracker');
 const env = require('dotenv').config();
@@ -11,20 +11,21 @@ module.exports = {
   entry: './index.js',
   target: 'web',
   output: {
-  path: path.join(__dirname, '/dist/'),
-  filename: 'bundle.js',
-  publicPath: '/',
-},
+    path: path.join(__dirname, '/dist/'),
+    filename: 'bundle.js',
+    publicPath: '/'
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: './public/index.html',
       filename: './index.html'
     }),
     new webpack.DefinePlugin({
-      'process': {
-        'env': {
-          'G_SUITE_DOMAIN': JSON.stringify(process.env.G_SUITE_DOMAIN),
-          'CLIENT_ID': JSON.stringify(process.env.CLIENT_ID)
+      process: {
+        env: {
+          G_SUITE_DOMAIN: JSON.stringify(process.env.G_SUITE_DOMAIN),
+          CLIENT_ID: JSON.stringify(process.env.CLIENT_ID),
+          API_URI: JSON.stringify(process.env.REACT_APP_API_URI)
         }
       }
     }),
@@ -79,4 +80,4 @@ module.exports = {
   node: {
     fs: 'empty',
   },
-}
+};
