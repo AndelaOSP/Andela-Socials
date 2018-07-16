@@ -1,5 +1,9 @@
 # ANDELA SOCIALS
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/0da1c9a1fec63a855e21/maintainability)](https://codeclimate.com/github/AndelaOSP/Andela-Socials/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/0da1c9a1fec63a855e21/test_coverage)](https://codeclimate.com/github/AndelaOSP/Andela-Socials/test_coverage)
+
+
+
 Andela Social was born out of the desire to keep Andelans very sociable within the organization.
 It is a platform for events aggregation, to get Andelans from different departments to mingle and have fun together over a cup of coffee, a game of soccer, at a swimming pool or at a friends dinner party.
 It is a platform to get events organized within the fellowship properly tracked and managed for all to see and for all to relate with irrespective of their centers.
