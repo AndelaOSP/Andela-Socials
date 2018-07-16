@@ -1,4 +1,4 @@
 [flake8]
-exclude = *migrations*
+exclude = *migrations*, *snap_*
 max-line-length = 100
 max-complexity = 15
