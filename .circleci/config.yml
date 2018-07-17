@@ -26,7 +26,7 @@ jobs:
           command: |
             . venv/bin/activate
             export DJANGO_SETTINGS_MODULE=a_socials.settings.dev
-            python server/manage.py test
+            python server/manage.py test server/api/tests/ server/graphql_schemas/tests/
 
       - store_artifacts:
           path: test-reports
