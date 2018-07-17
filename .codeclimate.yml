@@ -1,0 +1,10 @@
+version: "2"
+plugins:
+  pep8:
+    enabled: true
+exclude_patterns:
+- "scripts/"
+- "docker/"
+- ".github/*"
+- "**/tests/*"
+
