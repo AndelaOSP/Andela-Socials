@@ -6,15 +6,49 @@
   "plugins": [
     "prettier"
   ],
+  "env": {
+    "node": true,
+    "es6": true,
+    "window": true,
+    "Cypress": true
+  },
   "rules": {
-    "react/jsx-filename-extension": [1, { "extensions": [".js"] }],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "object-curly-newline": ["error", {
         "ObjectExpression": "always",
         "ObjectPattern": { "multiline": true },
         "ExportDeclaration": { "multiline": true, "minProperties": 3 }
     }],
     "comma-dangle": ["error", {
-        "imports": "never"
-    }]
+      "arrays": "always-multiline",
+      "objects": "always-multiline",
+      "imports": "always-multiline",
+      "exports": "always-multiline",
+      "functions": "ignore"
+    }],
+    "prefer-destructuring": ["error", {
+      "VariableDeclarator": {
+        "array": true,
+        "object": true
+      },
+      "AssignmentExpression": {
+        "array": false,
+        "object": false
+      }
+    }, {
+      "enforceForRenamedProperties": false
+    }],
+    "no-trailing-spaces": ["error", { "skipBlankLines": true }],
+    "no-trailing-whitespace": false,
+    "consistent-return": 0,
+    "prefer-object-spread": true,
+    "import-spacing": true,
+    "no-irregular-whitespace": 2,
+    "no-implicit-dependencies": false,
+    "object-literal-sort-keys": true,
+    "ordered-imports": true
+  },
+  "globals": {
+    "document": false
   }
 }

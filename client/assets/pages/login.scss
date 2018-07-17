@@ -1,0 +1,83 @@
+@import '../colors.scss';
+@import '../typography.scss';
+
+.login_container,
+.login_container__section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+
+  p,
+  img {
+    margin-bottom: 1.25rem;
+  }
+
+  span {
+    color: map-get($colors, yellow);
+  }
+}
+
+.login_container {
+  min-height: 100vh;
+  background-image: url('http://res.cloudinary.com/dd3lv0o93/image/upload/v1531318285/landing_page.png');
+  background-color: rgba(0,0,0,.77);
+  background-blend-mode: multiply;
+  background-size: cover;
+
+  .login_container__section {
+    justify-content: space-between;
+    max-width: 67.25rem;
+    max-height: 37.25rem;
+    margin: auto;
+    padding: 1.875rem;
+
+    p {
+      font-size: map-get($font-size,  x-large) + 0.75rem;
+      font-weight: map-get($font-weight, light);
+      text-align: center;
+      color: map-get($colors, light);
+      margin-bottom: 25px;
+    }
+
+    .login_container__btn {
+      background-color: map-get($colors, yellow);
+      padding: 1.625rem 1.5rem;
+      font-size: map-get($font-size, large) + 0.375rem;
+      text-decoration: none;
+      color: map-get($colors, dark);
+      cursor: pointer;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .login_container {
+    padding: 1.25rem 0;
+    -moz-background-position: 50%;
+    -webkit-background-position: 50%;
+    background-position: 50%;
+
+    .login_container__section {
+      line-height: 0.006rem;
+
+      img {
+        width: 6.25rem;
+        height: 6.25rem;
+      }
+  
+      p {
+        font-size: map-get($font-size, x-large) + 0.25rem;
+
+        &:nth-child(3) {
+          font-size: map-get($font-size, regular) + 0.25rem;
+        }
+      }
+
+      .login_container__btn {
+        padding: 2rem 1.5rem;
+        font-size: map-get($font-size, large);
+      }
+    }
+  }
+}

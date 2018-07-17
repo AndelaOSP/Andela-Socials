@@ -1,9 +1,9 @@
 const path = require('path');
 const webpack = require('webpack');
 const BundleTracker = require('webpack-bundle-tracker');
-const env = require('dotenv').config();
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+require('dotenv').config();
 
 module.exports = {
   devtool: 'cheap-module-eval-source-map',
@@ -13,44 +13,67 @@ module.exports = {
   output: {
     path: path.join(__dirname, '/dist/'),
     filename: 'bundle.js',
-    publicPath: '/'
+    publicPath: '/',
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: './public/index.html',
-      filename: './index.html'
+      filename: './index.html',
     }),
     new webpack.DefinePlugin({
       process: {
         env: {
           G_SUITE_DOMAIN: JSON.stringify(process.env.G_SUITE_DOMAIN),
           CLIENT_ID: JSON.stringify(process.env.CLIENT_ID),
-          API_URI: JSON.stringify(process.env.REACT_APP_API_URI)
-        }
-      }
+          API_URI: JSON.stringify(process.env.REACT_APP_API_URI),
+        },
+      },
     }),
-    new BundleTracker({filename: './webpack-stats.json'}),
+    new BundleTracker({
+      filename: './webpack-stats.json',
+    }),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.UglifyJsPlugin(),
     new webpack.LoaderOptionsPlugin({
-      debug: true
+      debug: true,
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.EnvironmentPlugin({ NODE_ENV: 'development' }),
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: 'development',
+    }),
   ],
   module: {
     loaders: [
-      { test: /\.(js|jsx)$/, exclude: /node_modules/, loader: 'babel-loader', query: { presets: ['es2015', 'react'] } },
-      { test: /(\.css|scss)$/, loaders: ['style-loader', 'css-loader', 'sass-loader'] },
-      { test: /\.(jpeg|png|gif|svg|jpg)$/, loader: 'url-loader?limit=25000' },
-      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader' },
-      { test: /\.(woff|woff2)$/, loader: 'url?prefix=font/&limit=5000' },
-      { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream' },
-      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=image/svg+xml' }
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015', 'react'],
+        },
+      },
+      {
+        test: /(\.css|scss)$/, loaders: ['style-loader', 'css-loader', 'sass-loader'],
+      },
+      {
+        test: /\.(jpeg|png|gif|svg|jpg)$/, loader: 'url-loader?limit=25000',
+      },
+      {
+        test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader',
+      },
+      {
+        test: /\.(woff|woff2)$/, loader: 'url?prefix=font/&limit=5000',
+      },
+      {
+        test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream',
+      },
+      {
+        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=image/svg+xml',
+      },
     ],
   },
   devServer: {
-    host: "0.0.0.0",
+    host: '0.0.0.0',
     publicPath: 'http://0.0.0.0:9000/',
     headers: {
       'Access-Control-Allow-Origin': '*',
@@ -63,19 +86,19 @@ module.exports = {
       '/api/v1': {
         target: 'http://0.0.0.0:8000',
         secure: false,
-      }
+      },
     },
     clientLogLevel: 'none',
     hot: true,
     inline: true,
     historyApiFallback: true,
     watchOptions: {
-      ignored: /node_modules/
-    }
+      ignored: /node_modules/,
+    },
   },
   resolve: {
     modules: ['node_modules', 'bower_components'],
-    extensions: ['.js', '.jsx']
+    extensions: ['.js', '.jsx'],
   },
   node: {
     fs: 'empty',
