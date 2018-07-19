@@ -1,19 +1,16 @@
 @import '../colors.scss';
 @import '../typography.scss';
 @import '../tools/functions.scss';
-
 .login_container,
 .login_container__section {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-
   p,
   img {
     margin-bottom: rem(20px);
   }
-
   span {
     color: map-get($colors, yellow);
   }
@@ -22,26 +19,24 @@
 .login_container {
   min-height: 100vh;
   background-image: url('http://res.cloudinary.com/dd3lv0o93/image/upload/v1531318285/landing_page.png');
-  background-color: rgba(0,0,0,.77);
+  background-color: rgba(0, 0, 0, .77);
   background-blend-mode: multiply;
   background-size: cover;
   overflow: hidden;
-
   .login_container__section {
     justify-content: space-between;
     max-width: rem(1076px);
     max-height: rem(596px);
     margin: auto;
     padding: rem(30px);
-
     p {
-      font-size: map-get($font-size,  x-large) + 0.5rem;
+      font-size: map-get($font-size, x-large) + 0.5rem;
       font-weight: map-get($font-weight, light);
       text-align: center;
       color: map-get($colors, light);
       margin-bottom: rem(25px);
+      color: map-get($colors, white);
     }
-
     .login_container__btn {
       background-color: map-get($colors, yellow);
       padding: rem(16px) rem(19.2px);
@@ -53,29 +48,24 @@
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 48rem) {
   .login_container {
     padding: rem(20px) 0;
     -moz-background-position: 50%;
     -webkit-background-position: 50%;
     background-position: 50%;
-
     .login_container__section {
       line-height: rem(0.1px);
-
       img {
         width: rem(100px);
         height: rem(100px);
       }
-
       p {
         font-size: map-get($font-size, x-large) + 0.25rem;
-
         &:nth-child(3) {
           font-size: map-get($font-size, regular) + 0.25rem;
         }
       }
-
       .login_container__btn {
         padding: rem(32px) rem(24px);
         font-size: map-get($font-size, large);
