@@ -80,7 +80,7 @@ class TokenAuth(authentication.BaseAuthentication):
         except UserProxy.DoesNotExist:
             user = UserProxy.create_user(user_data)
         try:
-            AndelaUserProfile.get_user_profile(user_data)
+            AndelaUserProfile.get_and_update_user_profile(user_data)
         except AndelaUserProfile.DoesNotExist:
             AndelaUserProfile.create_user_profile(user_data, user.id)
         return user, None

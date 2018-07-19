@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 
 from .slack import get_slack_name
+from .utils.backgroundTaskWorker import BackgroundTaskWorker
 
 
 class BaseInfo(models.Model):
@@ -82,7 +83,7 @@ class AndelaUserProfile(models.Model):
     user_picture = models.TextField()
     slack_name = models.CharField(max_length=80, blank=True)
 
-    def check_diff(self, idinfo):
+    async def check_diff_and_update(self, idinfo):
         """Check for differences between request/idinfo and model data.
                     Args:
                         idinfo: data passed in from post method.
@@ -109,13 +110,15 @@ class AndelaUserProfile(models.Model):
         :param user_id: An Existing User ID
         :return: It newly created user_profile data
         """
-        user_profile = AndelaUserProfile.objects.create(slack_name=get_slack_name({"email": user_data["email"]}),
-                                                        user_id=user_id, google_id=user_data['id'],
+        user_profile = AndelaUserProfile.objects.create(user_id=user_id, google_id=user_data['id'],
                                                         user_picture=user_data['picture'])
+        # It runs background user profile update.
+        BackgroundTaskWorker.start_work(user_profile.check_diff_and_update,
+                                        (user_data,))
         return user_profile
 
     @classmethod
-    def get_user_profile(cls, user_data):
+    def get_and_update_user_profile(cls, user_data):
         """It fetches user profile
 
         :param user_data: it contains andela user google id
@@ -123,6 +126,11 @@ class AndelaUserProfile(models.Model):
         """
 
         user_profile = AndelaUserProfile.objects.get(google_id=user_data['id'])
+
+        if user_profile:
+            # It runs background user profile update.
+            BackgroundTaskWorker.start_work(user_profile.check_diff_and_update,
+                                            (user_data,))
         return user_profile
 
 
