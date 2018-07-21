@@ -13,3 +13,12 @@ $font-size: (
   xxx-large: 4rem,
   xxxx-large: 6rem,
 );
+
+html {
+  font-size: initial;
+}
+
+body {
+  font-family: 'Primary-DINPro';
+  font-weight: 300;
+}
