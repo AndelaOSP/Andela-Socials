@@ -1,7 +1,6 @@
 // Bootstrap Button Variant
 
 @mixin button-variant($color, $background, $border) {
-  @include lato-font;
   color: $color;
   background-color: $background;
   border: 2px solid $border;
@@ -64,22 +63,7 @@
   text-shadow: 0px 4px 8px #000;
 }
 
-// Font Mixins
-
-@mixin sans-font {
-  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
-@mixin lato-font {
-  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
-@mixin roboto-font {
-  font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
 // responsiveness
-
 @mixin mobile {
   @media (min-width: #{100px}) and (max-width: #{$mobile-width}) {
     @content;

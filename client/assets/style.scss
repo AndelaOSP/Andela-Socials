@@ -3,13 +3,11 @@
 @import "pages/index";
 @import "./toastr.scss";
 
+@import url("fonts.scss");
+
 // google font
 @import url('https://fonts.googleapis.com/css?family=Spectral+SC');
 @import url('https://fonts.googleapis.com/css?family=Ubuntu');
-
-body {
-  font-family: 'Lato', sans-serif;
-}
 
 .andela {
   width: 8vw;
@@ -28,7 +26,6 @@ body {
 
   p {
     font-size: 5rem;
-    font-family: 'Spectral SC', serif;
   }
 }
 
@@ -48,7 +45,6 @@ body {
   font-size: 2.2rem;
   text-align: center;
   letter-spacing: 0.5rem;
-  font-family: 'Ubuntu', sans-serif;
   margin-top: 4rem;
 }
 
