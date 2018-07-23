@@ -48,9 +48,6 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
-        query: {
-          presets: ['es2015', 'react'],
-        },
       },
       {
         test: /(\.css|scss)$/, loaders: ['style-loader', 'css-loader', 'sass-loader'],

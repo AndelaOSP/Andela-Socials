@@ -1,15 +1,15 @@
-const path = require("path");
+const path = require('path');
 const webpack = require('webpack');
 const BundleTracker = require('webpack-bundle-tracker');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const ExtractAppCSS = new ExtractTextPlugin({
   filename: 'css/app.css',
-  allChunks: true
+  allChunks: true,
 });
 const ExtractVendorCSS = new ExtractTextPlugin({
   filename: 'css/vendor.css',
-  allChunks: true
+  allChunks: true,
 });
 
 module.exports = {
@@ -20,30 +20,32 @@ module.exports = {
   plugins: [
     new webpack.LoaderOptionsPlugin({
       minimize: true,
-      debug: false
+      debug: false,
     }),
-    new webpack.EnvironmentPlugin({ NODE_ENV: 'production' }),
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: 'production',
+    }),
     new webpack.optimize.OccurrenceOrderPlugin(true),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendors',
       filename: 'js/vendor.js',
-      minChunks: function(module) {
+      minChunks(module) {
         return typeof module.context === 'string' && module.context.indexOf('node_modules') >= 0;
-      }
+      },
     }),
     ExtractAppCSS,
     ExtractVendorCSS,
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         screw_ie8: true,
-        warnings: false
+        warnings: false,
       },
       mangle: {
-        screw_ie8: true
+        screw_ie8: true,
       },
       comments: false,
-      sourceMap: true
-    })
+      sourceMap: true,
+    }),
   ],
   entry: [
     './index.js',
@@ -51,44 +53,43 @@ module.exports = {
   target: 'web',
   output: {
     path: path.join(__dirname, 'static'),
-    filename: 'js/app.js'
+    filename: 'js/app.js',
   },
   module: {
     rules: [
       {
         test: /\.jsx?$/,
         loader: 'babel-loader',
-        query: { presets: ['es2015', 'react'] }
       },
       {
         enforce: 'pre',
         test: /\.js$/,
-        loader: 'source-map-loader'
+        loader: 'source-map-loader',
       },
       {
         test: /\.scss$/,
         loader: ExtractAppCSS.extract({
           fallback: 'style-loader',
-          use: 'css-loader?sourceMap!csso-loader!sass-loader'
-        })
+          use: 'css-loader?sourceMap!csso-loader!sass-loader',
+        }),
       },
       {
         test: /\.css$/,
         loader: ExtractVendorCSS.extract({
           fallback: 'style-loader',
-          use: 'css-loader?sourceMap!csso-loader'
-        })
+          use: 'css-loader?sourceMap!csso-loader',
+        }),
       },
       {
         test: /\.(jpg|png|svg|gif)$/,
-        loader: 'url-loader'
+        loader: 'url-loader',
       },
       {
         test: /\.otf$/, loader: 'file-loader',
-      }
-    ]
+      },
+    ],
   },
   node: {
-    fs: "empty",
-  }
+    fs: 'empty',
+  },
 };
