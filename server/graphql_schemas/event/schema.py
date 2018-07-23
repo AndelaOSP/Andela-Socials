@@ -37,7 +37,7 @@ class CreateEvent(relay.ClientIDMutation):
                 id=from_global_id(social_event_id)[1])
             user_profile = AndelaUserProfile.objects.get(
                 user=info.context.user
-                )
+            )
             new_event = Event(
                 title=input.get('title'),
                 description=input.get('description'),
@@ -86,7 +86,7 @@ class UpdateEvent(relay.ClientIDMutation):
             if input.get("social_event_id"):
                 input["social_event"] = Category.objects.get(
                     pk=from_global_id(input.get('social_event_id'))[1]
-                    )
+                )
             if event_instance:
                 updated_event = update_instance(
                     event_instance,

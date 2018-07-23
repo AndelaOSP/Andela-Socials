@@ -23,8 +23,8 @@ from rest_framework.permissions import AllowAny
 from rest_framework_jwt.settings import api_settings
 
 from .models import Category, Interest, Event, Attend
-from .serializers import CategorySerializer, EventSerializer, AttendanceSerializer,\
-  EventDetailSerializer, InterestSerializer
+from .serializers import CategorySerializer, EventSerializer,\
+    AttendanceSerializer, EventDetailSerializer, InterestSerializer
 from .setpagination import LimitOffsetpage
 from .slack import get_slack_name, notify_channel, notify_user
 
@@ -45,7 +45,13 @@ class ExemptCSRFMixn(object):
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return super(ExemptCSRFMixn, self).dispatch(
-    request, *args, **kwargs)
+            request, *args, **kwargs)
+
+
+class BaseListAPIView(ListAPIView):
+    def __init__(self, model, serializer_class):
+        self.model = model
+        self.serializer_class = serializer_class
 
 
 class DashBoardView(APIView):
@@ -53,16 +59,21 @@ class DashBoardView(APIView):
     permission_classes = (AllowAny,)
 
     def get(self, request):
-      if dotenv.get('NODE_ENV') == 'development':
-        return Response('welcome to Andela social API')
-      return render(request, 'index.html', {'environment': dotenv.get('NODE_ENV')})
+        if dotenv.get('NODE_ENV') == 'development':
+            return Response('welcome to Andela social API')
+        return render(
+            request,
+            'index.html',
+            {'environment': dotenv.get('NODE_ENV')}
+        )
 
 
-class CategoryListView(ListAPIView):
+class CategoryListView(BaseListAPIView):
     """List all Categories."""
 
-    model = Category
-    serializer_class = CategorySerializer
+    def __init__(self):
+        super().__init__(Category, CategorySerializer)
+
     pagination_class = LimitOffsetpage
     filter_fields = ('name',)
     queryset = Category.objects.all()
@@ -96,16 +107,18 @@ class UnjoinSocialClubView(APIView):
         user = request.cached_user
 
         # get the category for the club_id
-        Interest.objects.filter(follower_category_id=club_id, follower_id=user.id).delete()
+        Interest.objects.filter(
+            follower_category_id=club_id,
+            follower_id=user.id).delete()
 
         return Response({'club_id': club_id})
 
 
-class JoinedClubsView(ListAPIView):
+class JoinedClubsView(BaseListAPIView):
     """List of social clubs a user has joined."""
 
-    model = Interest
-    serializer_class = InterestSerializer
+    def __init__(self):
+        super().__init__(Interest, InterestSerializer)
 
     def get_queryset(self):
         user = self.request.cached_user
@@ -152,11 +165,11 @@ class AttendSocialEventView(APIView):
         return Response(serializer.data)
 
 
-class SubscribedEventsView(ListAPIView):
+class SubscribedEventsView(BaseListAPIView):
     """List of events a user has joined."""
 
-    model = Attend
-    serializer_class = AttendanceSerializer
+    def __init__(self):
+        super().__init__(Attend, AttendanceSerializer)
 
     def get_queryset(self):
         user = self.request.cached_user
@@ -186,12 +199,6 @@ class CreateEventView(CreateAPIView):
         body_unicode = request.body.decode('utf-8')
         body_data = json.loads(body_unicode)
 
-        title = body_data.get('title')
-        description = body_data.get('description')
-        venue = body_data.get('venue')
-        date = body_data.get('date')
-        time = body_data.get('time'),
-        featured_image = body_data.get('featured_image')
         social_event_id = body_data.get('category_id')
 
         try:
@@ -200,12 +207,12 @@ class CreateEventView(CreateAPIView):
             raise Http404
 
         new_event = Event(
-            title=title,
-            description=description,
-            venue=venue,
-            date=date,
-            time=time,
-            featured_image=featured_image,
+            title=body_data.get('title'),
+            description=body_data.get('description'),
+            venue=body_data.get('venue'),
+            date=body_data.get('date'),
+            time=body_data.get('time'),
+            featured_image=body_data.get('featured_image'),
             creator=request.cached_user,
             social_event=social_event
         )
