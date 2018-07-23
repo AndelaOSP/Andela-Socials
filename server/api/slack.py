@@ -26,25 +26,29 @@ def get_slack_id(user):
     Helper function to get user's slack name.
     """
     members = get_slack_users()
-    user_name = [member for member in members if member.get('profile').get('email') == user['email']]
-    return user_name[0].get('id') if user_name else ''
+    user_name = [member for member in members if member.get(
+        'profile').get('email') == user['email']]
+    return user_name[0].get('profile').get('display_name') if user_name else ''
 
 
 def notify_channel(message):
     slack_client.api_call(
-      "chat.postMessage",
-      channel="#andela_socials",
-      text=message,
-      as_user=True,
-      reply_broadcast=True,
+        "chat.postMessage",
+        channel="#andela_socials",
+        text=message,
+        as_user=True,
+        reply_broadcast=True,
     )
 
 
 def notify_user(message, slack_id):
+    """
+    Helper function to notify slack user.
+    """
     return slack_client.api_call(
-      "chat.postMessage",
-      channel=slack_id,
-      text=message,
-      as_user=True,
-      reply_broadcast=True,
+        "chat.postMessage",
+        channel=slack_id,
+        text=message,
+        as_user=True,
+        reply_broadcast=True,
     )

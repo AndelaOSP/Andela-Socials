@@ -1,6 +1,0 @@
-{
-  "pageLoadTimeout": 20000,
-  "integrationFolder": "client/tests/cypress/integration",
-  "video": false,
-  "chromeWebSecurity": false
-}
