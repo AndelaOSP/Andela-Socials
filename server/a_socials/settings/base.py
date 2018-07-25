@@ -198,3 +198,10 @@ CORS_ALLOW_HEADERS = default_headers + (
 )
 
 TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
+
+
+GOOGLE_CLIENT_ID = dotenv.get('OAUTH2_CLIENT_ID')
+GOOGLE_CLIENT_SECRET = dotenv.get('OAUTH2_CLIENT_SECRET')
+
+
+CRYPTOGRAPHIC_KEY = dotenv.get('CRYPTOGRAPHIC_KEY')

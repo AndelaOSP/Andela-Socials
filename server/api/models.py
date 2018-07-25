@@ -24,6 +24,7 @@ class UserProxy(User):
         without altering the user model itself.
         https://docs.djangoproject.com/en/1.11/topics/db/models/
     """
+
     class Meta:
         proxy = True
         auto_created = True
@@ -81,6 +82,8 @@ class AndelaUserProfile(models.Model):
     user = models.OneToOneField(User, related_name='base_user', on_delete=models.CASCADE)
     user_picture = models.TextField()
     slack_name = models.CharField(max_length=80, blank=True)
+    token = models.CharField(max_length=255, blank=True)
+    state = models.CharField(max_length=80, blank=True)
 
     def check_diff(self, idinfo):
         """Check for differences between request/idinfo and model data.
@@ -221,4 +224,3 @@ class Attend(BaseInfo):
 
     def __str__(self):
         return "@{} is attending event {}" .format(self.user.slack_name, self.event.title)
-

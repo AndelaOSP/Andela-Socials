@@ -1,6 +1,6 @@
 import json
 import dotenv
-from django.http import Http404
+from django.http import Http404, HttpResponseForbidden
 from django import http
 from django.views.generic.base import TemplateView, View
 from django.http import HttpResponse, HttpResponseRedirect
@@ -19,10 +19,10 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework.generics import GenericAPIView, ListAPIView, CreateAPIView
 from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny
 from rest_framework_jwt.settings import api_settings
 
-from .models import Category, Interest, Event, Attend
+from .models import Category, Interest, Event, Attend, AndelaUserProfile
+from .utils.oauth_helper import save_credentials
 from .serializers import CategorySerializer, EventSerializer, AttendanceSerializer,\
   EventDetailSerializer, InterestSerializer
 from .setpagination import LimitOffsetpage
@@ -230,3 +230,19 @@ class EventDetail(GenericAPIView):
 
         serializer = EventDetailSerializer(event)
         return Response(serializer.data)
+
+
+class OauthCallback(APIView):
+    authentication_classes = ()
+    permission_classes = (AllowAny,)
+
+    def get(self, request, *args, **kwargs):
+        code = request.query_params['code']
+        state = request.query_params['state']
+
+        try:
+            user_object = AndelaUserProfile.objects.get(state=state)
+        except AndelaUserProfile.DoesNotExist:
+            return HttpResponseForbidden()
+        save_credentials(code, user_object)
+        return Response({'message': 'Authorization was a success'})
