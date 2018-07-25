@@ -10,23 +10,31 @@ from graphene.test import Client
 
 from graphql_schemas.schema import schema
 from api.models import Event, AndelaUserProfile, Category
+from graphql_schemas.views import DRFAuthenticatedGraphQLView as DRF
+
 
 timezone.now()
 date = datetime.datetime(2018, 11, 20, 20, 8, 7, 127325, tzinfo=pytz.UTC)
 request_factory = RequestFactory()
 
 
-def create_user(userId):
+def create_user(userId, calendar_authorized=False):
     user = User.objects.create_user(
             username='test_user{}'.format(userId),
             password='fakepassword',
             email='testemail{}@email.com'.format(userId)
             )
 
-    andela_user = AndelaUserProfile(
-            google_id=userId,
-            user=user
-            )
+    google_object = {
+            'user': user,
+            'google_id': userId
+            }
+
+    if calendar_authorized:
+        google_object['credential'] = {
+                'token': 'some weird unique string {}'.format(userId)}
+
+    andela_user = AndelaUserProfile(**google_object)
     andela_user.save()
     return andela_user
 
@@ -46,11 +54,11 @@ def create_admin_user(userId):
     return andela_user
 
 
-def create_event(event_creator, category, active=True, id=1):
+def create_event(event_creator, category, active=True, id=5):
     event = Event(
                 id=id,
-                title="test title",
-                description="test description",
+                title="test title default",
+                description="test description default",
                 venue="test venue",
                 time="3PM",
                 date=date,
@@ -70,6 +78,7 @@ def create_category():
                     featured_image="featured_image",
                     description="a test description"
             )
+    category.save()
     return category
 
 
@@ -80,7 +89,7 @@ class BaseEventTestCase(TestCase):
         self.admin = create_admin_user("adminId")
         self.category = create_category()
         self.request = request_factory.get('/graphql')
-        self.client = Client(schema)
+        self.client = Client(schema, format_error=DRF.format_error)
         create_event(self.event_creator, self.category)
         create_event(self.admin, self.category, active=False, id=2)
 

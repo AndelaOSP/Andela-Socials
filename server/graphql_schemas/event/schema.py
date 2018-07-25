@@ -7,7 +7,9 @@ from graphene_django.types import DjangoObjectType
 from graphql import GraphQLError
 
 from api.models import Event, Category, AndelaUserProfile
-from graphql_schemas.utils.helpers import is_not_admin, update_instance
+from graphql_schemas.utils.helpers import (is_not_admin,
+                                           update_instance,
+                                           raise_calendar_error)
 
 
 class EventNode(DjangoObjectType):
@@ -38,17 +40,20 @@ class CreateEvent(relay.ClientIDMutation):
             user_profile = AndelaUserProfile.objects.get(
                 user=info.context.user
             )
-            new_event = Event(
-                title=input.get('title'),
-                description=input.get('description'),
-                venue=input.get('venue'),
-                date=input.get('date'),
-                time=input.get('time'),
-                featured_image=input.get('featured_image'),
-                creator=user_profile,
-                social_event=social_event
-            )
-            new_event.save()
+            if user_profile.credential:
+                new_event = Event(
+                    title=input.get('title'),
+                    description=input.get('description'),
+                    venue=input.get('venue'),
+                    date=input.get('date'),
+                    time=input.get('time'),
+                    featured_image=input.get('featured_image'),
+                    creator=user_profile,
+                    social_event=social_event
+                )
+                new_event.save()
+            else:
+                raise_calendar_error(user_profile)
 
         except ValueError as e:
             raise GraphQLError("An Error occurred. \n{}".format(e))

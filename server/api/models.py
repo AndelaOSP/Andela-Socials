@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 
+from oauth2client.contrib.django_util.models import CredentialsField
+
 from .slack import get_slack_name
 from .utils.backgroundTaskWorker import BackgroundTaskWorker
 
@@ -25,6 +27,7 @@ class UserProxy(User):
         without altering the user model itself.
         https://docs.djangoproject.com/en/1.11/topics/db/models/
     """
+
     class Meta:
         proxy = True
         auto_created = True
@@ -84,6 +87,8 @@ class AndelaUserProfile(models.Model):
         User, related_name='base_user', on_delete=models.CASCADE)
     user_picture = models.TextField()
     slack_name = models.CharField(max_length=80, blank=True)
+    credential = CredentialsField()
+    state = models.CharField(max_length=80, blank=True)
 
     async def check_diff_and_update(self, idinfo):
         """Check for differences between request/idinfo and model data.

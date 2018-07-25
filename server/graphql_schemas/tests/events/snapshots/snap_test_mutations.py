@@ -7,6 +7,29 @@ from snapshottest import Snapshot
 
 snapshots = Snapshot()
 
+snapshots['MutateEventTestCase::test_create_event_with_calendar_authorized 1'] = {
+    'data': {
+        'createEvent': {
+            'newEvent': {
+                'description': 'test description',
+                'title': 'test title'
+            }
+        }
+    }
+}
+
+snapshots['MutateEventTestCase::test_create_event_with_calendar_unauthorizd 1'] = {
+    'data': {
+        'createEvent': None
+    },
+    'errors': [
+        {
+            'AuthUrl': 'https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=1023621061664-1b7grp47bee4qu0k0a5114dvm1icl65k.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Fapi%2Fv1%2Foauthcallback&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar&state=k3LBZyLLyqwoDx1cIkllCWKx8Fa0Dh&prompt=consent&included_granted_scopes=true&login_hint=testemailcreatorId%40email.com&access_type=offline',
+            'message': 'Calendar API not authorized'
+        }
+    ]
+}
+
 snapshots['MutateEventTestCase::test_deactivate_event_as_admin 1'] = {
     'data': {
         'deactivateEvent': {
@@ -46,9 +69,12 @@ snapshots['MutateEventTestCase::test_deactivate_event_as_non_creator 1'] = {
 snapshots['MutateEventTestCase::test_query_updated_event 1'] = {
     'data': {
         'event': {
-            'description': 'test description',
-            'id': 'RXZlbnROb2RlOjE=',
-            'title': 'test title'
+            'description': 'test description default',
+            'id': 'RXZlbnROb2RlOjU=',
+            'socialEvent': {
+                'id': 'Q2F0ZWdvcnlOb2RlOjE='
+            },
+            'title': 'test title default'
         }
     }
 }
@@ -58,7 +84,7 @@ snapshots['MutateEventTestCase::test_update_event_as_admin 1'] = {
         'updateEvent': {
             'actionMessage': 'Event Update is successful.',
             'updatedEvent': {
-                'id': 'RXZlbnROb2RlOjE=',
+                'id': 'RXZlbnROb2RlOjU=',
                 'time': '3PM',
                 'title': "This is a test don't panic."
             }
@@ -71,7 +97,7 @@ snapshots['MutateEventTestCase::test_update_event_as_creator 1'] = {
         'updateEvent': {
             'actionMessage': 'Event Update is successful.',
             'updatedEvent': {
-                'id': 'RXZlbnROb2RlOjE=',
+                'id': 'RXZlbnROb2RlOjU=',
                 'time': '3PM',
                 'title': 'Not really a party'
             }

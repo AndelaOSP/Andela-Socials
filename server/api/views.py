@@ -1,6 +1,6 @@
 import json
 import dotenv
-from django.http import Http404
+from django.http import Http404, HttpResponseForbidden
 from django import http
 from django.views.generic.base import TemplateView, View
 from django.http import HttpResponse, HttpResponseRedirect
@@ -19,12 +19,12 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework.generics import GenericAPIView, ListAPIView, CreateAPIView
 from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny
 from rest_framework_jwt.settings import api_settings
 
-from .models import Category, Interest, Event, Attend
 from .serializers import CategorySerializer, EventSerializer,\
     AttendanceSerializer, EventDetailSerializer, InterestSerializer
+from .models import Category, Interest, Event, Attend, AndelaUserProfile
+from .utils.oauth_helper import save_credentials
 from .setpagination import LimitOffsetpage
 from .slack import get_slack_name, notify_channel, notify_user
 
@@ -237,3 +237,23 @@ class EventDetail(GenericAPIView):
 
         serializer = EventDetailSerializer(event)
         return Response(serializer.data)
+
+
+class OauthCallback(APIView):
+    authentication_classes = ()
+    permission_classes = (AllowAny,)
+
+    def get(self, request, *args, **kwargs):
+        code = request.query_params.get('code')
+        state = request.query_params.get('state')
+
+        if not code:
+            return Response({'message': 'Calendar Access not granted'})
+
+        try:
+            user_object = AndelaUserProfile.objects.get(state=state)
+            save_credentials(code, user_object)
+        except AndelaUserProfile.DoesNotExist:
+            return HttpResponseForbidden()
+        else:
+            return Response({'message': 'Authorization was a success'})

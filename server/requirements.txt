@@ -11,11 +11,14 @@ cryptography==2.2.2
 dj-database-url==0.4.2
 django-cors-headers==2.1.0
 django-filter==1.0.4
+django-filter==1.0.4
 django-webpack-loader==0.5.0
 djangorestframework-jwt==1.11.0
 djangorestframework==3.6.3
 flake8==3.5.0
 google-api-python-client==1.6.2
+google-auth-oauthlib==0.2.0
+graphene-django==2.1rc1
 graphene-django==2.1rc1
 graphene-django==2.1rc1
 graphene==2.1.2
@@ -25,6 +28,7 @@ gunicorn==19.7.1
 httplib2==0.11.3
 idna==2.6
 iso8601==0.1.12
+jsonpickle==0.9.6
 mccabe==0.6.1
 oauth2client==4.1.2
 pluggy==0.6.0
@@ -44,6 +48,7 @@ singledispatch==3.4.0.3
 six==1.11.0
 slackclient==1.0.9
 snapshottest==0.5.0
+snapshottest==0.5.0
 tox==3.0.0
 typing==3.6.4
 uritemplate==3.0.0
@@ -51,6 +56,3 @@ urllib3==1.22
 virtualenv==16.0.0
 websocket-client==0.44.0
 whitenoise==3.3.0
-graphene-django==2.1rc1
-django-filter==1.0.4
-snapshottest==0.5.0

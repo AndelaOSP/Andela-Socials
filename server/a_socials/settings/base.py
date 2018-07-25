@@ -200,3 +200,16 @@ CORS_ALLOW_HEADERS = default_headers + (
 )
 
 TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
+
+
+GOOGLE_OAUTH2_CLIENT_ID = dotenv.get('OAUTH2_CLIENT_ID')
+GOOGLE_OAUTH2_CLIENT_SECRET = dotenv.get('OAUTH2_CLIENT_SECRET')
+GOOGLE_PROJECT_ID = dotenv.get('OAUTH2_PROJECT_ID')
+GOOGLE_REDIRECT_URI = dotenv.get('OAUTH2_REDIRECT_URI')
+
+
+GOOGLE_OAUTH2_STORAGE_MODEL = {
+    'model': 'api.models.AndelaUserProfile',
+    'user_property': 'user_id',
+    'credentials_property': 'credential'
+}
