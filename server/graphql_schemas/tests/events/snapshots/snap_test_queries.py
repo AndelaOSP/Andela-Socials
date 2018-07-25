@@ -14,9 +14,9 @@ snapshots['QueryEventTestCase::test_query_deactivated_event 1'] = {
                 {
                     'node': {
                         'active': True,
-                        'description': 'test description',
-                        'id': 'RXZlbnROb2RlOjE=',
-                        'title': 'test title'
+                        'description': 'test description default',
+                        'id': 'RXZlbnROb2RlOjU=',
+                        'title': 'test title default'
                     }
                 }
             ]

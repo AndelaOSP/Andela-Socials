@@ -21,3 +21,13 @@ def update_instance(instance, args, exceptions=['id']):
             for key, value in args.items() if key not in exceptions]
         instance.save()
     return instance
+
+
+class UnauthorizedCalendarError(Exception):
+    """
+        Calendar Error class for unauthorized calendar.
+    """
+    def __init__(self, message='', auth_url=''):
+        super().__init__(message)
+        self.message = message
+        self.auth_url = auth_url

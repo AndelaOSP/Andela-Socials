@@ -7,7 +7,10 @@ from graphene_django.types import DjangoObjectType
 from graphql import GraphQLError
 
 from api.models import Event, Category, AndelaUserProfile
-from graphql_schemas.utils.helpers import is_not_admin, update_instance
+from api.utils.oauth_helper import get_auth_url
+from graphql_schemas.utils.helpers import (is_not_admin,
+                                           update_instance,
+                                           UnauthorizedCalendarError)
 
 
 class EventNode(DjangoObjectType):
@@ -37,18 +40,25 @@ class CreateEvent(relay.ClientIDMutation):
                 id=from_global_id(social_event_id)[1])
             user_profile = AndelaUserProfile.objects.get(
                 user=info.context.user
-                )
-            new_event = Event(
-                title=input.get('title'),
-                description=input.get('description'),
-                venue=input.get('venue'),
-                date=input.get('date'),
-                time=input.get('time'),
-                featured_image=input.get('featured_image'),
-                creator=user_profile,
-                social_event=social_event
             )
-            new_event.save()
+            if user_profile.token:
+                new_event = Event(
+                    title=input.get('title'),
+                    description=input.get('description'),
+                    venue=input.get('venue'),
+                    date=input.get('date'),
+                    time=input.get('time'),
+                    featured_image=input.get('featured_image'),
+                    creator=user_profile,
+                    social_event=social_event
+                )
+                new_event.save()
+            else:
+                auth_url = get_auth_url(user_profile)
+                raise UnauthorizedCalendarError(
+                    message='Calendar Api not authorized',
+                    auth_url=auth_url
+                    )
 
         except ValueError as e:
             raise GraphQLError("An Error occurred. \n{}".format(e))
