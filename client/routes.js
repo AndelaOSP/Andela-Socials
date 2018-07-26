@@ -8,11 +8,13 @@ import Login from './pages/Login';
 import HomePage from './components/HomePage/HomePage';
 import EventPage from './components/Events/index';
 import SocialClubPage from './components/SocialClub/SocialClubPage';
-import EnsureLoggedIn from "./components/common/EnsureLoggedIn";
-import NotFound from "./components/common/NotFound";
+import EnsureLoggedIn from './components/common/EnsureLoggedIn';
+import NotFound from './components/common/NotFound';
+import EventDetails from './components/Events/EventDetails';
 
 export const Routes = () => (
   <Switch>
+      <Route path="/UpdateEvent" component={EventDetails} />
       <Route exact path="/login" component={Login} />
       <Route path="/" component={App}>
         <Route component={EnsureLoggedIn}>

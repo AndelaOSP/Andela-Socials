@@ -141,3 +141,79 @@
   color: #FFFFFF;
   text-decoration: none;
 }
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.modal-main {
+    position: fixed;
+    background: white;
+    height: auto;
+    width:50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.event_form{
+    overflow: scroll;
+}
+.modal-details{
+    padding: 3.5em;
+}
+
+.display-block {
+    display: block;
+}
+
+.display-none {
+    display: none;
+}
+
+.uploadPreview {
+    height: 15em;
+}
+
+.image-upload > .uploadImage{
+    display: none;
+}
+
+.close{
+    margin: 1em;
+    color: red;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.full_width{
+    width: 100%;
+}
+
+._event {
+    margin-bottom: 0.5em;
+    padding: 0.7em;
+    border-radius: 4px;
+    border: 2px solid #eee;
+    font-size: 16px;
+}
+
+.event_button{
+    margin-top:1em;
+}
+
+.event_date{
+    display: block;
+}
+
+@media only screen and (max-width: 1000px){
+    .modal-main{
+        width: 85%;
+    }
+}
