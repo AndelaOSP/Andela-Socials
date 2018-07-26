@@ -1,5 +1,5 @@
 from django.test import RequestFactory
-from api.models import AndelaUserProfile, Category, Event, UserProxy
+from api.models import AndelaUserProfile, Category, Event, UserProxy, Attend
 from graphene.test import Client
 from snapshottest.django import TestCase
 
@@ -33,6 +33,19 @@ class BaseEventTestCase(TestCase):
             creator=self.andela_user,
             social_event=category,
             featured_image="https://cdn.elegantthemes.com/"
+        )
+        self.event2 = Event.objects.create(
+            id=2,
+            title="Test Event 2",
+            description="This is a test event",
+            venue="Epic Tower",
+            creator=self.andela_user,
+            social_event=category,
+            featured_image="https://cdn.elegantthemes.com/"
+        )
+        self.attendance = Attend.objects.create(
+            user=self.andela_user,
+            event=self.event2
         )
         self.request = RequestFactory().get('/graphql')
         self.client = Client(schema)

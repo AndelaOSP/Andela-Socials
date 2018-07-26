@@ -5,13 +5,14 @@ from graphql_relay import to_global_id
 from graphql_schemas.utils.helpers import UnauthorizedCalendarError
 from graphql_schemas.utils.hasher import Hasher
 
-from .base import BaseEventTestCase, create_event, create_user
+from .base import BaseEventTestCase, create_user
 
 
 class MutateEventTestCase(BaseEventTestCase):
     """
     Tests the events api queries and mutations
     """
+
     def test_deactivate_event_as_creator(self):
         query = """
             mutation {
@@ -23,7 +24,7 @@ class MutateEventTestCase(BaseEventTestCase):
         client = self.client
         request.user = self.event_creator.user
         self.assertMatchSnapshot(client.execute(query,
-                                 context_value=request))
+                                                context_value=request))
 
     def test_deactivate_event_as_non_creator(self):
         with suppress(GraphQLError):
@@ -37,7 +38,7 @@ class MutateEventTestCase(BaseEventTestCase):
             client = self.client
             request.user = self.non_event_creator.user
             self.assertMatchSnapshot(client.execute(query,
-                                     context_value=request))
+                                                    context_value=request))
 
     def test_deactivate_event_as_admin(self):
         query = """
@@ -50,7 +51,7 @@ class MutateEventTestCase(BaseEventTestCase):
         client = self.client
         request.user = self.admin.user
         self.assertMatchSnapshot(client.execute(query,
-                                 context_value=request))
+                                                context_value=request))
 
     def test_update_event_as_creator(self):
         query = """
@@ -123,14 +124,13 @@ class MutateEventTestCase(BaseEventTestCase):
                 title
                 description
                 socialEvent{
-                 id
+                    id
                 }
             }
         }
         """
         request = self.request
         client = self.client
-        create_event(self.admin, self.category, id=2)
         request.user = self.event_creator.user
         self.assertMatchSnapshot(client.execute(query, context_value=request))
 
@@ -144,7 +144,7 @@ class MutateEventTestCase(BaseEventTestCase):
                 venue:"test venue",
                 time:"3PM",
                 date:"2018/12/01",
-                socialEventId: "Q2F0ZWdvcnlOb2RlOjE=",
+                socialEventId: "Q2F0ZWdvcnlOb2RlOjI=",
                 featuredImage: "http://fake-image.com"
             }){
                 newEvent{
@@ -375,7 +375,7 @@ class MutateEventTestCase(BaseEventTestCase):
         self.assertMatchSnapshot(result)
 
     def test_validate_invite_link_invalid_hash(self):
-        hash_string = "xsakbnsjnjknhashsa"
+        hash_string = Hasher.gen_hash([0,0,0])
         query = f"""
             mutation ValidateInvite {{
                 validateEventInvite(input: {{

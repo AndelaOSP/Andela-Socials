@@ -24,7 +24,7 @@ snapshots['MutateEventTestCase::test_create_event_with_calendar_unauthorizd 1'] 
     },
     'errors': [
         {
-            'AuthUrl': 'https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=1023621061664-1b7grp47bee4qu0k0a5114dvm1icl65k.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Fapi%2Fv1%2Foauthcallback&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar&state=k3LBZyLLyqwoDx1cIkllCWKx8Fa0Dh&prompt=consent&included_granted_scopes=true&login_hint=testemailcreatorId%40email.com&access_type=offline',
+            'AuthUrl': 'https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=1023621061664-1b7grp47bee4qu0k0a5114dvm1icl65k.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Fapi%2Fv1%2Foauthcallback&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar&state=QaAiPhQDwfFtMLoogbA44pdDUXKX95&prompt=consent&included_granted_scopes=true&login_hint=testemailcreatorId%40email.com&access_type=offline',
             'message': 'Calendar API not authorized'
         }
     ]
@@ -72,7 +72,7 @@ snapshots['MutateEventTestCase::test_query_updated_event 1'] = {
             'description': 'test description default',
             'id': 'RXZlbnROb2RlOjU=',
             'socialEvent': {
-                'id': 'Q2F0ZWdvcnlOb2RlOjE='
+                'id': 'Q2F0ZWdvcnlOb2RlOjY='
             },
             'title': 'test title default'
         }
@@ -199,9 +199,9 @@ snapshots['MutateEventTestCase::test_validate_invite_link 1'] = {
             'event': {
                 'active': True,
                 'date': '2018-11-20 20:08:07.127325+00:00',
-                'description': 'test description',
+                'description': 'test description default',
                 'time': '3PM',
-                'title': 'test title',
+                'title': 'test title default',
                 'venue': 'test venue'
             },
             'isValid': True,
@@ -235,7 +235,17 @@ snapshots['MutateEventTestCase::test_validate_invite_link_invalid_hash 1'] = {
         'validateEventInvite': {
             'event': None,
             'isValid': False,
-            'message': 'Bad Request: Invalid invite URL'
+            'message': 'Not Found: Invalid event/user in invite'
+        }
+    }
+}
+
+snapshots['MutateEventTestCase::test_validate_invite_link_invalid_sender 1'] = {
+    'data': {
+        'validateEventInvite': {
+            'event': None,
+            'isValid': False,
+            'message': 'Not Found: Invalid event/user in invite'
         }
     }
 }

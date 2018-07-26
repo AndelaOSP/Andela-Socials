@@ -88,3 +88,45 @@ snapshots['AttendanceTestCase::test_user_cannot_subscribe_to_event_twice 1'] = {
         }
     ]
 }
+
+snapshots['AttendanceTestCase::test_user_can_unsubscribe_from_event 1'] = {
+    'data': {
+        'unattendEvent': {
+            'clientMutationId': 'rand',
+            'unsubscribedEvent': {
+                'event': {
+                    'date': 'September 10, 2017',
+                    'description': 'This is a test event',
+                    'featuredImage': 'https://cdn.elegantthemes.com/',
+                    'socialEvent': {
+                        'description': 'For people who want to be happy.',
+                        'name': 'Swimming Meetup'
+                    },
+                    'time': '01:00pm WAT',
+                    'title': 'Test Event 2',
+                    'venue': 'Epic Tower'
+                }
+            }
+        }
+    }
+}
+
+snapshots['AttendanceTestCase::test_user_cannot_unsubscribe_from_event_they_did_not_attend 1'] = {
+    'data': {
+        'unattendEvent': None
+    },
+    'errors': [
+        {
+            'locations': [
+                {
+                    'column': 13,
+                    'line': 3
+                }
+            ],
+            'message': 'The User testuser, has not subscribed to this event',
+            'path': [
+                'unattendEvent'
+            ]
+        }
+    ]
+}

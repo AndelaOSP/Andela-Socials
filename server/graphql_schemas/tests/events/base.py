@@ -72,13 +72,11 @@ def create_event(event_creator, category, active=True, id=5):
 
 
 def create_category():
-    category = Category(
-        id=1,
-        name="social event",
-        featured_image="featured_image",
-        description="a test description"
-    )
-    category.save()
+    category = Category.objects.create(
+                    name="social event",
+                    featured_image="featured_image",
+                    description="a test description"
+            )
     return category
 
 

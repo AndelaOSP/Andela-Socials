@@ -6,7 +6,7 @@ from graphene_django.types import DjangoObjectType
 from graphql import GraphQLError
 from graphql_relay import from_global_id
 
-from api.models import Interest, Category
+from api.models import Interest, Category, AndelaUserProfile
 
 
 class InterestNode(DjangoObjectType):
@@ -27,7 +27,7 @@ class JoinSocialClub(relay.ClientIDMutation):
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
         club_id = input.get('club_id')
-        user = info.context.user
+        user = AndelaUserProfile.objects.get(user=info.context.user)
         user_category = Category.objects.get(pk=from_global_id(club_id)[1])
         joined_social_club = Interest(
             follower=user,
@@ -50,7 +50,7 @@ class UnJoinSocialClub(relay.ClientIDMutation):
     def mutate_and_get_payload(cls, root, info, **input):
         category = Category.objects.get(
             pk=from_global_id(input.get('club_id'))[1])
-        user = info.context.user
+        user = AndelaUserProfile.objects.get(user=info.context.user)
         unjoined_social_club = Interest.objects.filter(
             follower_category_id=category.id,
             follower_id=user.id

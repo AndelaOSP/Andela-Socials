@@ -23,3 +23,14 @@ snapshots['QueryEventTestCase::test_query_deactivated_event 1'] = {
         }
     }
 }
+
+snapshots['QueryEventTestCase::test_query_single_event 1'] = {
+    'data': {
+        'event': {
+            'active': True,
+            'description': 'test description default',
+            'id': 'RXZlbnROb2RlOjU=',
+            'title': 'test title default'
+        }
+    }
+}
