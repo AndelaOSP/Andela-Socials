@@ -4,6 +4,7 @@
 @import "components/index";
 @import "./toastr.scss";
 
+// fonts
 @import url("fonts.scss");
 
 // google font
@@ -37,7 +38,7 @@
 
 #button {
   border-radius: 8px;
-  background-color: #01149a;
+  background-color: #01149A;
   box-shadow: 0 7px 6px 0 rgba(0, 26, 113, 0.5);
   outline: 0;
   color: #FFF;
@@ -56,75 +57,12 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  color: #fff;
+  color: #FFF;
 }
 
 .page-header {
-    width: 100vw;
-    height: 300px;
-}
-.black-cover {
-    width: 100vw;
-    height: 300px;
-    background: black;
-    opacity: 0.5;
-}
-.club-title {
-    z-index: 999;
-    position: absolute;
-    top: 31%;
-    left: 8%;
-}
-.club-title > h1 {
-    color: white;
-    font-size: 48px;
-}
-.club-title > button {
-    width: 150px;
-    height: 50px;
-    background-color: #6D9EE1;
-    color: white;
-    border: 0;
-    font-size: 20px;
-}
-.event-list-header {
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 50px;
-    font-size: 20px;
-    margin-left: -20px;
-    margin-right: -20px;
-    padding: 20px;
-}
-.event-list-header > button {
-    background-color: #6D9EE1;
-    color: white;
-    border: 0;
-}
-.event {
-    border: 1px solid #ddd;
-    display: flex;
-    margin-bottom: 20px;
-}
-.event-image {
-    margin-right: 20px;
-}
-.event-details {
-    padding-top: 10px;
-}
-.event-actions {
-    display: flex;
-    justify-content: space-around;
-}
-.event-actions button {
-    width: 100px;
-    height: 40px;
-    background-color: #6D9EE1;
-    color: white;
-    border: 0;
-    font-size: 14px;
-    text-transform: uppercase;
+  width: 100vw;
+  height: 300px;
 }
 
 .not-found {
@@ -132,6 +70,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
   p {
     font-size: 80px;
     color: #030303;

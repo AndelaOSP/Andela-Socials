@@ -5,18 +5,20 @@
     "prettier/react"
   ],
   "plugins": [
-    "prettier"
+    "prettier",
+    "react"
   ],
   "env": {
     "node": true,
-    "es6": true
+    "es6": true,
+    "browser": true
   },
   "rules": {
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "object-curly-newline": ["error", {
-        "ObjectExpression": 0,
-        "ObjectPattern": { "multiline": true },
-        "ExportDeclaration": { "multiline": true, "minProperties": 3 }
+      "ObjectExpression": { "multiline": true, "minProperties": 2 },
+      "ObjectPattern": { "multiline": true, "minProperties": 2 },
+      "ExportDeclaration": { "multiline": true, "minProperties": 2 }
     }],
     "comma-dangle": ["error", {
       "arrays": "always-multiline",
@@ -46,8 +48,5 @@
     "no-implicit-dependencies": false,
     "object-literal-sort-keys": true,
     "ordered-imports": true
-  },
-  "globals": {
-    "document": false
   }
 }

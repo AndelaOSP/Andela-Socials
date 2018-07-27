@@ -3,13 +3,9 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 // components
-import App from './components/App';
-import Protected from './components/common/Protected';
-import LoadComponent from './utils/LoadComponent'
-
-
-const Login = LoadComponent(import('./pages/Login'))
-const NotFound = LoadComponent(import('./components/common/NotFound'))
+import Dashboard from './pages/Dashboard';
+import Login from './pages/Login';
+import NotFound from './components/common/NotFound';
 
 
 /**
@@ -17,11 +13,9 @@ const NotFound = LoadComponent(import('./components/common/NotFound'))
  */
 const Routes = () => (
   <Switch>
-    <App>
-      <Route exact path="/login" component={Login} />
-
-      <Route component={NotFound} />
-    </App>
+    <Route exact path="/login" component={Login} />
+    <Route path="/" component={Dashboard} />
+    <Route path="*" component={NotFound} />
   </Switch>
 );
 

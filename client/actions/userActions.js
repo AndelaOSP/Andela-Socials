@@ -1,25 +1,44 @@
-import axios from 'axios';
-import { SET_REDIRECT_URL, SIGN_OUT, SIGN_IN } from './constants';
-import { authenticationFailed } from '../utils/errorHandler';
+import {
+  LOAD_ACTIVE_USER_SUCCESS,
+  SIGN_OUT,
+} from './constants';
 
-export const login = (payload, type) => ({
-  payload,
-  type,
-  error: false,
+// utils
+import decodeToken from '../utils/decodeToken';
+import { handleError } from '../utils/errorHandler';
+
+export const signOut = () => (dispatch) => {
+  localStorage.removeItem('token');
+  location = '/login';
+  return dispatch({ type: SIGN_OUT });
+};
+
+/**
+ * Load User action
+ *
+ * @param {object} activeUser
+ * @return {{type: (string|LOAD_ACTIVE_USER_SUCCESS), activeUser}}
+ */
+const loadActiveUserSuccess = activeUser => ({
+  type: LOAD_ACTIVE_USER_SUCCESS, activeUser,
 });
 
-export const setRedirectUrl = url => ({
-  type: SET_REDIRECT_URL,
-  payload: url,
+/**
+ * Load active user thunk
+ *
+ * @param {void}
+ * @return {(dispatch:any)=>Promise<TResult2|TResult1>}
+ */
+export const loadActiveUser = () => ((dispatch) => {
+  const activeUser = decodeToken();
+  return dispatch(loadActiveUserSuccess(activeUser));
 });
 
-export const signOut = () => ({
-  type: SIGN_OUT,
-});
-
-export const signIn = token => dispatch => axios
-  .post('/api/v1/auth/login/', {
-    ID_Token: token,
-  })
-  .then(res => dispatch(login(res, SIGN_IN)))
-  .catch(error => authenticationFailed(error));
+/**
+ * Display login error message
+ *
+ * @param {void}
+ * @return {(dispatch:any)=>Promise<TResult2|TResult1>}
+ */
+export const displayLoginErrorMessage = () => (
+  dispatch => handleError('Unauthorised Access, Please Log in with an Andela Email', dispatch));

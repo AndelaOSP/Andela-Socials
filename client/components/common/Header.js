@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-// actions
-import { signOut } from "../../actions/userActions";
+import { Link } from 'react-router-dom';
+
+import { signOut } from '../../actions/userActions';
 
 
 class Header extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.onSignOut = this.onSignOut.bind(this);
   }
 
-  onSignOut() {
+  onSignOut(event) {
+    event.preventDefault();
     this.props.signOut();
-    window.location.reload(); // should be handled better
   }
 
   render() {
@@ -31,15 +33,15 @@ class Header extends Component {
                 aria-controls="navbar"
               >
                 <span className="sr-only">Toggle navigation</span>
-                <span className="icon-bar"></span>
-                <span className="icon-bar"></span>
-                <span className="icon-bar"></span>
+                <span className="icon-bar" />
+                <span className="icon-bar" />
+                <span className="icon-bar" />
               </button>
             </div>
             <div className="collapse navbar-collapse" id="nav-bar">
               <ul className="nav navbar-nav navbar-right">
                 <li>
-                  <a href="#" onClick={this.onSignOut}>Logout</a>
+                  <Link to="/login" onClick={this.onSignOut}>Logout</Link>
                 </li>
               </ul>
             </div>
@@ -50,4 +52,10 @@ class Header extends Component {
   }
 }
 
-export default connect(null, { signOut })(Header);
+Header.propTypes = {
+  signOut: PropTypes.func.isRequired,
+};
+
+export default connect(null, {
+  signOut,
+})(Header);

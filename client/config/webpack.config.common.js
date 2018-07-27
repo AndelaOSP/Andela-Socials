@@ -21,6 +21,8 @@ module.exports = {
           CLIENT_ID: JSON.stringify(process.env.CLIENT_ID),
           API_URI: JSON.stringify(process.env.REACT_APP_API_URI),
           NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+          ANDELA_API_BASE_URL: JSON.stringify(process.env.ANDELA_API_BASE_URL),
+          BASE_URL: JSON.stringify(process.env.BASE_URL),
           DEBUG,
         },
       },
