@@ -3,7 +3,7 @@ import graphene
 from django.core.mail import send_mail
 from django.core.exceptions import ObjectDoesNotExist
 from graphene import relay, ObjectType
-from graphql_relay.node.node import from_global_id
+from graphql_relay import from_global_id
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
 from graphql import GraphQLError
@@ -12,7 +12,7 @@ from api.models import Event, Category, AndelaUserProfile
 from graphql_schemas.utils.helpers import (is_not_admin,
                                            update_instance,
                                            raise_calendar_error)
-from graphql_schemas.utils.hash import Hasher
+from graphql_schemas.utils.hasher import Hasher
 
 
 class EventNode(DjangoObjectType):
@@ -135,20 +135,20 @@ class SendEventInvite(relay.ClientIDMutation):
     message = graphene.String()
 
     class Input:
-        event_id = graphene.Int(required=True)
+        event_id = graphene.ID(required=True)
         receiver_email = graphene.String(required=True)
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
         event_id = input.get('event_id')
         sender = AndelaUserProfile.objects.get(
-            user_id=info.context.user.id or 3)
+            user_id=info.context.user.id)
         receiver_email = input.get('receiver_email')
 
         try:
             receiver = AndelaUserProfile.objects.get(
                 user__email=receiver_email)
-            Event.objects.get(id=event_id)
+            Event.objects.get(id=from_global_id(event_id)[1])
             assert sender.user.id != receiver.user.id
         except AndelaUserProfile.DoesNotExist:
             raise GraphQLError(
@@ -190,7 +190,7 @@ class ValidateEventInvite(relay.ClientIDMutation):
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
         hash_string = input.get('hash_string')
-        user_id = info.context.user.id or 2
+        user_id = info.context.user.id
 
         try:
             data = Hasher.reverse_hash(hash_string)
@@ -199,7 +199,9 @@ class ValidateEventInvite(relay.ClientIDMutation):
                 event = Event.objects.get(id=event_id)
                 AndelaUserProfile.objects.get(user_id=sender_id)
                 assert user_id == receiver_id
-                return cls(isValid=True, event=event)
+                return cls(
+                    isValid=True, event=event,
+                    message="OK: Event invite is valid")
             else:
                 raise GraphQLError()
         except AssertionError:
@@ -212,7 +214,7 @@ class ValidateEventInvite(relay.ClientIDMutation):
                 isValid=False,
                 message="Not Found: Invalid event/user in invite"
             )
-        except:
+        except GraphQLError:
             return cls(
                 isValid=False,
                 message="Bad Request: Invalid invite URL"

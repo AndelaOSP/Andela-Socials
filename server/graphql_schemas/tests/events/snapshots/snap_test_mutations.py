@@ -124,3 +124,118 @@ snapshots['MutateEventTestCase::test_update_event_as_non_creator 1'] = {
         }
     ]
 }
+
+snapshots['MutateEventTestCase::test_send_event_invite 1'] = {
+    'data': {
+        'sendEventInvite': {
+            'message': 'Event invite delivered'
+        }
+    }
+}
+
+snapshots['MutateEventTestCase::test_send_invite_for_invalid_event 1'] = {
+    'data': {
+        'sendEventInvite': None
+    },
+    'errors': [
+        {
+            'locations': [
+                {
+                    'column': 17,
+                    'line': 3
+                }
+            ],
+            'message': 'Event does not exist',
+            'path': [
+                'sendEventInvite'
+            ]
+        }
+    ]
+}
+
+snapshots['MutateEventTestCase::test_send_invite_to_invalid_user 1'] = {
+    'data': {
+        'sendEventInvite': None
+    },
+    'errors': [
+        {
+            'locations': [
+                {
+                    'column': 17,
+                    'line': 3
+                }
+            ],
+            'message': 'Recipient User does not exist',
+            'path': [
+                'sendEventInvite'
+            ]
+        }
+    ]
+}
+
+snapshots['MutateEventTestCase::test_send_invite_to_self 1'] = {
+    'data': {
+        'sendEventInvite': None
+    },
+    'errors': [
+        {
+            'locations': [
+                {
+                    'column': 17,
+                    'line': 3
+                }
+            ],
+            'message': 'User cannot invite self',
+            'path': [
+                'sendEventInvite'
+            ]
+        }
+    ]
+}
+
+snapshots['MutateEventTestCase::test_validate_invite_link 1'] = {
+    'data': {
+        'validateEventInvite': {
+            'event': {
+                'active': True,
+                'date': '2018-11-20 20:08:07.127325+00:00',
+                'description': 'test description',
+                'time': '3PM',
+                'title': 'test title',
+                'venue': 'test venue'
+            },
+            'isValid': True,
+            'message': 'OK: Event invite is valid'
+        }
+    }
+}
+
+snapshots['MutateEventTestCase::test_validate_invite_link_invalid_event 1'] = {
+    'data': {
+        'validateEventInvite': {
+            'event': None,
+            'isValid': False,
+            'message': 'Not Found: Invalid event/user in invite'
+        }
+    }
+}
+
+snapshots['MutateEventTestCase::test_validate_invite_link_unauthorized_user 1'] = {
+    'data': {
+        'validateEventInvite': {
+            'event': None,
+            'isValid': False,
+            'message': 'Forbidden: Unauthorized access'
+        }
+    }
+}
+
+snapshots['MutateEventTestCase::test_validate_invite_link_invalid_hash 1'] = {
+    'data': {
+        'validateEventInvite': {
+            'event': None,
+            'isValid': False,
+            'message': 'Bad Request: Invalid invite URL'
+        }
+    }
+}

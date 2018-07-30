@@ -1,6 +1,9 @@
 from contextlib import suppress
 from graphql import GraphQLError
+from django.core import mail
+from graphql_relay import to_global_id
 from graphql_schemas.utils.helpers import UnauthorizedCalendarError
+from graphql_schemas.utils.hasher import Hasher
 
 from .base import BaseEventTestCase, create_event, create_user
 
@@ -180,7 +183,219 @@ class MutateEventTestCase(BaseEventTestCase):
         """
         request = self.request
         client = self.client
-        authorized_calendar_user = create_user('authorizedTestId', calendar_authorized=True)
+        authorized_calendar_user = create_user(
+            'authorizedTestId', calendar_authorized=True)
         request.user = authorized_calendar_user.user
         self.assertMatchSnapshot(client.execute(query,
                                                 context_value=request))
+
+    def test_send_event_invite(self):
+        query = f"""
+            mutation SendInvite {{
+                sendEventInvite(input: {{
+                    eventId: "{to_global_id("EventNode", self.user_event.id)}",
+                    receiverEmail: "{self.non_event_creator.user.email}"
+                }})
+                {{ message }}
+            }}
+        """
+
+        self.request.user = self.event_creator.user
+        result = self.client.execute(query, context_value=self.request)
+        self.assertMatchSnapshot(result)
+        self.assertEqual(len(mail.outbox), 1)
+
+    def test_send_invite_for_invalid_event(self):
+        query = f"""
+            mutation SendInvite {{
+                sendEventInvite(input: {{
+                    eventId: "{to_global_id("EventNode", 365)}",
+                    receiverEmail: "{self.non_event_creator.user.email}"
+                }})
+                {{ message }}
+            }}
+        """
+
+        self.request.user = self.event_creator.user
+        result = self.client.execute(query, context_value=self.request)
+        self.assertMatchSnapshot(result)
+
+    def test_send_invite_to_invalid_user(self):
+        query = f"""
+            mutation SendInvite {{
+                sendEventInvite(input: {{
+                    eventId: "{to_global_id("EventNode", self.user_event.id)}",
+                    receiverEmail: "invalid@andela.com"
+                }})
+                {{ message }}
+            }}
+        """
+
+        self.request.user = self.event_creator.user
+        result = self.client.execute(query, context_value=self.request)
+        self.assertMatchSnapshot(result)
+
+    def test_send_invite_to_self(self):
+        query = f"""
+            mutation SendInvite {{
+                sendEventInvite(input: {{
+                    eventId: "{to_global_id("EventNode", self.user_event.id)}",
+                    receiverEmail: "{self.event_creator.user.email}"
+                }})
+                {{ message }}
+            }}
+        """
+
+        self.request.user = self.event_creator.user
+        result = self.client.execute(query, context_value=self.request)
+        self.assertMatchSnapshot(result)
+
+    def test_validate_invite_link(self):
+        event_id = self.user_event.id
+        receiver_id = self.non_event_creator.user.id
+        sender_id = self.event_creator.user.id
+
+        hash_string = Hasher.gen_hash([
+            event_id, receiver_id, sender_id])
+        query = f"""
+            mutation ValidateInvite {{
+                validateEventInvite(input: {{
+                    hashString: "{hash_string}"
+                }})
+                {{
+                    isValid
+                    event {{
+                        title
+                        description
+                        venue
+                        date
+                        time
+                        active
+                    }}
+                    message
+                }}
+            }}
+        """
+
+        self.request.user = self.non_event_creator.user
+        result = self.client.execute(query, context_value=self.request)
+        self.assertMatchSnapshot(result)
+
+    def test_validate_invite_link_invalid_event(self):
+        event_id = 365
+        receiver_id = self.non_event_creator.user.id
+        sender_id = self.event_creator.user.id
+
+        hash_string = Hasher.gen_hash([
+            event_id, receiver_id, sender_id])
+        query = f"""
+            mutation ValidateInvite {{
+                validateEventInvite(input: {{
+                    hashString: "{hash_string}"
+                }})
+                {{
+                    isValid
+                    event {{
+                        title
+                        description
+                        venue
+                        date
+                        time
+                        active
+                    }}
+                    message
+                }}
+            }}
+        """
+
+        self.request.user = self.non_event_creator.user
+        result = self.client.execute(query, context_value=self.request)
+        self.assertMatchSnapshot(result)
+
+    def test_validate_invite_link_invalid_sender(self):
+        event_id = self.user_event.id
+        receiver_id = self.non_event_creator.user.id
+        sender_id = 365
+
+        hash_string = Hasher.gen_hash([
+            event_id, receiver_id, sender_id])
+        query = f"""
+            mutation ValidateInvite {{
+                validateEventInvite(input: {{
+                    hashString: "{hash_string}"
+                }})
+                {{
+                    isValid
+                    event {{
+                        title
+                        description
+                        venue
+                        date
+                        time
+                        active
+                    }}
+                    message
+                }}
+            }}
+        """
+
+        self.request.user = self.non_event_creator.user
+        result = self.client.execute(query, context_value=self.request)
+        self.assertMatchSnapshot(result)
+
+    def test_validate_invite_link_unauthorized_user(self):
+        event_id = self.user_event.id
+        receiver_id = self.non_event_creator.user.id
+        sender_id = self.event_creator.user.id
+
+        hash_string = Hasher.gen_hash([
+            event_id, receiver_id, sender_id])
+        query = f"""
+            mutation ValidateInvite {{
+                validateEventInvite(input: {{
+                    hashString: "{hash_string}"
+                }})
+                {{
+                    isValid
+                    event {{
+                        title
+                        description
+                        venue
+                        date
+                        time
+                        active
+                    }}
+                    message
+                }}
+            }}
+        """
+
+        self.request.user = self.event_creator.user
+        result = self.client.execute(query, context_value=self.request)
+        self.assertMatchSnapshot(result)
+
+    def test_validate_invite_link_invalid_hash(self):
+        hash_string = "xsakbnsjnjknhashsa"
+        query = f"""
+            mutation ValidateInvite {{
+                validateEventInvite(input: {{
+                    hashString: "{hash_string}"
+                }})
+                {{
+                    isValid
+                    event {{
+                        title
+                        description
+                        venue
+                        date
+                        time
+                        active
+                    }}
+                    message
+                }}
+            }}
+        """
+
+        self.request.user = self.non_event_creator.user
+        result = self.client.execute(query, context_value=self.request)
+        self.assertMatchSnapshot(result)

@@ -20,19 +20,19 @@ request_factory = RequestFactory()
 
 def create_user(userId, calendar_authorized=False):
     user = User.objects.create_user(
-            username='test_user{}'.format(userId),
-            password='fakepassword',
-            email='testemail{}@email.com'.format(userId)
-            )
+        username='test_user{}'.format(userId),
+        password='fakepassword',
+        email='testemail{}@email.com'.format(userId)
+    )
 
     google_object = {
-            'user': user,
-            'google_id': userId
-            }
+        'user': user,
+        'google_id': userId
+    }
 
     if calendar_authorized:
         google_object['credential'] = {
-                'token': 'some weird unique string {}'.format(userId)}
+            'token': 'some weird unique string {}'.format(userId)}
 
     andela_user = AndelaUserProfile(**google_object)
     andela_user.save()
@@ -41,43 +41,43 @@ def create_user(userId, calendar_authorized=False):
 
 def create_admin_user(userId):
     user = User.objects.create_superuser(
-            username='test_user{}'.format(userId),
-            password='fakepassword',
-            email='testemail{}@email.com'.format(userId)
-            )
+        username='test_user{}'.format(userId),
+        password='fakepassword',
+        email='testemail{}@email.com'.format(userId)
+    )
 
     andela_user = AndelaUserProfile(
-            google_id=userId,
-            user=user
-            )
+        google_id=userId,
+        user=user
+    )
     andela_user.save()
     return andela_user
 
 
 def create_event(event_creator, category, active=True, id=5):
     event = Event(
-                id=id,
-                title="test title default",
-                description="test description default",
-                venue="test venue",
-                time="3PM",
-                date=date,
-                creator=event_creator,
-                social_event=category,
-                active=active,
-                created_at=date
-            )
+        id=id,
+        title="test title default",
+        description="test description default",
+        venue="test venue",
+        time="3PM",
+        date=date,
+        creator=event_creator,
+        social_event=category,
+        active=active,
+        created_at=date
+    )
     event.save()
     return event
 
 
 def create_category():
     category = Category(
-                    id=1,
-                    name="social event",
-                    featured_image="featured_image",
-                    description="a test description"
-            )
+        id=1,
+        name="social event",
+        featured_image="featured_image",
+        description="a test description"
+    )
     category.save()
     return category
 
@@ -90,8 +90,10 @@ class BaseEventTestCase(TestCase):
         self.category = create_category()
         self.request = request_factory.get('/graphql')
         self.client = Client(schema, format_error=DRF.format_error)
-        create_event(self.event_creator, self.category)
-        create_event(self.admin, self.category, active=False, id=2)
+        self.user_event = create_event(
+            self.event_creator, self.category)
+        self.admin_event = create_event(
+            self.admin, self.category, active=False, id=2)
 
     def tearDown(self):
         Event.objects.all().delete()
