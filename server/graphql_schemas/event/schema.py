@@ -1,4 +1,7 @@
 import graphene
+import logging
+
+from django.forms.models import model_to_dict
 
 from django.core.mail import send_mail
 from django.core.exceptions import ObjectDoesNotExist
@@ -8,11 +11,18 @@ from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
 from graphql import GraphQLError
 
-from api.models import Event, Category, AndelaUserProfile
 from graphql_schemas.utils.helpers import (is_not_admin,
                                            update_instance,
                                            raise_calendar_error)
 from graphql_schemas.utils.hasher import Hasher
+from api.models import Event, Category, AndelaUserProfile, Interest
+from api.slack import get_slack_id, notify_user
+
+logging.basicConfig(
+    filename='warning.log',
+    level=logging.DEBUG,
+    format='%(asctime)s %(message)s',
+    datefmt='%m/%d/%Y %I:%M:%S %p')
 
 
 class EventNode(DjangoObjectType):
@@ -55,7 +65,44 @@ class CreateEvent(relay.ClientIDMutation):
         except ValueError as e:
             raise GraphQLError("An Error occurred. \n{}".format(e))
 
+        try:
+            CreateEvent.notify_event_in_slack(social_event, input)
+        except BaseException as e:
+            logging.warn(e)
+
         return cls(new_event=new_event)
+
+    @staticmethod
+    def notify_event_in_slack(social_event, input):
+        category_followers = Interest.objects.filter(
+            follower_category_id=social_event.id)
+        message = (f"A new event has been created in {social_event.name} "
+                    f"group \n Title: {input.get('title')} \n"
+                    f"Description: {input.get('description')} \n "
+                    f"Venue: {input.get('venue')} \n"
+                    f"Date: {input.get('date')} \n Time: {input.get('time')}")
+        slack_id_not_in_db = []
+        for instance in category_followers:
+            if instance.follower.slack_id:
+                slack_response = notify_user(
+                    message, instance.follower.slack_id)
+                if not slack_response['ok']:
+                    logging.warn(slack_response)
+            else:
+                slack_id_not_in_db.append(instance)
+
+        if slack_id_not_in_db:
+            for instance in slack_id_not_in_db:
+                retrieved_slack_id = get_slack_id(
+                    model_to_dict(instance.follower.user))
+                if retrieved_slack_id != '':
+                    instance.follower.slack_id = retrieved_slack_id
+                    instance.follower.save()
+                    slack_response = notify_user(message, retrieved_slack_id)
+                    if not slack_response['ok']:
+                        logging.warn(slack_response)
+                else:
+                    continue
 
 
 class UpdateEvent(relay.ClientIDMutation):

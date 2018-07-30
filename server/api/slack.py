@@ -21,13 +21,13 @@ def get_slack_users():
     return users
 
 
-def get_slack_name(user):
+def get_slack_id(user):
     """
     Helper function to get user's slack name.
     """
     members = get_slack_users()
     user_name = [member for member in members if member.get('profile').get('email') == user['email']]
-    return user_name[0].get('profile').get('display_name') if user_name else ''
+    return user_name[0].get('id') if user_name else ''
 
 
 def notify_channel(message):
@@ -40,11 +40,10 @@ def notify_channel(message):
     )
 
 
-def notify_user(message, user_name):
-    name = "@{}".format(user_name)
-    slack_client.api_call(
+def notify_user(message, slack_id):
+    return slack_client.api_call(
       "chat.postMessage",
-      channel=name,
+      channel=slack_id,
       text=message,
       as_user=True,
       reply_broadcast=True,

@@ -20,7 +20,7 @@ class AndelaUserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AndelaUserProfile
-        fields = ('google_id', 'user', 'user_picture', 'slack_name')
+        fields = ('google_id', 'user', 'user_picture', 'slack_id')
         depth = 1
 
 

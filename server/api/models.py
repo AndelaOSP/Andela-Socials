@@ -4,7 +4,7 @@ from django.db.models.signals import post_save
 
 from oauth2client.contrib.django_util.models import CredentialsField
 
-from .slack import get_slack_name
+from .slack import get_slack_id
 from .utils.backgroundTaskWorker import BackgroundTaskWorker
 
 
@@ -79,16 +79,16 @@ class UserProxy(User):
 class AndelaUserProfile(models.Model):
 
     """Class that defines Andela user profile model.
-    Attributes: user, google_id, user_picture, slack_name
+    Attributes: user, google_id, user_picture, slack_id
     """
 
     google_id = models.CharField(max_length=60, unique=True)
     user = models.OneToOneField(
         User, related_name='base_user', on_delete=models.CASCADE)
     user_picture = models.TextField()
-    slack_name = models.CharField(max_length=80, blank=True)
     credential = CredentialsField()
     state = models.CharField(max_length=80, blank=True)
+    slack_id = models.CharField(max_length=80, blank=True)
 
     async def check_diff_and_update(self, idinfo):
         """Check for differences between request/idinfo and model data.
@@ -96,8 +96,8 @@ class AndelaUserProfile(models.Model):
                         idinfo: data passed in from post method.
                 """
         data = {
-            "user_picture": idinfo['picture'],
-            "slack_name": get_slack_name({"email": idinfo["email"]}),
+          "user_picture": idinfo['picture'],
+          "slack_id": get_slack_id({"email": idinfo["email"]}),
         }
 
         for field in data:
@@ -225,7 +225,7 @@ class Interest(BaseInfo):
 
     def __str__(self):
         return "@{} is interested in category {}" .format(
-            self.follower.slack_name, self.follower_category.name)
+            self.follower.slack_id, self.follower_category.name)
 
 
 class Attend(BaseInfo):
@@ -239,5 +239,5 @@ class Attend(BaseInfo):
         unique_together = ('user', 'event')
 
     def __str__(self):
-        return "@{} is attending event {}" .format(
-            self.user.slack_name, self.event.title)
+        return "@{} is attending event {}".format(
+            self.user.slack_id, self.event.title)
