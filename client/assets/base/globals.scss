@@ -14,8 +14,8 @@ html {
 body {
   position: relative;
   overflow: scroll;
-  top: 0;
-  bottom: 0;
+  padding: 0;
+  margin: 0;
 }
 
 #app {
@@ -45,4 +45,20 @@ p {
 .btn-primary {
   @include button-variant($white, $primary, $primary);
   font-size: 14px;
+}
+
+
+button {
+  outline: none;
+  background-color: transparent;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
 }

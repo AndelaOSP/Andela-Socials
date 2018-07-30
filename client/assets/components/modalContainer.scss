@@ -1,0 +1,82 @@
+.modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.64);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1040;
+
+  .modal__content {
+    background-color: #fff;
+    padding: rem(25px);
+    width: 90%;
+    max-width: rem(768px);
+    overflow-y: auto;
+    border-radius: rem(6px);
+
+    @media (min-width: 600px) {
+      padding: rem(60px);
+      max-width: rem(634px);
+    }
+  }
+
+  .modal__header {
+    h3 {
+      color: $blue;
+      font-size: rem(22px);
+      font-weight: 500;
+      line-height: rem(28px);
+      text-transform: uppercase;
+
+      &::after {
+        content: '';
+        display: block;
+        width: rem(70px);
+        height: rem(6px);
+        margin-top: rem(15px);
+        border-radius: rem(6px);
+        background-color: $blue;
+      }
+    }
+  }
+
+  .modal__body {
+    margin-top: rem(20px);
+    margin-bottom: rem(30px);
+  }
+
+
+  .modal__btns {
+    display: flex;
+    justify-content: flex-end;
+
+    .modal__btn {
+      border: 1px solid $blue;
+      border-radius: 2px;
+      font-size: rem(15px);
+      font-weight: 400;
+      padding: rem(14px) 0;
+      text-align: center;
+      width: 100%;
+      max-width: rem(130px);
+      text-transform: uppercase;
+      letter-spacing: 0.019rem;
+      line-height:rem(15px);
+
+      &.modal__btn-cancel {
+        color: $blue;
+        margin-right: rem(11px);
+      }
+
+      &.modal__btn-submit {
+        background-color: $blue;
+        color: #fff;
+      }
+    }
+  }
+}
