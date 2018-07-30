@@ -199,6 +199,13 @@ CORS_ALLOW_HEADERS = default_headers + (
   'Authorization',
 )
 
+EMAIL_HOST = dotenv.get('EMAIL_HOST')
+EMAIL_PORT = dotenv.get('EMAIL_PORT')
+EMAIL_HOST_USER = dotenv.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = dotenv.get('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
 TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
 
 

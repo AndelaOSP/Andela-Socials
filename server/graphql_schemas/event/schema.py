@@ -1,5 +1,7 @@
 import graphene
 
+from django.core.mail import send_mail
+from django.core.exceptions import ObjectDoesNotExist
 from graphene import relay, ObjectType
 from graphql_relay.node.node import from_global_id
 from graphene_django.filter import DjangoFilterConnectionField
@@ -10,6 +12,7 @@ from api.models import Event, Category, AndelaUserProfile
 from graphql_schemas.utils.helpers import (is_not_admin,
                                            update_instance,
                                            raise_calendar_error)
+from graphql_schemas.utils.hash import Hasher
 
 
 class EventNode(DjangoObjectType):
@@ -128,6 +131,94 @@ class DeactivateEvent(relay.ClientIDMutation):
         return cls(action_message="Event deactivated")
 
 
+class SendEventInvite(relay.ClientIDMutation):
+    message = graphene.String()
+
+    class Input:
+        event_id = graphene.Int(required=True)
+        receiver_email = graphene.String(required=True)
+
+    @classmethod
+    def mutate_and_get_payload(cls, root, info, **input):
+        event_id = input.get('event_id')
+        sender = AndelaUserProfile.objects.get(
+            user_id=info.context.user.id or 3)
+        receiver_email = input.get('receiver_email')
+
+        try:
+            receiver = AndelaUserProfile.objects.get(
+                user__email=receiver_email)
+            Event.objects.get(id=event_id)
+            assert sender.user.id != receiver.user.id
+        except AndelaUserProfile.DoesNotExist:
+            raise GraphQLError(
+                "Recipient User does not exist")
+        except Event.DoesNotExist:
+            raise GraphQLError(
+                "Event does not exist")
+        except AssertionError:
+            raise GraphQLError(
+                "User cannot invite self")
+
+        hashes = Hasher.gen_hash([
+            event_id, receiver.user.id, sender.user.id])
+        invite_url = info.context.build_absolute_uri(
+            f"/invite/{hashes}")
+        message = f"Click on this link to view invite\n\n{invite_url}"
+
+        sent = send_mail(
+            f"You have been invited to an event by {sender.user.username}",
+            message,
+            None,
+            [receiver_email]
+        )
+
+        if sent:
+            return cls(message="Event invite delivered")
+        else:
+            raise GraphQLError("Event invite not delivered")
+
+
+class ValidateEventInvite(relay.ClientIDMutation):
+    isValid = graphene.Boolean()
+    event = graphene.Field(EventNode)
+    message = graphene.String()
+
+    class Input:
+        hash_string = graphene.String(required=True)
+
+    @classmethod
+    def mutate_and_get_payload(cls, root, info, **input):
+        hash_string = input.get('hash_string')
+        user_id = info.context.user.id or 2
+
+        try:
+            data = Hasher.reverse_hash(hash_string)
+            if data and len(data) == 3:
+                event_id, receiver_id, sender_id = data
+                event = Event.objects.get(id=event_id)
+                AndelaUserProfile.objects.get(user_id=sender_id)
+                assert user_id == receiver_id
+                return cls(isValid=True, event=event)
+            else:
+                raise GraphQLError()
+        except AssertionError:
+            return cls(
+                isValid=False,
+                message="Forbidden: Unauthorized access"
+            )
+        except ObjectDoesNotExist:
+            return cls(
+                isValid=False,
+                message="Not Found: Invalid event/user in invite"
+            )
+        except:
+            return cls(
+                isValid=False,
+                message="Bad Request: Invalid invite URL"
+            )
+
+
 class EventQuery(object):
     event = relay.Node.Field(EventNode)
     events_list = DjangoFilterConnectionField(EventNode)
@@ -149,4 +240,6 @@ class EventQuery(object):
 class EventMutation(ObjectType):
     create_event = CreateEvent.Field()
     deactivate_event = DeactivateEvent.Field()
+    send_event_invite = SendEventInvite.Field()
     update_event = UpdateEvent.Field()
+    validate_event_invite = ValidateEventInvite.Field()
