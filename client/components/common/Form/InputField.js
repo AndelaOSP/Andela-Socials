@@ -2,6 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+// defaultProps
+import { baseFormProps } from '../../../utils/defaultProps';
+
+
 const InputField = ({
   id,
   name,
@@ -42,14 +46,7 @@ const InputField = ({
   </div>
 );
 
-InputField.defaultProps = {
-  placeholder: '',
-  defaultValue: '',
-  className: '',
-  label: null,
-  disabled: false,
-  onChange: () => {},
-};
+InputField.defaultProps = baseFormProps;
 
 InputField.propTypes = {
   id: PropTypes.string.isRequired,
