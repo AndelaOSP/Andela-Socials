@@ -26,8 +26,6 @@ class AttendanceTestCase(BaseEventTestCase):
                         title
                         description
                         venue
-                        date
-                        time
                         featuredImage
                         socialEvent {{
                             name
@@ -61,8 +59,6 @@ class AttendanceTestCase(BaseEventTestCase):
                         title
                         description
                         venue
-                        date
-                        time
                         featuredImage
                         socialEvent {{
                             name
@@ -92,8 +88,6 @@ class AttendanceTestCase(BaseEventTestCase):
                         title
                         description
                         venue
-                        date
-                        time
                         featuredImage
                         socialEvent {{
                             name
@@ -123,8 +117,6 @@ class AttendanceTestCase(BaseEventTestCase):
                         title
                         description
                         venue
-                        date
-                        time
                         featuredImage
                         socialEvent {{
                             name
@@ -153,8 +145,6 @@ class AttendanceTestCase(BaseEventTestCase):
                         title
                         description
                         venue
-                        date
-                        time
                         featuredImage
                         socialEvent {{
                             name
@@ -184,8 +174,6 @@ class AttendanceTestCase(BaseEventTestCase):
                         title
                         description
                         venue
-                        date
-                        time
                         featuredImage
                         socialEvent {{
                             name

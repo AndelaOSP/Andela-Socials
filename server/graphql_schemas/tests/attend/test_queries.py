@@ -20,7 +20,6 @@ class AttendanceTestCase(BaseEventTestCase):
                         id
                         title
                         active
-                        date
                     }
                 }
                 }
@@ -39,8 +38,6 @@ class AttendanceTestCase(BaseEventTestCase):
                 id
                 event{
                     id
-                    time
-                    date
                 }
             }
         }
@@ -49,7 +46,7 @@ class AttendanceTestCase(BaseEventTestCase):
         self.request.user = self.user
         result = self.client.execute(query, context_value=self.request)
         self.assertMatchSnapshot(result)
-    
+
     def test_can_fetch_single_event(self):
         query = '''
         query{
@@ -57,8 +54,6 @@ class AttendanceTestCase(BaseEventTestCase):
                 id
                 event{
                     id
-                    time
-                    date
                 }
             }
         }

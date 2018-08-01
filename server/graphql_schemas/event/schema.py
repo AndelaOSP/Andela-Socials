@@ -13,10 +13,14 @@ from graphql import GraphQLError
 
 from graphql_schemas.utils.helpers import (is_not_admin,
                                            update_instance,
-                                           raise_calendar_error)
+                                           send_calendar_invites,
+                                           raise_calendar_error,
+                                           not_valid_timezone)
 from graphql_schemas.utils.hasher import Hasher
 from api.models import Event, Category, AndelaUserProfile, Interest
 from api.slack import get_slack_id, notify_user
+
+from api.utils.backgroundTaskWorker import BackgroundTaskWorker
 
 logging.basicConfig(
     filename='warning.log',
@@ -37,10 +41,11 @@ class CreateEvent(relay.ClientIDMutation):
         title = graphene.String(required=True)
         description = graphene.String(required=True)
         venue = graphene.String(required=True)
-        date = graphene.String(required=False)
-        time = graphene.String(required=False)
+        start_date = graphene.DateTime(required=True)
+        end_date = graphene.DateTime(required=True)
         featured_image = graphene.String(required=False)
         category_id = graphene.ID(required=True)
+        timezone = graphene.String(required=False)
 
     new_event = graphene.Field(EventNode)
 
@@ -53,12 +58,22 @@ class CreateEvent(relay.ClientIDMutation):
             user_profile = AndelaUserProfile.objects.get(
                 user=info.context.user
             )
-            if user_profile.credential:
+            if user_profile.credential and user_profile.credential.valid:
+                if not input.get('timezone'):
+                    input['timezone'] = user_profile.timezone
+                if not_valid_timezone(input.get('timezone')):
+                    return GraphQLError("Timezone is invalid")
+
                 new_event = Event.objects.create(
                     **input,
                     creator=user_profile,
                     social_event=category
                 )
+                new_event.save()
+
+                # Send calender invite in background
+                BackgroundTaskWorker.start_work(send_calendar_invites,
+                                                (user_profile, new_event))
             else:
                 raise_calendar_error(user_profile)
 
@@ -111,8 +126,8 @@ class UpdateEvent(relay.ClientIDMutation):
         title = graphene.String()
         description = graphene.String()
         venue = graphene.String()
-        date = graphene.String()
-        time = graphene.String()
+        startDate = graphene.DateTime()
+        endDate = graphene.DateTime()
         featured_image = graphene.String()
         category_id = graphene.ID()
         event_id = graphene.ID(required=True)

@@ -5,6 +5,8 @@ from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.settings import api_settings
 from graphql_schemas.utils.helpers import UnauthorizedCalendarError
 
+from graphql.error.located_error import GraphQLLocatedError
+
 
 class DRFAuthenticatedGraphQLView(GraphQLView):
     def parse_body(self, request):
@@ -28,12 +30,17 @@ class DRFAuthenticatedGraphQLView(GraphQLView):
                 :params error:
         """
         try:
-            if isinstance(error.original_error, UnauthorizedCalendarError):
-                return {'message': error.original_error.message,
-                        'AuthUrl': error.original_error.auth_url}
+            if isinstance(error, GraphQLLocatedError):
+                return format_located_error(error)
+            return GraphQLView.format_error(error)
         except Exception as error:
-            return super(DRFAuthenticatedGraphQLView,
-                         DRFAuthenticatedGraphQLView).format_error(error)
-        else:
-            return super(DRFAuthenticatedGraphQLView,
-                         DRFAuthenticatedGraphQLView).format_error(error)
+            return GraphQLView.format_error(error)
+
+
+def format_located_error(error):
+    if isinstance(error.original_error, GraphQLLocatedError):
+        return format_located_error(error.original_error)
+    if isinstance(error.original_error, UnauthorizedCalendarError):
+        return {'message': error.original_error.message,
+                'AuthUrl': error.original_error.auth_url}
+    return GraphQLView.format_error(error)

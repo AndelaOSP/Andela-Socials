@@ -4,6 +4,7 @@ from graphene.test import Client
 from snapshottest.django import TestCase
 
 from graphql_schemas.schema import schema
+from django.utils import timezone
 
 
 class BaseEventTestCase(TestCase):
@@ -32,6 +33,8 @@ class BaseEventTestCase(TestCase):
             venue="Epic Tower",
             creator=self.andela_user,
             social_event=category,
+            start_date=timezone.now(),
+            end_date=timezone.now(),
             featured_image="https://cdn.elegantthemes.com/"
         )
         self.event2 = Event.objects.create(
@@ -40,6 +43,8 @@ class BaseEventTestCase(TestCase):
             description="This is a test event",
             venue="Epic Tower",
             creator=self.andela_user,
+            start_date=timezone.now(),
+            end_date=timezone.now(),
             social_event=category,
             featured_image="https://cdn.elegantthemes.com/"
         )

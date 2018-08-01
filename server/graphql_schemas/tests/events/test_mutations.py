@@ -1,3 +1,4 @@
+import mock
 from contextlib import suppress
 from graphql import GraphQLError
 from django.core import mail
@@ -72,7 +73,6 @@ class MutateEventTestCase(BaseEventTestCase):
                 updatedEvent{
                 id
                 title
-                time
                 }
                 actionMessage
             }
@@ -93,7 +93,6 @@ class MutateEventTestCase(BaseEventTestCase):
                 updatedEvent{
                 id
                 title
-                time
                 }
                 actionMessage
             }
@@ -114,7 +113,6 @@ class MutateEventTestCase(BaseEventTestCase):
                     updatedEvent{
                     id
                     title
-                    time
                     }
                     actionMessage
                 }
@@ -151,10 +149,11 @@ class MutateEventTestCase(BaseEventTestCase):
                 title:"test-title",
                 description:"test-description",
                 venue:"test venue",
-                time:"3PM",
-                date:"2018/12/01",
+                startDate:"2018-08-09T18:00:00.000Z",
+                endDate:"2018-08-09T18:00:00.000Z",
                 categoryId: "Q2F0ZWdvcnlOb2RlOjI=",
-                featuredImage: "http://fake-image.com"
+                featuredImage: "http://fake-image.com",
+                timezone: "Africa/Algiers"
             }){
                 newEvent{
                 title
@@ -170,7 +169,8 @@ class MutateEventTestCase(BaseEventTestCase):
             self.assertMatchSnapshot(client.execute(query,
                                                     context_value=request))
 
-    def test_create_event_with_calendar_authorized(self):
+    @mock.patch('graphql_schemas.event.schema.send_calendar_invites')
+    def test_create_event_with_calendar_authorized(self, mock_send_calendar):
 
         query = """
         mutation CreateEvent{
@@ -178,10 +178,11 @@ class MutateEventTestCase(BaseEventTestCase):
                 title:"test title",
                 description:"test description",
                 venue:"test venue",
-                time:"3PM",
-                date:"2018/12/01",
+                startDate:"2018-08-09T18:00:00.000Z",
+                endDate:"2018-08-09T18:00:00.000Z",
                 categoryId: "Q2F0ZWdvcnlOb2RlOjE=",
-                featuredImage: "http://fake-image.com"
+                featuredImage: "http://fake-image.com",
+                timezone: "Africa/Algiers"
             }) {
                 newEvent{
                 title
@@ -277,8 +278,8 @@ class MutateEventTestCase(BaseEventTestCase):
                         title
                         description
                         venue
-                        date
-                        time
+                        endDate
+                        startDate
                         active
                     }}
                     message
@@ -308,8 +309,8 @@ class MutateEventTestCase(BaseEventTestCase):
                         title
                         description
                         venue
-                        date
-                        time
+                        endDate
+                        startDate
                         active
                     }}
                     message
@@ -339,8 +340,8 @@ class MutateEventTestCase(BaseEventTestCase):
                         title
                         description
                         venue
-                        date
-                        time
+                        startDate
+                        endDate
                         active
                     }}
                     message
@@ -370,8 +371,8 @@ class MutateEventTestCase(BaseEventTestCase):
                         title
                         description
                         venue
-                        date
-                        time
+                        startDate
+                        endDate
                         active
                     }}
                     message
@@ -396,8 +397,8 @@ class MutateEventTestCase(BaseEventTestCase):
                         title
                         description
                         venue
-                        date
-                        time
+                        startDate
+                        endDate
                         active
                     }}
                     message

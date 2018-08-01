@@ -1,4 +1,8 @@
+import pytz
+import dateutil.parser as parser
 from api.utils.oauth_helper import get_auth_url
+from api.models import Interest
+from googleapiclient.discovery import build
 
 
 def is_not_admin(user):
@@ -44,3 +48,47 @@ def raise_calendar_error(user_profile):
     auth_url = get_auth_url(user_profile)
     raise UnauthorizedCalendarError(message="Calendar API not authorized",
                                     auth_url=auth_url)
+
+
+async def send_calendar_invites(andela_user, event):
+    """
+        Send calendar invites asynchronously
+         :param andela_user:
+         :param event:
+    """
+    invitees = Interest.objects.filter(follower_category=event.social_event)
+    invitee_list = [{'email': invitee.email} for invitee in invitees]
+    payload = build_event(event, invitee_list)
+
+    calendar = build('calendar', 'v3', credentials=andela_user.credential)
+    calendar.events().insert(calendarId='primary', sendNotifications=True,
+                             body=payload).execute()
+
+
+def build_event(event, invitees):
+    """
+        Build event payload
+         :param event:
+         :param invitees:
+    """
+    start_date = parser.parse(str(event.start_date)).isoformat()
+    end_date = parser.parse(str(event.end_date)).isoformat()
+    event = {
+        'summary': event.title,
+        'location': event.venue,
+        'description': event.description,
+        'start': {
+            'dateTime': start_date,
+            'timeZone': event.timezone
+        },
+        'end': {
+            'dateTime': end_date,
+            'timeZone': event.timezone
+            },
+        'attendees': invitees,
+    }
+    return event
+
+
+def not_valid_timezone(timezone):
+    return timezone not in pytz.all_timezones

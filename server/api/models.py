@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 
 from oauth2client.contrib.django_util.models import CredentialsField
 
-from .slack import get_slack_id
+from .slack import get_slack_id, get_slack_user_timezone
 from .utils.backgroundTaskWorker import BackgroundTaskWorker
 
 
@@ -90,21 +90,7 @@ class AndelaUserProfile(models.Model):
     credential = CredentialsField()
     state = models.CharField(max_length=80, blank=True)
     slack_id = models.CharField(max_length=80, blank=True)
-
-    async def check_diff_and_update(self, idinfo):
-        """Check for differences between request/idinfo and model data.
-                    Args:
-                        idinfo: data passed in from post method.
-                """
-        data = {
-            "user_picture": idinfo['picture'],
-            "slack_id": get_slack_id({"email": idinfo["email"]}),
-        }
-
-        for field in data:
-            if getattr(self, field) != data[field] and data[field] != '':
-                setattr(self, field, data[field])
-        self.save()
+    timezone = models.CharField(max_length=80, blank=True)
 
     def __str__(self):
         return "@{}".format(self.user.username)
@@ -118,12 +104,13 @@ class AndelaUserProfile(models.Model):
         :return: It newly created user_profile data
         """
         user_profile = AndelaUserProfile.objects.create(
-            slack_name=get_slack_id({"email": user_data["email"]}),
+            slack_id=get_slack_id({"email": user_data["email"]}),
             user_id=user_id, google_id=user_data['id'],
-            user_picture=user_data['picture'])
-        # It runs background user profile update.
+            timezone=get_slack_user_timezone(user_data["email"]),
+            user_picture=user_data['picture']),
+        #  It runs background user profile update.
         BackgroundTaskWorker.start_work(
-            user_profile.check_diff_and_update,
+            cls.check_diff_and_update,
             (user_data,))
         return user_profile
 
@@ -137,10 +124,30 @@ class AndelaUserProfile(models.Model):
         user_profile = AndelaUserProfile.objects.get(google_id=user_data['id'])
 
         if user_profile:
-            # It runs background user profile update.
-            BackgroundTaskWorker.start_work(user_profile.check_diff_and_update,
+            #  It runs background user profile update.
+            BackgroundTaskWorker.start_work(cls.check_diff_and_update,
                                             (user_data,))
         return user_profile
+
+    @staticmethod
+    async def check_diff_and_update(idinfo):
+        """Check for differences between request/idinfo and model data.
+                    Args:
+                        idinfo: data passed in from post method.
+                """
+        data = {
+            "user_picture": idinfo['picture'],
+            "slack_id": get_slack_id({"email": idinfo["email"]}),
+            "timezone": get_slack_user_timezone(idinfo["email"])
+        }
+
+        stored_user = AndelaUserProfile.objects.get(google_id=idinfo['id'])
+
+        for field in data:
+            if getattr(stored_user, field) != data[field] and \
+                    data[field] != '':
+                setattr(stored_user, field, data[field])
+        stored_user.save()
 
 
 User.profile = property(
@@ -190,13 +197,14 @@ class Event(BaseInfo):
     title = models.CharField(max_length=100)
     description = models.TextField()
     venue = models.TextField()
-    date = models.CharField(default='September 10, 2017', max_length=200)
-    time = models.CharField(default='01:00pm WAT', max_length=200)
+    start_date = models.DateTimeField(blank=True)
+    end_date = models.DateTimeField(blank=True)
     creator = models.ForeignKey(AndelaUserProfile, on_delete=models.CASCADE)
     social_event = models.ForeignKey(
         Category, on_delete=models.CASCADE, related_name="events")
     featured_image = models.URLField()
     active = models.BooleanField(default=1)
+    timezone = models.CharField(max_length=80, blank=True)
 
     @property
     def attendees(self):

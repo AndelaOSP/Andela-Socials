@@ -30,8 +30,10 @@ def get_auth_url(andela_user):
     auth_url, state = FLOW.authorization_url(prompt='consent',
                                              included_granted_scopes='true',
                                              login_hint=user_email)
+
     andela_user.state = state
     andela_user.save()
+
     return auth_url
 
 

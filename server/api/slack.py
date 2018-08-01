@@ -1,5 +1,3 @@
-import os
-import time
 import dotenv
 
 from slackclient import SlackClient
@@ -26,12 +24,17 @@ def get_slack_id(user):
     Helper function to get user's slack name.
     """
     members = get_slack_users()
-    user_name = [member for member in members if member.get(
-        'profile').get('email') == user['email']]
-    return user_name[0].get('profile').get('display_name') if user_name else ''
+    for member in members:
+        if member.get('profile').get('email') == user['email']:
+            return member.get('profile').get('display_name')
+    return ''
 
 
 def notify_channel(message):
+    """
+    Notify the channel with the given message
+        :param message:
+    """
     slack_client.api_call(
         "chat.postMessage",
         channel="#andela_socials",
@@ -43,7 +46,9 @@ def notify_channel(message):
 
 def notify_user(message, slack_id):
     """
-    Helper function to notify slack user.
+    Notify the user with the given id with the message
+        :param message:
+        :param slack_id - The slack id of the user:
     """
     return slack_client.api_call(
         "chat.postMessage",
@@ -52,3 +57,15 @@ def notify_user(message, slack_id):
         as_user=True,
         reply_broadcast=True,
     )
+
+
+def get_slack_user_timezone(email):
+    """
+    Get the users timezone
+    """
+
+    users = get_slack_users()
+    for member in users:
+        if member.get('profile').get('email') == email:
+            return member.get('tz')
+    return ''

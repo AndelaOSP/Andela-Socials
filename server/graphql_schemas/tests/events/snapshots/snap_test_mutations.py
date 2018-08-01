@@ -79,52 +79,6 @@ snapshots['MutateEventTestCase::test_query_updated_event 1'] = {
     }
 }
 
-snapshots['MutateEventTestCase::test_update_event_as_admin 1'] = {
-    'data': {
-        'updateEvent': {
-            'actionMessage': 'Event Update is successful.',
-            'updatedEvent': {
-                'id': 'RXZlbnROb2RlOjU=',
-                'time': '3PM',
-                'title': "This is a test don't panic."
-            }
-        }
-    }
-}
-
-snapshots['MutateEventTestCase::test_update_event_as_creator 1'] = {
-    'data': {
-        'updateEvent': {
-            'actionMessage': 'Event Update is successful.',
-            'updatedEvent': {
-                'id': 'RXZlbnROb2RlOjU=',
-                'time': '3PM',
-                'title': 'Not really a party'
-            }
-        }
-    }
-}
-
-snapshots['MutateEventTestCase::test_update_event_as_non_creator 1'] = {
-    'data': {
-        'updateEvent': None
-    },
-    'errors': [
-        {
-            'locations': [
-                {
-                    'column': 13,
-                    'line': 3
-                }
-            ],
-            'message': 'You are not authorized to edit this event.',
-            'path': [
-                'updateEvent'
-            ]
-        }
-    ]
-}
-
 snapshots['MutateEventTestCase::test_send_event_invite 1'] = {
     'data': {
         'sendEventInvite': {
@@ -193,14 +147,58 @@ snapshots['MutateEventTestCase::test_send_invite_to_self 1'] = {
     ]
 }
 
+snapshots['MutateEventTestCase::test_update_event_as_admin 1'] = {
+    'data': {
+        'updateEvent': {
+            'actionMessage': 'Event Update is successful.',
+            'updatedEvent': {
+                'id': 'RXZlbnROb2RlOjU=',
+                'title': "This is a test don't panic."
+            }
+        }
+    }
+}
+
+snapshots['MutateEventTestCase::test_update_event_as_creator 1'] = {
+    'data': {
+        'updateEvent': {
+            'actionMessage': 'Event Update is successful.',
+            'updatedEvent': {
+                'id': 'RXZlbnROb2RlOjU=',
+                'title': 'Not really a party'
+            }
+        }
+    }
+}
+
+snapshots['MutateEventTestCase::test_update_event_as_non_creator 1'] = {
+    'data': {
+        'updateEvent': None
+    },
+    'errors': [
+        {
+            'locations': [
+                {
+                    'column': 13,
+                    'line': 3
+                }
+            ],
+            'message': 'You are not authorized to edit this event.',
+            'path': [
+                'updateEvent'
+            ]
+        }
+    ]
+}
+
 snapshots['MutateEventTestCase::test_validate_invite_link 1'] = {
     'data': {
         'validateEventInvite': {
             'event': {
                 'active': True,
-                'date': '2018-11-20 20:08:07.127325+00:00',
                 'description': 'test description default',
-                'time': '3PM',
+                'endDate': '2018-11-20T20:08:07.127325+00:00',
+                'startDate': '2018-11-20T20:08:07.127325+00:00',
                 'title': 'test title default',
                 'venue': 'test venue'
             },
@@ -216,16 +214,6 @@ snapshots['MutateEventTestCase::test_validate_invite_link_invalid_event 1'] = {
             'event': None,
             'isValid': False,
             'message': 'Not Found: Invalid event/user in invite'
-        }
-    }
-}
-
-snapshots['MutateEventTestCase::test_validate_invite_link_unauthorized_user 1'] = {
-    'data': {
-        'validateEventInvite': {
-            'event': None,
-            'isValid': False,
-            'message': 'Forbidden: Unauthorized access'
         }
     }
 }
@@ -246,6 +234,16 @@ snapshots['MutateEventTestCase::test_validate_invite_link_invalid_sender 1'] = {
             'event': None,
             'isValid': False,
             'message': 'Not Found: Invalid event/user in invite'
+        }
+    }
+}
+
+snapshots['MutateEventTestCase::test_validate_invite_link_unauthorized_user 1'] = {
+    'data': {
+        'validateEventInvite': {
+            'event': None,
+            'isValid': False,
+            'message': 'Forbidden: Unauthorized access'
         }
     }
 }

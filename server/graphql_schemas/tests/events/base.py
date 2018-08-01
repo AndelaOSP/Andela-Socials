@@ -1,5 +1,4 @@
 import datetime
-from django.utils import timezone
 import pytz
 
 from django.test import RequestFactory
@@ -12,8 +11,9 @@ from graphql_schemas.schema import schema
 from api.models import Event, AndelaUserProfile, Category
 from graphql_schemas.views import DRFAuthenticatedGraphQLView as DRF
 
+from google.oauth2.credentials import Credentials
 
-timezone.now()
+
 date = datetime.datetime(2018, 11, 20, 20, 8, 7, 127325, tzinfo=pytz.UTC)
 request_factory = RequestFactory()
 
@@ -31,8 +31,11 @@ def create_user(userId, calendar_authorized=False):
     }
 
     if calendar_authorized:
-        google_object['credential'] = {
-            'token': 'some weird unique string {}'.format(userId)}
+        credentials = Credentials({
+            'token': 'some weird unique string {}'.format(userId)
+            })
+        credentials.expiry = None
+        google_object['credential'] = credentials
 
     andela_user = AndelaUserProfile(**google_object)
     andela_user.save()
@@ -60,8 +63,8 @@ def create_event(event_creator, category, active=True, id=5):
         title="test title default",
         description="test description default",
         venue="test venue",
-        time="3PM",
-        date=date,
+        start_date=date,
+        end_date=date,
         creator=event_creator,
         social_event=category,
         active=active,
