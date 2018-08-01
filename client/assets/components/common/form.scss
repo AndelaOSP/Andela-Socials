@@ -1,0 +1,41 @@
+.as-form-group {
+  display: flex;
+  flex-direction: column;
+
+  .as-form-group__label {
+    font-size: rem(15px);
+    color: #303030;
+    font-weight: normal;
+    text-transform: capitalize;
+  }
+
+  .as-form-group__input--text_area {
+    height: rem(80px);
+    resize: none;
+  }
+
+  .as-form-group__input {
+    font-size: rem(15px);
+    line-height: rem(26px);
+    padding: rem(10px);
+    border: solid rem(1px) #E9EFF4;
+    outline: none;
+    border-radius: rem(4px);
+  }
+
+  .as-form-group__error {
+    color: #db4437;
+  }
+
+  &.has-error {
+    background-color: #ffebee;
+    border-radius: rem(2px);
+    padding: rem(25px);
+    margin-left: rem(-25px);
+    margin-right: rem(-25px);
+
+    .as-form-group__input {
+      border-color: #db4437;
+    }
+  }
+}
