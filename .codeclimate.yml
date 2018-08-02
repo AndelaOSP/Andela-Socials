@@ -7,4 +7,5 @@ exclude_patterns:
 - "docker/"
 - ".github/*"
 - "**/tests/*"
+- "**/migrations/*"
 
