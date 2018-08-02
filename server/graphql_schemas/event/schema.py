@@ -40,7 +40,7 @@ class CreateEvent(relay.ClientIDMutation):
         date = graphene.String(required=False)
         time = graphene.String(required=False)
         featured_image = graphene.String(required=False)
-        social_event_id = graphene.String(required=True)
+        social_event_id = graphene.ID(required=True)
 
     new_event = graphene.Field(EventNode)
 
@@ -114,15 +114,14 @@ class UpdateEvent(relay.ClientIDMutation):
         date = graphene.String()
         time = graphene.String()
         featured_image = graphene.String()
-        social_event_id = graphene.String()
-        event_id = graphene.String(required=True)
+        social_event_id = graphene.ID()
+        event_id = graphene.ID(required=True)
 
     updated_event = graphene.Field(EventNode)
     action_message = graphene.String()
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
-
         try:
             user = AndelaUserProfile.objects.get(user=info.context.user)
             event_instance = Event.objects.get(
@@ -155,20 +154,21 @@ class DeactivateEvent(relay.ClientIDMutation):
     action_message = graphene.String()
 
     class Input:
-        event_id = graphene.Int(required=True)
+        event_id = graphene.ID(required=True)
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
         user = info.context.user
         event_id = input.get('event_id')
-        event = Event.objects.get(id=event_id)
+        db_event_id = from_global_id(event_id)[1]
+        event = Event.objects.get(id=db_event_id)
         if not event:
             raise GraphQLError('Invalid event')
 
         if user.id != event.creator.user_id and is_not_admin(user):
             raise GraphQLError("You aren't authorised to deactivate the event")
 
-        Event.objects.filter(id=event_id).update(active=False)
+        Event.objects.filter(id=db_event_id).update(active=False)
         return cls(action_message="Event deactivated")
 
 
@@ -244,7 +244,7 @@ class ValidateEventInvite(relay.ClientIDMutation):
                     isValid=True, event=event,
                     message="OK: Event invite is valid")
             else:
-                raise GraphQLError()
+                raise GraphQLError("Bad Request: Invalid invite URL")
         except AssertionError:
             return cls(
                 isValid=False,
@@ -255,10 +255,10 @@ class ValidateEventInvite(relay.ClientIDMutation):
                 isValid=False,
                 message="Not Found: Invalid event/user in invite"
             )
-        except GraphQLError:
+        except GraphQLError as err:
             return cls(
                 isValid=False,
-                message="Bad Request: Invalid invite URL"
+                message=str(err)
             )
 
 

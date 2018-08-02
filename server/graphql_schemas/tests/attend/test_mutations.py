@@ -1,5 +1,6 @@
 import logging
 
+from graphql_relay import to_global_id
 from api.models import Attend, User
 from .base import BaseEventTestCase
 
@@ -12,26 +13,30 @@ class AttendanceTestCase(BaseEventTestCase):
     """
 
     def test_user_can_subcribe_to_event(self):
-        query = '''
-        mutation subscribe {
-            attendEvent(input: {eventId: 1, clientMutationId: "rand"}) {
+        query = f'''
+        mutation subscribe {{
+            attendEvent(input: {{
+                eventId: "{to_global_id("EventNode", self.event.id)}",
+                clientMutationId: "rand"
+            }})
+            {{
                 clientMutationId
-                newAttendance {
-                    event {
+                newAttendance {{
+                    event {{
                         title
                         description
                         venue
                         date
                         time
                         featuredImage
-                        socialEvent {
+                        socialEvent {{
                             name
                             description
-                        }
-                    }
-                }
-            }
-        }
+                        }}
+                    }}
+                }}
+            }}
+        }}
         '''
 
         self.request.user = self.user
@@ -43,26 +48,30 @@ class AttendanceTestCase(BaseEventTestCase):
             user=self.andela_user,
             event=self.event
         )
-        query = '''
-        mutation subscribe {
-            attendEvent(input: {eventId: 1, clientMutationId: "rand"}) {
+        query = f'''
+        mutation subscribe {{
+            attendEvent(input: {{
+                eventId: "{to_global_id("EventNode", self.event.id)}",
+                clientMutationId: "rand"
+            }})
+            {{
                 clientMutationId
-                newAttendance {
-                    event {
+                newAttendance {{
+                    event {{
                         title
                         description
                         venue
                         date
                         time
                         featuredImage
-                        socialEvent {
+                        socialEvent {{
                             name
                             description
-                        }
-                    }
-                }
-            }
-        }
+                        }}
+                    }}
+                }}
+            }}
+        }}
         '''
 
         self.request.user = self.user
@@ -70,26 +79,30 @@ class AttendanceTestCase(BaseEventTestCase):
         self.assertMatchSnapshot(result)
 
     def test_user_cannot_subscribe_to_nonexisting_event(self):
-        query = '''
-        mutation subscribe {
-            attendEvent(input: {eventId: 100, clientMutationId: "rand"}) {
+        query = f'''
+        mutation subscribe {{
+            attendEvent(input: {{
+                eventId: "{to_global_id("EventNode", 100)}",
+                clientMutationId: "rand"
+            }})
+            {{
                 clientMutationId
-                newAttendance {
-                    event {
+                newAttendance {{
+                    event {{
                         title
                         description
                         venue
                         date
                         time
                         featuredImage
-                        socialEvent {
+                        socialEvent {{
                             name
                             description
-                        }
-                    }
-                }
-            }
-        }
+                        }}
+                    }}
+                }}
+            }}
+        }}
         '''
 
         self.request.user = self.user
@@ -97,26 +110,30 @@ class AttendanceTestCase(BaseEventTestCase):
         self.assertMatchSnapshot(result)
 
     def test_nonexisting_user_cannot_subscribe_to_event(self):
-        query = '''
-        mutation subscribe {
-            attendEvent(input: {eventId: 1, clientMutationId: "rand"}) {
+        query = f'''
+        mutation subscribe {{
+            attendEvent(input: {{
+                eventId: "{to_global_id("EventNode", self.event.id)}",
+                clientMutationId: "rand"
+            }})
+            {{
                 clientMutationId
-                newAttendance {
-                    event {
+                newAttendance {{
+                    event {{
                         title
                         description
                         venue
                         date
                         time
                         featuredImage
-                        socialEvent {
+                        socialEvent {{
                             name
                             description
-                        }
-                    }
-                }
-            }
-        }
+                        }}
+                    }}
+                }}
+            }}
+        }}
         '''
 
         self.request.user = User(id=100)
@@ -124,26 +141,29 @@ class AttendanceTestCase(BaseEventTestCase):
         self.assertMatchSnapshot(result)
 
     def test_user_can_unsubscribe_from_event(self):
-        query = '''
-        mutation subscribe {
-            unattendEvent(input: {eventId: "2", clientMutationId: "rand"}) {
+        query = f'''
+        mutation subscribe {{
+            unattendEvent(input: {{
+                eventId: "{to_global_id("EventNode", self.event2.id)}",
+                clientMutationId: "rand"
+            }}) {{
                 clientMutationId
-                unsubscribedEvent {
-                    event {
+                unsubscribedEvent {{
+                    event {{
                         title
                         description
                         venue
                         date
                         time
                         featuredImage
-                        socialEvent {
+                        socialEvent {{
                             name
                             description
-                        }
-                    }
-                }
-            }
-        }
+                        }}
+                    }}
+                }}
+            }}
+        }}
         '''
 
         self.request.user = self.user
@@ -151,26 +171,30 @@ class AttendanceTestCase(BaseEventTestCase):
         self.assertMatchSnapshot(result)
 
     def test_user_cannot_unsubscribe_from_event_they_did_not_attend(self):
-        query = '''
-        mutation subscribe {
-            unattendEvent(input: {eventId: "1", clientMutationId: "rand"}) {
+        query = f'''
+        mutation subscribe {{
+            unattendEvent(input: {{
+                eventId: "{to_global_id("EventNode", self.event.id)}",
+                clientMutationId: "rand"
+            }})
+            {{
                 clientMutationId
-                unsubscribedEvent {
-                    event {
+                unsubscribedEvent {{
+                    event {{
                         title
                         description
                         venue
                         date
                         time
                         featuredImage
-                        socialEvent {
+                        socialEvent {{
                             name
                             description
-                        }
-                    }
-                }
-            }
-        }
+                        }}
+                    }}
+                }}
+            }}
+        }}
         '''
 
         self.request.user = self.user

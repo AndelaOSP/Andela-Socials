@@ -1,5 +1,6 @@
 import graphene
 from graphene import relay, ObjectType
+from graphql_relay import from_global_id
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
 from graphql import GraphQLError
@@ -16,14 +17,15 @@ class AttendNode(DjangoObjectType):
 
 class AttendSocialEvent(relay.ClientIDMutation):
     class Input:
-        event_id = graphene.Int(required=True)
+        event_id = graphene.ID(required=True)
 
     new_attendance = graphene.Field(AttendNode)
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
         event_id = input.get('event_id')
-        event = Event.objects.get(id=event_id)
+        db_event_id = from_global_id(event_id)[1]
+        event = Event.objects.get(id=db_event_id)
         user = info.context.user
         andela_user_profile = AndelaUserProfile.objects.get(
             user_id=user.id)
@@ -40,17 +42,18 @@ class AttendSocialEvent(relay.ClientIDMutation):
 
 class UnsubscribeEvent(relay.ClientIDMutation):
     class Input:
-        event_id = graphene.String(required=True)
+        event_id = graphene.ID(required=True)
 
     unsubscribed_event = graphene.Field(AttendNode)
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
         event_id = input.get('event_id')
+        db_event_id = from_global_id(event_id)[1]
         user = info.context.user
         andela_user_profile = AndelaUserProfile.objects.get(user_id=user.id)
         event_subscription = Attend.objects.filter(
-            event_id=event_id,
+            event_id=db_event_id,
             user_id=andela_user_profile.id).first()
         if not event_subscription:
             raise GraphQLError(
