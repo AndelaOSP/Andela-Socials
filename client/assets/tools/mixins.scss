@@ -55,10 +55,28 @@
   }
 }
 
-@mixin text-shadow-standard {
+@mixin flex {
   display: flex;
+}
+
+@mixin column-flex{
+  @include flex;
+  flex-direction: column;
+}
+
+@mixin row-flex {
+  @include flex;
+  flex-direction: row;
+}
+
+@mixin centered-flex {
+  @include flex;
   justify-content: center;
   align-items: center;
+}
+
+@mixin text-shadow-standard {
+  @include centered-flex;
   font-size: 25px;
   text-shadow: 0px 4px 8px #000;
 }

@@ -1,171 +1,194 @@
+@import '../tools/index';
+@import url('../fonts.scss');
+
 .top-navbar {
-  height: 70px;
+  height: rem(70px);
   border-radius: 0;
-  background-color: #fff;
+  background-color: $white;
   margin: 0;
   border: 0;
+
   .navbar-brand {
-    height: 70px;
-    width: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    height: rem(70px);
+    width: rem(70px);
+    @include centered-flex
   }
 }
-.navbar-collapse.collapse {
-  display: flex !important;
-  height: 70px !important;
-}
 .top-navbar__right-container {
+  @include flex;
   align-items: center;
-  justify-content: right;
+  justify-content: flex-end;
   padding: 0;
+  height: rem(70px);
+
   .nav-profile {
-    width: 183.5px;
+    width: rem(183.5px);
+
     &__list-menus {
-      display: flex;
-      flex-direction: column;
+      @include column-flex;
       align-items: center;
-      box-shadow: -1px 6px 6px #dedede;
+      box-shadow: rem(-1px) rem(6px) rem(6px) $grey;
       border: 0;
       border-radius: 0;
       height: 9.125rem;
       width: 10rem;
+
       li {
+        @include centered-flex;
         height: 2.5rem;
         width: 70%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
         margin: 1em 0 1em 0;
+
         &:first-child:after {
           content: '';
           position: absolute;
           bottom: 50%;
           width: 80%;
-          border-bottom: 1px solid #dedede;
+          border-bottom: rem(1px) solid $grey;
         }
+
         a {
           color: #ccc;
-          font-family: Abel;
-          font-size: 24px;
+          font-weight: 300;
+          font-size: rem(24px);
         }
+
         a:hover {
           background: none;
         }
       }
     }
+
     &__img {
-      width: 35px;
-      height: 35px;
+      width: rem(35px);
+      height: rem(35px);
       border-radius: 50%;
     }
+
     &__username {
-      font-family: Abel;
-      font-size: 21px;
+      font-size: rem(21px);
       font-style: normal;
       font-variant: normal;
       font-weight: lighter;
-      margin: 0 5px 0 5px;
+      margin: 0 rem(5px) 0 rem(5px);
       color: #ccc;
     }
+
     &__dropdown-icon {
       color: #ccc;
     }
+
     &__button {
       box-shadow: none;
     }
   }
+
   .notification-container {
-    padding: 0 38px 0 48px;
+    padding: 0 2.375rem 0 3rem;
+
     &__button {
       margin: 0;
       padding: 0;
       box-shadow: none;
     }
+
     &__button:active,
     &__button:hover {
       box-shadow: none;
       background: transparent;
     }
+
     &__list-notifications {
+      @include column-flex;
       position: absolute;
-      top: 40px;
-      display: flex;
-      flex-direction: column;
+      top: 2.5rem;
       width: 21.25rem;
       left: -2.6em;
       align-items: center;
-      box-shadow: -1px 6px 6px #dedede;
+      box-shadow: rem(-1px) rem(6px) rem(6px) $grey;
+
       .notifier:last-child {
         border-bottom: 0;
       }
     }
+
     .notifier {
-      display: flex;
-      flex-direction: row;
+      @include row-flex;
       width: 19.5rem;
       align-items: center;
       height: 2.5rem;
       margin-top: 1rem;
-      border-bottom: 1px solid #dedede;
+      border-bottom: rem(1px) solid $grey;
+
       &__avatar {
         img {
-          width: 30px;
+          width: rem(30px);
         }
       }
+
       &__text {
-        font-family: Abel;
-        font-size: 12px;
+        font-size: 0.75rem;
         width: 100%;
         color: #ccc;
       }
+
       &__text--description {
         margin-left: 1em;
       }
+
       &__text--description-strong {
         color: #000;
       }
+
       &__text--time {
         float: right;
+        margin-top: .3rem;
       }
+
     }
+
   }
+
   .nav-profile__button,
   .notification-container__button {
-    display: flex;
+    @include flex;
     align-items: center;
     border: 0;
     background: transparent;
   }
+
   .search-bar {
+    @include flex;
     width: 17.5rem;
     height: 2.5rem;
-    border-radius: 20px;
-    border: 1px solid #dedede;
+    border-radius: 1.25rem;
+    border: rem(1px) solid $grey;
     padding: 0;
     margin: 0;
-    display: flex;
     justify-content: center;
+
     .form-group {
-      display: flex;
+      @include flex;
       align-items: center;
     }
+
     &__input {
       border: 0;
       width: 15rem;
       box-shadow: none;
-      font-family: Abel;
       background: transparent;
     }
+
   }
+
 }
 // Styles for fading when showing the notifications
-.notification-appear {
+.notifications-entering {
   opacity: 0.01;
+  transform: scale(0.9) translateY(-50%);
 }
-
-.notification-appear.notification-appear-active {
+.notifications-entered {
   opacity: 1;
-  transition: opacity 0.5s ease-in;
+  transform: scale(1) translateY(0%);
+  transition: all 200ms ease-out;
 }

@@ -13,8 +13,8 @@ const Notifer = (props) => {
           <span className="notifier__text--description-strong">{notification.creator}</span> just
           created a new event{' '}
           <span className="notifier__text--description-strong">{notification.name}</span>
+          <span className="notifier__text--time">{notification.time}</span>
         </div>
-        <div className="notifier__text--time">{notification.time}</div>
       </div>
     </div>
   );

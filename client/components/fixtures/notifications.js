@@ -1,7 +1,7 @@
 import MaleAvatar from '../../assets/img/male_avatar.png';
 import FemaleAvatar from '../../assets/img/female_avatar.png';
 
-const notifications = [
+const Notifications = [
   {
     id: 1,
     type: 'Chinese Nwosu',
@@ -36,4 +36,4 @@ const notifications = [
   },
 ];
 
-export default notifications;
+export default Notifications;

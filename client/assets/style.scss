@@ -5,41 +5,6 @@
 
 @import url('fonts.scss');
 
-// google font
-@import url('https://fonts.googleapis.com/css?family=Spectral+SC');
-@import url('https://fonts.googleapis.com/css?family=Ubuntu');
-// Import Abel
-@import url('https://fonts.googleapis.com/css?family=Abel');
-
-body {
-  font-family: 'Lato', sans-serif;
-}
-
-h1 {
-  font-family: Abel;
-  font-size: 24px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: 500;
-  line-height: 26.4px;
-}
-h3 {
-  font-family: Abel;
-  font-size: 14px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: 500;
-  line-height: 15.4px;
-}
-p {
-  font-family: Abel;
-  font-size: 14px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: 400;
-  line-height: 20px;
-}
-
 .andela {
   width: 8vw;
   margin-top: 3rem;
