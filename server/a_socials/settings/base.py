@@ -187,8 +187,10 @@ REST_FRAMEWORK = {
   'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',),
 
   'PAGINATE_BY': 10,  # Default to 10
-  'PAGINATE_BY_PARAM': 'page_size',  # Allow client to override, using `?page_size=xxx`.
-  'MAX_PAGINATE_BY': 100  # Maximum limit allowed when using `?page_size=xxx`.
+  # Allow client to override, using `?page_size=xxx`.
+  'PAGINATE_BY_PARAM': 'page_size',
+  # Maximum limit allowed when using `?page_size=xxx`.
+  'MAX_PAGINATE_BY': 100
 }
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -197,4 +199,24 @@ CORS_ALLOW_HEADERS = default_headers + (
   'Authorization',
 )
 
+EMAIL_HOST = dotenv.get('EMAIL_HOST')
+EMAIL_PORT = dotenv.get('EMAIL_PORT')
+EMAIL_HOST_USER = dotenv.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = dotenv.get('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
 TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
+
+
+GOOGLE_OAUTH2_CLIENT_ID = dotenv.get('OAUTH2_CLIENT_ID')
+GOOGLE_OAUTH2_CLIENT_SECRET = dotenv.get('OAUTH2_CLIENT_SECRET')
+GOOGLE_PROJECT_ID = dotenv.get('OAUTH2_PROJECT_ID')
+GOOGLE_REDIRECT_URI = dotenv.get('OAUTH2_REDIRECT_URI')
+
+
+GOOGLE_OAUTH2_STORAGE_MODEL = {
+    'model': 'api.models.AndelaUserProfile',
+    'user_property': 'user_id',
+    'credentials_property': 'credential'
+}

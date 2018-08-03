@@ -27,3 +27,19 @@ class QueryEventTestCase(BaseEventTestCase):
         request.user = self.admin.user
         self.assertMatchSnapshot(client.execute(query,
                                  context_value=request))
+    def test_query_single_event(self):
+        query = """
+        query {
+            event(id:"RXZlbnROb2RlOjU="){
+                id
+                description
+                title
+                active 
+            }
+        }
+        """
+        request = self.request
+        client = self.client
+        request.user = self.admin.user
+        self.assertMatchSnapshot(client.execute(query,
+                                 context_value=request))
