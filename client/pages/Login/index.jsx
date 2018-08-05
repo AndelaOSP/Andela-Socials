@@ -19,10 +19,7 @@ const Login = () => (
         <p>
           Work hard play harder, exclusive VIP access to the best events, parties and everything <span>FUN!!! </span>
         </p>
-        <a
-          className="login_container__btn"
-          href="/login"
-        >
+        <a className="login_container__btn" href="/login">
           Join the creed now!
         </a>
       </div>
