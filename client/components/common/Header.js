@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 
 // actions
 import { signOut } from "../../actions/userActions";
@@ -12,9 +11,9 @@ class Header extends Component {
     this.onSignOut = this.onSignOut.bind(this);
   }
 
-  onSignOut(){
+  onSignOut() {
     this.props.signOut();
-    window.location.reload();
+    window.location.reload(); // should be handled better
   }
 
   render() {
@@ -36,7 +35,6 @@ class Header extends Component {
                 <span className="icon-bar"></span>
                 <span className="icon-bar"></span>
               </button>
-              <Link to="/home" className="navbar-brand">Andela Socials</Link>
             </div>
             <div className="collapse navbar-collapse" id="nav-bar">
               <ul className="nav navbar-nav navbar-right">
