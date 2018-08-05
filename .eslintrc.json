@@ -14,7 +14,7 @@
   "rules": {
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "object-curly-newline": ["error", {
-        "ObjectExpression": "never",
+        "ObjectExpression": "always",
         "ObjectPattern": { "multiline": true },
         "ExportDeclaration": { "multiline": true, "minProperties": 3 }
     }],

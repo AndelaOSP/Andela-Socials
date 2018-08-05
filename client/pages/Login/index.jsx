@@ -8,7 +8,7 @@ import React from 'react';
  * @returns {JSX} JSX
  * @memberof LOgin
  */
-const Login = props => (
+const Login = () => (
     <div className="login_container">
       <div className= "login_container__section">
         <img
