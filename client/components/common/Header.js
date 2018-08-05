@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
+// actions
 import { signOut } from "../../actions/userActions";
+
 
 class Header extends Component {
   constructor(props){

@@ -33,7 +33,7 @@
     padding: 1.875rem;
 
     p {
-      font-size: map-get($font-size,  x-large) + 0.75rem;
+      font-size: map-get($font-size,  x-large) + 0.5rem;
       font-weight: map-get($font-weight, light);
       text-align: center;
       color: map-get($colors, light);

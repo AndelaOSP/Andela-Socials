@@ -6,7 +6,7 @@ import React from 'react';
  * Renders the Login component
  *
  * @returns {JSX} JSX
- * @memberof LOgin
+ * @memberof Login
  */
 const Login = () => (
     <div className="login_container">
@@ -17,7 +17,9 @@ const Login = () => (
         />
         <p> Get Closer to your <span>social</span> Meetup</p>
         <p>
-          Work hard play harder, exclusive VIP access to the best events, parties and everything <span>FUN!!! </span>
+          Work hard play harder, exclusive VIP access to the best events,
+          parties and everything
+          <span> FUN!!! </span>
         </p>
         <a className="login_container__btn" href="/login">
           Join the creed now!

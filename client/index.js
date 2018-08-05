@@ -26,13 +26,11 @@ if (localStorage.getItem('a_socials')) {
 ReactDOM.render(
   <ApolloProvider client={Client}>
     <Provider store={store}>
-      <div>
         <PersistGate persistor={persistor}>
           <Router>
             <Routes />
           </Router>
         </PersistGate>
-      </div>
     </Provider>
   </ApolloProvider>,
   document.getElementById('app')

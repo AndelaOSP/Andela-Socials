@@ -15,13 +15,13 @@ import NotFound from './components/common/NotFound';
 const Routes = () => (
   <Switch>
       <Route exact path="/login" component={Login} />
-      <Route path="/" component={App}>
+      <App>
         <Route component={EnsureLoggedIn}>
           <Route path="/home" component={HomePage} />
           <Route path="/clubs/:id" component={SocialClubPage} />
           <Route path="/clubs/:club_id/events/:id" component={EventPage} />
         </Route>
-      </Route>
+      </App>
       <Route path="*" component={NotFound} />
   </Switch>
 );
