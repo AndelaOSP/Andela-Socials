@@ -19,9 +19,9 @@ from django.contrib import admin
 from api import views
 
 urlpatterns = [
-  url(r'^admin/?', admin.site.urls),
-  url(r'^api/v1/?', include('api.urls')),
-  url(r'^', include('graphql_schemas.urls')),
-  url(r'^/', include('api.urls')),
-  url(r'^.*/?', views.DashBoardView.as_view(), name='base'),
+    url(r'^admin/?', admin.site.urls),
+    url(r'^api/v1/?', include('api.urls', namespace="api_v1")),
+    url(r'^', include('graphql_schemas.urls', namespace="graphql")),
+    url(r'^/', include('api.urls', namespace="api")),
+    url(r'^.*/?', views.DashBoardView.as_view(), name='base'),
 ]
