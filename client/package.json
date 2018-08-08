@@ -4,8 +4,8 @@
   "main": "index.js",
   "repository": "https://github.com/BolajiOlajide/a_socials.git",
   "scripts": {
-    "start:dev": "webpack-dev-server --config webpack.config.dev.js --progress --colors",
-    "start": "webpack --config webpack.config.prod.js",
+    "start:dev": "webpack-dev-server --config config/webpack.config.dev.js --progress --colors",
+    "start": "webpack --config config/webpack.config.prod.js",
     "precommit": "lint-staged",
     "stylelint-staged": "stylelint \"client/**/*.scss\" --syntax scss",
     "test": "cypress run -P ../"
