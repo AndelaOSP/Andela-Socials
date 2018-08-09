@@ -9,6 +9,7 @@ module.exports = merge(webpackCommonConfig, {
   devtool: 'source-map',
   output: {
     path: path.join(__dirname, 'static'),
+    chunkFilename: '[name].bundle.js',
     filename: 'js/app.js',
   },
   plugins: [

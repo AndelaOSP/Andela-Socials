@@ -6,7 +6,7 @@ const isInDebugMode = debugString => debugString === 'TRUE';
 const DEBUG = JSON.stringify(process.env.DEBUG);
 
 module.exports = {
-  entry: '../index.js',
+  entry: ['babel-polyfill', '../index.js'],
   target: 'web',
   plugins: [
     new webpack.optimize.UglifyJsPlugin(),

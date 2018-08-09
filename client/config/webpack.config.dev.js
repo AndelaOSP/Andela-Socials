@@ -12,6 +12,7 @@ module.exports = merge(webpackCommonConfig, {
   output: {
     path: path.join(__dirname, '/dist/'),
     filename: 'bundle.js',
+    chunkFilename: '[name].bundle.js',
     publicPath: '/',
   },
   plugins: [
