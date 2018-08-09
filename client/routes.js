@@ -5,11 +5,11 @@ import { Route, Switch } from 'react-router-dom';
 // components
 import App from './components/App';
 import Protected from './components/common/Protected';
-import loadComponent from './utils/loadComponent'
+import LoadComponent from './utils/LoadComponent'
 
-const Login = loadComponent(import('./pages/Login'))
-const NotFound = loadComponent(import('./components/common/NotFound'))
 
+const Login = LoadComponent(import('./pages/Login'))
+const NotFound = LoadComponent(import('./components/common/NotFound'))
 
 
 /**
