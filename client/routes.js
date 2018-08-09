@@ -4,9 +4,12 @@ import { Route, Switch } from 'react-router-dom';
 
 // components
 import App from './components/App';
-import Login from './pages/Login';
 import Protected from './components/common/Protected';
-import NotFound from './components/common/NotFound';
+import loadComponent from './utils/loadComponent'
+
+const Login = loadComponent(import('./pages/Login'))
+const NotFound = loadComponent(import('./components/common/NotFound'))
+
 
 
 /**
