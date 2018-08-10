@@ -232,10 +232,30 @@ snapshots['MutateEventTestCase::test_validate_invite_link_unauthorized_user 1'] 
 
 snapshots['MutateEventTestCase::test_validate_invite_link_invalid_hash 1'] = {
     'data': {
+        'validateEventInvite': None
+    },
+    'errors': [
+        {
+            'locations': [
+                {
+                    'column': 17,
+                    'line': 3
+                }
+            ],
+            'message': 'tuple index out of range',
+            'path': [
+                'validateEventInvite'
+            ]
+        }
+    ]
+}
+
+snapshots['MutateEventTestCase::test_validate_invite_link_invalid_sender 1'] = {
+    'data': {
         'validateEventInvite': {
             'event': None,
             'isValid': False,
-            'message': 'Bad Request: Invalid invite URL'
+            'message': 'Not Found: Invalid event/user in invite'
         }
     }
 }
