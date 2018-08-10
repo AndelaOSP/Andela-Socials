@@ -1,7 +1,8 @@
-from .base import BaseEventTestCase
+from .base import BaseCategoryTestCase
+from graphql_relay import to_global_id
 
 
-class CategoryTestCase(BaseEventTestCase):
+class CategoryTestCase(BaseCategoryTestCase):
     """
     Test category  queries
     """
@@ -27,15 +28,15 @@ class CategoryTestCase(BaseEventTestCase):
         self.assertMatchSnapshot(result)
 
     def test_can_fetch_single_category(self):
-        query = '''
-        query{
-            category(id:"Q2F0ZWdvcnlOb2RlOjE="){
+        query = f'''
+        query{{
+            category(id:"{to_global_id("CategoryNode", self.category.id)}"){{
                 id
                 name
                 description
                 featuredImage
-            }
-        }
+            }}
+        }}
         '''
 
         self.request.user = self.user

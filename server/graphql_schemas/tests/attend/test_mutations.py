@@ -1,5 +1,4 @@
 import logging
-from django.db import transaction
 
 from graphql_relay import to_global_id
 from api.models import Attend, User
@@ -40,13 +39,13 @@ class AttendanceTestCase(BaseEventTestCase):
         }}
         '''
 
-        self.request.user = self.user1
+        self.request.user = self.user
         result = self.client.execute(query, context_value=self.request)
         self.assertMatchSnapshot(result)
 
     def test_user_cannot_subscribe_to_event_twice(self):
         Attend.objects.create(
-            user=self.andela_user1,
+            user=self.andela_user,
             event=self.event
         )
         query = f'''
@@ -75,7 +74,7 @@ class AttendanceTestCase(BaseEventTestCase):
         }}
         '''
 
-        self.request.user = self.user1
+        self.request.user = self.user
         result = self.client.execute(query, context_value=self.request)
         self.assertMatchSnapshot(result)
 
@@ -106,7 +105,7 @@ class AttendanceTestCase(BaseEventTestCase):
         }}
         '''
 
-        self.request.user = self.user1
+        self.request.user = self.user
         result = self.client.execute(query, context_value=self.request)
         self.assertMatchSnapshot(result)
 
@@ -201,97 +200,3 @@ class AttendanceTestCase(BaseEventTestCase):
         self.request.user = self.user
         result = self.client.execute(query, context_value=self.request)
         self.assertMatchSnapshot(result)
-
-
-class RejectInviteTestCase(BaseEventTestCase):
-    """
-    Test decline mutation queries
-    """
-    def test_user_can_decline_invite_to_event(self):
-        query = '''
-        mutation subscribe {
-            declineEvent(input: {eventId: "RXZlbnROb2RlOjI=", clientMutationId: "rand"}) {
-                clientMutationId
-                declinedEvent {
-                    id
-                    event {
-                        id
-                        title
-                        featuredImage
-                        socialEvent {
-                            name
-                            description
-                        }
-                    }
-                    user {
-                        id
-                        googleId
-                    }
-                }
-            }
-        }
-        '''
-
-        self.request.user = self.user4
-        result = self.client.execute(query, context_value=self.request)
-        self.assertMatchSnapshot(result)
-    
-    def test_user_can_decline_invite_to_multiple_events(self):
-        query = '''
-        mutation subscribe {
-            declineEvent(input: {eventId: "RXZlbnROb2RlOjE=", clientMutationId: "rand"}) {
-                clientMutationId
-                declinedEvent {
-                    id
-                    event {
-                        id
-                        title
-                        featuredImage
-                        socialEvent {
-                            name
-                            description
-                        }
-                    }
-                    user {
-                        id
-                        googleId
-                    }
-                }
-            }
-        }
-        '''
-
-        self.request.user = self.user4
-        result = self.client.execute(query, context_value=self.request)
-        self.assertMatchSnapshot(result)
-
-    def test_user_can_not_decline_invite_more_than_once(self):
-        query = '''
-        mutation subscribe {
-            declineEvent(input: {eventId: "RXZlbnROb2RlOjE=", clientMutationId: "rand"}) {
-                clientMutationId
-                declinedEvent {
-                    id
-                    event {
-                        id
-                        title
-                        featuredImage
-                        socialEvent {
-                            name
-                            description
-                        }
-                    }
-                    user {
-                        id
-                        googleId
-                    }
-                }
-            }
-        }
-        '''
-        # https://stackoverflow.com/questions/21458387/transactionmanagementerror-you-cant-execute-queries-until-the-end-of-the-atom
-        with transaction.atomic():
-            self.request.user = self.user3
-            result = self.client.execute(query, context_value=self.request)
-            self.assertMatchSnapshot(result)
- 

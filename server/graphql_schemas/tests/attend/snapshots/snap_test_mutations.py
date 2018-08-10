@@ -98,63 +98,22 @@ snapshots['AttendanceTestCase::test_user_can_unsubscribe_from_event 1'] = {
                     'date': 'September 10, 2017',
                     'description': 'This is a test event',
                     'featuredImage': 'https://cdn.elegantthemes.com/',
-                }
-            }
-        }
-    }
-}
-
-snapshots['RejectInviteTestCase::test_user_can_decline_invite_to_event 1'] = {
-    'data': {
-        'declineEvent': {
-            'clientMutationId': 'rand',
-            'declinedEvent': {
-                'event': {
-                    'featuredImage': 'https://cdn.eleganttes.com/',
-                    'id': 'RXZlbnROb2RlOjI=',
                     'socialEvent': {
                         'description': 'For people who want to be happy.',
                         'name': 'Swimming Meetup'
                     },
-                    'title': 'Test'
-                },
-                'id': 'RGVjbGluZU5vZGU6MTE=',
-                'user': {
-                    'googleId': '45444',
-                    'id': 'QW5kZWxhVXNlck5vZGU6MjA='
+                    'time': '01:00pm WAT',
+                    'title': 'Test Event 2',
+                    'venue': 'Epic Tower'
                 }
             }
         }
     }
 }
 
-snapshots['RejectInviteTestCase::test_user_can_decline_invite_to_multiple_events 1'] = {
+snapshots['AttendanceTestCase::test_user_cannot_unsubscribe_from_event_they_did_not_attend 1'] = {
     'data': {
-        'declineEvent': {
-            'clientMutationId': 'rand',
-            'declinedEvent': {
-                'event': {
-                    'featuredImage': 'https://cdn.elegantthemes.com/',
-                    'id': 'RXZlbnROb2RlOjE=',
-                    'socialEvent': {
-                        'description': 'For people who want to be happy.',
-                        'name': 'Swimming Meetup'
-                    },
-                    'title': 'Test'
-                },
-                'id': 'RGVjbGluZU5vZGU6MTQ=',
-                'user': {
-                    'googleId': '45444',
-                    'id': 'QW5kZWxhVXNlck5vZGU6MjQ='
-                }
-            }
-        }
-    }
-}
-
-snapshots['RejectInviteTestCase::test_user_can_not_decline_invite_more_than_once 1'] = {
-    'data': {
-        'declineEvent': None
+        'unattendEvent': None
     },
     'errors': [
         {
@@ -164,9 +123,9 @@ snapshots['RejectInviteTestCase::test_user_can_not_decline_invite_more_than_once
                     'line': 3
                 }
             ],
-            'message': 'The User thirdUser, has already declined this event',
+            'message': 'The User testuser, has not subscribed to this event',
             'path': [
-                'declineEvent'
+                'unattendEvent'
             ]
         }
     ]

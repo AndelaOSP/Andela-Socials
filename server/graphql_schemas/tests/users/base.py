@@ -20,18 +20,6 @@ class BaseEventTestCase(TestCase):
             "last_name": "user",
             "email": "user2@andela.com"
         })
-        self.user3 = UserProxy.create_user({
-            "username": "thirdUser",
-            "first_name": "third",
-            "last_name": "user",
-            "email": "user3@andela.com"
-        })
-        self.user4 = UserProxy.create_user({
-            "username": "fourthUser",
-            "first_name": "fourth",
-            "last_name": "user",
-            "email": "user4@andela.com"
-        })
         self.andela_user1 = AndelaUserProfile.objects.create(
             google_id=123233,
             user=self.user1,
@@ -40,16 +28,6 @@ class BaseEventTestCase(TestCase):
         self.andela_user2 = AndelaUserProfile.objects.create(
             google_id=344445,
             user=self.user2,
-            user_picture="https://lh5.googleusercontent.com"
-        )
-        self.andela_user3 = AndelaUserProfile.objects.create(
-            google_id=84754,
-            user=self.user3,
-            user_picture="https://lh5.googleusercontent.com"
-        )
-        self.andela_user4 = AndelaUserProfile.objects.create(
-            google_id=45444,
-            user=self.user4,
             user_picture="https://lh5.googleusercontent.com"
         )
         self.request = RequestFactory().get('/graphql')

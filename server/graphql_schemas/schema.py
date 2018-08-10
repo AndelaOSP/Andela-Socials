@@ -2,7 +2,8 @@ import graphene
 
 from graphene_django.debug import DjangoDebug
 
-from .attend.schema import AttendQuery, AttendMutation, DeclineMutation, DeclineQuery
+from .attend.schema import AttendQuery, AttendMutation
+from .decline.schema import DeclineMutation, DeclineQuery
 from .category.schema import CategoryQuery, CategoryMutation
 from .event.schema import EventQuery, EventMutation
 from .interest.schema import InterestQuery, InterestMutation

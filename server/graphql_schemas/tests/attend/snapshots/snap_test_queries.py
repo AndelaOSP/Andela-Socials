@@ -42,31 +42,6 @@ snapshots['AttendanceTestCase::test_can_fetch_user_subscribed_event 1'] = {
     }
 }
 
-snapshots['QueryEventTestCase::test_query_declined_users_list 1'] = {
-    'data': {
-        'declinedUsersList': [
-            {
-                'event': {
-                    'id': 'RXZlbnROb2RlOjE='
-                },
-                'id': 'RGVjbGluZU5vZGU6MjE=',
-                'user': {
-                    'id': 'QW5kZWxhVXNlck5vZGU6MzU='
-                }
-            },
-            {
-                'event': {
-                    'id': 'RXZlbnROb2RlOjE='
-                },
-                'id': 'RGVjbGluZU5vZGU6MjA=',
-                'user': {
-                    'id': 'QW5kZWxhVXNlck5vZGU6MzQ='
-                }
-            }
-        ]
-    }
-}
-
 snapshots['AttendanceTestCase::test_can_fetch_single_event 1'] = {
     'data': {
         'eventAttendance': {
@@ -77,21 +52,5 @@ snapshots['AttendanceTestCase::test_can_fetch_single_event 1'] = {
             },
             'id': 'QXR0ZW5kTm9kZToxMA=='
         }
-    }
-}
-
-snapshots['QueryEventTestCase::test_query_declined_events_list 1'] = {
-    'data': {
-        'declinedEventsList': [
-            {
-                'event': {
-                    'id': 'RXZlbnROb2RlOjE='
-                },
-                'id': 'RGVjbGluZU5vZGU6MTg=',
-                'user': {
-                    'id': 'QW5kZWxhVXNlck5vZGU6MzA='
-                }
-            }
-        ]
     }
 }

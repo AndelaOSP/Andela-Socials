@@ -65,46 +65,5 @@ class AttendanceTestCase(BaseEventTestCase):
         '''
 
         self.request.user = self.user
-
-
-class QueryDeclinedEventsTestCase(BaseEventTestCase):
-    """
-    Test queries on events endpoint
-
-    """
-
-    def test_query_declined_users_list(self):
-        query = """
-        query {
-            declinedUsersList(eventId:"RXZlbnROb2RlOjE="){
-                id,
-                event {
-                  id
-                },
-                user {
-                  id
-                }
-            }
-        }
-        """
-        self.request.user = self.user1
-        result = self.client.execute(query, context_value=self.request)
-        self.assertMatchSnapshot(result)
-
-    def test_query_declined_events_list(self):
-        query = """
-        query {
-            declinedEventsList{
-                id,
-                event {
-                  id
-                }
-                user {
-                  id
-                }
-            }
-        }
-        """
-        self.request.user = self.user2
         result = self.client.execute(query, context_value=self.request)
         self.assertMatchSnapshot(result)

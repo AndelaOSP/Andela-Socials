@@ -1,4 +1,5 @@
 from .base import BaseEventTestCase
+from graphql_relay import to_global_id
 
 
 class QueryAndelaUserTestCase(BaseEventTestCase):
@@ -7,7 +8,7 @@ class QueryAndelaUserTestCase(BaseEventTestCase):
 
     """
     def test_query_users_list(self):
-        query = """
+        query = '''
         query {
             usersList {
                 edges {
@@ -19,22 +20,23 @@ class QueryAndelaUserTestCase(BaseEventTestCase):
                 }
             }
         }
-        """
+        '''
         self.request.user = self.user1
         result = self.client.execute(query, context_value=self.request)
         self.assertMatchSnapshot(result)
 
 
     def test_query_users_by_id(self):
-        query = """
-        query {
-            user(id:"QW5kZWxhVXNlck5vZGU6OTg="){
+        query = f'''
+        query {{
+            user(id:"{to_global_id("AndelaUserNode",
+            self.andela_user2.id)}"){{
                 id
                 userPicture
                 googleId
-            }
-        }
-        """
+            }}
+        }}
+        '''
         self.request.user = self.user2
         result = self.client.execute(query, context_value=self.request)
         self.assertMatchSnapshot(result)

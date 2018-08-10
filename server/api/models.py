@@ -332,8 +332,6 @@ class UserCategoryHistory(models.Model):
                 '%(value)s is not a valid user category action',
                 params={'value': self.user_category_action.lower()},
             )
-        return "@{} is attending event {}" .format(
-            self.user.slack_name, self.event.title)
 
 
 class DeclinedInvite(BaseInfo):

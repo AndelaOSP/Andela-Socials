@@ -145,23 +145,23 @@ class MutateEventTestCase(BaseEventTestCase):
 
     def test_create_event_with_calendar_unauthorizd(self):
 
-        query = """
-        mutation CreateEvent{
-            createEvent(input: {
+        query = f"""
+        mutation CreateEvent{{
+            createEvent(input: {{
                 title:"test-title",
                 description:"test-description",
                 venue:"test venue",
                 time:"3PM",
                 date:"2018/12/01",
-                socialEventId: "Q2F0ZWdvcnlOb2RlOjI=",
+                socialEventId: "{to_global_id("CategoryNode", self.category.id)}",
                 featuredImage: "http://fake-image.com"
-            }){
-                newEvent{
+            }}){{
+                newEvent{{
                 title
                 description
-                }
-            }
-        }
+                }}
+            }}
+        }}
         """
         with suppress(UnauthorizedCalendarError):
             request = self.request
@@ -172,23 +172,23 @@ class MutateEventTestCase(BaseEventTestCase):
 
     def test_create_event_with_calendar_authorized(self):
 
-        query = """
-        mutation CreateEvent{
-            createEvent(input: {
+        query = f"""
+        mutation CreateEvent{{
+            createEvent(input: {{
                 title:"test title",
                 description:"test description",
                 venue:"test venue",
                 time:"3PM",
                 date:"2018/12/01",
-                socialEventId: "Q2F0ZWdvcnlOb2RlOjE=",
+                socialEventId: "{to_global_id("CategoryNode", self.category.id)}",
                 featuredImage: "http://fake-image.com"
-            }) {
-                newEvent{
+            }}) {{
+                newEvent{{
                 title
                 description
-                }
-            }
-        }
+                }}
+            }}
+        }}
         """
         request = self.request
         client = self.client
