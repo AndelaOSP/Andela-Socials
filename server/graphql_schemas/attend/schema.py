@@ -68,7 +68,9 @@ class AttendQuery(object):
     subscribed_events = graphene.List(AttendNode)
 
     def resolve_subscribed_events(self, info, **kwargs):
-        return Attend.objects.filter(user__user=info.context.user)
+        user = info.context.user
+        andela_user_profile = AndelaUserProfile.objects.get(user_id=user.id)
+        return Attend.objects.filter(user_id=andela_user_profile.id).all()
 
 
 class AttendMutation(ObjectType):

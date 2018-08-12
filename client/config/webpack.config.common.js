@@ -1,9 +1,10 @@
 const webpack = require('webpack');
 
-require('dotenv').config();
+require('dotenv').config({path: '../.env'});
 
 const isInDebugMode = debugString => debugString === 'TRUE';
 const DEBUG = JSON.stringify(process.env.DEBUG);
+
 
 module.exports = {
   entry: '../index.js',

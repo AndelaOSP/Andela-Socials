@@ -12,7 +12,12 @@ import LogoReplacement from '../../assets/icons/LogoReplacement';
 import '../../assets/components/navbar.scss';
 
 const NavBar = (props) => {
-  const { signOut } = props;
+  const {
+    signOut,
+    firstName,
+    lastName,
+    imageUrl,
+  } = props;
   return (
     <Fragment>
       <nav className="top-navbar">
@@ -37,7 +42,12 @@ const NavBar = (props) => {
         <div className="top-navbar__right-container">
           <SearchBar />
           <NotificationCenter />
-          <UserProfile signOut={signOut} />
+          <UserProfile
+            firstName={firstName}
+            lastName={lastName}
+            imageUrl={imageUrl}
+            signOut={signOut}
+          />
         </div>
       </nav>
       <div className="navbar">
@@ -50,6 +60,11 @@ const NavBar = (props) => {
   );
 };
 
-NavBar.propTypes = { signOut: PropTypes.func.isRequired };
+NavBar.propTypes = {
+  firstName: PropTypes.string.isRequired,
+  lastName: PropTypes.string.isRequired,
+  imageUrl: PropTypes.string.isRequired,
+  signOut: PropTypes.func.isRequired,
+};
 
 export default NavBar;

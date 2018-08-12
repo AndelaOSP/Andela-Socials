@@ -70,7 +70,9 @@ class InterestQuery(object):
 
     def resolve_joined_clubs(self, info):
         user = info.context.user
-        return Interest.objects.filter(follower_id=user.id).all()
+        andela_user_profile = AndelaUserProfile.objects.get(user_id=user.id)
+        return Interest.objects.filter(
+            follower_id=andela_user_profile.id).all()
 
 
 class InterestMutation(graphene.ObjectType):

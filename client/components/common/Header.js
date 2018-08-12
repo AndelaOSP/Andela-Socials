@@ -13,12 +13,27 @@ class Header extends Component {
   }
 
   render() {
+    const {
+      firstName,
+      lastName,
+      imageUrl,
+    } = this.props;
     return (
-      <NavBar signOut={this.onSignOut} />
+      <NavBar
+        signOut={this.onSignOut}
+        firstName={firstName}
+        lastName={lastName}
+        imageUrl={imageUrl}
+      />
     );
   }
 }
 
-Header.propTypes = { signOut: PropTypes.func.isRequired };
+Header.propTypes = {
+  firstName: PropTypes.string.isRequired,
+  lastName: PropTypes.string.isRequired,
+  imageUrl: PropTypes.string.isRequired,
+  signOut: PropTypes.func.isRequired,
+};
 
 export default connect(null, { signOut })(Header);

@@ -1,7 +1,10 @@
 import axios from 'axios';
-import {GET_EVENT, JOIN_EVENT, CREATE_EVENT, SUBSCRIBED_EVENTS, UNSUBSCRIBE_EVENT} from './constants';
-import { handleError } from "../utils/errorHandler";
-import apiCall from "../utils/api";
+
+import { GET_EVENT, ATTEND_EVENT, CREATE_EVENT, SUBSCRIBED_EVENTS, UNATTEND_EVENT } from './constants';
+import { handleError } from '../utils/errorHandler';
+
+import { LinkError } from 'apollo-link/lib/linkUtils';
+
 
 export const getEvent = (event_id) => {
   return (dispatch) => {
@@ -22,7 +25,7 @@ export const joinEvent = (details) => {
     return apiCall('/api/v1/attend', 'post', details)
       .then((res) => {
         dispatch({
-          type: JOIN_EVENT,
+          type: ATTEND_EVENT,
           payload: res.data,
           error: false
         })
@@ -64,7 +67,7 @@ export const unsubscribeEvent = (event) => {
     return apiCall('/api/v1/unsubscribe', 'post', event)
       .then((res) => {
         dispatch({
-          type: UNSUBSCRIBE_EVENT,
+          type: UNATTEND_EVENT,
           payload: res.data,
           error: false
         })

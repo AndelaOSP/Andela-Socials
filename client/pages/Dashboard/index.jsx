@@ -84,6 +84,7 @@ class Dashboard extends Component {
    */
   render() {
     const { location: { search } } = this.props;
+    const { activeUser } = this.state;
 
     if (search.split('?token=')[1]) {
       localStorage.setItem('token', search.split('?token=')[1]);
@@ -101,7 +102,11 @@ class Dashboard extends Component {
 
     return (
       <ModalContextProvider>
-        <Header />
+        <Header
+          firstName={activeUser.firstName}
+          lastName={activeUser.lastName}
+          imageUrl={activeUser.picture}
+        />
         <Switch>
           {this.redirectUser()}
           <Route path="/events" render={() => <EventsPage />} />
