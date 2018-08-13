@@ -153,7 +153,7 @@ class MutateEventTestCase(BaseEventTestCase):
                 venue:"test venue",
                 time:"3PM",
                 date:"2018/12/01",
-                socialEventId: "Q2F0ZWdvcnlOb2RlOjI=",
+                categoryId: "Q2F0ZWdvcnlOb2RlOjI=",
                 featuredImage: "http://fake-image.com"
             }){
                 newEvent{
@@ -180,7 +180,7 @@ class MutateEventTestCase(BaseEventTestCase):
                 venue:"test venue",
                 time:"3PM",
                 date:"2018/12/01",
-                socialEventId: "Q2F0ZWdvcnlOb2RlOjE=",
+                categoryId: "Q2F0ZWdvcnlOb2RlOjE=",
                 featuredImage: "http://fake-image.com"
             }) {
                 newEvent{

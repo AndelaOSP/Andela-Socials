@@ -15,7 +15,7 @@ class AttendNode(DjangoObjectType):
         interfaces = (relay.Node,)
 
 
-class AttendSocialEvent(relay.ClientIDMutation):
+class AttendEvent(relay.ClientIDMutation):
     class Input:
         event_id = graphene.ID(required=True)
 
@@ -73,5 +73,5 @@ class AttendQuery(object):
 
 
 class AttendMutation(ObjectType):
-    attend_event = AttendSocialEvent.Field()
+    attend_event = AttendEvent.Field()
     unattend_event = UnsubscribeEvent.Field()
