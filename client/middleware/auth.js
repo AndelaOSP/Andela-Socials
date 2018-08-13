@@ -1,8 +1,10 @@
-import { SIGN_IN, SIGN_IN_SUCCESS, SIGN_OUT } from '../actions/constants';
 import axios from 'axios';
 
-export const saveTokenMiddleware = ({getState, dispatch}) => next => action => {
-  if (action.type === SIGN_IN){
+import { SIGN_IN, SIGN_IN_SUCCESS, SIGN_OUT } from '../actions/constants';
+
+
+const saveTokenMiddleware = ({ getState, dispatch }) => next => action => {
+  if (action.type === SIGN_IN) {
     const token = action.payload.data.token;
     axios.defaults.headers.common['Authorization'] = `JWT ${token}`;
     const jwtToSave = JSON.stringify({
@@ -21,3 +23,5 @@ export const saveTokenMiddleware = ({getState, dispatch}) => next => action => {
 
   next(action);
 };
+
+export default saveTokenMiddleware;

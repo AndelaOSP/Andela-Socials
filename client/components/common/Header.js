@@ -8,7 +8,7 @@ import { signOut } from '../../actions/userActions';
 class Header extends Component {
   onSignOut = () => {
     this.props.signOut();
-    window.location.reload();
+    window.location.reload(); // should be handled better
   }
 
   render() {

@@ -14,12 +14,15 @@ class MutateEventTestCase(BaseEventTestCase):
     """
 
     def test_deactivate_event_as_creator(self):
-        query = """
-            mutation {
-                deactivateEvent(input: {eventId: 5}) {
+        query = f"""
+            mutation {{
+                deactivateEvent(input: {{
+                    eventId: "{to_global_id("EventNode", self.user_event.id)}"
+                }})
+                {{
                     actionMessage
-                }
-            } """
+                }}
+            }} """
         request = self.request
         client = self.client
         request.user = self.event_creator.user
@@ -28,12 +31,15 @@ class MutateEventTestCase(BaseEventTestCase):
 
     def test_deactivate_event_as_non_creator(self):
         with suppress(GraphQLError):
-            query = """
-            mutation {
-                deactivateEvent(input: {eventId: 5}) {
+            query = f"""
+            mutation {{
+                deactivateEvent(input: {{
+                    eventId: "{to_global_id("EventNode", self.user_event.id)}"
+                }})
+                {{
                     actionMessage
-                }
-            } """
+                }}
+            }} """
             request = self.request
             client = self.client
             request.user = self.non_event_creator.user
@@ -41,12 +47,15 @@ class MutateEventTestCase(BaseEventTestCase):
                                                     context_value=request))
 
     def test_deactivate_event_as_admin(self):
-        query = """
-        mutation {
-            deactivateEvent(input: {eventId: 5}) {
+        query = f"""
+        mutation {{
+            deactivateEvent(input: {{
+                eventId: "{to_global_id("EventNode", self.user_event.id)}"
+            }})
+            {{
                 actionMessage
-            }
-        } """
+            }}
+        }} """
         request = self.request
         client = self.client
         request.user = self.admin.user
@@ -375,7 +384,7 @@ class MutateEventTestCase(BaseEventTestCase):
         self.assertMatchSnapshot(result)
 
     def test_validate_invite_link_invalid_hash(self):
-        hash_string = Hasher.gen_hash([0,0,0])
+        hash_string = "amanhasnoname"
         query = f"""
             mutation ValidateInvite {{
                 validateEventInvite(input: {{

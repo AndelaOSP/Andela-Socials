@@ -6,6 +6,6 @@
 
 #### How can this be manually tested?
 
-#### What are the relevant github issues?
+#### What are the relevant pivotal tracker stories?
 
 #### Screenshot(s)

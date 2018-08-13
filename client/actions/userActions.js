@@ -8,18 +8,18 @@ export const login = (payload, type) => ({
   error: false,
 });
 
-export const setRedirectUrl = (url) => ({
+export const setRedirectUrl = url => ({
   type: SET_REDIRECT_URL,
   payload: url,
 });
 
-export const signOut = () => ({ type: SIGN_OUT });
+export const signOut = () => ({
+  type: SIGN_OUT,
+});
 
-export const signIn = (id_token) =>
-  (dispatch) => {
-    return axios.post('/api/v1/auth/login/', {'ID_Token': id_token})
-      .then((res) => {
-        dispatch(login(res, SIGN_IN));
-      })
-      .catch(error => authenticationFailed(error));
-  };
+export const signIn = token => dispatch => axios
+  .post('/api/v1/auth/login/', {
+    ID_Token: token,
+  })
+  .then(res => dispatch(login(res, SIGN_IN)))
+  .catch(error => authenticationFailed(error));

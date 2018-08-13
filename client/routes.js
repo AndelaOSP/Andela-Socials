@@ -4,24 +4,25 @@ import { Route, Switch } from 'react-router-dom';
 
 // components
 import App from './components/App';
-import Login from './pages/Login';
-import HomePage from './components/HomePage/HomePage';
-import EventPage from './components/Events/index';
-import SocialClubPage from './components/SocialClub/SocialClubPage';
-import EnsureLoggedIn from './components/common/EnsureLoggedIn';
-import NotFound from './components/common/NotFound';
+import Protected from './components/common/Protected';
+import LoadComponent from './utils/LoadComponent'
 
-export const Routes = () => (
+
+const Login = LoadComponent(import('./pages/Login'))
+const HomePage = LoadComponent(import('./pages/HomePage'))
+const NotFound = LoadComponent(import('./components/common/NotFound'))
+
+
+/**
+ * Andela Socials Route
+ */
+const Routes = () => (
   <Switch>
+    <App>
       <Route exact path="/login" component={Login} />
-      <Route path="/" component={App}>
-        <Route component={EnsureLoggedIn}>
-        <Route path="/home" component={HomePage} />
-          <Route path="/clubs/:id" component={SocialClubPage} />
-          <Route path="/clubs/:club_id/events/:id" component={EventPage} />
-        </Route>
-      </Route>
-      <Route path="*" component={NotFound} />
+      <Route path="/home" component={HomePage} />
+      <Route component={NotFound} />
+    </App>
   </Switch>
 );
 

@@ -9,4 +9,4 @@ export const baseFormProps = {
   label: null,
   disabled: false,
   onChange: () => {}
-}
+};

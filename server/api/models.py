@@ -1,10 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
+from django.core.exceptions import ValidationError
 
 from oauth2client.contrib.django_util.models import CredentialsField
 
-from .slack import get_slack_name
+from .slack import get_slack_id
 from .utils.backgroundTaskWorker import BackgroundTaskWorker
 
 
@@ -79,16 +80,16 @@ class UserProxy(User):
 class AndelaUserProfile(models.Model):
 
     """Class that defines Andela user profile model.
-    Attributes: user, google_id, user_picture, slack_name
+    Attributes: user, google_id, user_picture, slack_id
     """
 
     google_id = models.CharField(max_length=60, unique=True)
     user = models.OneToOneField(
         User, related_name='base_user', on_delete=models.CASCADE)
     user_picture = models.TextField()
-    slack_name = models.CharField(max_length=80, blank=True)
     credential = CredentialsField()
     state = models.CharField(max_length=80, blank=True)
+    slack_id = models.CharField(max_length=80, blank=True)
 
     async def check_diff_and_update(self, idinfo):
         """Check for differences between request/idinfo and model data.
@@ -96,8 +97,8 @@ class AndelaUserProfile(models.Model):
                         idinfo: data passed in from post method.
                 """
         data = {
-            "user_picture": idinfo['picture'],
-            "slack_name": get_slack_name({"email": idinfo["email"]}),
+          "user_picture": idinfo['picture'],
+          "slack_id": get_slack_id({"email": idinfo["email"]}),
         }
 
         for field in data:
@@ -117,7 +118,7 @@ class AndelaUserProfile(models.Model):
         :return: It newly created user_profile data
         """
         user_profile = AndelaUserProfile.objects.create(
-            slack_name=get_slack_name({"email": user_data["email"]}),
+            slack_name=get_slack_id({"email": user_data["email"]}),
             user_id=user_id, google_id=user_data['id'],
             user_picture=user_data['picture'])
         # It runs background user profile update.
@@ -225,7 +226,7 @@ class Interest(BaseInfo):
 
     def __str__(self):
         return "@{} is interested in category {}" .format(
-            self.follower.slack_name, self.follower_category.name)
+            self.follower.slack_id, self.follower_category.name)
 
 
 class Attend(BaseInfo):
@@ -239,5 +240,95 @@ class Attend(BaseInfo):
         unique_together = ('user', 'event')
 
     def __str__(self):
-        return "@{} is attending event {}" .format(
-            self.user.slack_name, self.event.title)
+        return "@{} is attending event {}".format(
+            self.user.slack_id, self.event.title)
+
+
+class UserEventHistory(models.Model):
+    """User Event History Model definition"""
+
+    CR = 'CREATE'
+    DE = 'DEACTIVATE'
+    UP = 'UPDATE'
+    AT = 'ATTEND'
+    RE = 'REJECT'
+
+    USER_EVENT_ACTIONS = ((CR, 'CREATE'), (DE, 'DEACTIVATE'),
+                          (UP, 'UPDATE'), (AT, 'ATTEND'), (RE, 'REJECT'))
+
+    andela_user_profile = models.ForeignKey(AndelaUserProfile,
+                                            on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    user_event_action = models.CharField(max_length=10, default=CR,
+                                         choices=USER_EVENT_ACTIONS)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ('-timestamp',)
+
+    def __str__(self):
+
+        return f'{self.andela_user_profile.slack_id}  \
+               {self.user_event_action} \
+               {self.event.title} {self.timestamp}'
+
+    def save(self, *args, **kwargs):
+
+        """This method is modified to check if user_event_action value is
+        valid before user event history is created
+
+        :param args: Tuple of arguments
+        :param kwargs: key word arguments
+        :return: None
+        """
+        if self.user_event_action not in (self.CR, self.DE,
+                                          self.RE, self.AT, self.UP):
+            raise ValidationError(
+                '%(value)s is not a valid user event action',
+                params={'value': self.user_event_action.lower()},
+            )
+
+
+class UserCategoryHistory(models.Model):
+
+    CR = 'CREATE'
+    SU = 'SUBSCRIBE'
+    UN = 'UNSUBSCRIBE'
+    AR = 'ARCHIVE'
+    UP = 'UPDATE'
+
+    USER_CATEGORY_ACTIONS = ((CR, 'CREATE'), (SU, 'SUBSCRIBE'),
+                             (UN, 'UNSUBSCRIBE'), (AR, 'ARCHIVE'),
+                             (UP, 'UPDATE'))
+
+    andela_user_profile = models.ForeignKey(AndelaUserProfile,
+                                            on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    user_category_action = models.CharField(max_length=11, default=CR,
+                                            choices=USER_CATEGORY_ACTIONS)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ('-timestamp',)
+
+    def __str__(self):
+
+        return f'{self.andela_user_profile.slack_id} \
+               {self.user_category_action} \
+               {self.category.name} {self.timestamp}'
+
+    def save(self, *args, **kwargs):
+        """This method is modified to check if user_category_action
+         value is valid before user category history is created
+
+
+        :param args: Tuple of arguments
+        :param kwargs: key word arguments
+        :return: None
+        """
+        if self.user_category_action not in (self.CR, self.SU,
+                                             self.UN, self.AR, self.UP):
+            raise ValidationError(
+                '%(value)s is not a valid user category action',
+                params={'value': self.user_category_action.lower()},
+            )

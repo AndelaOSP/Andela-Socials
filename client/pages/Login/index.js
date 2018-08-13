@@ -1,13 +1,14 @@
 // React lib import
 import React from 'react';
 
+
 /**
  * Renders the Login component
  *
  * @returns {JSX} JSX
- * @memberof LOgin
+ * @memberof Login
  */
-const Login = props => (
+const Login = () => (
     <div className="login_container">
       <div className= "login_container__section">
         <img
@@ -16,12 +17,11 @@ const Login = props => (
         />
         <p> Get Closer to your <span>social</span> Meetup</p>
         <p>
-          Work hard play harder, exclusive VIP access to the best events, parties and everything <span>FUN!!! </span>
+          Work hard play harder, exclusive VIP access to the best events,
+          parties and everything
+          <span> FUN!!! </span>
         </p>
-        <a
-          className="login_container__btn"
-          href="/login"
-        >
+        <a className="login_container__btn" href="/login">
           Join the creed now!
         </a>
       </div>

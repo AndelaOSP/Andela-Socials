@@ -7,11 +7,10 @@ insert_final_newline = true
 end_of_line = lf
 # editorconfig-tools is unable to ignore longs strings or urls
 max_line_length = null
+indent_style = space
 
 [*.js]
-indent_style = space
 indent_size = 2
 
-[*.py]
-indent_style = space
+[{*.py, *.json,*.yml}]
 indent_size = 4

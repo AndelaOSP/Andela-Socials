@@ -1,4 +1,7 @@
 import graphene
+import logging
+
+from django.forms.models import model_to_dict
 
 from django.core.mail import send_mail
 from django.core.exceptions import ObjectDoesNotExist
@@ -8,11 +11,18 @@ from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
 from graphql import GraphQLError
 
-from api.models import Event, Category, AndelaUserProfile
 from graphql_schemas.utils.helpers import (is_not_admin,
                                            update_instance,
                                            raise_calendar_error)
 from graphql_schemas.utils.hasher import Hasher
+from api.models import Event, Category, AndelaUserProfile, Interest
+from api.slack import get_slack_id, notify_user
+
+logging.basicConfig(
+    filename='warning.log',
+    level=logging.DEBUG,
+    format='%(asctime)s %(message)s',
+    datefmt='%m/%d/%Y %I:%M:%S %p')
 
 
 class EventNode(DjangoObjectType):
@@ -30,7 +40,7 @@ class CreateEvent(relay.ClientIDMutation):
         date = graphene.String(required=False)
         time = graphene.String(required=False)
         featured_image = graphene.String(required=False)
-        social_event_id = graphene.String(required=True)
+        social_event_id = graphene.ID(required=True)
 
     new_event = graphene.Field(EventNode)
 
@@ -55,7 +65,44 @@ class CreateEvent(relay.ClientIDMutation):
         except ValueError as e:
             raise GraphQLError("An Error occurred. \n{}".format(e))
 
+        try:
+            CreateEvent.notify_event_in_slack(social_event, input)
+        except BaseException as e:
+            logging.warn(e)
+
         return cls(new_event=new_event)
+
+    @staticmethod
+    def notify_event_in_slack(social_event, input):
+        category_followers = Interest.objects.filter(
+            follower_category_id=social_event.id)
+        message = (f"A new event has been created in {social_event.name} "
+                    f"group \n Title: {input.get('title')} \n"
+                    f"Description: {input.get('description')} \n "
+                    f"Venue: {input.get('venue')} \n"
+                    f"Date: {input.get('date')} \n Time: {input.get('time')}")
+        slack_id_not_in_db = []
+        for instance in category_followers:
+            if instance.follower.slack_id:
+                slack_response = notify_user(
+                    message, instance.follower.slack_id)
+                if not slack_response['ok']:
+                    logging.warn(slack_response)
+            else:
+                slack_id_not_in_db.append(instance)
+
+        if slack_id_not_in_db:
+            for instance in slack_id_not_in_db:
+                retrieved_slack_id = get_slack_id(
+                    model_to_dict(instance.follower.user))
+                if retrieved_slack_id != '':
+                    instance.follower.slack_id = retrieved_slack_id
+                    instance.follower.save()
+                    slack_response = notify_user(message, retrieved_slack_id)
+                    if not slack_response['ok']:
+                        logging.warn(slack_response)
+                else:
+                    continue
 
 
 class UpdateEvent(relay.ClientIDMutation):
@@ -67,15 +114,14 @@ class UpdateEvent(relay.ClientIDMutation):
         date = graphene.String()
         time = graphene.String()
         featured_image = graphene.String()
-        social_event_id = graphene.String()
-        event_id = graphene.String(required=True)
+        social_event_id = graphene.ID()
+        event_id = graphene.ID(required=True)
 
     updated_event = graphene.Field(EventNode)
     action_message = graphene.String()
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
-
         try:
             user = AndelaUserProfile.objects.get(user=info.context.user)
             event_instance = Event.objects.get(
@@ -108,20 +154,21 @@ class DeactivateEvent(relay.ClientIDMutation):
     action_message = graphene.String()
 
     class Input:
-        event_id = graphene.Int(required=True)
+        event_id = graphene.ID(required=True)
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
         user = info.context.user
         event_id = input.get('event_id')
-        event = Event.objects.get(id=event_id)
+        db_event_id = from_global_id(event_id)[1]
+        event = Event.objects.get(id=db_event_id)
         if not event:
             raise GraphQLError('Invalid event')
 
         if user.id != event.creator.user_id and is_not_admin(user):
             raise GraphQLError("You aren't authorised to deactivate the event")
 
-        Event.objects.filter(id=event_id).update(active=False)
+        Event.objects.filter(id=db_event_id).update(active=False)
         return cls(action_message="Event deactivated")
 
 
@@ -197,7 +244,7 @@ class ValidateEventInvite(relay.ClientIDMutation):
                     isValid=True, event=event,
                     message="OK: Event invite is valid")
             else:
-                raise GraphQLError()
+                raise GraphQLError("Bad Request: Invalid invite URL")
         except AssertionError:
             return cls(
                 isValid=False,
@@ -208,10 +255,10 @@ class ValidateEventInvite(relay.ClientIDMutation):
                 isValid=False,
                 message="Not Found: Invalid event/user in invite"
             )
-        except GraphQLError:
+        except GraphQLError as err:
             return cls(
                 isValid=False,
-                message="Bad Request: Invalid invite URL"
+                message=str(err)
             )
 
 

@@ -26,7 +26,7 @@ from .serializers import CategorySerializer, EventSerializer,\
 from .models import Category, Interest, Event, Attend, AndelaUserProfile
 from .utils.oauth_helper import save_credentials
 from .setpagination import LimitOffsetpage
-from .slack import get_slack_name, notify_channel, notify_user
+from .slack import get_slack_id, notify_channel, notify_user
 
 
 class LoginRequiredMixin(object):

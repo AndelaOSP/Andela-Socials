@@ -18,9 +18,8 @@ class InterestNode(DjangoObjectType):
 
 class JoinSocialClub(relay.ClientIDMutation):
     """Join a social club"""
-
     class Input:
-        club_id = graphene.String(required=True)
+        club_id = graphene.ID(required=True)
 
     joined_social_club = graphene.Field(InterestNode)
 
@@ -42,7 +41,7 @@ class UnJoinSocialClub(relay.ClientIDMutation):
     """Unsubscribe from a social club"""
 
     class Input:
-        club_id = graphene.String(required=True)  # get the book id
+        club_id = graphene.ID(required=True)  # get the book id
 
     unjoined_social_club = graphene.Field(InterestNode)
 
