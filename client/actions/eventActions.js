@@ -1,10 +1,11 @@
 import axios from 'axios';
 import {GET_EVENT, JOIN_EVENT, CREATE_EVENT, SUBSCRIBED_EVENTS, UNSUBSCRIBE_EVENT} from './constants';
 import { handleError } from "../utils/errorHandler";
+import apiCall from "../utils/api";
 
 export const getEvent = (event_id) => {
   return (dispatch) => {
-    return axios.get(`/api/v1/event/${event_id}`)
+    return apiCall(`/api/v1/event/${event_id}`, 'get')
       .then((res) => {
         dispatch({
           type: GET_EVENT,
@@ -18,7 +19,7 @@ export const getEvent = (event_id) => {
 
 export const joinEvent = (details) => {
   return (dispatch) => {
-    return axios.post('/api/v1/attend', details)
+    return apiCall('/api/v1/attend', 'post', details)
       .then((res) => {
         dispatch({
           type: JOIN_EVENT,
@@ -32,7 +33,7 @@ export const joinEvent = (details) => {
 
 export const createEvent = (eventData) => {
   return (dispatch) => {
-    return axios.post('/api/v1/create/event', eventData)
+    return apiCall('/api/v1/create/event', 'post', eventData)
       .then((res) => {
         dispatch({
           type: CREATE_EVENT,
@@ -46,7 +47,7 @@ export const createEvent = (eventData) => {
 
 export const getSubscribedEvents = () => {
   return (dispatch) => {
-    return axios.get('/api/v1/subscribed')
+    return apiCall('/api/v1/subscribed', 'get')
       .then((res) => {
         dispatch({
           type: SUBSCRIBED_EVENTS,
@@ -60,7 +61,7 @@ export const getSubscribedEvents = () => {
 
 export const unsubscribeEvent = (event) => {
   return (dispatch) => {
-    return axios.post('/api/v1/unsubscribe', event)
+    return apiCall('/api/v1/unsubscribe', 'post', event)
       .then((res) => {
         dispatch({
           type: UNSUBSCRIBE_EVENT,

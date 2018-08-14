@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { GET_CLUB, GET_CLUBS, JOIN_CLUB, UNJOIN_CLUB, JOINED_CLUBS } from './constants';
 import { handleError } from "../utils/errorHandler";
+import apiCall from "../utils/api";
 
 export const getClubs = (socialClubs) => ({
     type: GET_CLUBS,
@@ -19,7 +20,7 @@ export const getAllClubs = () =>
 
 export const getClub = (club_id) =>
   (dispatch) => {
-    return axios.get(`/api/v1/category/${club_id}/events/`)
+    return apiCall(`/api/v1/category/${club_id}/events/`, 'get')
       .then((res) => {
         dispatch({
           type: GET_CLUB,
@@ -32,7 +33,7 @@ export const getClub = (club_id) =>
 
 export const joinClub = (details) =>
   (dispatch) => {
-    return axios.post('/api/v1/join/', details)
+    return apiCall('/api/v1/join/', 'post', details)
       .then((res) => {
         dispatch({
           type: JOIN_CLUB,
@@ -45,7 +46,7 @@ export const joinClub = (details) =>
 
 export const unjoinClub = (details) =>
   (dispatch) => {
-    return axios.post('/api/v1/unjoin/', details)
+    return apiCall('/api/v1/unjoin/', 'post', details)
       .then((res) => {
         dispatch({
           type: UNJOIN_CLUB,
@@ -58,7 +59,7 @@ export const unjoinClub = (details) =>
 
 export const joinedClubs = () =>
   (dispatch) => {
-    return axios.get('/api/v1/joined/')
+    return apiCall('/api/v1/joined/', 'get')
       .then((res) => {
         dispatch({
           type: JOINED_CLUBS,
