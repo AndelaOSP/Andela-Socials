@@ -14,8 +14,8 @@ export default function apiCall(url, type, data,) {
       url: url,
       data: data
     }
-    if(apiCall.data === undefined) {
-      apiData.delete;
+    if(apiData.data === undefined) {
+      delete apiData.data;
     }
     axios(apiData)
       .then(function (response) {
