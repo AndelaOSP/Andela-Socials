@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 
+import Spinner from './Spinner';
+
 
 const LoadComponent = (importCall) => {
   return class extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        //TODO: Custom Spinner component to be implemented for use here.
-        component: () => <div>Loading...</div>
+        component: () => <Spinner />
       };
     }
 
