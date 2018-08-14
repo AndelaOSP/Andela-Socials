@@ -19,11 +19,9 @@ dotenv.config();
  */
 const LoginPage = (props) => {
   const redirectUrl = `${process.env.ANDELA_API_BASE_URL}/login?redirect_url=${process.env.BASE_URL}`;
-
   if (isLoggedIn()) {
     return (<Redirect to="/home" />);
   }
-
   return (
     <div className="login_container">
       <div className="login_container__section">
@@ -37,15 +35,11 @@ const LoginPage = (props) => {
           parties and everything
           <span> FUN!!! </span>
         </p>
-        <a
-          className="login_container__btn"
-          href={redirectUrl}
-        >
+        <a className="login_container__btn" href={redirectUrl}>
           Join the creed now!
         </a>
       </div>
     </div>
   );
 };
-
 export default LoginPage;

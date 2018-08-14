@@ -3,10 +3,11 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 // components
-import Dashboard from './pages/Dashboard';
-import Login from './pages/Login';
-import NotFound from './components/common/NotFound';
+import LoadComponent from './utils/LoadComponent';
 
+const Dashboard = LoadComponent(import('./pages/Dashboard'));
+const Login = LoadComponent(import('./pages/Login/LoginPage'));
+const NotFound = LoadComponent(import('./components/common/NotFound'));
 
 /**
  * Andela Socials Route
