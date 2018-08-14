@@ -15,9 +15,9 @@ dotenv.config();
  * Renders the Login component
  *
  * @returns {JSX} JSX
- * @memberof Login
+ * @memberof LoginPage
  */
-const Login = (props) => {
+const LoginPage = (props) => {
   const redirectUrl = `${process.env.ANDELA_API_BASE_URL}/login?redirect_url=${process.env.BASE_URL}`;
 
   if (isLoggedIn()) {
@@ -26,7 +26,7 @@ const Login = (props) => {
 
   return (
     <div className="login_container">
-      <div className= "login_container__section">
+      <div className="login_container__section">
         <img
           src="http://res.cloudinary.com/dd3lv0o93/image/upload/v1531322847/Andela_Logo_3_jkv99w.png"
           alt="andela-logo"
@@ -48,4 +48,4 @@ const Login = (props) => {
   );
 };
 
-export default Login;
+export default LoginPage;
