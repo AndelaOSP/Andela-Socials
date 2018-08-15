@@ -15,7 +15,7 @@ snapshots['CategoryTestCase::test_can_fetch_all_categories 1'] = {
                     'node': {
                         'description': 'For people who want to be happy.',
                         'featuredImage': 'https://cdn.elegantthemes.com/',
-                        'id': 'Q2F0ZWdvcnlOb2RlOjE0',
+                        'id': 'Q2F0ZWdvcnlOb2RlOjE1',
                         'name': 'Swimming Meetup 1'
                     }
                 },
@@ -23,7 +23,7 @@ snapshots['CategoryTestCase::test_can_fetch_all_categories 1'] = {
                     'node': {
                         'description': 'For people who want to be happy.',
                         'featuredImage': 'https://cdn.elegantthemes.com/',
-                        'id': 'Q2F0ZWdvcnlOb2RlOjE1',
+                        'id': 'Q2F0ZWdvcnlOb2RlOjE2',
                         'name': 'Swimming Meetup 2'
                     }
                 },
@@ -31,7 +31,7 @@ snapshots['CategoryTestCase::test_can_fetch_all_categories 1'] = {
                     'node': {
                         'description': 'For people who want to be happy.',
                         'featuredImage': 'https://cdn.elegantthemes.com/',
-                        'id': 'Q2F0ZWdvcnlOb2RlOjE2',
+                        'id': 'Q2F0ZWdvcnlOb2RlOjE3',
                         'name': 'Swimming Meetup 3'
                     }
                 },
@@ -39,7 +39,7 @@ snapshots['CategoryTestCase::test_can_fetch_all_categories 1'] = {
                     'node': {
                         'description': 'For people who want to be happy.',
                         'featuredImage': 'https://cdn.elegantthemes.com/',
-                        'id': 'Q2F0ZWdvcnlOb2RlOjE3',
+                        'id': 'Q2F0ZWdvcnlOb2RlOjE4',
                         'name': 'Swimming Meetup 4'
                     }
                 },
@@ -47,7 +47,7 @@ snapshots['CategoryTestCase::test_can_fetch_all_categories 1'] = {
                     'node': {
                         'description': 'For people who want to be happy.',
                         'featuredImage': 'https://cdn.elegantthemes.com/',
-                        'id': 'Q2F0ZWdvcnlOb2RlOjE4',
+                        'id': 'Q2F0ZWdvcnlOb2RlOjE5',
                         'name': 'Swimming Meetup 5'
                     }
                 }
@@ -61,7 +61,7 @@ snapshots['CategoryTestCase::test_can_fetch_single_category 1'] = {
         'category': {
             'description': 'For people who want to be happy.',
             'featuredImage': 'https://cdn.elegantthemes.com/',
-            'id': 'Q2F0ZWdvcnlOb2RlOjIz',
+            'id': 'Q2F0ZWdvcnlOb2RlOjI0',
             'name': 'Swimming Meetup 5'
         }
     }

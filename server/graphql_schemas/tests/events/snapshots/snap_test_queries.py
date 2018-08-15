@@ -45,10 +45,10 @@ snapshots['QueryEventTestCase::test_get_event_list 1'] = {
                         'description': 'test description default',
                         'id': 'RXZlbnROb2RlOjU=',
                         'socialEvent': {
-                            'id': 'Q2F0ZWdvcnlOb2RlOjQ1',
+                            'id': 'Q2F0ZWdvcnlOb2RlOjQ2',
                             'name': 'social event'
                         },
-                        'startDate': '2018-11-20T20:08:07.127325+00:00',
+                        'startDate': '2018-11-20 20:08:07.127325+00:00',
                         'title': 'test title default',
                         'venue': 'test venue'
                     }
@@ -100,10 +100,10 @@ snapshots['QueryEventTestCase::test_filter_event_list_by_valid_venue_is_successf
                         'description': 'test description default',
                         'id': 'RXZlbnROb2RlOjU=',
                         'socialEvent': {
-                            'id': 'Q2F0ZWdvcnlOb2RlOjQ0',
+                            'id': 'Q2F0ZWdvcnlOb2RlOjQ1',
                             'name': 'social event'
                         },
-                        'startDate': '2018-11-20T20:08:07.127325+00:00',
+                        'startDate': '2018-11-20 20:08:07.127325+00:00',
                         'title': 'test title default',
                         'venue': 'test venue'
                     }

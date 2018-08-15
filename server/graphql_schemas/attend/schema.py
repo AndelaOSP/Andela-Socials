@@ -1,10 +1,12 @@
 import graphene
+from django.db.models import Q
 from graphene import relay, ObjectType
 from graphql_relay import from_global_id
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
 from django.core.exceptions import ObjectDoesNotExist
 from graphql import GraphQLError
+
 
 from api.models import Attend, Event, AndelaUserProfile
 
@@ -56,6 +58,12 @@ class AttendQuery(object):
         user = info.context.user
         andela_user_profile = AndelaUserProfile.objects.get(user_id=user.id)
         return Attend.objects.filter(user_id=andela_user_profile.id).all()
+
+    def resolve_attenders_list(self, info, **kwargs):
+        return Attend.objects.filter(
+            Q(user__user=info.context.user) |
+            Q(event__creator__user=info.context.user)
+        )
 
 
 class AttendMutation(ObjectType):

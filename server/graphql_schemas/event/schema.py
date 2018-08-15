@@ -1,6 +1,7 @@
 import graphene
 import logging
 
+from dateutil.parser import parse
 from django.forms.models import model_to_dict
 
 from django.core.mail import send_mail
@@ -262,7 +263,7 @@ class ValidateEventInvite(relay.ClientIDMutation):
             event_id, receiver_id, sender_id = data
             assert user_id == receiver_id
             event = Event.objects.get(id=event_id)
-            if timezone.now() > event.end_date:
+            if timezone.now() > parse(event.end_date):
                 raise GraphQLError("Expired Invite: Event has ended")
             AndelaUserProfile.objects.get(user_id=sender_id)
             return cls(

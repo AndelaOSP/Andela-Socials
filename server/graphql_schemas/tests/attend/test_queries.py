@@ -61,7 +61,30 @@ class AttendanceTestCase(BaseEventTestCase):
         result = self.client.execute(query2, context_value=self.request)
         self.assertMatchSnapshot(result)
 
-    def test_can_fetch_user_events(self):
+    def test_cannot_fetch_attendance_if_user_is_not_owner_or_attendee(self):
+        query = '''
+        query{
+            attendersList{
+                edges{
+                node{
+                    id
+                    event {
+                        id
+                        title
+                        active
+                        endDate
+                    }
+                }
+                }
+            }
+        }
+        '''
+
+        self.request.user = self.andela_user2.user
+        result = self.client.execute(query, context_value=self.request)
+        self.assertMatchSnapshot(result)
+
+    def test_can_fetch_user_event(self):
         query = '''
         query{
             subscribedEvents{

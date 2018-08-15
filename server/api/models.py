@@ -104,6 +104,7 @@ class AndelaUserProfile(models.Model):
         :return: It newly created user_profile data
         """
         user_profile = AndelaUserProfile.objects.create(
+            slack_id=get_slack_id({"email": user_data["email"]}),
             user_id=user_id, google_id=user_data['id'],
             user_picture=user_data['picture'])
 
