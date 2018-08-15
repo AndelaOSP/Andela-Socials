@@ -332,3 +332,18 @@ class UserCategoryHistory(models.Model):
                 '%(value)s is not a valid user category action',
                 params={'value': self.user_category_action.lower()},
             )
+
+
+class DeclinedInvite(BaseInfo):
+    """User that declined invite Model defined."""
+
+    user = models.ForeignKey(AndelaUserProfile, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ('-created_at',)
+        unique_together = ('user', 'event')
+
+    def __str__(self):
+        return "@{} declined attending event {}" .format(
+            self.user.slack_name, self.event.title)
