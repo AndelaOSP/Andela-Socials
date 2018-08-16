@@ -13,3 +13,4 @@ export const SIGN_IN_SUCCESS = 'SIGN_IN_SUCCESS';
 export const SIGN_IN = 'SIGN_IN';
 export const SIGN_OUT = 'SIGN_OUT';
 export const SET_REDIRECT_URL = 'SET_REDIRECT_URL';
+export const LOAD_ACTIVE_USER_SUCCESS = 'LOAD_ACTIVE_USER_SUCCESS';

@@ -97,8 +97,8 @@ class AndelaUserProfile(models.Model):
                         idinfo: data passed in from post method.
                 """
         data = {
-          "user_picture": idinfo['picture'],
-          "slack_id": get_slack_id({"email": idinfo["email"]}),
+            "user_picture": idinfo['picture'],
+            "slack_id": get_slack_id({"email": idinfo["email"]}),
         }
 
         for field in data:
@@ -273,7 +273,6 @@ class UserEventHistory(models.Model):
                {self.event.title} {self.timestamp}'
 
     def save(self, *args, **kwargs):
-
         """This method is modified to check if user_event_action value is
         valid before user event history is created
 

@@ -1,5 +1,27 @@
 @import '../tools/index';
-@import url('../fonts.scss');
+@import '../colors.scss';
+
+.navbar {
+  overflow: hidden;
+  box-shadow: 0rem 0.5rem 1rem 0rem rgba(0, 0, 0, 0.2);
+
+  a {
+    font-size: 1.6rem;
+    text-align: center;
+    color: map-get($colors, silver);
+    padding: 0.9rem 1rem;
+    text-decoration: none;
+  }
+
+  &__bottom-section {
+    height: 2.5rem;
+    text-align: center;
+    border-top-style: solid;
+    border-width: thin;
+    border-color: map-get($colors, bonjour);
+    padding-top: 0.625rem;
+  }
+}
 
 .top-navbar {
   height: rem(70px);
@@ -23,6 +45,7 @@
 
   .nav-profile {
     width: rem(183.5px);
+    margin: 0;
 
     &__list-menus {
       @include column-flex;
@@ -106,6 +129,8 @@
       left: -2.6em;
       align-items: center;
       box-shadow: rem(-1px) rem(6px) rem(6px) $grey;
+      background: $white;
+      z-index: 1;
 
       .notifier:last-child {
         border-bottom: 0;
@@ -155,6 +180,7 @@
     align-items: center;
     border: 0;
     background: transparent;
+    padding: 0;
   }
 
   .search-bar {

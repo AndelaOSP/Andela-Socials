@@ -11,16 +11,26 @@ import configureStore from './store/configureStore';
 import Routes from './routes';
 import Client from './client';
 
+import { signOut } from './actions/userActions';
+
+import isLoggedIn from './utils/isLoggedIn';
+import isTokenExpired from './utils/isTokenExpired';
+
 // styles
 import './assets/style.scss';
 
 // store
-const { persistor, store } = configureStore();
+const {
+  persistor,
+  store,
+} = configureStore();
+const token = localStorage.getItem('token');
+if (token) {
+  axios.defaults.headers.common.Authorization = `JWT ${token}`;
 
-if (localStorage.getItem('a_socials')) {
-  const token = JSON.parse(localStorage.getItem('a_socials'));
-  const { jwt } = token;
-  axios.defaults.headers.common.Authorization = `JWT ${jwt}`;
+  if (!isLoggedIn && isTokenExpired) {
+    store.dispatch(signOut());
+  }
 }
 
 ReactDOM.render(

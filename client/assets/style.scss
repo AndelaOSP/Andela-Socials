@@ -6,6 +6,7 @@
 
 @import url('fonts.scss');
 
+
 .andela {
   width: 8vw;
   margin-top: 3rem;
@@ -33,7 +34,7 @@
 
 #button {
   border-radius: 8px;
-  background-color: #01149a;
+  background-color: #01149A;
   box-shadow: 0 7px 6px 0 rgba(0, 26, 113, 0.5);
   outline: 0;
   color: #fff;
@@ -52,7 +53,7 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  color: #fff;
+  color: #FFF;
 }
 
 .page-header {
@@ -128,6 +129,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
   p {
     font-size: 80px;
     color: #030303;

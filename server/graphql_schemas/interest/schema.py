@@ -16,57 +16,57 @@ class InterestNode(DjangoObjectType):
         interfaces = (relay.Node,)
 
 
-class JoinSocialClub(relay.ClientIDMutation):
-    """Join a social club"""
+class JoinCategory(relay.ClientIDMutation):
+    """Join a category"""
     class Input:
-        club_id = graphene.ID(required=True)
+        category_id = graphene.ID(required=True)
 
-    joined_social_club = graphene.Field(InterestNode)
+    joined_category = graphene.Field(InterestNode)
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
-        club_id = input.get('club_id')
+        category_id = input.get('category_id')
         user = AndelaUserProfile.objects.get(user=info.context.user)
-        user_category = Category.objects.get(pk=from_global_id(club_id)[1])
-        joined_social_club = Interest(
+        user_category = Category.objects.get(pk=from_global_id(category_id)[1])
+        joined_category = Interest(
             follower=user,
             follower_category=user_category
         )
-        joined_social_club.save()
+        joined_category.save()
 
-        return JoinSocialClub(joined_social_club=joined_social_club)
+        return JoinCategory(joined_category=joined_category)
 
 
-class UnJoinSocialClub(relay.ClientIDMutation):
-    """Unsubscribe from a social club"""
+class UnJoinCategory(relay.ClientIDMutation):
+    """Unsubscribe from a category"""
 
     class Input:
-        club_id = graphene.ID(required=True)  # get the book id
+        category_id = graphene.ID(required=True)
 
-    unjoined_social_club = graphene.Field(InterestNode)
+    unjoined_category = graphene.Field(InterestNode)
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
         category = Category.objects.get(
-            pk=from_global_id(input.get('club_id'))[1])
+            pk=from_global_id(input.get('category_id'))[1])
         user = AndelaUserProfile.objects.get(user=info.context.user)
-        unjoined_social_club = Interest.objects.filter(
+        unjoined_category = Interest.objects.filter(
             follower_category_id=category.id,
             follower_id=user.id
         ).first()
-        if not unjoined_social_club:
+        if not unjoined_category:
             raise GraphQLError(
                 "The User {0}, has not joined {1}. ".format(user, category))
 
-        unjoined_social_club.delete()
-        return UnJoinSocialClub(unjoined_social_club=unjoined_social_club)
+        unjoined_category.delete()
+        return UnJoinCategory(unjoined_category=unjoined_category)
 
 
 class InterestQuery(object):
     interest = relay.Node.Field(InterestNode)
     interests_list = DjangoFilterConnectionField(InterestNode)
 
-    joined_clubs = graphene.List(InterestNode)
+    joined_categories = graphene.List(InterestNode)
 
     def resolve_joined_clubs(self, info):
         user = info.context.user
@@ -74,5 +74,5 @@ class InterestQuery(object):
 
 
 class InterestMutation(graphene.ObjectType):
-    join_social_club = JoinSocialClub.Field()
-    un_join_social_club = UnJoinSocialClub.Field()
+    join_category = JoinCategory.Field()
+    unjoin_category = UnJoinCategory.Field()

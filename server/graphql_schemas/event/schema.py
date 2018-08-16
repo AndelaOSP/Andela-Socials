@@ -40,16 +40,16 @@ class CreateEvent(relay.ClientIDMutation):
         date = graphene.String(required=False)
         time = graphene.String(required=False)
         featured_image = graphene.String(required=False)
-        social_event_id = graphene.ID(required=True)
+        category_id = graphene.ID(required=True)
 
     new_event = graphene.Field(EventNode)
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
-        social_event_id = from_global_id(input.pop('social_event_id'))[1]
+        category_id = from_global_id(input.pop('category_id'))[1]
         try:
-            social_event = Category.objects.get(
-                pk=social_event_id)
+            category = Category.objects.get(
+                pk=category_id)
             user_profile = AndelaUserProfile.objects.get(
                 user=info.context.user
             )
@@ -57,7 +57,7 @@ class CreateEvent(relay.ClientIDMutation):
                 new_event = Event.objects.create(
                     **input,
                     creator=user_profile,
-                    social_event=social_event
+                    social_event=category
                 )
             else:
                 raise_calendar_error(user_profile)
@@ -66,17 +66,17 @@ class CreateEvent(relay.ClientIDMutation):
             raise GraphQLError("An Error occurred. \n{}".format(e))
 
         try:
-            CreateEvent.notify_event_in_slack(social_event, input)
+            CreateEvent.notify_event_in_slack(category, input)
         except BaseException as e:
             logging.warn(e)
 
         return cls(new_event=new_event)
 
     @staticmethod
-    def notify_event_in_slack(social_event, input):
+    def notify_event_in_slack(category, input):
         category_followers = Interest.objects.filter(
-            follower_category_id=social_event.id)
-        message = (f"A new event has been created in {social_event.name} "
+            follower_category_id=category.id)
+        message = (f"A new event has been created in {category.name} "
                     f"group \n Title: {input.get('title')} \n"
                     f"Description: {input.get('description')} \n "
                     f"Venue: {input.get('venue')} \n"
@@ -114,7 +114,7 @@ class UpdateEvent(relay.ClientIDMutation):
         date = graphene.String()
         time = graphene.String()
         featured_image = graphene.String()
-        social_event_id = graphene.ID()
+        category_id = graphene.ID()
         event_id = graphene.ID(required=True)
 
     updated_event = graphene.Field(EventNode)
@@ -131,15 +131,15 @@ class UpdateEvent(relay.ClientIDMutation):
                     and not info.context.user.is_superuser:
                 raise GraphQLError(
                     "You are not authorized to edit this event.")
-            if input.get("social_event_id"):
+            if input.get("category_id"):
                 input["social_event"] = Category.objects.get(
-                    pk=from_global_id(input.get('social_event_id'))[1]
+                    pk=from_global_id(input.get('category_id'))[1]
                 )
             if event_instance:
                 updated_event = update_instance(
                     event_instance,
                     input,
-                    exceptions=["social_event_id", "event_id"]
+                    exceptions=["category_id", "event_id"]
                 )
                 return cls(
                     action_message="Event Update is successful.",

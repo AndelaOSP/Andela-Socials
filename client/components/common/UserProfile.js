@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import DropDown from './DropDown';
 import profileImage from '../../assets/img/profile_picture.jpg';
 
-const UserProfile = () => (
-  <DropDown className="dropdown-toggle navbar-right nav-profile">
+const UserProfile = props => (
+  <DropDown className="dropdown-toggle nav-profile">
     <button type="button" className="btn nav-profile__button">
       <img className="nav-profile__img" src={profileImage} alt="User Profile" />
       <span className="nav-profile__username">Bolaji Olajide</span>
@@ -16,7 +16,7 @@ const UserProfile = () => (
         <Link to="/settings">Settings</Link>
       </li>
       <li>
-        <Link to="/logout">Logout</Link>
+        <Link to="/login" onClick={props.signOut}>Logout</Link>
       </li>
     </ul>
   </DropDown>

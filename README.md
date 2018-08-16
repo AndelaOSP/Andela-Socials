@@ -56,6 +56,15 @@ Or run the command below:
 $ make server test
 ```
 
+To run cypress test for the client side, navigate to the client folder
+```
+cd client
+```
+Run the command below:
+```
+npm run test
+```
+
 
 ### SETTING UP WITH DOCKER
 Before booting up the environment (`make build`) ensure that you have [docker](https://docs.docker.com/docker-for-mac/install/) **installed** and **running** on your machine.

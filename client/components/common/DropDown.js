@@ -8,27 +8,27 @@ import PropTypes from 'prop-types';
 */
 
 class DropDown extends Component {
-  state = {
-    showDropDown: false,
-  };
+  state = { showDropDown: false };
 
   toggleDropDown = () => {
     const { showDropDown } = this.state;
-    this.setState({
-      showDropDown: !showDropDown,
-    });
+    this.setState({ showDropDown: !showDropDown });
   };
 
   render() {
     const { showDropDown } = this.state;
-    const { children, className } = this.props;
+    const {
+      children,
+      className,
+    } = this.props;
     const classNames = `dropdown ${className && className}`;
+
     return (
       <div className={classNames}>
-        {React.cloneElement(children[0], {
-          onClick: this.toggleDropDown,
-        })}
+        {React.cloneElement(children[0], { onClick: this.toggleDropDown })}
         {showDropDown && children[1]}
+        {showDropDown && React.cloneElement(children[1],
+          { onMouseLeave: this.toggleDropDown })}
       </div>
     );
   }
@@ -42,8 +42,6 @@ DropDown.propTypes = {
   ]).isRequired,
 };
 
-DropDown.defaultProps = {
-  className: '',
-};
+DropDown.defaultProps = { className: '' };
 
 export default DropDown;

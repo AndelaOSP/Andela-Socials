@@ -6,14 +6,14 @@ class InterestTestCase(BaseEventTestCase):
     Test interest  queries
     """
 
-    def test_user_can_join_and_unjoin_social_club(self):
-        # Test for joining a social club
+    def test_user_can_join_and_unjoin_category(self):
+        # Test for joining a category
         query = '''
         mutation{
-            joinSocialClub(input:{
-                clubId:"Q2F0ZWdvcnlOb2RlOjI="
+            joinCategory(input:{
+                categoryId:"Q2F0ZWdvcnlOb2RlOjI="
             }){
-                joinedSocialClub{
+                joinedCategory{
                 id
                 followerCategory{
                     id
@@ -29,13 +29,13 @@ class InterestTestCase(BaseEventTestCase):
         result = self.client.execute(query, context_value=self.request)
         self.assertMatchSnapshot(result)
 
-        # Tests unjoining a social club
+        # Tests unjoining a category
         query = '''
         mutation{
-            unJoinSocialClub(input:{
-                clubId:"Q2F0ZWdvcnlOb2RlOjI="
+            UnJoinCategory(input:{
+                categoryId:"Q2F0ZWdvcnlOb2RlOjI="
             }){
-                unjoinedSocialClub{
+                unjoinedCategory{
                 id
                 followerCategory{
                     id
@@ -51,13 +51,13 @@ class InterestTestCase(BaseEventTestCase):
         result = self.client.execute(query, context_value=self.request)
         self.assertMatchSnapshot(result)
 
-    def test_user_cannot_unjoin_social_club_they_do_not_belong_to(self):
+    def test_user_cannot_unjoin_category_they_do_not_belong_to(self):
         query = '''
         mutation{
-            unJoinSocialClub(input:{
-                clubId:"Q2F0ZWdvcnlOb2RlOjI="
+            unJoinCategory(input:{
+                categoryId:"Q2F0ZWdvcnlOb2RlOjI="
             }){
-                unjoinedSocialClub{
+                unjoinedCategory{
                 id
                 followerCategory{
                     id

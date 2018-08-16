@@ -1,23 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import NavBar from './NavBar';
 
 import { signOut } from '../../actions/userActions';
 
 class Header extends Component {
-  onSignOut = () => {
+  onSignOut = (event) => {
+    event.preventDefault();
     this.props.signOut();
-    window.location.reload(); // should be handled better
   }
 
   render() {
     return (
-      <NavBar signOut={this.signOut} />
+      <NavBar signOut={this.onSignOut} />
     );
   }
 }
 
-export default connect(null, {
-  signOut,
-})(Header);
+Header.propTypes = { signOut: PropTypes.func.isRequired };
+
+export default connect(null, { signOut })(Header);
