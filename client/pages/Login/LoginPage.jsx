@@ -20,7 +20,7 @@ dotenv.config();
 const LoginPage = (props) => {
   const redirectUrl = `${process.env.ANDELA_API_BASE_URL}/login?redirect_url=${process.env.BASE_URL}`;
   if (isLoggedIn()) {
-    return (<Redirect to="/home" />);
+    return (<Redirect to="/events" />);
   }
   return (
     <div className="login_container">

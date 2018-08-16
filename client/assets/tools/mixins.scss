@@ -1,5 +1,4 @@
 // Bootstrap Button Variant
-
 @mixin button-variant($color, $background, $border) {
   color: $color;
   background-color: $background;
@@ -9,7 +8,6 @@
   border-radius: $border-radius;
   font-size: 18px;
   padding: 10px 15px;
-
   &:hover,
   &:focus {
     color: $background;
@@ -20,11 +18,10 @@
   }
   &:active,
   &.active,
-  .open > &.dropdown-toggle {
+  .open>&.dropdown-toggle {
     color: $color;
     background-color: darken($background, 10%);
     border-color: darken($border, 12%);
-
     &:hover,
     &:focus,
     &.focus {
@@ -35,7 +32,7 @@
   }
   &:active,
   &.active,
-  .open > &.dropdown-toggle {
+  .open>&.dropdown-toggle {
     background-image: none;
   }
   &.disabled,
@@ -48,7 +45,6 @@
       border-color: $border;
     }
   }
-
   .badge {
     color: $background;
     background-color: $color;
@@ -64,7 +60,7 @@
 }
 
 // responsiveness
-@mixin mobile {
+@mixin mobile($mobile-width) {
   @media (min-width: #{100px}) and (max-width: #{$mobile-width}) {
     @content;
   }
@@ -89,6 +85,10 @@
 }
 
 @mixin smaller-device {
-  @include mobile { @content };
-  @include phablet { @content };
+  @include mobile {
+    @content;
+  }
+  @include phablet {
+    @content;
+  }
 }

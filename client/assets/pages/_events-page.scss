@@ -1,0 +1,27 @@
+.event {
+  &__container {
+    background-color: white; // todo: remove this 
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-template-columns: [sidebar-start] 20rem [sidebar-end full-start] 2rem [event-gallery-start] auto [event-gallery-end] 2rem [full-end];
+    @include mobile('600px') {
+      grid-template-rows: auto auto auto;
+      grid-template-columns: auto;
+    }
+  }
+  &__sidebar {
+    padding: 10rem; // todo: remove this 
+    background-color: rgba(84, 81, 80, 0.035); // todo: remove this 
+    grid-column: sidebar-start/ sidebar-end;
+  }
+  &__gallery {
+    padding: 15rem; // todo:  remove this 
+    background-color: rgba(150, 108, 93, 0.097); // todo: remove this 
+    grid-column: event-gallery-start/event-gallery-end;
+  }
+  &__footer {
+    padding: 10rem; // todo:  remove this 
+    background-color: white; // todo: remove this 
+    grid-column: sidebar-start/full-end;
+  }
+}

@@ -8,7 +8,7 @@ import { Route, Redirect, Switch } from 'react-router-dom';
 
 // components
 import Header from '../../components/common/Header';
-import { HomePage } from '../../components/common/HomePage';
+import EventsPage from '../Event/EventsPage';
 import ModalContextProvider from '../../components/Modals/ModalContext';
 import Modal from '../../components/Modals/ModalContainer';
 
@@ -71,7 +71,7 @@ class Dashboard extends Component {
   redirectUser = () => {
     const { location: { pathname } } = this.props;
     if (pathname === '/') {
-      return (<Redirect to="/home" />);
+      return (<Redirect to="/events" />);
     }
   };
 
@@ -104,7 +104,7 @@ class Dashboard extends Component {
         <Header />
         <Switch>
           {this.redirectUser()}
-          <Route path="/home" render={() => <HomePage />} />
+          <Route path="/events" render={() => <EventsPage />} />
         </Switch>
         <Modal />
       </ModalContextProvider>
