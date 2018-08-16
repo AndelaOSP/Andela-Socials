@@ -32,7 +32,7 @@ class InterestTestCase(BaseEventTestCase):
         # Tests unjoining a category
         query = '''
         mutation{
-            UnJoinCategory(input:{
+            unjoinCategory(input:{
                 categoryId:"Q2F0ZWdvcnlOb2RlOjI="
             }){
                 unjoinedCategory{
@@ -54,7 +54,7 @@ class InterestTestCase(BaseEventTestCase):
     def test_user_cannot_unjoin_category_they_do_not_belong_to(self):
         query = '''
         mutation{
-            unJoinCategory(input:{
+            unjoinCategory(input:{
                 categoryId:"Q2F0ZWdvcnlOb2RlOjI="
             }){
                 unjoinedCategory{

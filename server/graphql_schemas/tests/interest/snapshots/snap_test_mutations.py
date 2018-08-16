@@ -73,20 +73,24 @@ snapshots['InterestTestCase::test_user_can_join_and_unjoin_category 1'] = {
 }
 
 snapshots['InterestTestCase::test_user_can_join_and_unjoin_category 2'] = {
-    'errors': [
-        {
-            'locations': [
-                {
-                    'column': 13,
-                    'line': 3
-                }
-            ],
-            'message': 'Cannot query field "UnJoinCategory" on type "Mutation". Did you mean "unjoinCategory" or "joinCategory"?'
+    'data': {
+        'unjoinCategory': {
+            'unjoinedCategory': {
+                'followerCategory': {
+                    'description': 'For people who want to be happy.',
+                    'id': 'Q2F0ZWdvcnlOb2RlOjI=',
+                    'name': 'Python Meetup'
+                },
+                'id': 'SW50ZXJlc3ROb2RlOk5vbmU='
+            }
         }
-    ]
+    }
 }
 
 snapshots['InterestTestCase::test_user_cannot_unjoin_category_they_do_not_belong_to 1'] = {
+    'data': {
+        'unjoinCategory': None
+    },
     'errors': [
         {
             'locations': [
@@ -95,7 +99,10 @@ snapshots['InterestTestCase::test_user_cannot_unjoin_category_they_do_not_belong
                     'line': 3
                 }
             ],
-            'message': 'Cannot query field "unJoinCategory" on type "Mutation". Did you mean "unjoinCategory" or "joinCategory"?'
+            'message': 'The User @testuser2, has not joined Category : Python Meetup. ',
+            'path': [
+                'unjoinCategory'
+            ]
         }
     ]
 }

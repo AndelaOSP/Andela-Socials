@@ -6,11 +6,10 @@ from snapshottest.django import TestCase
 from graphql_schemas.schema import schema
 
 
-class BaseEventTestCase(TestCase):
+class BaseCategoryTestCase(TestCase):
     def setUp(self):
         for index in range(1,6):
-            Category.objects.create(
-                id=index,
+            self.category = Category.objects.create(
                 name="Swimming Meetup {}".format(index),
                 description="For people who want to be happy.",
                 featured_image="https://cdn.elegantthemes.com/"

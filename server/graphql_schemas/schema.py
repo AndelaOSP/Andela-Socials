@@ -3,7 +3,7 @@ import graphene
 from graphene_django.debug import DjangoDebug
 
 from .attend.schema import AttendQuery, AttendMutation
-from .category.schema import CategoryQuery
+from .category.schema import CategoryQuery, CategoryMutation
 from .event.schema import EventQuery, EventMutation
 from .interest.schema import InterestQuery, InterestMutation
 
@@ -22,6 +22,7 @@ class Mutation(
   EventMutation,
   InterestMutation,
   AttendMutation,
+  CategoryMutation,
   graphene.ObjectType
   ):
     debug = graphene.Field(DjangoDebug, name='__debug')
