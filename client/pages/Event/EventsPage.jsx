@@ -1,4 +1,5 @@
 import React from 'react';
+import Calendar from '../../components/common/Calendar';
 
 
 import EventCard from '../../components/cards/EventCard';
@@ -11,6 +12,7 @@ import eventFixtureList from '../../fixtures/events';
  *
  * @returns {JSX} Eventspage
  */
+
 const EventsPage = (props) => {
   const { eventList } = props;
   const events = eventList || eventFixtureList;
@@ -19,8 +21,8 @@ const EventsPage = (props) => {
   return (
     <div className="event__container">
       <div className="event__sidebar">
-        sidebar
-    </div>
+        <Calendar />
+      </div>
       <div className="event__gallery">
         {eventCards}
       </div>
