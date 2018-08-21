@@ -1,23 +1,29 @@
 .event {
   &__container {
-    background-color: white; // todo: remove this 
     display: grid;
+    grid-template-columns: [sidebar-start] rem(330px) [sidebar-end full-start] rem(30px) [event-gallery-start] auto [event-gallery-end] rem(20px) [full-end];
     grid-template-rows: auto auto;
-    grid-template-columns: [sidebar-start] 20rem [sidebar-end full-start] 2rem [event-gallery-start] auto [event-gallery-end] 2rem [full-end];
+    margin-left: rem(30px);
     @include mobile('600px') {
-      grid-template-rows: auto auto auto;
+      grid-template-rows: repeat(3, auto);
       grid-template-columns: auto;
+      grid-row-gap: rem(30px);
+      margin-left: rem(5px);
     }
   }
   &__sidebar {
-    padding: 10rem; // todo: remove this 
-    background-color: rgba(84, 81, 80, 0.035); // todo: remove this 
     grid-column: sidebar-start/ sidebar-end;
+    background-color: rgba(84, 81, 80, 0.035); // todo: remove this 
+    width: rem(330px);
   }
   &__gallery {
-    padding: 15rem; // todo:  remove this 
-    background-color: rgba(150, 108, 93, 0.097); // todo: remove this 
     grid-column: event-gallery-start/event-gallery-end;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(rem(321px), auto));
+    grid-column-gap: rem(25px);
+    grid-row-gap: rem(30px);
+    align-content: start;
+    justify-content: flex-start;
   }
   &__footer {
     padding: 10rem; // todo:  remove this 

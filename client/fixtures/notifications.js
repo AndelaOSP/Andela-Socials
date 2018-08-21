@@ -1,5 +1,5 @@
-import MaleAvatar from '../../assets/img/male_avatar.png';
-import FemaleAvatar from '../../assets/img/female_avatar.png';
+import MaleAvatar from '../assets/img/male_avatar.png';
+import FemaleAvatar from '../assets/img/female_avatar.png';
 
 const Notifications = [
   {

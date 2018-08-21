@@ -36,11 +36,11 @@ if (token) {
 ReactDOM.render(
   <ApolloProvider client={Client}>
     <Provider store={store}>
-        <PersistGate persistor={persistor}>
-          <Router>
-            <Routes />
-          </Router>
-        </PersistGate>
+      <PersistGate persistor={persistor}>
+        <Router>
+          <Routes />
+        </Router>
+      </PersistGate>
     </Provider>
   </ApolloProvider>,
   document.getElementById('app')

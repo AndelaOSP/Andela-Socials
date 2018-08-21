@@ -3,7 +3,7 @@ import { TransitionGroup, Transition } from 'react-transition-group';
 import BellIcon from '../../assets/icons/BellIcon';
 import DropDown from './DropDown';
 import Notifier from './Notifier';
-import Notifications from '../fixtures/notifications';
+import Notifications from '../../fixtures/notifications';
 
 const NotificationCenter = () => (
   <DropDown className="notification-container">
