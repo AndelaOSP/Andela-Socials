@@ -30,7 +30,7 @@ const CREATE_EVENT_GQL = (title, description, featuredImage, venue, date, time, 
       venue,
       date,
       time,
-      socialEventId,
+      categoryId,
     },
   },
 });

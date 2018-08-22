@@ -9,7 +9,7 @@ import { Route, Redirect, Switch } from 'react-router-dom';
 // components
 import Header from '../../components/common/Header';
 import EventsPage from '../Event/EventsPage';
-import ModalContextProvider from '../../components/Modals/ModalContext';
+import ModalContextProvider, { ModalContextCreator } from '../../components/Modals/ModalContext';
 import Modal from '../../components/Modals/ModalContainer';
 import LoadComponent from '../../utils/loadComponent';
 
@@ -79,6 +79,29 @@ class Dashboard extends Component {
     }
   };
 
+  renderCreateEventButton = () => (
+    <ModalContextCreator.Consumer>
+      {
+        ({
+          activeModal,
+          openModal,
+        }) => {
+          if (activeModal) return null;
+          return (
+            <button
+              type="button"
+              onClick={() => openModal('CREATE_EVENT', {
+                modalHeadline: 'create event',
+                formMode: 'create',
+                formId: 'event-form',
+              })}
+              className="create-event-btn"
+            >Create Event</button>
+          );
+        }
+      }
+    </ModalContextCreator.Consumer>
+  );
 
   /**
    * Renders Dashboard component
@@ -116,6 +139,7 @@ class Dashboard extends Component {
           <Route path="/events" render={() => <EventsPage />} />
           <Route path="*" component={NotFound} />
         </Switch>
+        { this.renderCreateEventButton() }
         <Modal />
       </ModalContextProvider>
     );

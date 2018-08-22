@@ -24,18 +24,20 @@
   }
 
   .as-form-group__error {
-    color: #db4437;
+    color: $danger;
+  }
+
+  &:not(:last-of-type) {
+    margin-bottom: rem(15px);
   }
 
   &.has-error {
-    background-color: #ffebee;
-    border-radius: rem(2px);
-    padding: rem(25px);
-    margin-left: rem(-25px);
-    margin-right: rem(-25px);
-
     .as-form-group__input {
-      border-color: #db4437;
+      border-color: $danger;
+    }
+
+    .as-form-group__label {
+      color: $danger;
     }
   }
 }

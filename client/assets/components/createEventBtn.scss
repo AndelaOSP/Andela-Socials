@@ -1,0 +1,11 @@
+.create-event-btn {
+  position: fixed;
+  width: rem(85px);
+  height: rem(85px);
+  display: block;
+  background-color: $blue;
+  bottom: rem(20px);
+  right: rem(20px);
+  border-radius: 50%;
+  color: $white;
+}

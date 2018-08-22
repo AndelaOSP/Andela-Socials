@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 export const ModalContextCreator = React.createContext();
 
 class ModalContext extends Component {
-  modalTypes = [];
+  modalTypes = [
+    'CREATE_EVENT',
+  ];
 
-  defaultModalProps = {
-    modalHeadline: 'default modal headline',
-  };
+  defaultModalProps = { modalHeadline: 'default modal headline' };
 
   state = {
     activeModal: null,
@@ -22,6 +22,7 @@ class ModalContext extends Component {
       );
     }
 
+    document.getElementsByTagName('body')[0].classList.add('no-scroll');
     this.setState({
       activeModal: modalType,
       modalProps,
@@ -29,9 +30,8 @@ class ModalContext extends Component {
   };
 
   closeModal = () => {
-    this.setState({
-      activeModal: null,
-    });
+    document.getElementsByTagName('body')[0].classList.remove('no-scroll');
+    this.setState({ activeModal: null });
   };
 
   render() {
@@ -54,8 +54,6 @@ class ModalContext extends Component {
   }
 }
 
-ModalContext.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+ModalContext.propTypes = { children: PropTypes.node.isRequired };
 
 export default ModalContext;

@@ -1,9 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-// defaultProps
-import { baseFormProps } from '../../../utils/defaultProps';
+import {
+  baseDefaultProps,
+  basePropTypes,
+} from './propsDefs';
 
 
 const InputField = ({
@@ -20,6 +21,7 @@ const InputField = ({
     hasError,
     message,
   },
+  required,
 }) => (
   <div className={
     classNames('as-form-group as-form-group--input-field', {
@@ -39,6 +41,7 @@ const InputField = ({
       disabled={disabled}
       defaultValue={defaultValue}
       onChange={onChange}
+      required={required}
     />
     {
       hasError && <span className="as-form-group__error">{message}</span>
@@ -46,22 +49,8 @@ const InputField = ({
   </div>
 );
 
-InputField.defaultProps = baseFormProps;
+InputField.defaultProps = { ...baseDefaultProps };
 
-InputField.propTypes = {
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  className: PropTypes.string,
-  placeholder: PropTypes.string,
-  type: PropTypes.oneOf(['text', 'email', 'password']).isRequired,
-  label: PropTypes.string,
-  defaultValue: PropTypes.string,
-  disabled: PropTypes.bool,
-  onChange: PropTypes.func,
-  error: PropTypes.shape({
-    hasError: PropTypes.bool.isRequired,
-    message: PropTypes.string,
-  }).isRequired,
-};
+InputField.propTypes = { ...basePropTypes };
 
 export default InputField;

@@ -1,10 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-// defaultProps
-import { baseFormProps } from '../../../utils/defaultProps';
-
+import {
+  baseDefaultProps,
+  basePropTypes,
+} from './propsDefs';
 
 const TextField = ({
   id,
@@ -19,6 +19,7 @@ const TextField = ({
     hasError,
     message,
   },
+  required,
 }) => (
   <div className={
     classNames('as-form-group as-form-group--text-field', {
@@ -37,6 +38,7 @@ const TextField = ({
       className="as-form-group__input as-form-group__input--text_area"
       onChange={onChange}
       disabled={disabled}
+      required={required}
     />
     {
       hasError && <span className="as-form-group__error">{message}</span>
@@ -44,21 +46,8 @@ const TextField = ({
   </div>
 );
 
-TextField.defaultProps = baseFormProps;
+TextField.defaultProps = { ...baseDefaultProps };
 
-TextField.propTypes = {
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  className: PropTypes.string,
-  placeholder: PropTypes.string,
-  defaultValue: PropTypes.string,
-  label: PropTypes.string,
-  disabled: PropTypes.bool,
-  onChange: PropTypes.func,
-  error: PropTypes.shape({
-    hasError: PropTypes.bool.isRequired,
-    message: PropTypes.string,
-  }).isRequired,
-};
+TextField.propTypes = { ...basePropTypes };
 
 export default TextField;

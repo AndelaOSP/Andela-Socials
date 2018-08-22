@@ -2,22 +2,55 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { ModalContextCreator } from './ModalContext';
+import EventForm from '../Forms/EventForm';
 
 /*
-  maps a string to a modal child, used to determine 
+  maps a string to a modal child, used to determine
   which modal child is to be rendered e.g:
   const MODAL_COMPONENTS = {
-    'CREATE_EVENT': CreateEventModal,
+    'CREATE_EVENT': EventModal,
   };
  */
-const MODAL_COMPONENTS = {};
+const MODAL_COMPONENTS = { CREATE_EVENT: EventForm };
+
+const ModalContent = ({
+  modalProps,
+  closeModal,
+  activeModal,
+}) => {
+  const SpecificModal = MODAL_COMPONENTS[activeModal];
+  return (
+    <div className="modal__content">
+      <header className="modal__header">
+        <h3>{modalProps.modalHeadline}</h3>
+      </header>
+      <div className="modal__body">
+        <SpecificModal {...modalProps}/>
+      </div>
+      <footer className="modal__btns">
+        <button
+          className="modal__btn modal__btn-cancel"
+          type="button"
+          onClick={closeModal}
+        >Cancel</button>
+        <button
+          className="modal__btn modal__btn-submit"
+          form={modalProps.formId}
+          type="submit"
+        >Submit</button>
+      </footer>
+    </div>
+  );
+};
 
 const ModalContainer = (props) => {
-  const { activeModal, closeModal, modalProps } = props;
+  const {
+    activeModal, closeModal,
+  } = props;
+
   if (!activeModal) {
     return null;
   }
-  const specificModal = MODAL_COMPONENTS[activeModal];
   return (
     <div
       className={`modal modal__${activeModal}`}
@@ -28,47 +61,18 @@ const ModalContainer = (props) => {
         closeModal();
       }}
     >
-    <modalContent />
+      <ModalContent {...props}/>
     </div>
   );
 };
 
-ModalContainer.defaultProps = {
-  activeModal: null,
-};
+ModalContainer.defaultProps = { activeModal: null };
 
 ModalContainer.propTypes = {
   closeModal: PropTypes.func.isRequired,
   activeModal: PropTypes.string,
-  modalProps: PropTypes.shape({
-    modalHeadline: PropTypes.string.isRequired,
-  }).isRequired,
+  modalProps: PropTypes.shape({ modalHeadline: PropTypes.string.isRequired }).isRequired,
 };
-
-const ModalContent = () => {
-  return (
-    <div className="modal__content">
-      <header className="modal__header">
-        <h3>{modalProps.modalHeadline}</h3>
-      </header>
-      <div className="modal__body">
-        <specificModal {...modalProps}/>
-      </div>
-      <footer className="modal__btns">
-        <button
-          className="modal__btn modal__btn-cancel"
-          type="button"
-          onClick={closeModal}
-        >Cancel</button>
-        <button
-          className="modal__btn modal__btn-submit"
-          form="create-event-form"
-          type="submit"
-        >Submit</button>
-      </footer>
-    </div>   
- );
-}
 
 export default () => (
   <ModalContextCreator.Consumer>
