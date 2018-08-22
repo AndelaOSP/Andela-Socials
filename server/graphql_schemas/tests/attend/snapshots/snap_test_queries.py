@@ -7,45 +7,79 @@ from snapshottest import Snapshot
 
 snapshots = Snapshot()
 
-snapshots['AttendanceTestCase::test_can_fetch_all_attendance 1'] = {
+snapshots['AttendanceTestCase::test_can_fetch_single_attendance 1'] = {
+    'data': {
+        'eventAttendance': {
+            'event': {
+                'id': 'RXZlbnROb2RlOjE2',
+                'title': 'Test Event 2'
+            },
+            'id': 'QXR0ZW5kTm9kZTo3',
+            'status': 'PENDING'
+        }
+    }
+}
+
+snapshots['AttendanceTestCase::test_can_fetch_user_events 1'] = {
+    'data': {
+        'subscribedEvents': [
+            {
+                'event': {
+                    'id': 'RXZlbnROb2RlOjE4',
+                    'title': 'Test Event 2'
+                },
+                'id': 'QXR0ZW5kTm9kZTo4',
+                'status': 'PENDING'
+            }
+        ]
+    }
+}
+
+snapshots['AttendanceTestCase::test_user_attend_model_is_populated_with_new_event 1'] = {
     'data': {
         'attendersList': {
             'edges': [
                 {
                     'node': {
                         'event': {
-                            'active': True,
-                            'id': 'RXZlbnROb2RlOjI=',
+                            'id': 'RXZlbnROb2RlOjIx',
+                            'title': 'test title'
+                        },
+                        'id': 'QXR0ZW5kTm9kZToxMg==',
+                        'status': 'PENDING'
+                    }
+                },
+                {
+                    'node': {
+                        'event': {
+                            'id': 'RXZlbnROb2RlOjIx',
+                            'title': 'test title'
+                        },
+                        'id': 'QXR0ZW5kTm9kZToxMQ==',
+                        'status': 'PENDING'
+                    }
+                },
+                {
+                    'node': {
+                        'event': {
+                            'id': 'RXZlbnROb2RlOjIx',
+                            'title': 'test title'
+                        },
+                        'id': 'QXR0ZW5kTm9kZToxMA==',
+                        'status': 'PENDING'
+                    }
+                },
+                {
+                    'node': {
+                        'event': {
+                            'id': 'RXZlbnROb2RlOjIw',
                             'title': 'Test Event 2'
                         },
-                        'id': 'QXR0ZW5kTm9kZTo5'
+                        'id': 'QXR0ZW5kTm9kZTo5',
+                        'status': 'PENDING'
                     }
                 }
             ]
         }
-    }
-}
-
-snapshots['AttendanceTestCase::test_can_fetch_single_event 1'] = {
-    'data': {
-        'eventAttendance': {
-            'event': {
-                'id': 'RXZlbnROb2RlOjI='
-            },
-            'id': 'QXR0ZW5kTm9kZToxMA=='
-        }
-    }
-}
-
-snapshots['AttendanceTestCase::test_can_fetch_user_subscribed_event 1'] = {
-    'data': {
-        'subscribedEvents': [
-            {
-                'event': {
-                    'id': 'RXZlbnROb2RlOjI='
-                },
-                'id': 'QXR0ZW5kTm9kZToxMQ=='
-            }
-        ]
     }
 }

@@ -66,7 +66,7 @@ snapshots['InterestTestCase::test_user_can_join_and_unjoin_category 1'] = {
                     'id': 'Q2F0ZWdvcnlOb2RlOjI=',
                     'name': 'Python Meetup'
                 },
-                'id': 'SW50ZXJlc3ROb2RlOjQ='
+                'id': 'SW50ZXJlc3ROb2RlOjI1'
             }
         }
     }

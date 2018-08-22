@@ -17,7 +17,8 @@ from graphql_schemas.utils.helpers import (is_not_admin,
                                            raise_calendar_error,
                                            not_valid_timezone)
 from graphql_schemas.utils.hasher import Hasher
-from api.models import Event, Category, AndelaUserProfile, Interest
+from api.models import Event, Category, AndelaUserProfile, \
+    Interest, Attend
 from api.slack import get_slack_id, notify_user
 
 from api.utils.backgroundTaskWorker import BackgroundTaskWorker
@@ -81,21 +82,26 @@ class CreateEvent(relay.ClientIDMutation):
             raise GraphQLError("An Error occurred. \n{}".format(e))
 
         try:
-            CreateEvent.notify_event_in_slack(category, input)
+            CreateEvent.notify_event_in_slack(category, input, new_event)
         except BaseException as e:
             logging.warn(e)
 
         return cls(new_event=new_event)
 
     @staticmethod
-    def notify_event_in_slack(category, input):
+    def notify_event_in_slack(category, input, new_event):
         category_followers = Interest.objects.filter(
             follower_category_id=category.id)
+        all_users_attendance = [
+            Attend(user=instance.follower, event=new_event)
+            for instance in category_followers
+        ]
+        Attend.objects.bulk_create(all_users_attendance)
         message = (f"A new event has been created in {category.name} "
-                    f"group \n Title: {input.get('title')} \n"
-                    f"Description: {input.get('description')} \n "
-                    f"Venue: {input.get('venue')} \n"
-                    f"Date: {input.get('date')} \n Time: {input.get('time')}")
+                   f"group \n Title: {input.get('title')} \n"
+                   f"Description: {input.get('description')} \n "
+                   f"Venue: {input.get('venue')} \n"
+                   f"Date: {input.get('date')} \n Time: {input.get('time')}")
         slack_id_not_in_db = []
         for instance in category_followers:
             if instance.follower.slack_id:

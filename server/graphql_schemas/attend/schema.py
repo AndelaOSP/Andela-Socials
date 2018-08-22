@@ -3,6 +3,7 @@ from graphene import relay, ObjectType
 from graphql_relay import from_global_id
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
+from django.core.exceptions import ObjectDoesNotExist
 from graphql import GraphQLError
 
 from api.models import Attend, Event, AndelaUserProfile
@@ -18,48 +19,32 @@ class AttendNode(DjangoObjectType):
 class AttendEvent(relay.ClientIDMutation):
     class Input:
         event_id = graphene.ID(required=True)
+        status = graphene.String(required=True)
 
     new_attendance = graphene.Field(AttendNode)
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
         event_id = input.get('event_id')
+        status = input.get('status')
         db_event_id = from_global_id(event_id)[1]
         event = Event.objects.get(id=db_event_id)
         user = info.context.user
         andela_user_profile = AndelaUserProfile.objects.get(
             user_id=user.id)
-        user_attendance, created = Attend.objects.get_or_create(
-            user=andela_user_profile,
-            event=event)
+        try:
+            user_attendance = Attend.objects.get(
+                user=andela_user_profile, event=event)
+            user_attendance.status = status
+            user_attendance.save()
 
-        if user_attendance and not created:
-            raise GraphQLError(
-                "The user is already subscribed to the event")
+        except ObjectDoesNotExist:
+            user_attendance = Attend.objects.create(
+                user=andela_user_profile,
+                status=status,
+                event=event)
 
         return cls(new_attendance=user_attendance)
-
-
-class UnsubscribeEvent(relay.ClientIDMutation):
-    class Input:
-        event_id = graphene.ID(required=True)
-
-    unsubscribed_event = graphene.Field(AttendNode)
-
-    @classmethod
-    def mutate_and_get_payload(cls, root, info, **input):
-        event_id = input.get('event_id')
-        db_event_id = from_global_id(event_id)[1]
-        user = info.context.user
-        andela_user_profile = AndelaUserProfile.objects.get(user_id=user.id)
-        event_subscription = Attend.objects.filter(
-            event_id=db_event_id,
-            user_id=andela_user_profile.id).first()
-        if not event_subscription:
-            raise GraphQLError(
-                "The User {0}, has not subscribed to this event".format(user))
-        event_subscription.delete()
-        return cls(unsubscribed_event=event_subscription)
 
 
 class AttendQuery(object):
@@ -75,4 +60,3 @@ class AttendQuery(object):
 
 class AttendMutation(ObjectType):
     attend_event = AttendEvent.Field()
-    unattend_event = UnsubscribeEvent.Field()

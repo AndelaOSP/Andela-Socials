@@ -240,16 +240,39 @@ class Interest(BaseInfo):
 class Attend(BaseInfo):
     """User Attendance Model defined."""
 
+    ATT = 'attending'
+    DEC = 'declined'
+    PEN = 'pending'
+    STATUSCHOICE = (
+        (ATT, 'attending'),
+        (DEC, 'declined'),
+        (PEN, 'pending'),
+    )
     user = models.ForeignKey(AndelaUserProfile, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    status = models.CharField(max_length=20, choices=STATUSCHOICE, default=PEN)
 
     class Meta:
         ordering = ('-created_at',)
-        unique_together = ('user', 'event')
+        unique_together = ('user', 'event', 'status')
 
     def __str__(self):
-        return "@{} is attending event {}".format(
-            self.user.slack_id, self.event.title)
+        return "@{}'s status on the event {} is {}".format(
+            self.user.slack_id, self.event.title, self.status)
+
+    def save(self, *args, **kwargs):
+        """This method is modified to check if status value is
+        valid before user attendance is registered
+
+        :param args: Tuple of arguments
+        :param kwargs: key word arguments
+        :return: None
+        """
+        if self.status not in (self.ATT, self.DEC, self.PEN):
+            raise ValidationError(
+                f'{self.status} is not a valid status'
+            )
+        super(Attend, self).save(*args, **kwargs)
 
 
 class UserEventHistory(models.Model):

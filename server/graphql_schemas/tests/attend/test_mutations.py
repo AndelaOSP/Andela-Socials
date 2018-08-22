@@ -12,65 +12,27 @@ class AttendanceTestCase(BaseEventTestCase):
     Test attend mutation queries
     """
 
-    def test_user_can_subcribe_to_event(self):
+    def test_user_can_attend_an_event(self):
         query = f'''
         mutation subscribe {{
             attendEvent(input: {{
                 eventId: "{to_global_id("EventNode", self.event.id)}",
+                status: "attending",
                 clientMutationId: "rand"
             }})
             {{
                 clientMutationId
                 newAttendance {{
                     event {{
+                        id
                         title
-                        description
-                        venue
-                        featuredImage
-                        socialEvent {{
-                            name
-                            description
-                        }}
                     }}
+                    status
                 }}
             }}
         }}
         '''
-
-        self.request.user = self.user
-        result = self.client.execute(query, context_value=self.request)
-        self.assertMatchSnapshot(result)
-
-    def test_user_cannot_subscribe_to_event_twice(self):
-        Attend.objects.create(
-            user=self.andela_user,
-            event=self.event
-        )
-        query = f'''
-        mutation subscribe {{
-            attendEvent(input: {{
-                eventId: "{to_global_id("EventNode", self.event.id)}",
-                clientMutationId: "rand"
-            }})
-            {{
-                clientMutationId
-                newAttendance {{
-                    event {{
-                        title
-                        description
-                        venue
-                        featuredImage
-                        socialEvent {{
-                            name
-                            description
-                        }}
-                    }}
-                }}
-            }}
-        }}
-        '''
-
-        self.request.user = self.user
+        self.request.user = self.andela_user.user
         result = self.client.execute(query, context_value=self.request)
         self.assertMatchSnapshot(result)
 
@@ -79,27 +41,23 @@ class AttendanceTestCase(BaseEventTestCase):
         mutation subscribe {{
             attendEvent(input: {{
                 eventId: "{to_global_id("EventNode", 100)}",
+                status: "attending",
                 clientMutationId: "rand"
             }})
             {{
                 clientMutationId
                 newAttendance {{
                     event {{
+                        id
                         title
-                        description
-                        venue
-                        featuredImage
-                        socialEvent {{
-                            name
-                            description
-                        }}
                     }}
+                    status
                 }}
             }}
         }}
         '''
 
-        self.request.user = self.user
+        self.request.user = self.andela_user.user
         result = self.client.execute(query, context_value=self.request)
         self.assertMatchSnapshot(result)
 
@@ -108,21 +66,17 @@ class AttendanceTestCase(BaseEventTestCase):
         mutation subscribe {{
             attendEvent(input: {{
                 eventId: "{to_global_id("EventNode", self.event.id)}",
+                status: "attending",
                 clientMutationId: "rand"
             }})
             {{
                 clientMutationId
                 newAttendance {{
                     event {{
+                        id
                         title
-                        description
-                        venue
-                        featuredImage
-                        socialEvent {{
-                            name
-                            description
-                        }}
                     }}
+                    status
                 }}
             }}
         }}
@@ -132,59 +86,27 @@ class AttendanceTestCase(BaseEventTestCase):
         result = self.client.execute(query, context_value=self.request)
         self.assertMatchSnapshot(result)
 
-    def test_user_can_unsubscribe_from_event(self):
+    def test_user_can_change_event_status(self):
         query = f'''
         mutation subscribe {{
-            unattendEvent(input: {{
-                eventId: "{to_global_id("EventNode", self.event2.id)}",
-                clientMutationId: "rand"
-            }}) {{
-                clientMutationId
-                unsubscribedEvent {{
-                    event {{
-                        title
-                        description
-                        venue
-                        featuredImage
-                        socialEvent {{
-                            name
-                            description
-                        }}
-                    }}
-                }}
-            }}
-        }}
-        '''
-
-        self.request.user = self.user
-        result = self.client.execute(query, context_value=self.request)
-        self.assertMatchSnapshot(result)
-
-    def test_user_cannot_unsubscribe_from_event_they_did_not_attend(self):
-        query = f'''
-        mutation subscribe {{
-            unattendEvent(input: {{
+            attendEvent(input: {{
                 eventId: "{to_global_id("EventNode", self.event.id)}",
+                status: "declined",
                 clientMutationId: "rand"
             }})
             {{
                 clientMutationId
-                unsubscribedEvent {{
+                newAttendance {{
                     event {{
+                        id
                         title
-                        description
-                        venue
-                        featuredImage
-                        socialEvent {{
-                            name
-                            description
-                        }}
                     }}
+                    status
                 }}
             }}
         }}
         '''
 
-        self.request.user = self.user
+        self.request.user = self.andela_user.user
         result = self.client.execute(query, context_value=self.request)
         self.assertMatchSnapshot(result)

@@ -143,24 +143,24 @@ class MutateEventTestCase(BaseEventTestCase):
 
     def test_create_event_with_calendar_unauthorizd(self):
 
-        query = """
-        mutation CreateEvent{
-            createEvent(input: {
-                title:"test-title",
-                description:"test-description",
+        query = f"""
+        mutation CreateEvent{{
+            createEvent(input: {{
+                title:"test title",
+                description:"test description",
                 venue:"test venue",
                 startDate:"2018-08-09T18:00:00.000Z",
                 endDate:"2018-08-09T18:00:00.000Z",
-                categoryId: "Q2F0ZWdvcnlOb2RlOjI=",
-                featuredImage: "http://fake-image.com",
-                timezone: "Africa/Algiers"
-            }){
-                newEvent{
+                timezone: "Africa/Algiers",
+                categoryId: "{to_global_id("CategoryNode", self.category.id)}",
+                featuredImage: "http://fake-image.com"
+            }}) {{
+                newEvent{{
                 title
                 description
-                }
-            }
-        }
+                }}
+            }}
+        }}
         """
         with suppress(UnauthorizedCalendarError):
             request = self.request
@@ -172,24 +172,24 @@ class MutateEventTestCase(BaseEventTestCase):
     @mock.patch('graphql_schemas.event.schema.send_calendar_invites')
     def test_create_event_with_calendar_authorized(self, mock_send_calendar):
 
-        query = """
-        mutation CreateEvent{
-            createEvent(input: {
+        query = f"""
+        mutation CreateEvent{{
+            createEvent(input: {{
                 title:"test title",
                 description:"test description",
                 venue:"test venue",
                 startDate:"2018-08-09T18:00:00.000Z",
                 endDate:"2018-08-09T18:00:00.000Z",
-                categoryId: "Q2F0ZWdvcnlOb2RlOjE=",
-                featuredImage: "http://fake-image.com",
-                timezone: "Africa/Algiers"
-            }) {
-                newEvent{
+                timezone: "Africa/Algiers",
+                categoryId: "{to_global_id("CategoryNode", self.category.id)}",
+                featuredImage: "http://fake-image.com"
+            }}) {{
+                newEvent{{
                 title
                 description
-                }
-            }
-        }
+                }}
+            }}
+        }}
         """
         request = self.request
         client = self.client
