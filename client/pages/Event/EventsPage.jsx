@@ -28,8 +28,10 @@ const EventsPage = (props) => {
         {eventCards}
       </div>
       <div className="event__footer">
-        footer
-    </div>
+        <a href="/events" className="btn-blue event__load-more-button">
+          load more
+          </a>
+      </div>
     </div>
   );
 };

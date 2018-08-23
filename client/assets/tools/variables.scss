@@ -1,13 +1,11 @@
 $font-url: "https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic";
-
 @import url($font-url);
-
 // colors
-$primary:  #6d9ee1;
+$primary: #6d9ee1;
 $white: #ffffff;
 $grey: #dedede;
+$grey-2: #CCCCCC;
 $blue: #365edb;
-
 // aliases
 $border-radius: 5px;
 $box-shadow: #383434;
