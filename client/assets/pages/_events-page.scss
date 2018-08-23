@@ -1,4 +1,5 @@
 @import url(https://fonts.googleapis.com/icon?family=Material+Icons);
+@import url(https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
 
 .event {
   &__container {
@@ -250,4 +251,99 @@ main {
       padding-bottom: calc(100%/7);
     }
   }
+}
+
+.filter {
+  &__container {
+    display: block;
+    position: relative;
+    width: 100%;
+    background: var(--neutral-color);
+    border-radius: 10px;    
+    margin-bottom: 40px;
+    padding: 1rem;
+  }
+  &__title {
+    font-size: 22px;
+    font-weight: 300;
+    display: inline-block;
+    position: relative;    
+    &:after {
+      content: "";
+      position: absolute;
+      width: 75%;
+      height: 1px;
+      bottom: 0;
+      left: 1%;
+      border-bottom: 4px solid rgba(51,89,219,1);
+    }
+  }
+  &__box {
+    padding: 5px;
+    margin-top: 10px;
+  }
+
+}
+
+.cd-wrapper {
+  display: block;
+  position: relative;
+  width: 100%;
+  background: var(--neutral-color);
+  border: 1px solid #DEDEDE; border-radius: 9px; 
+  height: 35px;
+  cursor: pointer;
+  margin: 10px 0;
+  //z-index: 1;
+}
+
+.cd-icon {
+  float: right;
+  width: 25%;
+  border-left-color: #DEDEDE;
+  border-left-width: 1px;
+  border-left-style: solid;
+  height: 34px;
+  text-align: center;
+  display: table-cell;
+}
+
+.cd-header-title {
+  vertical-align: middle;
+  display: table-cell;
+}
+
+.cd-title {
+  width: 75%;
+  float: left;
+  display: table;
+  text-align: center;
+  font-size: 10px;
+  height: -webkit-fill-available;
+  color: #DEDEDE;
+}
+
+.cd-header {
+  width: 100%;
+}
+
+.cd-list {
+  background: white;
+  list-style: none;
+  margin-top: 33px;
+  padding: 5px 0 5px 5px;
+  border: 1px solid #DEDEDE; 
+  position: absolute;
+  z-index: 20;
+  width: 100%;
+}
+
+.event-button {
+  margin-top: 20px;
+  width: 100%;
+  height: 36px;
+  background: #3359DB;
+  color: white;
+  border-radius: 0px !important;
+
 }

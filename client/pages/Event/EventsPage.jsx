@@ -1,7 +1,7 @@
 import React from 'react';
+
 import Calendar from '../../components/common/Calendar';
-
-
+import EventFilter from '../../components/filter/EventFilter';
 import EventCard from '../../components/cards/EventCard';
 import eventFixtureList from '../../fixtures/events';
 
@@ -21,6 +21,7 @@ const EventsPage = (props) => {
   return (
     <div className="event__container">
       <div className="event__sidebar">
+        <EventFilter />
         <Calendar />
       </div>
       <div className="event__gallery">
