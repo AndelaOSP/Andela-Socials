@@ -13,28 +13,37 @@ class Calendar extends React.Component {
   };
 
   nextMonth = () => {
-    const { currentMonth } = this.state;
-    this.setState({ currentMonth: dateFns.addMonths(currentMonth, 1) });
+    this.setState({ currentMonth: dateFns.addMonths(this.state.currentMonth, 1) });
   };
 
   prevMonth = () => {
-    const { currentMonth } = this.state;
-    this.setState({ currentMonth: dateFns.subMonths(currentMonth, 1) });
+    this.setState({ currentMonth: dateFns.subMonths(this.state.currentMonth, 1) });
   };
 
+  pushDays(day, selectedDate, monthStart, cloneDay, formattedDate) {
+    return (
+      <div
+        className={`col cell ${
+          !dateFns.isSameMonth(day, monthStart)
+            ? "disabled"
+            : dateFns.isSameDay(day, selectedDate) ? "selected" : ""
+        }`}
+        key={day}
+        onClick={() => this.onDateClick(dateFns.parse(cloneDay))}
+      >
+        <span className="number">{formattedDate}</span>
+      </div>
+    );
+  }
+
   renderCells() {
-    const {
-      currentMonth,
-      selectedDate,
-    } = this.state;
+    const { currentMonth, selectedDate } = this.state;
     const monthStart = dateFns.startOfMonth(currentMonth);
     const monthEnd = dateFns.endOfMonth(monthStart);
     const startDate = dateFns.startOfWeek(monthStart);
     const endDate = dateFns.endOfWeek(monthEnd);
-
     const dateFormat = 'D';
     const rows = [];
-
     let days = [];
     let day = startDate;
     let formattedDate = '';
@@ -43,26 +52,10 @@ class Calendar extends React.Component {
       for (let i = 0; i < 7; i += 1) {
         formattedDate = dateFns.format(day, dateFormat);
         const cloneDay = day;
-        days.push(
-          <div
-            className={`col cell ${
-              !dateFns.isSameMonth(day, monthStart)
-                ? "disabled"
-                : dateFns.isSameDay(day, selectedDate) ? "selected" : ""
-            }`}
-            key={day}
-            onClick={() => this.onDateClick(dateFns.parse(cloneDay))}
-          >
-            <span className="number">{formattedDate}</span>
-          </div>
-        );
+        days.push(this.pushDays(day, selectedDate, monthStart, cloneDay, formattedDate));
         day = dateFns.addDays(day, 1);
       }
-      rows.push(
-        <div className="calenders__row" key={day}>
-          {days}
-        </div>
-      );
+      rows.push(<div className="calenders__row" key={day}>{days}</div>);
       days = [];
     }
     return <div className="full">{rows}</div>;
