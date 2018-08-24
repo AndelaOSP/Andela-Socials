@@ -92,18 +92,16 @@ class CreateEvent(relay.ClientIDMutation):
     def notify_event_in_slack(category, input, new_event):
         category_followers = Interest.objects.filter(
             follower_category_id=category.id)
-        all_users_attendance = [
-            Attend(user=instance.follower, event=new_event)
-            for instance in category_followers
-        ]
-        Attend.objects.bulk_create(all_users_attendance)
         message = (f"A new event has been created in {category.name} "
                    f"group \n Title: {input.get('title')} \n"
                    f"Description: {input.get('description')} \n "
                    f"Venue: {input.get('venue')} \n"
                    f"Date: {input.get('date')} \n Time: {input.get('time')}")
         slack_id_not_in_db = []
+        all_users_attendance = []
         for instance in category_followers:
+            new_attendance = Attend(user=instance.follower, event=new_event)
+            all_users_attendance.append(new_attendance)
             if instance.follower.slack_id:
                 slack_response = notify_user(
                     message, instance.follower.slack_id)
@@ -111,6 +109,7 @@ class CreateEvent(relay.ClientIDMutation):
                     logging.warn(slack_response)
             else:
                 slack_id_not_in_db.append(instance)
+        Attend.objects.bulk_create(all_users_attendance)
 
         if slack_id_not_in_db:
             for instance in slack_id_not_in_db:

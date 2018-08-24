@@ -1,5 +1,7 @@
 import logging
+import mock
 from graphql_relay import to_global_id
+from django.utils import timezone
 
 from .base import BaseEventTestCase
 from ..events.base import create_user
@@ -11,16 +13,17 @@ class AttendanceTestCase(BaseEventTestCase):
     """
     Test attend mutation queries
     """
-
-    def test_user_attend_model_is_populated_with_new_event(self):
+    @mock.patch('graphql_schemas.event.schema.send_calendar_invites')
+    def test_user_attend_model_is_populated_with_new_event(self, mock_send_calendar):
         query1 = f"""
         mutation CreateEvent{{
             createEvent(input: {{
                 title:"test title",
                 description:"test description",
                 venue:"test venue",
-                time:"3PM",
-                date:"2018/12/01",
+                startDate:"2018-08-09T18:00:00.000Z",
+                endDate:"2018-08-09T18:00:00.000Z",
+                timezone: "Africa/Algiers",
                 categoryId: "{to_global_id("CategoryNode", self.category.id)}",
                 featuredImage: "http://fake-image.com"
             }}) {{
