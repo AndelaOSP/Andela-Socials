@@ -4,6 +4,8 @@ from api.utils.oauth_helper import get_auth_url
 from api.models import Interest
 from googleapiclient.discovery import build
 
+from django.conf import settings
+
 
 def is_not_admin(user):
     """
@@ -61,8 +63,9 @@ async def send_calendar_invites(andela_user, event):
     payload = build_event(event, invitee_list)
 
     calendar = build('calendar', 'v3', credentials=andela_user.credential)
-    calendar.events().insert(calendarId='primary', sendNotifications=True,
-                             body=payload).execute()
+    if settings.ENVIRONMENT == "production":
+        calendar.events().insert(calendarId='primary', sendNotifications=True,
+                                 body=payload).execute()
 
 
 def build_event(event, invitees):
