@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  server:
+    build:
+      context: ../../
+      dockerfile: docker/release/server/Dockerfile
+    environment:
+      - DJANGO_SETTINGS_MODULE=a_socials.settings.prod
+      - CLIENT_ID=1047993778878-tvd9n8v1mag2g4mv1rugkfm016h69ech.apps.googleusercontent.com
+      - CLIENT_SECRET=8RLhqr4b2sfOx2C-aC8KkCHP
+      - SLACK_BOT_TOKEN=xoxb-238446567044-pnnJjcjJHZUN3kI0ImohpnaU
+      - G_SUITE_DOMAIN=andela.com
+      - SECRET_KEY='whatevetryouwant'
+      - OAUTH2_CLIENT_ID=1023621061664-1b7grp47bee4qu0k0a5114dvm1icl65k.apps.googleusercontent.com
+      - OAUTH2_CLIENT_SECRET=mWqS9LFB2wVqeYz8QTInWwKH
+      - OAUTH2_PROJECT_ID=andela-social-de-1531965134413
+      - DATABASE_URL=$DATA
+    command : ["gunicorn", "a_socials.wsgi:application", "--bind", "0.0.0.0:8000"]
+

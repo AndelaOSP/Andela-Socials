@@ -12,8 +12,8 @@ services:
     env_file:
       - ./prod.env
     build:
-      context: ../../server
-      dockerfile: ../docker/server/Dockerfile
+      context: ../../
+      dockerfile: docker/server/Dockerfile
     depends_on:
       - database
       - client
@@ -22,7 +22,7 @@ services:
     volumes:
       - static_dir:/andela_social/static
       - staticfiles:/andela_social/staticfiles
-      
+
   client:
     container_name: prod_andela_social_client
     build:
@@ -48,7 +48,7 @@ services:
       - postgres_backup:/backups
     ports:
       - "8093:5432"
-  
+
   nginx:
     container_name: nginx_server
     build: ../nginx

@@ -32,4 +32,19 @@ jobs:
           path: test-reports
           destination: test-reports
 
+  deploy:
+    docker:
+      - image: circleci/python:3.6.4
+        environment:
+          TERM: xterm-265color
+          GOOGLE_PROJECT_ID: bench-projects
+          STAGING_GOOGLE_COMPUTE_ZONE: us-central1-a
+          PRODUCTION_GOOGLE_COMPUTE_ZONE: europe-west1-b
+    working_directory: ~/a_socials
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Run application tests
+
 

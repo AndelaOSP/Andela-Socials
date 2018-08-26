@@ -1,4 +1,4 @@
-FROM node:8.4.0
+FROM node:carbon
 
 # Set andela_social as working directory
 WORKDIR /andela_social
