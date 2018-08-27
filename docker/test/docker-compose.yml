@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  database:
+    image: postgres:10.4
+    restart: always
+    environment:
+      - POSTGRES_USER=a_social
+      - POSTGRES_PASSWORD=a_social
+      - POSTGRES_DB=a_social
+  app:
+    build:
+      context: ../../
+      dockerfile: docker/test/Dockerfile
+    depends_on:
+      - database
+    env_file:
+      - test.env
+    command: ["bash","docker/test/wait_for_db.sh"]

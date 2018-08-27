@@ -5,6 +5,7 @@ ENV PYTHONUNBUFFERED 1
 # Copy the requirements.txt to a tmp folder
 COPY ./requirements.txt /requirements.txt
 
+
 # Update pip version and build wheel archive
 RUN pip install --upgrade pip wheel
 RUN pip wheel --wheel-dir=/wheelhouse -r requirements.txt
@@ -27,7 +28,7 @@ COPY wait_for_database.sh /wait_for_database.sh
 
 # Make the setup scripts executable
 RUN chmod +x /start-server.sh \
- && chmod +x /wait_for_database.sh
+    && chmod +x /wait_for_database.sh
 
 #set the wait for database script as the entry
 ENTRYPOINT "/wait_for_database.sh" && /bin/bash
