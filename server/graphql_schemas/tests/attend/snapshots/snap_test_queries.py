@@ -11,7 +11,7 @@ snapshots['AttendanceTestCase::test_can_fetch_single_attendance 1'] = {
     'data': {
         'eventAttendance': {
             'event': {
-                'id': 'RXZlbnROb2RlOjE2',
+                'id': 'RXZlbnROb2RlOjEw',
                 'title': 'Test Event 2'
             },
             'id': 'QXR0ZW5kTm9kZTo3',
@@ -25,7 +25,7 @@ snapshots['AttendanceTestCase::test_can_fetch_user_events 1'] = {
         'subscribedEvents': [
             {
                 'event': {
-                    'id': 'RXZlbnROb2RlOjE4',
+                    'id': 'RXZlbnROb2RlOjEy',
                     'title': 'Test Event 2'
                 },
                 'id': 'QXR0ZW5kTm9kZTo4',
@@ -42,7 +42,7 @@ snapshots['AttendanceTestCase::test_user_attend_model_is_populated_with_new_even
                 {
                     'node': {
                         'event': {
-                            'id': 'RXZlbnROb2RlOjIx',
+                            'id': 'RXZlbnROb2RlOjE1',
                             'title': 'test title'
                         },
                         'id': 'QXR0ZW5kTm9kZToxMg==',
@@ -52,7 +52,7 @@ snapshots['AttendanceTestCase::test_user_attend_model_is_populated_with_new_even
                 {
                     'node': {
                         'event': {
-                            'id': 'RXZlbnROb2RlOjIx',
+                            'id': 'RXZlbnROb2RlOjE1',
                             'title': 'test title'
                         },
                         'id': 'QXR0ZW5kTm9kZToxMQ==',
@@ -62,7 +62,7 @@ snapshots['AttendanceTestCase::test_user_attend_model_is_populated_with_new_even
                 {
                     'node': {
                         'event': {
-                            'id': 'RXZlbnROb2RlOjIx',
+                            'id': 'RXZlbnROb2RlOjE1',
                             'title': 'test title'
                         },
                         'id': 'QXR0ZW5kTm9kZToxMA==',
@@ -72,7 +72,7 @@ snapshots['AttendanceTestCase::test_user_attend_model_is_populated_with_new_even
                 {
                     'node': {
                         'event': {
-                            'id': 'RXZlbnROb2RlOjIw',
+                            'id': 'RXZlbnROb2RlOjE0',
                             'title': 'Test Event 2'
                         },
                         'id': 'QXR0ZW5kTm9kZTo5',

@@ -34,3 +34,81 @@ snapshots['QueryEventTestCase::test_query_single_event 1'] = {
         }
     }
 }
+
+snapshots['QueryEventTestCase::test_get_event_list 1'] = {
+    'data': {
+        'eventsList': {
+            'edges': [
+                {
+                    'cursor': 'YXJyYXljb25uZWN0aW9uOjA=',
+                    'node': {
+                        'description': 'test description default',
+                        'id': 'RXZlbnROb2RlOjU=',
+                        'socialEvent': {
+                            'id': 'Q2F0ZWdvcnlOb2RlOjQ0',
+                            'name': 'social event'
+                        },
+                        'startDate': '2018-11-20T20:08:07.127325+00:00',
+                        'title': 'test title default',
+                        'venue': 'test venue'
+                    }
+                }
+            ]
+        }
+    }
+}
+
+snapshots['QueryEventTestCase::test_filter_event_list 1'] = {
+    'data': {
+        'eventsList': {
+            'edges': [
+                {
+                    'cursor': 'YXJyYXljb25uZWN0aW9uOjA=',
+                    'node': {
+                        'description': 'test description default',
+                        'id': 'RXZlbnROb2RlOjU=',
+                        'socialEvent': {
+                            'id': 'Q2F0ZWdvcnlOb2RlOjM1',
+                            'name': 'social event'
+                        },
+                        'startDate': '2018-11-20T20:08:07.127325+00:00',
+                        'title': 'test title default',
+                        'venue': 'test venue'
+                    }
+                }
+            ]
+        }
+    }
+}
+
+snapshots['QueryEventTestCase::test_filter_event_list_by_non_existing_venue_returns_empty_list 1'] = {
+    'data': {
+        'eventsList': {
+            'edges': [
+            ]
+        }
+    }
+}
+
+snapshots['QueryEventTestCase::test_filter_event_list_by_valid_venue_is_successful 1'] = {
+    'data': {
+        'eventsList': {
+            'edges': [
+                {
+                    'cursor': 'YXJyYXljb25uZWN0aW9uOjA=',
+                    'node': {
+                        'description': 'test description default',
+                        'id': 'RXZlbnROb2RlOjU=',
+                        'socialEvent': {
+                            'id': 'Q2F0ZWdvcnlOb2RlOjQz',
+                            'name': 'social event'
+                        },
+                        'startDate': '2018-11-20T20:08:07.127325+00:00',
+                        'title': 'test title default',
+                        'venue': 'test venue'
+                    }
+                }
+            ]
+        }
+    }
+}
