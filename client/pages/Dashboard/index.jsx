@@ -11,6 +11,7 @@ import Header from '../../components/common/Header';
 import EventsPage from '../Event/EventsPage';
 import ModalContextProvider from '../../components/Modals/ModalContext';
 import Modal from '../../components/Modals/ModalContainer';
+import LoadComponent from '../../utils/loadComponent';
 
 // stylesheet
 import '../../assets/style.scss';
@@ -24,6 +25,9 @@ import {
 // utils
 import isLoggedIn from '../../utils/isLoggedIn';
 import isTokenExpired from '../../utils/isTokenExpired';
+
+// other routes
+const NotFound = LoadComponent(import('../../components/common/NotFound'));
 
 /**
  * Represents Dashboard component
@@ -110,6 +114,7 @@ class Dashboard extends Component {
         <Switch>
           {this.redirectUser()}
           <Route path="/events" render={() => <EventsPage />} />
+          <Route path="*" component={NotFound} />
         </Switch>
         <Modal />
       </ModalContextProvider>
