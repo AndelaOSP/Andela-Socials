@@ -8,7 +8,7 @@ dotenv.load()
 slack_client = SlackClient(dotenv.get('SLACK_BOT_TOKEN'))
 
 
-def get_slack_users():
+def get_slack_users(users=[]):
     """
     Helper function to return all slack users.
     """
@@ -24,10 +24,8 @@ def get_slack_id(user):
     Helper function to get user's slack name.
     """
     members = get_slack_users()
-    for member in members:
-        if member.get('profile').get('email') == user['email']:
-            return member.get('profile').get('display_name')
-    return ''
+    user_name = [member for member in members if member.get('profile').get('email') == user['email']]
+    return user_name[0].get('id') if user_name else ''
 
 
 def notify_channel(message):
