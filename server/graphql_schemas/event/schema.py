@@ -5,6 +5,7 @@ from django.forms.models import model_to_dict
 
 from django.core.mail import send_mail
 from django.core.exceptions import ObjectDoesNotExist
+from django.utils import timezone
 from graphene import relay, ObjectType
 from graphql_relay import from_global_id
 from graphene_django.filter import DjangoFilterConnectionField
@@ -209,7 +210,7 @@ class SendEventInvite(relay.ClientIDMutation):
         try:
             receiver = AndelaUserProfile.objects.get(
                 user__email=receiver_email)
-            Event.objects.get(id=from_global_id(event_id)[1])
+            event = Event.objects.get(id=from_global_id(event_id)[1])
             assert sender.user.id != receiver.user.id
         except AndelaUserProfile.DoesNotExist:
             raise GraphQLError(
@@ -222,7 +223,7 @@ class SendEventInvite(relay.ClientIDMutation):
                 "User cannot invite self")
 
         hashes = Hasher.gen_hash([
-            event_id, receiver.user.id, sender.user.id])
+            event.id, receiver.user.id, sender.user.id])
         invite_url = info.context.build_absolute_uri(
             f"/invite/{hashes}")
         message = f"Click on this link to view invite\n\n{invite_url}"
@@ -255,16 +256,17 @@ class ValidateEventInvite(relay.ClientIDMutation):
 
         try:
             data = Hasher.reverse_hash(hash_string)
-            if data and len(data) == 3:
-                event_id, receiver_id, sender_id = data
-                event = Event.objects.get(id=event_id)
-                AndelaUserProfile.objects.get(user_id=sender_id)
-                assert user_id == receiver_id
-                return cls(
-                    isValid=True, event=event,
-                    message="OK: Event invite is valid")
-            else:
+            if not data or len(data) != 3:
                 raise GraphQLError("Bad Request: Invalid invite URL")
+            event_id, receiver_id, sender_id = data
+            assert user_id == receiver_id
+            event = Event.objects.get(id=event_id)
+            if timezone.now() > event.end_date:
+                raise GraphQLError("Expired Invite: Event has ended")
+            AndelaUserProfile.objects.get(user_id=sender_id)
+            return cls(
+                isValid=True, event=event,
+                message="OK: Event invite is valid")
         except AssertionError:
             return cls(
                 isValid=False,

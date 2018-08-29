@@ -1,6 +1,7 @@
-import datetime
 import pytz
 
+from datetime import datetime, timedelta
+from django.utils import timezone
 from django.test import RequestFactory
 from django.contrib.auth.models import User
 from snapshottest.django import TestCase
@@ -13,8 +14,10 @@ from graphql_schemas.views import DRFAuthenticatedGraphQLView as DRF
 
 from google.oauth2.credentials import Credentials
 
+current_date = timezone.now()
+past_date = current_date - timedelta(hours=24)
 
-date = datetime.datetime(2018, 11, 20, 20, 8, 7, 127325, tzinfo=pytz.UTC)
+date = datetime(2018, 11, 20, 20, 8, 7, 127325, tzinfo=pytz.UTC)
 request_factory = RequestFactory()
 
 

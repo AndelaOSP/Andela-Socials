@@ -24,7 +24,7 @@ snapshots['MutateEventTestCase::test_create_event_with_calendar_unauthorizd 1'] 
     },
     'errors': [
         {
-            'AuthUrl': 'https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=1023621061664-1b7grp47bee4qu0k0a5114dvm1icl65k.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Fapi%2Fv1%2Foauthcallback&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar&state=3BidNiT8qjMlJg9b1MRH39DVQEPMh6&prompt=consent&included_granted_scopes=true&login_hint=testemailcreatorId%40email.com&access_type=offline',
+            'AuthUrl': 'https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=1023621061664-1b7grp47bee4qu0k0a5114dvm1icl65k.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Fapi%2Fv1%2Foauthcallback&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar&state=ZITN2SxIFY590CerKI8yvgR10UnTWp&prompt=consent&included_granted_scopes=true&login_hint=testemailcreatorId%40email.com&access_type=offline',
             'message': 'Calendar API not authorized'
         }
     ]
@@ -244,6 +244,16 @@ snapshots['MutateEventTestCase::test_validate_invite_link_unauthorized_user 1'] 
             'event': None,
             'isValid': False,
             'message': 'Forbidden: Unauthorized access'
+        }
+    }
+}
+
+snapshots['MutateEventTestCase::test_validate_invite_link_expired_event 1'] = {
+    'data': {
+        'validateEventInvite': {
+            'event': None,
+            'isValid': False,
+            'message': 'Expired Invite: Event has ended'
         }
     }
 }

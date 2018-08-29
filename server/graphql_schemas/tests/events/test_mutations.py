@@ -6,7 +6,7 @@ from graphql_relay import to_global_id
 from graphql_schemas.utils.helpers import UnauthorizedCalendarError
 from graphql_schemas.utils.hasher import Hasher
 
-from .base import BaseEventTestCase, create_user
+from .base import BaseEventTestCase, create_user, past_date
 
 
 class MutateEventTestCase(BaseEventTestCase):
@@ -386,6 +386,39 @@ class MutateEventTestCase(BaseEventTestCase):
 
     def test_validate_invite_link_invalid_hash(self):
         hash_string = "amanhasnoname"
+        query = f"""
+            mutation ValidateInvite {{
+                validateEventInvite(input: {{
+                    hashString: "{hash_string}"
+                }})
+                {{
+                    isValid
+                    event {{
+                        title
+                        description
+                        venue
+                        startDate
+                        endDate
+                        active
+                    }}
+                    message
+                }}
+            }}
+        """
+
+        self.request.user = self.non_event_creator.user
+        result = self.client.execute(query, context_value=self.request)
+        self.assertMatchSnapshot(result)
+
+    def test_validate_invite_link_expired_event(self):
+        self.user_event.end_date = past_date
+        self.user_event.save()
+        event_id = self.user_event.id
+        receiver_id = self.non_event_creator.user.id
+        sender_id = self.event_creator.user.id
+
+        hash_string = Hasher.gen_hash([
+            event_id, receiver_id, sender_id])
         query = f"""
             mutation ValidateInvite {{
                 validateEventInvite(input: {{
