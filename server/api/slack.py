@@ -24,7 +24,8 @@ def get_slack_id(user):
     Helper function to get user's slack name.
     """
     members = get_slack_users()
-    user_name = [member for member in members if member.get('profile').get('email') == user['email']]
+    user_name = [member for member in members if member.get('profile').get(
+        'email') == user['email']]
     return user_name[0].get('id') if user_name else ''
 
 

@@ -104,14 +104,13 @@ class AndelaUserProfile(models.Model):
         :return: It newly created user_profile data
         """
         user_profile = AndelaUserProfile.objects.create(
-            slack_id=get_slack_id({"email": user_data["email"]}),
             user_id=user_id, google_id=user_data['id'],
-            timezone=get_slack_user_timezone(user_data["email"]),
-            user_picture=user_data['picture']),
-        #  It runs background user profile update.
-        BackgroundTaskWorker.start_work(
-            cls.check_diff_and_update,
-            (user_data,))
+            user_picture=user_data['picture'])
+
+        if user_profile:
+            #  It runs background user profile update.
+            BackgroundTaskWorker.start_work(user_profile.check_diff_and_update,
+                                            (user_data,))
         return user_profile
 
     @classmethod
@@ -125,12 +124,11 @@ class AndelaUserProfile(models.Model):
 
         if user_profile:
             #  It runs background user profile update.
-            BackgroundTaskWorker.start_work(cls.check_diff_and_update,
+            BackgroundTaskWorker.start_work(user_profile.check_diff_and_update,
                                             (user_data,))
         return user_profile
 
-    @staticmethod
-    async def check_diff_and_update(idinfo):
+    async def check_diff_and_update(self, idinfo):
         """Check for differences between request/idinfo and model data.
                     Args:
                         idinfo: data passed in from post method.
@@ -141,13 +139,11 @@ class AndelaUserProfile(models.Model):
             "timezone": get_slack_user_timezone(idinfo["email"])
         }
 
-        stored_user = AndelaUserProfile.objects.get(google_id=idinfo['id'])
-
         for field in data:
-            if getattr(stored_user, field) != data[field] and \
+            if getattr(self, field) != data[field] and \
                     data[field] != '':
-                setattr(stored_user, field, data[field])
-        stored_user.save()
+                setattr(self, field, data[field])
+        self.save()
 
 
 User.profile = property(

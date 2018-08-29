@@ -43,7 +43,7 @@ class AndelaTokenAuthenticationTestCase(TestCase):
 
         header = {'HTTP_TOKEN': ''}
 
-        self.response = self.client.get('/', format="json", **header)
+        self.response = self.client.get('/graphql', format="json", **header)
         self.assertEqual(self.response.data['detail'], 'Authorization token is required')
         self.assertEqual(self.response.status_code, 401)
 
@@ -51,7 +51,7 @@ class AndelaTokenAuthenticationTestCase(TestCase):
 
         header = {'HTTP_TOKEN': 'vcbnm.kmnjbvcvbnmlnbvbcvnmmkjhgf6hvbnmjk.njb'}
 
-        self.response = self.client.get('/', format="json", **header)
+        self.response = self.client.get('/graphql', format="json", **header)
         self.assertEqual(self.response.data['detail'],
                          'Authorization failed due to an Invalid token.')
         self.assertEqual(self.response.status_code, 401)
