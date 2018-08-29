@@ -57,6 +57,7 @@ class BaseListAPIView(ListAPIView):
 class DashBoardView(APIView):
 
     permission_classes = (AllowAny,)
+    authentication_classes = (AllowAny,)
 
     def get(self, request):
         if dotenv.get('NODE_ENV') == 'development':
