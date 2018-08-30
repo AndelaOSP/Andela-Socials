@@ -5,14 +5,31 @@ services:
     build:
       context: ../../
       dockerfile: docker/release/server/Dockerfile
+    links:
+        - database
 
     env_file:
         - ./prod.env
     environment:
       - DJANGO_SETTINGS_MODULE=a_socials.settings.prod
+      - APP_SETTINGS=Staging
 
     command : ["gunicorn", "a_socials.wsgi:application", "--bind", "0.0.0.0:8000"]
 
     ports:
         - 8000:8000
 
+  database:
+    image: postgres
+    restart: always
+    expose:
+        - "5432"
+    environment:
+        - POSTGRES_USER=a_social
+        - POSTGRES_PASSWORD=a_social
+        - POSTGRES_DB=a_social
+    healthcheck:
+        test: ["CMD-SHELL", "pg_isready -U postgres"]
+        interval: 5s
+        timeout: 10s
+        retries: 5

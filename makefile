@@ -4,7 +4,8 @@ REPO_NAME ?= andela-socials
 
 DOCKER_TEST_COMPOSE_FILE := docker/test/docker-compose.yml
 DOCKER_TEST_PROJECT = $(PROJECT_NAME)test
-
+DOCKER_BACKEND_COMPOSE_FILE := docker/release/docker-compose.yml
+DOCKER_BACKEND_PROJECT = $(PROJECT_NAME)backend
 
 # Select docker-compose file based on environment
 ifeq ($(env),production)
@@ -33,6 +34,19 @@ stop:
 	@ echo " "
 	@ docker-compose -f $(DOCKER_COMPOSE_FILE) down -v
 	@ echo "All containers stopped successfully"
+
+build_backend:
+	${INFO} "Creating builder image"
+	@ docker-compose -p $(DOCKER_BACKEND_PROJECT) -f $(DOCKER_BACKEND_COMPOSE_FILE) build server
+	${INFO} "Building application artifacts.."
+	@ docker-compose -p $(DOCKER_BACKEND_PROJECT) -f $(DOCKER_BACKEND_COMPOSE_FILE) run -d server
+	${INFO} "Check for completeness"
+	${CHECK} $(DOCKER_BACKEND_PROJECT) $(DOCKER_BACKEND_COMPOSE_FILE) server
+	${INFO} "Build complete"
+
+destroy:
+	${INFO} "Destroying test environment"
+
 
 # colors
 GREEN 	:= $(shell tput -Txterm setaf 2)
