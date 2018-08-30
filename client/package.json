@@ -43,6 +43,7 @@
     "image-webpack-loader": "3.4.2",
     "jquery": "3.2.1",
     "jwt-decode": "^2.2.0",
+    "moment-timezone": "^0.5.21",
     "node-sass": "4.5.3",
     "prop-types": "^15.6.2",
     "react": "16.4.1",

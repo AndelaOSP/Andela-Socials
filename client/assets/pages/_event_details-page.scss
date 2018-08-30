@@ -1,0 +1,94 @@
+.event-details{
+    &__top{
+    position: absolute;
+    width: 95vw;
+    height: 17vh;
+    left: 2.5vw;
+    top: 17vh;
+    background-color: #FFF;
+    display: inline-flex;
+  }
+  &__section{
+    width: 50%;
+    max-height: 100%;
+    float: left;
+    padding: 19px;
+    background-color: #FFF;
+  }
+  
+  &__middle{
+    position: absolute;
+    width: 95vw;
+    min-height: 50vh;
+    left: 2.5vw;
+    top: 36vh;
+    background-color: #FFF;
+    display: inline-flex;
+  }
+  &__picture{
+    height: 30vh;
+    max-width: 41vw;
+    margin: 28px 35px 48px 28px;
+  }
+  &__gallery-picture{
+    width: 84px;
+    height: 89px;
+    margin-bottom: 39px;
+    margin-left: 20px;
+  }
+  &__mini-gallery{
+    margin-left: 28px;
+    max-width: 41vw;
+    display: inline-flex;
+  }
+  &__event_title{
+    font-family: DIN Pro;
+    font-weight: bold;
+    font-size: 40px;
+    padding: 0 0 0 26px;
+  }
+  &__social_event{
+    font-size: 20px;
+    font-style: normal;
+    font-weight: lighter;
+    padding: 0 0 0 26px;
+    margin-top: -15px;
+    color: #797979;
+  }
+  &__rsvp_button{
+    margin: 0 0 0 26px;
+    background-color: #3359DB;
+    font-size: 1.25em;
+    color: white;
+    width: 147px;
+    height: 41px;
+  }
+  &__location_time h5 {
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: lighter;
+    text-decoration: underline;
+    line-height: 10px;
+  
+  }
+  &__location_time p {
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: lighter;
+    overflow-wrap: break-word;
+  }
+  &__description h5 {
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: bolder;
+    line-height: 7px;
+    padding-top: 19px;
+    margin-bottom: .5rem; 
+  }
+  &__description article, &__attending p, &__tags p{
+    font-style: normal;
+    font-size: 1.2rem;
+    font-weight: lighter;
+    padding: 19px 0 20px 0;
+  }
+}

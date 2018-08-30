@@ -3,51 +3,124 @@ import eventPicture from '../assets/img/img_group_selfie.jpg';
 
 const eventsList = [
   {
-    id: 1,
-    eventTitle: 'Game & python devs',
-    eventPicture,
-    eventDate: 'Saturday, July 22nd 2018',
-    eventTags: '#Game #python',
+    node: {
+      id: 'RXZlbnROb2RlOjI=',
+      socialEvent: { name: 'Parties' },
+      startDate: '2018-08-14 13:29:12.950122+00',
+      title: 'Another Birthday',
+    },
   },
-
   {
-    id: 2,
-    eventTitle: 'Music Jamz',
-    eventPicture,
-    eventDate: 'Friday, June 2nd 2019',
-    eventTags: '#Music #freestyle',
+    node: {
+      id: 'RXZlbnROb2RlOjM=',
+      socialEvent: { name: 'Gaming' },
+      startDate: '2018-08-14 13:29:12.950122+00',
+      title: 'Gaming LAN party',
+    },
   },
-
   {
-    id: 3,
-    eventTitle: 'Fellows offsite',
-    eventPicture,
-    eventDate: 'Saturday, August 19th 2018',
-    eventTags: '#fellows #lagos #andela',
+    node: {
+      id: 'RXZlbnROb2RlOjQ=',
+      socialEvent: { name: 'Gaming' },
+      startDate: '2018-08-14 13:29:12.950122+00',
+      title: 'WAT',
+    },
   },
-
   {
-    id: 4,
-    eventTitle: 'Build up',
-    eventPicture,
-    eventDate: 'Sunday, April 17th 2018',
-    eventTags: '#sport #lagos',
+    node: {
+      id: 'RXZlbnROb2RlOjU=',
+      socialEvent: { name: 'Gaming' },
+      startDate: '2018-08-14 13:29:12.950122+00',
+      title: 'WOT',
+    },
   },
-
   {
-    id: 5,
-    eventTitle: 'Data science? lets figure',
-    eventPicture,
-    eventDate: 'Tuesday, November 19th 2018',
-    eventTags: '#development #python',
+    node: {
+      id: 'RXZlbnROb2RlOjEx',
+      socialEvent: { name: 'Gaming' },
+      startDate: '2018-08-14 13:29:12.950122+00',
+      title: 'Wot',
+    },
   },
-
   {
-    id: 6,
-    eventTitle: 'Game & unreal',
-    eventPicture,
-    eventDate: 'Saturday, July 22nd 2018',
-    eventTags: '#Game #unreal #gameengine',
+    node: {
+      id: 'RXZlbnROb2RlOjEy',
+      socialEvent: { name: 'Gaming' },
+      startDate: '2018-08-14 13:29:12.950122+00',
+      title: 'Test Event',
+    },
+  },
+  {
+    node: {
+      id: 'RXZlbnROb2RlOjEz',
+      socialEvent: { name: 'Gaming' },
+      startDate: '2018-08-14 13:29:12.950122+00',
+      title: 'Test Event',
+    },
+  },
+  {
+    node: {
+      id: 'RXZlbnROb2RlOjE0',
+      socialEvent: { name: 'Gaming' },
+      startDate: '2018-08-14 13:29:12.950122+00',
+      title: 'Test Event',
+    },
+  },
+  {
+    node: {
+      id: 'RXZlbnROb2RlOjE1',
+      socialEvent: { name: 'Gaming' },
+      startDate: '2018-08-14 13:29:12.950122+00',
+      title: 'Test Event',
+    },
+  },
+  {
+    node: {
+      id: 'RXZlbnROb2RlOjE2',
+      socialEvent: { name: 'Gaming' },
+      startDate: '2018-08-14 13:29:12.950122+00',
+      title: 'Test Event',
+    },
+  },
+  {
+    node: {
+      id: 'RXZlbnROb2RlOjE=',
+      socialEvent: { name: 'Gaming' },
+      startDate: '2018-08-14 13:29:12.950122+00',
+      title: "Someone's birthday",
+    },
+  },
+  {
+    node: {
+      id: 'RXZlbnROb2RlOjE3',
+      socialEvent: { name: 'Gaming' },
+      startDate: '2018-08-29 11:49:57.183735+00',
+      title: 'test title4',
+    },
+  },
+  {
+    node: {
+      id: 'RXZlbnROb2RlOjE4',
+      socialEvent: { name: 'Gaming' },
+      startDate: '2018-08-29 11:49:57.183735+00',
+      title: 'test title4',
+    },
+  },
+  {
+    node: {
+      id: 'RXZlbnROb2RlOjE5',
+      socialEvent: { name: 'Gaming' },
+      startDate: '2018-08-29 11:49:57.183735+00',
+      title: 'test title4',
+    },
+  },
+  {
+    node: {
+      id: 'RXZlbnROb2RlOjIw',
+      socialEvent: { name: 'Gaming' },
+      startDate: '2018-08-29 11:49:57.183735+00',
+      title: 'test title4',
+    },
   },
 ];
 

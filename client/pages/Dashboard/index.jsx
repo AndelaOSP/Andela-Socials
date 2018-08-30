@@ -9,6 +9,7 @@ import { Route, Redirect, Switch } from 'react-router-dom';
 // components
 import Header from '../../components/common/Header';
 import EventsPage from '../Event/EventsPage';
+import EventDetailsPage from '../Event/EventDetailsPage';
 import ModalContextProvider, { ModalContextCreator } from '../../components/Modals/ModalContext';
 import Modal from '../../components/Modals/ModalContainer';
 import LoadComponent from '../../utils/loadComponent';
@@ -126,7 +127,6 @@ class Dashboard extends Component {
     if (search === '?error=failed+to+create+user+token') {
       this.props.displayLoginErrorMessage();
     }
-
     return (
       <ModalContextProvider>
         <Header
@@ -136,10 +136,11 @@ class Dashboard extends Component {
         />
         <Switch>
           {this.redirectUser()}
+          <Route path="/events/:eventId" render={props => <EventDetailsPage {...props} />} />
           <Route path="/events" render={() => <EventsPage />} />
           <Route path="*" component={NotFound} />
         </Switch>
-        { this.renderCreateEventButton() }
+        {this.renderCreateEventButton()}
         <Modal />
       </ModalContextProvider>
     );

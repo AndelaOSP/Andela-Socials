@@ -7,6 +7,7 @@ import EventCard from '../../components/cards/EventCard';
 import formatDate from '../../utils/formatDate';
 import { getEventsList } from '../../actions/graphql/eventGQLActions';
 import { getCategoryList } from '../../actions/graphql/categoryGQLActions';
+import NotFound from '../../components/common/NotFound';
 
 /**
  * @description  contains events dashboard page
@@ -36,7 +37,9 @@ class EventsPage extends React.Component {
   componentDidMount() {
     const { eventStartDate } = this.state;
     this.getEvents({ startDate: eventStartDate });
-    this.getCategories({ first: 20, last: 20 });
+    this.getCategories({
+ first: 20, last: 20 
+});
   }
 
   componentWillReceiveProps(nextProps) {
@@ -52,9 +55,9 @@ class EventsPage extends React.Component {
       selectedVenue,
       selectedCategory,
     } = this.state;
-    const startDate = filterDate ? filterDate : eventStartDate;
-    const location = filterLocation ? filterLocation : selectedVenue;
-    const category = filterCategory ? filterCategory : selectedCategory;
+    const startDate = filterDate || eventStartDate;
+    const location = filterLocation || selectedVenue;
+    const category = filterCategory || selectedCategory;
     this.setState({
       eventStartDate: startDate,
       selectedVenue: location,
@@ -134,19 +137,17 @@ class EventsPage extends React.Component {
 
   render() {
     const { categoryList } = this.state;
-    const catList = categoryList.map((item) => {
-      return {
+    const catList = categoryList.map((item) => ({
         id: item.node.id,
         title: item.node.name,
         selected: false,
         key: 'category',
-      };
-    });
+      }));
     return (
       <div className="event__container">
         <div className="event__sidebar">
-          <EventFilter categoryList={catList} filterSelected={this.getFilteredEvents}/>
-          <Calendar dateSelected={this.getFilteredEvents}/>
+          <EventFilter categoryList={catList} filterSelected={this.getFilteredEvents} />
+          <Calendar dateSelected={this.getFilteredEvents} />
         </div>
         <div className="event__gallery">
           {this.renderEventGallery()}
