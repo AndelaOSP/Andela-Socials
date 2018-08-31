@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 
-require('dotenv').config({path: '../.env'});
+require('dotenv').config({ path: '../.env' });
 
 const isInDebugMode = debugString => debugString === 'TRUE';
 const DEBUG = JSON.stringify(process.env.DEBUG);
@@ -24,6 +24,7 @@ module.exports = {
           NODE_ENV: JSON.stringify(process.env.NODE_ENV),
           ANDELA_API_BASE_URL: JSON.stringify(process.env.ANDELA_API_BASE_URL),
           BASE_URL: JSON.stringify(process.env.BASE_URL),
+          SERVER_API_BASE_URL: JSON.stringify(process.env.SERVER_API_BASE_URL),
           DEBUG,
         },
       },
@@ -50,10 +51,6 @@ module.exports = {
       },
     ],
   },
-  node: {
-    fs: 'empty',
-  },
-  resolve: {
-    extensions: ['.js', '.jsx'],
-  },
+  node: {fs: 'empty',},
+  resolve: {extensions: ['.js', '.jsx'],},
 };
