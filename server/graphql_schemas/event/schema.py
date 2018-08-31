@@ -34,7 +34,8 @@ logging.basicConfig(
 class EventNode(DjangoObjectType):
     class Meta:
         model = Event
-        filter_fields = ['start_date', 'social_event', 'venue']
+        filter_fields = {'start_date': ['exact', 'istartswith'],
+                         'social_event': ['exact'], 'venue': ['exact']}
         interfaces = (relay.Node,)
 
 
