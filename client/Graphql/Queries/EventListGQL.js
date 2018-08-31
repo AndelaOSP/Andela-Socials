@@ -1,35 +1,32 @@
 import gql from 'graphql-tag';
 
-const EVENT_LIST_GQL = (before = '', after = '', first = 1, last = 1) => ({
+const EVENT_LIST_GQL = (after = '', first = 1, startDate, venue,
+  category) => ({
   query: gql`
     query(
-      $before: String,
       $after: String,
       $first: Int,
-      $last: Int
+      $startDate: String,
+      $venue: String,
+      $category: ID,
+
+
     ){
       eventsList(
-        before: $before
         after: $after
         first: $first
-        last: $last
+        startDate_Istartswith: $startDate,
+        venue: $venue
+        socialEvent: $category
+
       ){
-        pageInfo{
-          hasNextPage
-          hasPreviousPage
-          startCursor
-          endCursor
-        }
         edges{
           node{
-            createdAt
-            updatedAt
             id
             title
             description
             venue
-            date
-            time
+            startDate
             socialEvent{
               name
             }
@@ -41,10 +38,11 @@ const EVENT_LIST_GQL = (before = '', after = '', first = 1, last = 1) => ({
       }
     }`,
   variables: {
-    before,
     after,
     first,
-    last,
+    startDate,
+    venue,
+    category,
   },
 });
 export default EVENT_LIST_GQL;

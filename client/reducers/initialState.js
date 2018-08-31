@@ -1,7 +1,7 @@
 export default {
   activeUser: {},
   event: {},
-  events: {},
+  events: [],
   subscribedEvents: [],
   redirectUrl: '',
   interest: {},

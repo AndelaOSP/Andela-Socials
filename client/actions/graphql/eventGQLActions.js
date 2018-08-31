@@ -1,5 +1,5 @@
 import EVENT_LIST_GQL from '../../Graphql/Queries/EventListGQL';
-//import EVENT_GQL from '../../Graphql/Queries/EventGQL';
+// import EVENT_GQL from '../../Graphql/Queries/EventGQL';
 import CREATE_EVENT_GQL from '../../Graphql/Mutations/CreateEventGQL';
 import UPDATE_EVENT_GQL from '../../Graphql/Mutations/UpdateEventGQL';
 import DEACTIVATE_EVENT_GQL from '../../Graphql/Mutations/DeactivateEventGQL';
@@ -10,10 +10,20 @@ import { handleError } from '../../utils/errorHandler';
 import Client from '../../client';
 
 
-export const getEventsList = (before = '', after = '', first = 1, last = 1) => dispatch => Client.query(
-  EVENT_LIST_GQL(before, after, first, last)
-).then(data => dispatch({type: GET_EVENTS, payload: data.data, error: false}))
-.catch(error => handleError(error, dispatch));
+export const getEventsList = ({
+  after = '',
+  first = 9,
+  startDate,
+  venue,
+  category,
+}) => dispatch => Client.query(
+  EVENT_LIST_GQL(after, first, startDate, venue, category)
+).then(data => dispatch({
+  type: GET_EVENTS,
+  payload: data.data.eventsList.edges,
+  error: false,
+}))
+  .catch(error => handleError(error, dispatch));
 
 /**
  * This commented out code below has a use case
@@ -30,7 +40,7 @@ export const getEventsList = (before = '', after = '', first = 1, last = 1) => d
 export const getEvent = id => ({
   type: GET_EVENT,
   payload: { id },
-  error: false
+  error: false,
 });
 
 export const createEvent = (
@@ -51,8 +61,10 @@ export const createEvent = (
     time,
     socialEventId
   )
-).then(data => dispatch({type: CREATE_EVENT, payload: data.data, error: false,}))
-.catch(error => handleError(error, dispatch));
+).then(data => dispatch({
+  type: CREATE_EVENT, payload: data.data, error: false,
+}))
+  .catch(error => handleError(error, dispatch));
 
 export const updateEvent = (
   eventId,
@@ -74,10 +86,14 @@ export const updateEvent = (
     time,
     socialEventId
   )
-).then(data => dispatch({type: UPDATE_EVENT, payload: data.data, error: false,}))
-.catch(error => handleError(error, dispatch));
+).then(data => dispatch({
+  type: UPDATE_EVENT, payload: data.data, error: false,
+}))
+  .catch(error => handleError(error, dispatch));
 
 export const deactivateEvent = (eventId, clientMutationId = '') => dispatch => Client.mutate(
   DEACTIVATE_EVENT_GQL(eventId, clientMutationId)
-).then(data => dispatch({type: DEACTIVATE_EVENT, payload: {id: eventId}}))
-.catch(error => console.log(`received error ${error}`));
+).then(data => dispatch({
+  type: DEACTIVATE_EVENT, payload: { id: eventId },
+}))
+  .catch(error => console.log(`received error ${error}`));

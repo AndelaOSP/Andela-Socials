@@ -1,13 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import Calendar from '../../components/common/Calendar';
 import EventFilter from '../../components/filter/EventFilter';
 import EventCard from '../../components/cards/EventCard';
-import eventFixtureList from '../../fixtures/events';
+import formatDate from '../../utils/formatDate';
+import { getEventsList } from '../../actions/graphql/eventGQLActions';
+import NotFound from '../../components/common/NotFound';
 
 
 /**
- * @description Currently contains events page layout
+ * @description  contains events dashboard page
  *
  * @class EventsPage
  * @extends {React.Component}
@@ -15,7 +18,10 @@ import eventFixtureList from '../../fixtures/events';
 class EventsPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { eventList: [] };
+    this.state = {
+      eventList: [],
+      eventStartDate: formatDate(Date.now(), 'YYYY-MM-DD'),
+    };
   }
 
   /**
@@ -25,18 +31,35 @@ class EventsPage extends React.Component {
  * @returns {null}
  */
   componentDidMount() {
-    this.setState({ eventList: this.getEvents().length ? this.getEvents() : eventFixtureList });
+    const { eventStartDate } = this.state;
+    this.getEvents({ startDate: eventStartDate });
   }
+
 
   /**
   * @description Gets list of events
    *
    * @memberof EventsPage
+   *
+   * @param {string} startDate
+   * @param {string} venue
+   * @param {string} category
    */
-  getEvents = () => {
-    // Todo: Implement a call to get events
-    const eventList = [];
-    return eventList;
+  getEvents = ({
+    startDate,
+    venue,
+    category,
+  }) => {
+    const {
+      events,
+      getEventsList,
+    } = this.props;
+    getEventsList({
+      startDate, venue, category,
+    });
+    if (events.length) {
+      this.setState({ eventList: events });
+    }
   }
 
   /**
@@ -55,7 +78,13 @@ class EventsPage extends React.Component {
    */
   renderEventGallery = () => {
     const { eventList } = this.state;
-    return eventList.map(eventItem => (<EventCard key={eventItem.id} {...eventItem} />));
+    if (eventList.length) {
+      return eventList.map(eventItem => (<EventCard key={eventItem.node.id}
+        {...eventItem.node} />));
+    }
+
+    // Todo: Create a custom no-event component
+    return <NotFound />;
   }
 
   render() {
@@ -78,4 +107,6 @@ class EventsPage extends React.Component {
   }
 }
 
-export default EventsPage;
+const mapStateToProps = state => ({ events: state.events });
+
+export default connect(mapStateToProps, { getEventsList })(EventsPage);

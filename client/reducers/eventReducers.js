@@ -16,7 +16,7 @@ import initialState from './initialState';
 export const events = (state = initialState.events, action) => {
   switch (action.type) {
     case GET_EVENTS:
-      return Object.assign({}, state, { events: action.payload });
+      return [...action.payload];
 
     case GET_EVENT:
       return Object.assign(
