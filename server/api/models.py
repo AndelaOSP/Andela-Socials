@@ -193,8 +193,8 @@ class Event(BaseInfo):
     title = models.CharField(max_length=100)
     description = models.TextField()
     venue = models.TextField()
-    start_date = models.DateTimeField(blank=True)
-    end_date = models.DateTimeField(blank=True)
+    start_date = models.CharField(max_length=50)
+    end_date = models.CharField(max_length=50)
     creator = models.ForeignKey(AndelaUserProfile, on_delete=models.CASCADE)
     social_event = models.ForeignKey(
         Category, on_delete=models.CASCADE, related_name="events")
