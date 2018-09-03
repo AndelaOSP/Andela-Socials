@@ -9,7 +9,7 @@ class Calendar extends React.Component {
 
   onDateClick = (day) => {
     this.setState({ selectedDate: day });
-    // Todo: Implementation of events filter on dateSelected.
+    this.props.dateSelected(dateFns.format(day, 'YYYY-MM-DD'));
   };
 
   nextMonth = () => {

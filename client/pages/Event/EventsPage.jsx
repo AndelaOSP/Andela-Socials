@@ -6,8 +6,6 @@ import EventFilter from '../../components/filter/EventFilter';
 import EventCard from '../../components/cards/EventCard';
 import formatDate from '../../utils/formatDate';
 import { getEventsList } from '../../actions/graphql/eventGQLActions';
-import NotFound from '../../components/common/NotFound';
-
 
 /**
  * @description  contains events dashboard page
@@ -22,6 +20,7 @@ class EventsPage extends React.Component {
       eventList: [],
       eventStartDate: formatDate(Date.now(), 'YYYY-MM-DD'),
     };
+    this.getFilteredEvents = this.getFilteredEvents.bind(this);
   }
 
   /**
@@ -35,6 +34,23 @@ class EventsPage extends React.Component {
     this.getEvents({ startDate: eventStartDate });
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { events } = this.props;
+    if (events !== nextProps.events) {
+      this.setState({ eventList: nextProps.events });
+    }
+  }
+
+  getFilteredEvents(filterDate, filterLocation, filterCategory) {
+    const { eventStartDate } = this.state;
+    const startDate = filterDate ? filterDate : eventStartDate;
+    this.setState({ eventStartDate: startDate });
+    this.getEvents({
+      startDate,
+      venue: filterLocation,
+      category: filterCategory,
+    });
+  }
 
   /**
   * @description Gets list of events
@@ -82,17 +98,15 @@ class EventsPage extends React.Component {
       return eventList.map(eventItem => (<EventCard key={eventItem.node.id}
         {...eventItem.node} />));
     }
-
-    // Todo: Create a custom no-event component
-    return <NotFound />;
+    return <div>No Event found</div>;
   }
 
   render() {
     return (
       <div className="event__container">
         <div className="event__sidebar">
-          <EventFilter />
-          <Calendar />
+          <EventFilter filterSelected={this.getFilteredEvents}/>
+          <Calendar dateSelected={this.getFilteredEvents}/>
         </div>
         <div className="event__gallery">
           {this.renderEventGallery()}
