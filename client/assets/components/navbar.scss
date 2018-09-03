@@ -41,7 +41,7 @@
   padding: 0;
   height: rem(70px);
   .nav-profile {
-    width: rem(183.5px);
+    min-width: rem(183.5px);
     margin: 0;
     &__list-menus {
       @include column-flex;
