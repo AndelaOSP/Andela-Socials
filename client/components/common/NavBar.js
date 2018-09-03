@@ -11,6 +11,22 @@ import LogoReplacement from '../../assets/icons/LogoReplacement';
 // assets
 import '../../assets/components/navbar.scss';
 
+const NavMenu = ({
+  to,
+  children,
+}) => (
+  <div className="link__container">
+    <NavLink to={to} activeClassName="link__container--active">
+      <span>{children}</span>
+    </NavLink>
+  </div>
+);
+
+NavMenu.propTypes = {
+  to: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
+};
+
 const NavBar = (props) => {
   const {
     signOut,
@@ -52,16 +68,8 @@ const NavBar = (props) => {
       </nav>
       <div className="navbar">
         <div className="navbar__bottom-section">
-          <div className="link__container">
-            <NavLink to="/events" activeClassName="link__container--active">
-              <span>Dashboard</span>
-            </NavLink>
-          </div>
-          <div className="link__container">
-            <NavLink to="/groups" activeClassName="link__container--active">
-              <span>My Groups</span>
-            </NavLink>
-          </div>
+          <NavMenu to="/dashboard">Dashboard</NavMenu>
+          <NavMenu to="/groups">Groups</NavMenu>
         </div>
       </div>
     </Fragment>
