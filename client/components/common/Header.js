@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import NavBar from './NavBar';
@@ -36,4 +37,4 @@ Header.propTypes = {
   signOut: PropTypes.func.isRequired,
 };
 
-export default connect(null, { signOut })(Header);
+export default withRouter(connect(null, { signOut })(Header));

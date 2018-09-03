@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 // components
@@ -52,8 +52,16 @@ const NavBar = (props) => {
       </nav>
       <div className="navbar">
         <div className="navbar__bottom-section">
-            <Link to="#dashboard">Dashboard</Link>
-            <Link to="#groups">My Groups</Link>
+          <div className="link__container">
+            <NavLink to="/events" activeClassName="link__container--active">
+              <span>Dashboard</span>
+            </NavLink>
+          </div>
+          <div className="link__container">
+            <NavLink to="/groups" activeClassName="link__container--active">
+              <span>My Groups</span>
+            </NavLink>
+          </div>
         </div>
       </div>
     </Fragment>

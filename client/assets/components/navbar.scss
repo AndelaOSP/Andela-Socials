@@ -3,21 +3,46 @@
 .navbar {
   overflow: hidden;
   box-shadow: 0rem 0.5rem 1rem 0rem rgba(0, 0, 0, 0.2);
-  background: #FFFFFF;
+  background: $white;
+  border: none;
+
   a {
-    font-size: 1.6rem;
+    @include centered-flex;
+    font-size: rem(20px);
     text-align: center;
     color: map-get($colors, silver);
-    padding: 0.9rem 1rem;
     text-decoration: none;
+    height: 100%;
+    margin: 0 rem(30.5px);
   }
+
   &__bottom-section {
-    height: 2.5rem;
-    text-align: center;
+    @include centered-flex;
+    height: rem(70px);
     border-top-style: solid;
     border-width: thin;
     border-color: map-get($colors, bonjour);
-    padding-top: 0.625rem;
+
+    .link__container{
+      @include centered-flex;
+      height: 100%;
+    }
+
+    .link__container--active{
+      color: $blue;
+    }
+
+    .link__container a:hover::after, .link__container--active::after {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: 0;
+      margin: 0 auto;
+      width: rem(70px);
+      height: rem(6px);
+      border-radius: rem(6px);
+      background-color: $blue;
+    }
   }
 }
 
