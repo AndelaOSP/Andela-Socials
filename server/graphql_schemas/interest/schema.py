@@ -5,6 +5,7 @@ from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
 from graphql import GraphQLError
 from graphql_relay import from_global_id
+from django.db import IntegrityError
 
 from api.models import Interest, Category, AndelaUserProfile
 
@@ -28,11 +29,14 @@ class JoinCategory(relay.ClientIDMutation):
         category_id = input.get('category_id')
         user = AndelaUserProfile.objects.get(user=info.context.user)
         user_category = Category.objects.get(pk=from_global_id(category_id)[1])
-        joined_category = Interest(
-            follower=user,
-            follower_category=user_category
-        )
-        joined_category.save()
+        try:
+            joined_category = Interest(
+                follower=user,
+                follower_category=user_category
+            )
+            joined_category.save()
+        except IntegrityError:
+            raise GraphQLError('User has already shown interest in this category')
 
         return JoinCategory(joined_category=joined_category)
 

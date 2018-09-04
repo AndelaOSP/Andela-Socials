@@ -1,5 +1,4 @@
 import logging
-from django.db import transaction
 
 from graphql_relay import to_global_id
 from api.models import Category

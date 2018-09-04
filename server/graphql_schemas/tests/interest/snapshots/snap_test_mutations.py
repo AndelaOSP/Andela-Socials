@@ -106,3 +106,23 @@ snapshots['InterestTestCase::test_user_cannot_unjoin_category_they_do_not_belong
         }
     ]
 }
+
+snapshots['InterestTestCase::test_user_cannot_join_same_category_twice 1'] = {
+    'data': {
+        'joinCategory': None
+    },
+    'errors': [
+        {
+            'locations': [
+                {
+                    'column': 13,
+                    'line': 3
+                }
+            ],
+            'message': 'User has already shown interest in this category',
+            'path': [
+                'joinCategory'
+            ]
+        }
+    ]
+}
