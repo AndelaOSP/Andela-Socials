@@ -168,8 +168,8 @@ def create_user_profile(sender, instance, created, **kwargs):
 class Category(BaseInfo):
     """Category model defined."""
 
-    name = models.CharField(max_length=100)
-    featured_image = models.URLField()
+    name = models.CharField(max_length=100, unique=True)
+    featured_image = models.URLField(unique=True)
     description = models.TextField(
         max_length=280, default="For people who want to be happy.")
 

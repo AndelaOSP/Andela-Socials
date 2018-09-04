@@ -2,6 +2,8 @@ import graphene
 from graphene import relay
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
+from graphql import GraphQLError
+from django.db import IntegrityError
 
 from api.models import Category
 
@@ -31,7 +33,13 @@ class CreateCategory(relay.ClientIDMutation):
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
-        new_category = Category.objects.create(**input)
+        try:
+            new_category, new_created = Category.objects.get_or_create(**input)
+            if not new_created:
+                raise GraphQLError('You cannot create the same category twice')
+        except IntegrityError:
+            name = input.get('name')
+            raise GraphQLError(f'category {name} already exists')
         return cls(new_category=new_category)
 
 

@@ -12,13 +12,13 @@ class BaseEventTestCase(TestCase):
             id=1,
             name="Gaming Meetup",
             description="For people who want to be happy.",
-            featured_image="https://cdn.elegantthemes.com/"
+            featured_image="https://cdn.elegantthemes.com/10"
         )
         self.category2 = Category.objects.create(
             id=2,
             name="Python Meetup",
             description="For people who want to be happy.",
-            featured_image="https://cdn.elegantthemes.com/"
+            featured_image="https://cdn.elegantthemes.com/11"
         )
         self.user = UserProxy.create_user({
             "username": "testuser",

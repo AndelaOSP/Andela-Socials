@@ -12,7 +12,7 @@ class BaseCategoryTestCase(TestCase):
             self.category = Category.objects.create(
                 name="Swimming Meetup {}".format(index),
                 description="For people who want to be happy.",
-                featured_image="https://cdn.elegantthemes.com/"
+                featured_image="https://cdn.eleganttheme.com/{}".format(index)
             )
         self.user = UserProxy.create_user({
             "username": "testuser",
