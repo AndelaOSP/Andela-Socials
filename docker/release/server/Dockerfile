@@ -1,7 +1,11 @@
 # Set up python runtime environment
 FROM python:3.6.5
 
+LABEL MAINTAINER="Natalie Elizabeth <natalie.elizabeth@andela.com>"
+LABEL application="asocialsbackend"
+
 ENV TERM=xterm-256color
+
 # Set mirrors to Nearest Zone for faster builds
 RUN sed -i "s/http:\/\/archive./http:\/\/nz.archive./g" /etc/apt/sources.list
 
@@ -19,4 +23,3 @@ RUN pip install -r requirements.txt
 
 # Copy server files to work directory
 COPY server /andela_social
-

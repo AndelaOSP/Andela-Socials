@@ -44,8 +44,18 @@ build_backend:
 	${CHECK} $(DOCKER_BACKEND_PROJECT) $(DOCKER_BACKEND_COMPOSE_FILE) server
 	${INFO} "Build complete"
 
-destroy:
-	${INFO} "Destroying test environment"
+test:
+	${INFO} "Building required docker images for testing"
+	@ echo " "
+	@ docker-compose -p $(DOCKER_TEST_PROJECT) -f $(DOCKER_TEST_COMPOSE_FILE) build --pull test
+	${INFO} "Running tests in docker"
+	@ docker-compose -p $(DOCKER_TEST_PROJECT) -f $(DOCKER_TEST_COMPOSE_FILE) up test
+	${CHECK} $(DOCKER_TEST_PROJECT) $(DOCKER_TEST_COMPOSE_FILE) test
+	${INFO} "Copying test coverage reports
+	@ bash -c 'if [ -d "reports" ]; then rm -Rf reports; fi'
+	@ docker cp $$(docker-compose -p $(DOCKER_TEST_PROJECT) -f $(DOCKER_TEST_COMPOSE_FILE) ps -q test):/application/.coverage reports
+	${INFO} "Cleaning up workspace..."
+	@ docker-compose -p $(DOCKER_TEST_PROJECT) -f $(DOCKER_TEST_COMPOSE_FILE) down -v
 
 
 # colors
@@ -65,7 +75,7 @@ CHECK := @bash -c 'if [[ $(INSPECT) -ne 0 ]]; then exit $(INSPECT); fi' VALUE
 
 IMAGE_ID = $$(docker images $(REPO_NAME)rel  -q)
 # run test
-server test:
-	@ coverage run server/manage.py test server/api/tests/ server/graphql_schemas/tests/
+# server test:
+# 	@ coverage run server/manage.py test server/api/tests/ server/graphql_schemas/tests/
 
 

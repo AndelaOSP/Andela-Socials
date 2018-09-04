@@ -8,3 +8,5 @@ function docker_test() {
   python server/manage.py test server/api/tests/ server/graphql_schemas/tests/
 
 }
+
+docker_test
