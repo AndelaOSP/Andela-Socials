@@ -36,7 +36,9 @@ class JoinCategory(relay.ClientIDMutation):
             )
             joined_category.save()
         except IntegrityError:
-            raise GraphQLError('User has already shown interest in this category')
+            raise GraphQLError(
+                'User has already shown interest in this category'
+            )
 
         return JoinCategory(joined_category=joined_category)
 
