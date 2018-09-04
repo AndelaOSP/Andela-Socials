@@ -24,6 +24,7 @@ class EventsPage extends React.Component {
       selectedVenue: '',
       selectedCategory: '',
       eventStartDate: formatDate(Date.now(), 'YYYY-MM-DD'),
+      lastEventItemCursor: '',
     };
     this.getFilteredEvents = this.getFilteredEvents.bind(this);
   }
@@ -38,14 +39,21 @@ class EventsPage extends React.Component {
     const { eventStartDate } = this.state;
     this.getEvents({ startDate: eventStartDate });
     this.getCategories({
- first: 20, last: 20 
-});
+      first: 20, last: 20,
+    });
   }
 
   componentWillReceiveProps(nextProps) {
+    const {
+      events, socialClubs,
+    } = nextProps;
+
+    const eventLength = events.length;
+    const lastEventItemCursor = eventLength ? events[eventLength - 1].cursor : '';
     this.setState({
-      eventList: nextProps.events,
-      categoryList: nextProps.socialClubs.socialClubs,
+      eventList: events,
+      categoryList: socialClubs.socialClubs,
+      lastEventItemCursor,
     });
   }
 
@@ -83,17 +91,12 @@ class EventsPage extends React.Component {
     startDate,
     venue,
     category,
+    after,
   }) => {
-    const {
-      events,
-      getEventsList,
-    } = this.props;
+    const { getEventsList } = this.props;
     getEventsList({
-      startDate, venue, category,
+      startDate, venue, category, after,
     });
-    if (events.length) {
-      this.setState({ eventList: events });
-    }
   }
 
   /**
@@ -118,7 +121,18 @@ class EventsPage extends React.Component {
    * @memberof EventsPage
    */
   loadMoreEvents = () => {
-    // Todo: Implement a call to load more events
+    const {
+      eventStartDate,
+      selectedVenue,
+      selectedCategory,
+      lastEventItemCursor,
+    } = this.state;
+    this.getEvents({
+      startDate: eventStartDate,
+      venue: selectedVenue,
+      category: selectedCategory,
+      after: lastEventItemCursor,
+    });
   }
 
   /**
@@ -137,12 +151,12 @@ class EventsPage extends React.Component {
 
   render() {
     const { categoryList } = this.state;
-    const catList = categoryList.map((item) => ({
-        id: item.node.id,
-        title: item.node.name,
-        selected: false,
-        key: 'category',
-      }));
+    const catList = categoryList.map(item => ({
+      id: item.node.id,
+      title: item.node.name,
+      selected: false,
+      key: 'category',
+    }));
     return (
       <div className="event__container">
         <div className="event__sidebar">

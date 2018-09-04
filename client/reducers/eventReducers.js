@@ -1,6 +1,6 @@
 import {
   GET_EVENT, ATTEND_EVENT, SUBSCRIBED_EVENTS,
-  GET_EVENTS, CREATE_EVENT, GET_ATTENDEES,
+  GET_EVENTS, LOAD_MORE_EVENTS, CREATE_EVENT, GET_ATTENDEES,
   GET_EVENT_ATTENDENCE, UNATTEND_EVENT,
   UPDATE_EVENT, DEACTIVATE_EVENT, SIGN_OUT,
 } from '../actions/constants';
@@ -17,6 +17,8 @@ export const events = (state = initialState.events, action) => {
   switch (action.type) {
     case GET_EVENTS:
       return [...action.payload];
+    case LOAD_MORE_EVENTS:
+      return [...state, ...action.payload];
 
     case GET_EVENT:
       return Object.assign(

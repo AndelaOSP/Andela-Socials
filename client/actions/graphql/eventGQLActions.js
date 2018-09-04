@@ -4,7 +4,7 @@ import CREATE_EVENT_GQL from '../../Graphql/Mutations/CreateEventGQL';
 import UPDATE_EVENT_GQL from '../../Graphql/Mutations/UpdateEventGQL';
 import DEACTIVATE_EVENT_GQL from '../../Graphql/Mutations/DeactivateEventGQL';
 
-import { GET_EVENT, CREATE_EVENT, GET_EVENTS, UPDATE_EVENT, DEACTIVATE_EVENT } from '../constants';
+import { GET_EVENT, CREATE_EVENT, GET_EVENTS, UPDATE_EVENT, LOAD_MORE_EVENTS, DEACTIVATE_EVENT } from '../constants';
 
 import { handleError } from '../../utils/errorHandler';
 import Client from '../../client';
@@ -19,7 +19,7 @@ export const getEventsList = ({
 }) => dispatch => Client.query(
   EVENT_LIST_GQL(after, first, startDate, venue, category)
 ).then(data => dispatch({
-  type: GET_EVENTS,
+  type: after ? LOAD_MORE_EVENTS : GET_EVENTS,
   payload: data.data.eventsList.edges,
   error: false,
 }))
