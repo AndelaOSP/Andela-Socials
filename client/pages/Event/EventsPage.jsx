@@ -6,6 +6,7 @@ import EventFilter from '../../components/filter/EventFilter';
 import EventCard from '../../components/cards/EventCard';
 import formatDate from '../../utils/formatDate';
 import { getEventsList } from '../../actions/graphql/eventGQLActions';
+import { getCategoryList } from '../../actions/graphql/categoryGQLActions';
 
 /**
  * @description  contains events dashboard page
@@ -18,6 +19,9 @@ class EventsPage extends React.Component {
     super(props);
     this.state = {
       eventList: [],
+      categoryList: [],
+      selectedVenue: '',
+      selectedCategory: '',
       eventStartDate: formatDate(Date.now(), 'YYYY-MM-DD'),
     };
     this.getFilteredEvents = this.getFilteredEvents.bind(this);
@@ -32,23 +36,34 @@ class EventsPage extends React.Component {
   componentDidMount() {
     const { eventStartDate } = this.state;
     this.getEvents({ startDate: eventStartDate });
+    this.getCategories({ first: 20, last: 20 });
   }
 
   componentWillReceiveProps(nextProps) {
-    const { events } = this.props;
-    if (events !== nextProps.events) {
-      this.setState({ eventList: nextProps.events });
-    }
+    this.setState({
+      eventList: nextProps.events,
+      categoryList: nextProps.socialClubs.socialClubs,
+    });
   }
 
   getFilteredEvents(filterDate, filterLocation, filterCategory) {
-    const { eventStartDate } = this.state;
+    const {
+      eventStartDate,
+      selectedVenue,
+      selectedCategory,
+    } = this.state;
     const startDate = filterDate ? filterDate : eventStartDate;
-    this.setState({ eventStartDate: startDate });
+    const location = filterLocation ? filterLocation : selectedVenue;
+    const category = filterCategory ? filterCategory : selectedCategory;
+    this.setState({
+      eventStartDate: startDate,
+      selectedVenue: location,
+      selectedCategory: category,
+    });
     this.getEvents({
       startDate,
-      venue: filterLocation,
-      category: filterCategory,
+      venue: location,
+      category,
     });
   }
 
@@ -79,6 +94,22 @@ class EventsPage extends React.Component {
   }
 
   /**
+  * @description Gets list of categories
+   *
+   * @memberof EventsPage
+   */
+  getCategories = ({
+    first,
+    last,
+  }) => {
+    const { getCategoryList } = this.props;
+    getCategoryList({
+      first,
+      last,
+    });
+  }
+
+  /**
   * @description It loads more list of events
   *
    * @memberof EventsPage
@@ -102,10 +133,19 @@ class EventsPage extends React.Component {
   }
 
   render() {
+    const { categoryList } = this.state;
+    const catList = categoryList.map((item) => {
+      return {
+        id: item.node.id,
+        title: item.node.name,
+        selected: false,
+        key: 'category',
+      };
+    });
     return (
       <div className="event__container">
         <div className="event__sidebar">
-          <EventFilter filterSelected={this.getFilteredEvents}/>
+          <EventFilter categoryList={catList} filterSelected={this.getFilteredEvents}/>
           <Calendar dateSelected={this.getFilteredEvents}/>
         </div>
         <div className="event__gallery">
@@ -121,6 +161,12 @@ class EventsPage extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({ events: state.events });
+const mapStateToProps = state => ({
+  events: state.events,
+  socialClubs: state.socialClubs,
+});
 
-export default connect(mapStateToProps, { getEventsList })(EventsPage);
+export default connect(mapStateToProps, {
+  getEventsList,
+  getCategoryList,
+})(EventsPage);

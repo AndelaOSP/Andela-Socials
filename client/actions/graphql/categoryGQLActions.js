@@ -15,9 +15,9 @@ export const getClubs = socialClubs => ({
   error: false,
 });
 
-export const getCategoryList = (
+export const getCategoryList = ({
   before = '', after = '', first = 1, last = 1, name = '', name_Icontains = '', name_Istartswith = '', description_Icontains = '', description_Istartswith = ''
-) => dispatch => Client.query(
+}) => dispatch => Client.query(
   CATEGORY_LIST_GQL(
     before,
     after,
@@ -29,7 +29,7 @@ export const getCategoryList = (
     description_Icontains,
     description_Istartswith
   )
-).then(data => dispatch(getClubs(data.data)))
+).then(data => dispatch(getClubs(data.data.categoryList.edges)))
 .catch(error => handleError(error, dispatch));
 
 export const getCategory = id => ({

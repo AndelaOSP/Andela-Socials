@@ -11,38 +11,14 @@ class EventFilter extends React.Component {
       category: '',
       list: [ // todo: remove, just for test
         {
-          id: 0,
+          id: 'Lagos',
           title: 'Lagos',
           selected: false,
           key: 'location',
         },
         {
-          id: 1,
+          id: 'Kenya',
           title: 'Kenya',
-          selected: false,
-          key: 'location',
-        },
-        {
-          id: 2,
-          title: 'California',
-          selected: false,
-          key: 'location',
-        },
-        {
-          id: 3,
-          title: 'Istanbul',
-          selected: false,
-          key: 'location',
-        },
-        {
-          id: 4,
-          title: 'Izmir',
-          selected: false,
-          key: 'location',
-        },
-        {
-          id: 5,
-          title: 'Oslo',
           selected: false,
           key: 'location',
         },
@@ -54,7 +30,6 @@ class EventFilter extends React.Component {
   }
 
   onApply() {
-
     const { filterSelected } = this.props;
     const {
       location,
@@ -90,7 +65,7 @@ class EventFilter extends React.Component {
             Category
             <CustomDropDown
               title="Select category"
-              list={this.state.list}
+              list={this.props.categoryList}
               onSelected={this.onCategoryChange}
             />
           </div>
@@ -109,8 +84,14 @@ class EventFilter extends React.Component {
   }
 }
 
-EventFilter.propTypes = { filterSelected: PropTypes.func };
+EventFilter.propTypes = {
+  filterSelected: PropTypes.func,
+  categoryList: PropTypes.arrayOf(PropTypes.object),
+};
 
-EventFilter.defaultProps = { filterSelected: undefined };
+EventFilter.defaultProps = {
+  filterSelected: undefined,
+  categoryList: [],
+};
 
 export default EventFilter;

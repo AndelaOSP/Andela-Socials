@@ -28,10 +28,10 @@ class CustomDropDown extends Component {
 
   selectedItem(item) {
     this.setState({
-      headerTitle: item,
+      headerTitle: item.title,
       listOpen: false,
     });
-    this.props.onSelected(item);
+    this.props.onSelected(item.id);
   }
 
   render() {
@@ -57,7 +57,7 @@ class CustomDropDown extends Component {
       </div>
        {listOpen && <ul className="cd-list">
          {list.map(item => (
-           <li className="dd-list-item" onClick={() => this.selectedItem(item.title)} key={item.id} >{item.title}</li>
+           <li className="dd-list-item" onClick={() => this.selectedItem(item)} key={item.id} >{item.title}</li>
          ))}
         </ul>}
       </div>
