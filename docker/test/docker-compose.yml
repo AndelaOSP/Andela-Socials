@@ -20,8 +20,11 @@ services:
     build:
       context: ../../
       dockerfile: docker/test/Dockerfile
-    env_file:
-      - test.env
+    environment:
+        - OAUTH2_CLIENT_ID=1023621061664-1b7grp47bee4qu0k0a5114dvm1icl65k.apps.googleusercontent.com
+        - OAUTH2_CLIENT_SECRET=mWqS9LFB2wVqeYz8QTInWwKH
+        - SECRET_KEY='whatevetryouwant'
+
     command: ["bash","docker/test/wait_for_db.sh"]
     depends_on:
       - database
