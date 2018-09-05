@@ -4,12 +4,12 @@ services:
   database:
     image: postgres:10.4
     restart: always
+    expose:
+      - "5432"
     environment:
       - POSTGRES_USER=a_social
       - POSTGRES_PASSWORD=a_social
       - POSTGRES_DB=a_social
-    expose:
-      - "5432"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
@@ -24,7 +24,7 @@ services:
         - OAUTH2_CLIENT_ID=1023621061664-1b7grp47bee4qu0k0a5114dvm1icl65k.apps.googleusercontent.com
         - OAUTH2_CLIENT_SECRET=mWqS9LFB2wVqeYz8QTInWwKH
         - SECRET_KEY='whatevetryouwant'
-
+    env_file: "test.env"
     command: ["bash","docker/test/wait_for_db.sh"]
     depends_on:
       - database

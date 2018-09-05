@@ -3,7 +3,6 @@ jobs:
   build:
     docker:
       - image: circleci/python:3.6.1
-      - image: circleci/postgres:9.4
         environment:
           - TERM: xterm-256color
           - POSTGRES_USER: circleci
@@ -14,16 +13,8 @@ jobs:
       - checkout
       - setup_remote_docker
       - run:
-          name: install dependencies
-          command: |
-            python3 -m venv venv
-            . venv/bin/activate
-            pip install -r server/requirements.txt
-
-      - run:
           name: run tests
           command: |
-            . venv/bin/activate
             export DJANGO_SETTINGS_MODULE=a_socials.settings.dev
             make test
 

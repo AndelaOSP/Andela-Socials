@@ -12,4 +12,3 @@ RUN chmod +x  docker/test/wait_for_db.sh
 
 RUN chmod +x scripts/test.sh
 
-ENTRYPOINT ["scripts/test.sh"]
