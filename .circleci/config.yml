@@ -12,6 +12,7 @@ jobs:
     working_directory: ~/repo
     steps:
       - checkout
+      - setup_remote_docker
       - run:
           name: install dependencies
           command: |
@@ -40,7 +41,7 @@ jobs:
 #     working_directory: ~/repo
 #     steps:
 #     - checkout
-#     - setup_remote_checkout
+#     - setup_remote_docker
 #     - run
 #         name: Run application tests
 #         command: make test
