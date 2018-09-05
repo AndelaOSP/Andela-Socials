@@ -1,0 +1,24 @@
+.no-events {
+  grid-column: event-gallery-start/event-gallery-end;
+  &__container {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    grid-template-columns: auto;
+    grid-template-rows: repeat(3, auto);
+    text-align: center;
+    color: #365edb;
+    font-family: inherit;
+  }
+  &__status-message {
+    font-size: rem(100px);
+    font-weight: 200;
+  }
+  &__main-message {
+    font-size: rem(25px);
+    font-weight: 200;
+    text-transform: uppercase;
+  }
+}

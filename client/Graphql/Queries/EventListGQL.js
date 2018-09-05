@@ -27,6 +27,7 @@ const EVENT_LIST_GQL = (after = '', first = 1, startDate, venue,
             description
             venue
             startDate
+            featuredImage
             socialEvent{
               name
             }

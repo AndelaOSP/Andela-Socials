@@ -7,7 +7,7 @@ import EventCard from '../../components/cards/EventCard';
 import formatDate from '../../utils/formatDate';
 import { getEventsList } from '../../actions/graphql/eventGQLActions';
 import { getCategoryList } from '../../actions/graphql/categoryGQLActions';
-import NotFound from '../../components/common/NotFound';
+import EventNotFound from '../../components/EventNotFound';
 
 /**
  * @description  contains events dashboard page
@@ -143,10 +143,14 @@ class EventsPage extends React.Component {
   renderEventGallery = () => {
     const { eventList } = this.state;
     if (eventList.length) {
-      return eventList.map(eventItem => (<EventCard key={eventItem.node.id}
-        {...eventItem.node} />));
+      const listOfEventCard = eventList.map(eventItem => (
+        <EventCard key={eventItem.node.id}
+          {...eventItem.node} />));
+      return (<div className="event__gallery">
+        {listOfEventCard}
+      </div>);
     }
-    return <div>No Event found</div>;
+    return <EventNotFound statusMessage="404" mainMessage="Events not found" />;
   }
 
   render() {
@@ -163,9 +167,7 @@ class EventsPage extends React.Component {
           <EventFilter categoryList={catList} filterSelected={this.getFilteredEvents} />
           <Calendar dateSelected={this.getFilteredEvents} />
         </div>
-        <div className="event__gallery">
-          {this.renderEventGallery()}
-        </div>
+        {this.renderEventGallery()}
         <div className="event__footer">
           <button onClick={this.loadMoreEvents} type="button" className="btn-blue event__load-more-button">
             Load more
