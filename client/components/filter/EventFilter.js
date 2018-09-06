@@ -72,7 +72,7 @@ class EventFilter extends React.Component {
           <div className="">
             <button
               type="button"
-              className="event-button btn btn-default"
+              className="event-button event__load-more-button"
               onClick={this.onApply}
             >
               APPLY
