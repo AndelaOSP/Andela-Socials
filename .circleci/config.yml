@@ -1,15 +1,19 @@
+defaults: &defaults
+    docker:
+        - image: circleci/python:3.6.1
+    working_directory: ~/andela-socials-backend
+
 version: 2
 jobs:
-  build:
+  test:
     docker:
-      - image: circleci/python:3.6.1
+      <<: *defaults
       - image: circleci/postgres:9.4
         environment:
           - TERM: xterm-256color
           - POSTGRES_USER: circleci
           - POSTGRES_DB: circlecidb
           - POSTGRES_PASSWORD: $DB_PASSWORD
-    working_directory: ~/repo
     steps:
       - checkout
       - setup_remote_docker
@@ -30,19 +34,31 @@ jobs:
           path: test-reports
           destination: test-reports
 
-#   deploy:
-#     docker:
-#       - image: circle/python:3.6.1
-#         environment:
-#             TERM: xterm-256color
-#             GOOGLE_PROJECT_ID: bench-projects
-#             STAGING_GOOGLE_COMPUTE_ZONE: us-central1-a
-#             PRODUCTION_GOOGLE_COMPUTE_ZONE: europe-west1-b
-#     working_directory: ~/repo
-#     steps:
-#     - checkout
-#     - setup_remote_docker
-#     - run
-#         name: Run application tests
-#         command: make test
+  deploy:
+    docker:
+      - image: circle/python:3.6.1
+        environment:
+            TERM: xterm-256color
+            GOOGLE_PROJECT_ID: bench-projects
+            STAGING_GOOGLE_COMPUTE_ZONE: us-central1-a
+            PRODUCTION_GOOGLE_COMPUTE_ZONE: europe-west1-b
+    working_directory: ~/repo
+    steps:
+    - checkout
+    - setup_remote_docker
+    - run
 
+
+workflows:
+    version: 2
+    build-deploy:
+        jobs:
+            - test
+            - deploy:
+                requires:
+                    - test
+                filters:
+                    branches:
+                        only:
+                            - master
+                            - /release\/v[0-9].[0-9].[0-9]/
