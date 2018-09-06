@@ -1,12 +1,14 @@
 defaults: &defaults
   docker:
     - image: circleci/python:3.6.1
+      environment:
+        TERM: xterm-256color
   working_directory: ~/andela-socials-backend
+
 
 version: 2
 jobs:
   test:
-    docker:
       <<: *defaults
       - image: circleci/postgres:9.4
         environment:
@@ -35,13 +37,7 @@ jobs:
           destination: test-reports
 
   deploy:
-    docker:
-      - image: circle/python:3.6.1
-        environment:
-            TERM: xterm-256color
-            GOOGLE_PROJECT_ID: bench-projects
-            STAGING_GOOGLE_COMPUTE_ZONE: us-central1-a
-            PRODUCTION_GOOGLE_COMPUTE_ZONE: europe-west1-b
+    <<: *defaults
     working_directory: ~/repo
     steps:
     - checkout
