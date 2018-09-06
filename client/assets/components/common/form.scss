@@ -2,8 +2,7 @@
 @import '../../colors.scss';
 
 .as-form-group {
-  display: flex;
-  flex-direction: column;
+  @include column-flex;
   justify-content: center;
 
   .as-form-group__label {
@@ -61,6 +60,7 @@
     background: map-get($colors, dark);;
     border: none;
     color: #fff;
+
     &__display {
       width: 100%;
       max-height: 100%;
@@ -68,6 +68,7 @@
       border-radius: rem(10px);
       opacity: 0.7;
     }
+
     &__close {
       @include centered-flex;
       position: absolute;
@@ -86,12 +87,15 @@
         padding: rem(5px);
       }
     }
+
     &__close :hover {
       cursor: pointer;
     }
+
     &__close svg:hover {
       padding: rem(4px)
     }
+
     path {
       stroke: $white;
     }
