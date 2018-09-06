@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import classNames from 'classnames';
 
 import {
@@ -17,6 +17,7 @@ const InputField = ({
   className,
   defaultValue,
   disabled,
+  children,
   error: {
     hasError,
     message,
@@ -31,6 +32,9 @@ const InputField = ({
   }>
     {
       label && <label htmlFor={id} className="as-form-group__label">{label}</label>
+    }
+    {
+      children && <Fragment>{children}</Fragment>
     }
     <input
       id={id}

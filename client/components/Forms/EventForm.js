@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {
   InputField,
   TextField,
+  UploadField,
 } from '../common/Form';
 
 class EventForm extends Component {
@@ -24,7 +25,7 @@ class EventForm extends Component {
       hasError: false,
       message: 'Choose the date of the event',
     },
-    imgURL: {
+    featuredImage: {
       hasError: false,
       message: 'Upload an image for the event',
     },
@@ -35,27 +36,30 @@ class EventForm extends Component {
     errors: this.errors,
   };
 
-  commonProps = (id, label, formData, error) => ({
-      id: `event-${id}`,
-      name: id,
-      label: label,
-      placeholder: label,
-      defaultValue: formData[id],
-      error,
-      type: "text"
+  commonProps = (id, type, label, formData, error) => ({
+    id: `event-${id}`,
+    name: id,
+    label,
+    placeholder: label,
+    defaultValue: formData[id],
+    error,
+    type,
   });
 
 
-  renderField = (fieldType, id, label, formData, error) => {
-      if (fieldType == "input") {
-          return (<InputField 
-                   {...this.commonProps(id, label, formData, error)} 
-                   onChange={this.handleFormInput}/>)
+  renderField = (fieldType, type, id, label, formData, error) => {
+    if (fieldType === 'input') {
+      if (type === 'file') {
+        return (<UploadField
+          {...this.commonProps(id, type, label, formData, error)} />);
       }
-      return (<TextField 
-               {...this.commonProps(id, label, formData,error)} 
-               onChange={this.handleFormInput}/>)
-
+      return (<InputField
+        {...this.commonProps(id, type, label, formData, error)}
+        onChange={this.handleFormInput}/>);
+    }
+    return (<TextField
+      {...this.commonProps(id, type, label, formData, error)}
+      onChange={this.handleFormInput}/>);
   }
 
 
@@ -120,10 +124,10 @@ class EventForm extends Component {
         className="create-event-form"
         onSubmit={this.formSubmitHandler}
       >
-        {this.renderField("input", "title", "Title", formData, errors.title)}
-        {this.renderField("text", "description", "Description", 
-                              formData, errors.description)}
-        {this.renderField("input", "venue", "Venue", formData, errors.venue)}
+        {this.renderField('input', 'text', 'title', 'Title', formData, errors.title)}
+        {this.renderField('text', 'text', 'description', 'Description', formData, errors.description)}
+        {this.renderField('input', 'text', 'venue', 'Venue', formData, errors.venue)}
+        {this.renderField('input', 'file', 'featuredImage', 'Featured Image', formData, errors.featuredImage)}
       </form>
     );
   }

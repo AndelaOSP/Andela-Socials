@@ -23,7 +23,7 @@ export const basePropTypes = {
   name: PropTypes.string.isRequired,
   className: PropTypes.string,
   placeholder: PropTypes.string,
-  type: PropTypes.oneOf(['text', 'email', 'password']).isRequired,
+  type: PropTypes.oneOf(['text', 'email', 'password', 'file']).isRequired,
   label: PropTypes.string,
   defaultValue: PropTypes.string,
   disabled: PropTypes.bool,
