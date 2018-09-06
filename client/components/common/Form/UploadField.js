@@ -5,7 +5,13 @@ import { InputField } from '.';
 import { UploadIcon, CloseIcon } from '../../../assets/icons';
 
 class UploadField extends Component {
-  state = { imagePreviewUrl: '' };
+  state = {
+    imagePreviewUrl: '',
+    error: {
+      hasError: false,
+      message: 'Upload an image for the event',
+    },
+  };
 
   handleImageChange = (e) => {
     e.preventDefault();
@@ -13,27 +19,51 @@ class UploadField extends Component {
     // FileReader allows reading of files stored on user's computer
     const reader = new FileReader();
     const uploadedFile = e.target.files;
-    reader.onloadend = () => {
-      this.setState({ imagePreviewUrl: reader.result });
-    };
+    const acceptedFormats = ['image/jpeg', 'image/png'];
+    const validFormat = acceptedFormats.includes(e.target.files[0].type);
 
-    reader.readAsDataURL(uploadedFile[0]);
+    if (validFormat === false) {
+      this.setState({
+        error: {
+          hasError: true,
+          message: 'Unsupported file format, we support PNG and JPG',
+        },
+      });
+    } else {
+      reader.onloadend = () => {
+        this.setState({
+          imagePreviewUrl: reader.result,
+          error: { hasError: false },
+        });
+      };
+
+      reader.readAsDataURL(uploadedFile[0]);
+    }
   };
 
   removeUploaded = () => {
     this.setState({ imagePreviewUrl: null });
-  }
+  };
 
   render() {
-    const { imagePreviewUrl } = this.state;
+    const {
+      imagePreviewUrl,
+      error,
+    } = this.state;
 
     return (
-      <InputField className="upload-field" onChange={this.handleImageChange} {...this.props}>
+      <InputField
+        {...this.props}
+        className="upload-field"
+        onChange={this.handleImageChange}
+        error={error.hasError && error}
+      >
         <div className={`upload-field__image-preview ${imagePreviewUrl && 'image-preview'}`}>
-
           {imagePreviewUrl && (
             <Fragment>
-              <button className="image-preview__close" type="button" onClick={this.removeUploaded}>{CloseIcon}</button>
+              <button className="image-preview__close" type="button" onClick={this.removeUploaded}>
+                {CloseIcon}
+              </button>
               <img src={imagePreviewUrl} className="image-preview__display" alt="" />
             </Fragment>
           )}

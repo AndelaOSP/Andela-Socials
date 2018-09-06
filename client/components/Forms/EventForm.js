@@ -128,6 +128,8 @@ class EventForm extends Component {
         {this.renderField('text', 'text', 'description', 'Description', formData, errors.description)}
         {this.renderField('input', 'text', 'venue', 'Venue', formData, errors.venue)}
         {this.renderField('input', 'file', 'featuredImage', 'Featured Image', formData, errors.featuredImage)}
+        {/* // TODO: Specify the exact measures for uploads, let's approximate for now */}
+        <span>Note: A 1600 x 800 image is recommended</span>
       </form>
     );
   }

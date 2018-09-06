@@ -7,24 +7,26 @@ import {
 } from './propsDefs';
 
 
-const InputField = ({
-  id,
-  name,
-  placeholder,
-  type,
-  label,
-  onChange,
-  className,
-  defaultValue,
-  disabled,
-  children,
-  error: {
-    hasError,
-    message,
-  },
-  required,
-}) => (
-  <div className={
+const InputField = (props) => {
+  const {
+    id,
+    name,
+    placeholder,
+    type,
+    label,
+    onChange,
+    className,
+    defaultValue,
+    disabled,
+    children,
+    error: {
+      hasError,
+      message,
+    },
+    required,
+  } = props;
+  console.log('error :', props);
+  return (<div className={
     classNames('as-form-group as-form-group--input-field', {
       'has-error': hasError,
       [className]: className,
@@ -50,8 +52,8 @@ const InputField = ({
     {
       hasError && <span className="as-form-group__error">{message}</span>
     }
-  </div>
-);
+  </div>);
+};
 
 InputField.defaultProps = { ...baseDefaultProps };
 
