@@ -76,7 +76,7 @@ class Dashboard extends Component {
   redirectUser = () => {
     const { location: { pathname } } = this.props;
     if (pathname === '/') {
-      return (<Redirect to="/events" />);
+      return (<Redirect to="/dashboard" />);
     }
   };
 
@@ -138,6 +138,7 @@ class Dashboard extends Component {
           {this.redirectUser()}
           <Route path="/events/:eventId" render={props => <EventDetailsPage {...props} />} />
           <Route path="/events" render={() => <EventsPage />} />
+          <Route path="/dashboard" render={() => <EventsPage />} />
           <Route path="*" component={NotFound} />
         </Switch>
         {this.renderCreateEventButton()}
