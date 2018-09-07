@@ -373,3 +373,170 @@ main {
   color: white;
   border-radius: 0px !important;
 }
+
+.time-picker {
+  font-size: .9375rem;
+  line-height: 1.625rem;
+  padding: .625rem;
+  border: .0625rem solid #e9eff4;
+  outline: none;
+  border-radius: .625rem;  
+  width: 90%;
+}
+
+.time-picker-calendar{
+  width: 100%;
+
+  .calendar {
+    height: 16.3125rem;
+  }
+}
+
+.time-picker-time {
+  border-top: .0625rem solid #e9eff4;
+  width: 100%;
+  padding: 5%;
+}
+
+
+.time-field-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+
+
+/*Clearing Floats*/
+.cf:before, .cf:after{
+  content:"";
+  display:table;
+}
+
+.cf:after{
+  clear:both;
+}
+
+.cf{
+  zoom:1;
+}    
+/* Form wrapper styling */
+.time-picker-wrapper {
+  height: 1.9rem;
+  width: 40%;
+  border: .0625rem solid #e9eff4;
+}
+
+/* Form text input */
+
+.time-picker-wrapper input {
+  width: 70%;
+  float: left;   
+  border: 0;
+  background: #fff;  
+}
+
+.time-picker-wrapperinput:focus {
+  outline: 0;
+  background: #fff;
+  box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
+}
+
+.time-picker-wrapper input::-webkit-input-placeholder {
+  color: #999;
+  font-weight: normal;
+  font-style: italic;
+}
+
+.time-picker-wrapper input:-moz-placeholder {
+  color: #999;
+  font-weight: normal;
+  font-style: italic;
+}
+
+.time-picker-wrapper input:-ms-input-placeholder {
+  color: #999;
+  font-weight: normal;
+  font-style: italic;
+}   
+
+/* Form submit button */
+.time-picker-wrapper #idiv {
+  overflow: visible;
+  position: relative;
+  float: right;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  width: 30%;
+  color: black;
+  font-family: 'Material Icons', Helvetica;
+  height: 100%;
+
+}  
+
+
+.time-picker-wrapper #idiv:hover{    
+
+}  
+
+
+.time-picker-header{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  #calendar-button{
+    font-family: 'Material Icons', Helvetica;
+  }
+}
+
+.time-picker-wrapper #idiv:active,
+.time-picker-wrapper #idiv:focus{  
+
+}
+
+.time-picker-wrapper #idiv:before { /* left arrow */
+  content: '';
+  position: absolute;
+  top: 12px;
+  left: -6px;
+}
+
+.time-picker-wrapper #idiv:hover:before{
+}
+
+.time-picker-wrapper #idiv:focus:before,
+.time-picker-wrapper #idiv:active:before{
+  border-right-color: #c42f2f;
+}     
+
+.time-picker-wrapper #idiv::-moz-focus-inner { /* remove extra button spacing for Mozilla Firefox */
+  border: 0;
+  padding: 0;
+} 
+
+.date-time-picker-wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-top: .9375rem
+}
+
+.time-right { /* use this to adjust others */
+  margin-left: 60%;
+}
+
+.time-left { 
+  float: left;
+}
+
+.time-picker-input-field {
+  width: 100%;
+}
+
+.time-picker-label {
+  font-size: .9375rem;
+  color: #303030;
+  font-weight: 400;
+  text-transform: capitalize;
+  margin-bottom: 5px;
+}

@@ -1,5 +1,6 @@
 @import '../../tools/index';
 @import '../../colors.scss';
+@import url(https://fonts.googleapis.com/icon?family=Material+Icons);
 
 .as-form-group {
   @include column-flex;
@@ -30,6 +31,10 @@
     color: $danger;
   }
 
+  &.increment-input {
+    width: 150px;
+  }
+
   &:not(:last-of-type) {
     margin-bottom: rem(15px);
   }
@@ -43,6 +48,21 @@
       color: $danger;
     }
   }
+}
+
+.increment-button {
+  font-family: 'Material Icons', serif;
+  height: 20px;
+  width: 50px;
+  margin: -7px;
+  padding: 0;
+  padding-left: 8px;
+  font-size: 20px;  
+}
+
+.liner {
+  margin: 0 auto;
+  width: 100%;
 }
 
 .upload-field {

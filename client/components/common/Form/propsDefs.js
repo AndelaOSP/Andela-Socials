@@ -12,6 +12,7 @@ export const baseDefaultProps = {
   disabled: false,
   onChange: () => {},
   required: false,
+  value: '',
 };
 
 /**
@@ -33,4 +34,5 @@ export const basePropTypes = {
     message: PropTypes.string,
   }).isRequired,
   required: PropTypes.bool,
+  value: PropTypes.any
 };

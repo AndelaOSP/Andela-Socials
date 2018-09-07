@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import dateFns from 'date-fns';
+
+import IncrementalSelect from '../common/IncrementalSelect';
+import TimePicker from '../common/Form/TimePicker'
+import DateTimePicker from '../common/Form/DateTimePicker';
 
 import {
   InputField,
@@ -21,14 +26,20 @@ class EventForm extends Component {
       hasError: false,
       message: 'Enter the venue of the event',
     },
-    date: {
-      hasError: false,
-      message: 'Choose the date of the event',
-    },
-    featuredImage: {
+    imgUrl: {
       hasError: false,
       message: 'Upload an image for the event',
     },
+    time: {
+      hour: {
+        hasError: false,
+        message: 'Invalid hour provided',
+      },
+      minute: {
+        hasError: false,
+        message: 'Invalid minute provided',
+      },
+    }
   };
 
   state = {
@@ -47,20 +58,32 @@ class EventForm extends Component {
   });
 
 
-  renderField = (fieldType, type, id, label, formData, error) => {
+  renderField = (fieldType, type, id, label, formData, error, value) => {
     if (fieldType === 'input') {
       if (type === 'file') {
         return (<UploadField
           {...this.commonProps(id, type, label, formData, error)} />);
       }
       return (<InputField
+        value={value}
         {...this.commonProps(id, type, label, formData, error)}
         onChange={this.handleFormInput}/>);
     }
     return (<TextField
+      value={value}
       {...this.commonProps(id, type, label, formData, error)}
       onChange={this.handleFormInput}/>);
   }
+
+
+  renderTimePicker = (type) => (
+    <TimePicker 
+      type={type}
+      onChange={this.timeSelectHandler}    
+      errors={this.state.errors.time}
+      values={this.state.formData[type]}
+    />
+  )
 
 
   validateFormData = (formData) => {
@@ -68,7 +91,7 @@ class EventForm extends Component {
     const errorFields = Object.keys(errors);
 
     errorFields.forEach((field) => {
-      if (formData[field].length === 0) {
+      if (field !== "time" && formData[field].length === 0) {
         errors[field].hasError = true;
       } else {
         errors[field].hasError = false;
@@ -106,10 +129,24 @@ class EventForm extends Component {
     const { formData } = this.state;
     const newFormData = Object.assign({}, formData);
 
-    newFormData[e.target.name] = e.target.value.trim();
+    newFormData[e.target.name] = e.target.value;
 
     this.setState({ formData: newFormData });
   };
+
+  timeSelectHandler = (type, name, value) => {
+    const dateTime = {...this.state.formData[type]};
+    const formDataCopy = {...this.state.formData};
+    dateTime[name] = value;
+    formDataCopy[type] = dateTime;
+    this.setState({
+      formData: formDataCopy 
+    })
+  };
+
+  getTimeValues = (type) => (
+    `${this.state.formData[type].hour}:${this.state.formData[type].minute}`
+  )
 
   render() {
     const { errors } = this.state;
@@ -117,6 +154,7 @@ class EventForm extends Component {
       formId,
       formData,
     } = this.props;
+    const { title, description, venue } = this.state.formData
 
     return (
       <form
@@ -124,23 +162,51 @@ class EventForm extends Component {
         className="create-event-form"
         onSubmit={this.formSubmitHandler}
       >
-        {this.renderField('input', 'text', 'title', 'Title', formData, errors.title)}
-        {this.renderField('text', 'text', 'description', 'Description', formData, errors.description)}
-        {this.renderField('input', 'text', 'venue', 'Venue', formData, errors.venue)}
-        {this.renderField('input', 'file', 'featuredImage', 'Featured Image', formData, errors.featuredImage)}
+        {this.renderField('input', 'text', 'title', 'Title', formData, errors.title, title)}
+        {this.renderField('text', 'text', 'description', 'Description', formData, errors.description, description)}
+        {this.renderField('input', 'text', 'venue', 'Venue', formData, errors.venue, venue)}
+        {this.renderField('input', 'file', 'featuredImage', 'Featured Image', formData, errors.imgUrl)}
         {/* // TODO: Specify the exact measures for uploads, let's approximate for now */}
         <span>Note: A 1600 x 800 image is recommended</span>
+        <div className='date-time-picker-wrapper'>
+          <DateTimePicker 
+            type="start"
+            label="start-date"
+            time={this.renderTimePicker("start")} 
+            timeValue={this.getTimeValues("start")}
+            dateSelected={this.timeSelectHandler}
+            dateValue={this.state.formData.start.date}
+          />
+          <DateTimePicker 
+            type="end"
+            label="end-date"
+            time={this.renderTimePicker("end")} 
+            timeValue={this.getTimeValues("end")}
+            dateSelected={this.timeSelectHandler}
+            dateValue={this.state.formData.end.date}
+          />
+        </div>
       </form>
     );
   }
 }
+
 EventForm.defaultProps = {
   formData: {
     title: '',
     description: '',
     venue: '',
-    date: '',
-    imgURL: '',
+    imgUrl: '',
+    start: {
+      hour: "17",
+      minute: "00",
+      date: dateFns.format(new Date(), 'YYYY-MM-DD'),
+    },
+    end: {
+      hour: "18",
+      minute: "00",
+      date: dateFns.format(new Date(), 'YYYY-MM-DD'),
+    },
   },
 };
 
@@ -151,8 +217,9 @@ EventForm.propTypes = {
     title: PropTypes.string,
     description: PropTypes.string,
     venue: PropTypes.string,
-    date: PropTypes.string,
-    imgURL: PropTypes.string,
+    imgUrl: PropTypes.string,
+    start: PropTypes.object,
+    end: PropTypes.object,
   }),
 };
 

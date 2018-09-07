@@ -52,7 +52,7 @@ class UploadField extends Component {
     } = this.state;
 
     return (
-      <InputField {...this.props} className="upload-field" onChange={this.handleImageChange} error={error.hasError && error}>
+      <InputField {...this.props} className="upload-field" onChange={this.handleImageChange}>
         <div className={`upload-field__image-preview ${imagePreviewUrl && 'image-preview'}`}>
           {imagePreviewUrl && (
             <Fragment>

@@ -23,6 +23,7 @@ const InputField = ({
     message,
   },
   required,
+  value,
 }) => (
   <div className={
     classNames('as-form-group as-form-group--input-field', {
@@ -38,12 +39,12 @@ const InputField = ({
       id={id}
       name={name}
       type={type}
-      placeholder={placeholder}
       className="as-form-group__input"
+      placeholder={placeholder}
       disabled={disabled}
-      defaultValue={defaultValue}
       onChange={onChange}
       required={required}
+      value={value}
     />
     {
       hasError && <span className="as-form-group__error">{message}</span>
