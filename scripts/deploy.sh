@@ -36,12 +36,11 @@ main() {
     authWithServiceAccount
     configureGoogleCloudSdk
     loginToContainerRegistry _json_key
-    make build
-    make release
+    make build_backend
     make tag $IMAGE_TAG
     make publish
     logoutContainerRegistry $DOCKER_REGISTRY
-    deployToKubernetesCluster frontend
+    deployToKubernetesCluster backend staging
 }
 
 main

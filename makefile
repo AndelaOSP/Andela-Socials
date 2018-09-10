@@ -1,11 +1,19 @@
 PROJECT_NAME ?= andela-socials
 ORG_NAME ?= bench-projects
-REPO_NAME ?= andela-socials
+REPO_NAME ?= andela-socials-backend
 
 DOCKER_TEST_COMPOSE_FILE := docker/test/docker-compose.yml
-DOCKER_TEST_PROJECT = $(PROJECT_NAME)test
+DOCKER_TEST_PROJECT := "$(PROJECT_NAME)test"
 DOCKER_BACKEND_COMPOSE_FILE := docker/release/docker-compose.yml
-DOCKER_BACKEND_PROJECT = $(PROJECT_NAME)backend
+DOCKER_BACKEND_PROJECT := "$(PROJECT_NAME)-backend"
+DOCKER_REGISTRY ?= gcr.io
+
+ifeq ($(DOCKER_REGISTRY), docker.io)
+	REPO_FILTER := $(ORG_NAME)/$(REPO_NAME)
+else
+	REPO_FILTER := $(DOCKER_REGISTRY)/$(ORG_NAME)/$(REPO_NAME)[^[:space:]|\$$]*
+endif
+
 
 # Select docker-compose file based on environment
 ifeq ($(env),production)
@@ -42,7 +50,7 @@ build_backend:
 	@ docker-compose -p $(DOCKER_BACKEND_PROJECT) -f $(DOCKER_BACKEND_COMPOSE_FILE) run -d server
 	${INFO} "Check for completeness"
 	${CHECK} $(DOCKER_BACKEND_PROJECT) $(DOCKER_BACKEND_COMPOSE_FILE) server
-	${INFO} "Build complete"
+	${SUCCESS} "Build complete"
 
 test:
 	${INFO} "Building required docker images for testing"
@@ -57,6 +65,25 @@ test:
 	${INFO} "Cleaning up workspace..."
 	@ docker-compose -p $(DOCKER_TEST_PROJECT) -f $(DOCKER_TEST_COMPOSE_FILE) down -v
 
+tag:
+	${INFO} "Tagging release image with tags $(TAG_ARGS)..."
+	@ echo "asdfsdf"
+	@ $(foreach tag,$(TAG_ARGS), docker tag $(IMAGE_ID) $(DOCKER_REGISTRY)/$(ORG_NAME)/$(REPO_NAME):$(tag);)
+	${SUCCESS} "Tagging completed successfully"
+
+publish:
+	${INFO} "Publishing release image $(REPO_NAME)rel to $(DOCKER_REGISTRY)/$(REPO_NAME).."
+	@ $(foreach tag,$(shell echo $(REPO_EXPR)), docker push $(tag);)
+	${INFO} "Publish complete"
+
+
+ifeq (tag,$(firstword $(MAKECMDGOALS)))
+  TAG_ARGS := $(word 2, $(MAKECMDGOALS))
+  ifeq ($(TAG_ARGS),)
+    $(error You must specify a tag)
+  endif
+  $(eval $(TAG_ARGS):;@:)
+endif
 
 # colors
 GREEN 	:= $(shell tput -Txterm setaf 2)
@@ -73,9 +100,6 @@ INSPECT := $$(docker-compose -p $$1 -f $$2 ps -q $$3 | xargs -I ARGS docker insp
 
 CHECK := @bash -c 'if [[ $(INSPECT) -ne 0 ]]; then exit $(INSPECT); fi' VALUE
 
-IMAGE_ID = $$(docker images $(REPO_NAME)rel  -q)
-# run test
-# server test:
-# 	@ coverage run server/manage.py test server/api/tests/ server/graphql_schemas/tests/
+IMAGE_ID = $$(docker images $(REPO_NAME)_server -q)
 
-
+REPO_EXPR := $$(docker inspect -f '{{range .RepoTags}}{{.}} {{end}}' $(IMAGE_ID) | grep -oh "$(REPO_FILTER)" | xargs)
