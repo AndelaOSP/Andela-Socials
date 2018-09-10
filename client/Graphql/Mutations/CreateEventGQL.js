@@ -1,6 +1,15 @@
 import gql from 'graphql-tag';
 
-const CREATE_EVENT_GQL = (title, description, featuredImage, venue, date, time, socialEventId) => ({
+const CREATE_EVENT_GQL = (
+  title,
+  description,
+  featuredImage,
+  venue,
+  startDate,
+  endDate,
+  timezone,
+  categoryId
+) => ({
   mutation: gql`
     mutation($input: CreateEventInput!){
       createEvent(input: $input){
@@ -8,11 +17,12 @@ const CREATE_EVENT_GQL = (title, description, featuredImage, venue, date, time, 
           createdAt
           updatedAt
           id
-          time
+          timezone
           title
           description
           venue
-          date
+          startDate
+          endDate
           featuredImage
           socialEvent{
             name
@@ -28,8 +38,9 @@ const CREATE_EVENT_GQL = (title, description, featuredImage, venue, date, time, 
       description,
       featuredImage,
       venue,
-      date,
-      time,
+      startDate,
+      endDate,
+      timezone,
       categoryId,
     },
   },

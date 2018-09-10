@@ -48,18 +48,20 @@ export const createEvent = (
   description,
   featuredImage,
   venue,
-  date,
-  time,
-  socialEventId
+  startDate,
+  endDate,
+  timezone,
+  categoryId
 ) => dispatch => Client.mutate(
   CREATE_EVENT_GQL(
     title,
     description,
     featuredImage,
     venue,
-    date,
-    time,
-    socialEventId
+    startDate,
+    endDate,
+    timezone,
+    categoryId
   )
 ).then(data => dispatch({
   type: CREATE_EVENT, payload: data.data, error: false,

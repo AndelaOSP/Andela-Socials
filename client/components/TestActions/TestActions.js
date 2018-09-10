@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getEventsList, getEvent, createEvent, updateEvent, deactivateEvent } from '../../actions/graphql/eventGQLActions';
 import { getInterestsList, getInterest } from '../../actions/graphql/interestGQLActions';
-import { getCategoryList, getCategory, joinedClubsGQL, joinSocialClub, unjoinSocialClub  } from '../../actions/graphql/categoryGQLActions';
+import { getCategoryList, getCategory, joinedClubsGQL, joinSocialClub, unjoinSocialClub } from '../../actions/graphql/categoryGQLActions';
 import { getAllEventsAttendees, getEventAttendees, getSubscribedEvents, attendEvent, unAttendEvent } from '../../actions/graphql/attendGQLActions';
 import { signOut } from '../../actions/userActions';
 
@@ -20,11 +20,6 @@ class TestActions extends Component {
   getEvent = (e) => {
     e.preventDefault();
     this.props.getEvent('RXZlbnROb2RlOjE2NQ==');
-  }
-
-  createEvent = (e) => {
-    e.preventDefault();
-    this.props.createEvent('test_event', 'test_description', 'not.exist', 'test_venue', '02-08-2018', '12:00', 'Q2F0ZWdvcnlOb2RlOjE=');
   }
 
   updateEvent = (e) => {
@@ -59,7 +54,19 @@ class TestActions extends Component {
 
   getEventAttendees = (e) => {
     e.preventDefault();
-    this.props.getEventAttendees("QXR0ZW5kTm9kZTo3MQ==");
+    this.props.getEventAttendees('QXR0ZW5kTm9kZTo3MQ==');
+  }
+
+  createEvent = (e) => {
+    e.preventDefault();
+    this.props.createEvent(
+      'test title',
+      'test description',
+      'http://fake-image.com',
+      'test venue', '2018-08-09T18:00:00.000Z',
+      '2018-08-09T18:00:00.000Z', 'Africa/Algiers',
+      'Q2F0ZWdvcnlOb2RlOjE='
+    );
   }
 
   attendEvent = (e) => {
@@ -80,19 +87,19 @@ class TestActions extends Component {
   render() {
     return (
       <div>
-        <br/><br/><br/><br/>
-        <button type="button" onClick={e => this.getEvent(e)}>GET EVENT</button><br/><br/>
-        <button type="button" onClick={e => this.createEvent(e)}>CREATE EVENT</button><br/><br/>
-        <button type="button" onClick={e => this.updateEvent(e)}>UPDATE EVENT</button><br/><br/>
-        <button type="button" onClick={e => this.deactivateEvent(e)}>DEACTIVATE EVENT</button><br/><br/>
-        <button type="button" onClick={e => this.getInterest(e)}>GET INTEREST</button><br/><br/>
-        <button type="button" onClick={e => this.getCategory(e)}>GET CATEGORY</button><br/><br/>
-        <button type="button" onClick={e => this.joinClub(e)}>JOIN CLUB</button><br/><br/>
-        <button type="button" onClick={e => this.unjoinClub(e)}>UNJOIN CLUB</button><br/><br/>
-        <button type="button" onClick={e => this.getEventAttendees(e)}>GET EVENT ATTENDEES</button><br/><br/>
-        <button type="button" onClick={e => this.attendEvent(e)}>ATTEND</button><br/><br/>
-        <button type="button" onClick={e => this.unattendEvent(e)}>UNATTEND</button><br/><br/>
-        <button type="button" onClick={e => this.signOut(e)}>SIGNOUT</button><br/><br/>
+        <br /><br /><br /><br />
+        <button type="button" onClick={e => this.getEvent(e)}>GET EVENT</button><br /><br />
+        <button type="button" onClick={e => this.createEvent(e)}>CREATE EVENT</button><br /><br />
+        <button type="button" onClick={e => this.updateEvent(e)}>UPDATE EVENT</button><br /><br />
+        <button type="button" onClick={e => this.deactivateEvent(e)}>DEACTIVATE EVENT</button><br /><br />
+        <button type="button" onClick={e => this.getInterest(e)}>GET INTEREST</button><br /><br />
+        <button type="button" onClick={e => this.getCategory(e)}>GET CATEGORY</button><br /><br />
+        <button type="button" onClick={e => this.joinClub(e)}>JOIN CLUB</button><br /><br />
+        <button type="button" onClick={e => this.unjoinClub(e)}>UNJOIN CLUB</button><br /><br />
+        <button type="button" onClick={e => this.getEventAttendees(e)}>GET EVENT ATTENDEES</button><br /><br />
+        <button type="button" onClick={e => this.attendEvent(e)}>ATTEND</button><br /><br />
+        <button type="button" onClick={e => this.unattendEvent(e)}>UNATTEND</button><br /><br />
+        <button type="button" onClick={e => this.signOut(e)}>SIGNOUT</button><br /><br />
       </div>
     );
   }
