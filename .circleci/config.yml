@@ -34,7 +34,7 @@ jobs:
   deploy:
     - image: circleci/python:3.6.1
       environment:
-        - TERM: xterm-256color
+        TERM: xterm-256color
     working_directory: ~/andela-socials-backend
     steps:
     - checkout
