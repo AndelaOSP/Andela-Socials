@@ -44,7 +44,7 @@ installGoogleCloudSdk(){
     echo "deb http://packages.cloud.google.com/apt cloud-sdk-jessie main" | sudo tee /etc/apt/sources.list.d/google-cloud-sdk.list
     curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
     sudo apt-get update && sudo apt-get install kubectl google-cloud-sdk
-    is_success "Gcloud and Kubecl has been installed successfully"
+    is_success "Gcloud and Kubectl has been installed successfully"
 }
 
 getCommitHash() {
@@ -108,8 +108,8 @@ loginToContainerRegistry () {
     if [ "$__authPasswordPath" ]; then
         AUTH_PASSWORD_PATH=$__authPasswordPath
     else
-        require 'GCLOUD_SERVICE_KEY_NAME' $GCLOUD_SERVICE_KEY_NAME
-        local AUTH_PASSWORD_PATH="${HOME}/${GCLOUD_SERVICE_KEY_NAME}"
+        require 'GCLOUD_SERVICE_KEY' $GCLOUD_SERVICE_KEY
+        local AUTH_PASSWORD_PATH="${HOME}/${GCLOUD_SERVICE_KEY}"
     fi
     is_success_or_fail $(docker login -u  $__username --password-stdin https://${DOCKER_REGISTRY} < $AUTH_PASSWORD_PATH)
 }
@@ -191,11 +191,11 @@ authWithServiceAccount() {
     local __serviceKeyName=$1
 
     if [ "$__serviceKeyName"]; then
-        GCLOUD_SERVICE_KEY_NAME=$__serviceKeyName
+        GCLOUD_SERVICE_KEY=$__serviceKeyName
     else
-        require 'GCLOUD_SERVICE_KEY_NAME' $GCLOUD_SERVICE_KEY_NAME
+        require 'GCLOUD_SERVICE_KEY' $GCLOUD_SERVICE_KEY
     fi
-    local __serviceKeyPath=${HOME}/$GCLOUD_SERVICE_KEY_NAME
+    local __serviceKeyPath=${HOME}/$GCLOUD_SERVICE_KEY
     require 'GCLOUD_SERVICE_KEY' $GCLOUD_SERVICE_KEY
     echo $GCLOUD_SERVICE_KEY | base64 --decode > $__serviceKeyPath
     gcloud auth activate-service-account --key-file $__serviceKeyPath
@@ -206,9 +206,9 @@ configureGoogleCloudSdk() {
     local __serviceKeyName=$1
 
     if [ "$__serviceKeyName" ]; then
-        GCLOUD_SERVICE_KEY_NAME=$__serviceKeyName
+        GCLOUD_SERVICE_KEY=$__serviceKeyName
     else
-        require 'GCLOUD_SERVICE_KEY_NAME' $GCLOUD_SERVICE_KEY_NAME
+        require 'GCLOUD_SERVICE_KEY' $GCLOUD_SERVICE_KEY
     fi
     require 'GOOGLE_PROJECT_ID' $GOOGLE_PROJECT_ID
     require 'GOOGLE_COMPUTE_ZONE' $GOOGLE_COMPUTE_ZONE
