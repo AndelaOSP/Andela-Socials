@@ -29,7 +29,7 @@ authorize_docker() {
 }
 
 deploy_image() {
-    make release
+    make build_backend
 
     make tag $IMAGE_TAG
 
