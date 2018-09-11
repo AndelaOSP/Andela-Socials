@@ -45,7 +45,7 @@ class AndelaTokenAuthenticationTestCase(TestCase):
 
         self.response = self.client.get('/graphql', format="json", **header)
         self.assertEqual(self.response.data['detail'], 'Authorization token is required')
-        self.assertEqual(self.response.status_code, 401)
+        self.assertEqual(self.response.status_code, 403)
 
     def test_authentication_failed_when_token_is_invalid(self):
 
@@ -54,4 +54,4 @@ class AndelaTokenAuthenticationTestCase(TestCase):
         self.response = self.client.get('/graphql', format="json", **header)
         self.assertEqual(self.response.data['detail'],
                          'Authorization failed due to an Invalid token.')
-        self.assertEqual(self.response.status_code, 401)
+        self.assertEqual(self.response.status_code, 403)

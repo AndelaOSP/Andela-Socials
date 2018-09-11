@@ -36,7 +36,7 @@ if [[ "$#" -eq 0 ]]; then
     echo -e "\n\n\033[31mPlease provide a single argument for the username/dbname\033[0m\n"
     echo -e "\n\n\033[32m$HELP_STRING\033[0m\n"
 elif
-    [[ "$#" -ne 1 ]; then
+    [[ "$#" -ne 1 ]]; then
     echo -e "\n\n\033[31mPlease provide just one argument as the username\033[0m\n"
     echo -e "\n\n\033[32m$HELP_STRING\033[0m\n"
 else
