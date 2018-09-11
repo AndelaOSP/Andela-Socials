@@ -155,12 +155,12 @@ class EventsPage extends React.Component {
 
   render() {
     const { categoryList } = this.state;
-    const catList = categoryList.map(item => ({
+    const catList = Array.isArray(categoryList) ? categoryList.map(item => ({
       id: item.node.id,
       title: item.node.name,
       selected: false,
       key: 'category',
-    }));
+    })) : [];
     return (
       <div className="event__container">
         <div className="event__sidebar">

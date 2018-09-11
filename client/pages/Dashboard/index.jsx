@@ -63,8 +63,9 @@ class Dashboard extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     if (Object.keys(nextProps.activeUser).length > 0
       && (nextProps.activeUser !== prevState.activeUser)) {
-      return { activeUser: nextProps.activeUser };
+      return { activeUser: nextProps.activeUser || null };
     }
+    return null;
   }
 
   /**
@@ -130,9 +131,9 @@ class Dashboard extends Component {
     return (
       <ModalContextProvider>
         <Header
-          firstName={activeUser.firstName}
-          lastName={activeUser.lastName}
-          imageUrl={activeUser.picture}
+          firstName={activeUser.firstName || ''}
+          lastName={activeUser.lastName || ''}
+          imageUrl={activeUser.picture || ''}
         />
         <Switch>
           {this.redirectUser()}
