@@ -11,6 +11,7 @@ export const JOINED_CLUBS = 'JOINED_CLUBS';
 export const GET_EVENT = 'GET_EVENT';
 export const GET_EVENTS = 'GET_EVENTS';
 export const LOAD_MORE_EVENTS = 'LOAD_MORE_EVENTS';
+export const SEARCH_EVENTS = 'SEARCH_EVENTS';
 
 export const UPDATE_EVENT = 'UPDATE_EVENT';
 export const CREATE_EVENT = 'CREATE_EVENT';

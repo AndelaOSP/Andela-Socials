@@ -4,7 +4,15 @@ import CREATE_EVENT_GQL from '../../Graphql/Mutations/CreateEventGQL';
 import UPDATE_EVENT_GQL from '../../Graphql/Mutations/UpdateEventGQL';
 import DEACTIVATE_EVENT_GQL from '../../Graphql/Mutations/DeactivateEventGQL';
 
-import { GET_EVENT, CREATE_EVENT, GET_EVENTS, UPDATE_EVENT, LOAD_MORE_EVENTS, DEACTIVATE_EVENT } from '../constants';
+import {
+  GET_EVENT,
+  CREATE_EVENT,
+  GET_EVENTS,
+  UPDATE_EVENT,
+  LOAD_MORE_EVENTS,
+  DEACTIVATE_EVENT,
+  SEARCH_EVENTS,
+} from '../constants';
 
 import { handleError } from '../../utils/errorHandler';
 import Client from '../../client';
@@ -13,11 +21,12 @@ import Client from '../../client';
 export const getEventsList = ({
   after = '',
   first = 9,
+  title,
   startDate,
   venue,
   category,
 }) => dispatch => Client.query(
-  EVENT_LIST_GQL(after, first, startDate, venue, category)
+  EVENT_LIST_GQL(after, first, title, startDate, venue, category)
 ).then(data => dispatch({
   type: after ? LOAD_MORE_EVENTS : GET_EVENTS,
   payload: data.data.eventsList.edges,
@@ -97,3 +106,17 @@ export const deactivateEvent = (eventId, clientMutationId = '') => dispatch => C
   type: DEACTIVATE_EVENT, payload: { id: eventId },
 }))
   .catch(error => console.log(`received error ${error}`));
+
+
+export const searchEvents = ({
+  after = '',
+  first = 9,
+  title,
+}) => dispatch => Client.query(
+  EVENT_LIST_GQL(after, first, title)
+).then(data => dispatch({
+  type: SEARCH_EVENTS,
+  payload: data.data.eventsList.edges,
+  error: false,
+}))
+  .catch(error => handleError(error, dispatch));

@@ -9,6 +9,8 @@ import { getEventsList } from '../../actions/graphql/eventGQLActions';
 import { getCategoryList } from '../../actions/graphql/categoryGQLActions';
 import EventNotFound from '../../components/EventNotFound';
 
+import mapListToComponent from '../../utils/mapListToComponent';
+
 /**
  * @description  contains events dashboard page
  *
@@ -143,9 +145,7 @@ class EventsPage extends React.Component {
   renderEventGallery = () => {
     const { eventList } = this.state;
     if (eventList.length) {
-      const listOfEventCard = eventList.map(eventItem => (
-        <EventCard key={eventItem.node.id}
-          {...eventItem.node} />));
+      const listOfEventCard = mapListToComponent(eventList, EventCard);
       return (<div className="event__gallery">
         {listOfEventCard}
       </div>);

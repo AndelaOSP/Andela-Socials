@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-const EVENT_LIST_GQL = (after = '', first = 1, startDate, venue,
+const EVENT_LIST_GQL = (after = '', first = 1, title, startDate, venue,
   category) => ({
   query: gql`
     query(
@@ -9,8 +9,7 @@ const EVENT_LIST_GQL = (after = '', first = 1, startDate, venue,
       $startDate: String,
       $venue: String,
       $category: ID,
-
-
+      $title: String
     ){
       eventsList(
         after: $after
@@ -18,7 +17,7 @@ const EVENT_LIST_GQL = (after = '', first = 1, startDate, venue,
         startDate_Istartswith: $startDate,
         venue: $venue
         socialEvent: $category
-
+        title_Istartswith: $title
       ){
         edges{
           node{
@@ -41,6 +40,7 @@ const EVENT_LIST_GQL = (after = '', first = 1, startDate, venue,
   variables: {
     after,
     first,
+    title,
     startDate,
     venue,
     category,

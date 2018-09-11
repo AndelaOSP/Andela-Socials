@@ -1,7 +1,7 @@
 import {
   GET_EVENT, ATTEND_EVENT, SUBSCRIBED_EVENTS,
   GET_EVENTS, LOAD_MORE_EVENTS, CREATE_EVENT, GET_ATTENDEES,
-  GET_EVENT_ATTENDENCE, UNATTEND_EVENT,
+  GET_EVENT_ATTENDENCE, UNATTEND_EVENT, SEARCH_EVENTS,
   UPDATE_EVENT, DEACTIVATE_EVENT, SIGN_OUT,
 } from '../actions/constants';
 import initialState from './initialState';
@@ -29,6 +29,7 @@ export const events = (state = initialState.events, action) => {
             .filter(item => item.node.id === action.payload.id),
         }
       );
+
 
     case CREATE_EVENT: {
       const createdEvent = {
@@ -141,6 +142,20 @@ export const attendees = (state = initialState.attendees, action) => {
       return Object.assign({}, state, {
         attendees: initialState.attendees, attendee: initialState.attendee,
       });
+
+    default:
+      return state;
+  }
+};
+
+
+export const eventsSearchList = (
+  state = initialState.eventsSearchList,
+  action
+) => {
+  switch (action.type) {
+    case SEARCH_EVENTS:
+      return [...action.payload];
 
     default:
       return state;

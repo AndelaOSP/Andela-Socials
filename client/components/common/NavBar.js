@@ -15,11 +15,11 @@ const NavMenu = ({
   to,
   children,
 }) => (
-  <div className="link__container">
-    <NavLink to={to} activeClassName="link__container--active">
-      <span>{children}</span>
-    </NavLink>
-  </div>
+    <div className="link__container">
+      <NavLink to={to} activeClassName="link__container--active">
+        <span>{children}</span>
+      </NavLink>
+    </div>
 );
 
 NavMenu.propTypes = {
@@ -29,9 +29,9 @@ NavMenu.propTypes = {
 
 const NavBar = (props) => {
   const {
-    signOut,
-    firstName,
-    lastName,
+    onSearchInputChange, events,
+    searchText, signOut,
+    firstName, lastName,
     imageUrl,
   } = props;
   return (
@@ -56,7 +56,7 @@ const NavBar = (props) => {
           </Link>
         </div>
         <div className="top-navbar__right-container">
-          <SearchBar />
+          <SearchBar searchText={searchText} events={events} onSearchInputChange={onSearchInputChange} />
           <NotificationCenter />
           <UserProfile
             firstName={firstName}

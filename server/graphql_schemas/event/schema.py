@@ -36,7 +36,8 @@ class EventNode(DjangoObjectType):
     class Meta:
         model = Event
         filter_fields = {'start_date': ['exact', 'istartswith'],
-                         'social_event': ['exact'], 'venue': ['exact']}
+                         'social_event': ['exact'], 'venue': ['exact'],
+                         'title': ['exact', 'istartswith']}
         interfaces = (relay.Node,)
 
 

@@ -11,4 +11,5 @@ export default {
   joinedCategories: {},
   socialClubs: {},
   socialClub: {},
+  eventsSearchList: [],
 };

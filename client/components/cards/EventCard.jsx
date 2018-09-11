@@ -10,7 +10,7 @@ const EventCard = (props) => {
   } = props;
 
   return (
-    <a href={`events/${id}`}>
+    <a className="event-link" href={`/events/${id}`}>
       <div className="event-card">
         <img src={featuredImage || '/assets/img/img_group_selfie.jpg'} alt={title} className="event-card__picture" />
         <div className="event-card__caption-group">

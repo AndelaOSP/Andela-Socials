@@ -1,0 +1,118 @@
+.search-modal {
+  &__container {
+    position: fixed;
+    height: 0;
+    width: 100%;
+    z-index: 1500;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: all .3s;
+    background-color: $white;
+    visibility: hidden;
+    overflow-y: auto;
+  }
+  &__checkbox {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+  &__checkbox:checked~&__container {
+    opacity: 1;
+    visibility: visible;
+    height: 100%;
+  }
+  &__button {
+    position: fixed;
+    height: 6rem;
+    border-radius: 50%;
+    top: 2rem;
+    right: 1rem;
+    z-index: 2000;
+    cursor: pointer;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    width: 0;
+    @include mobile('600px') {
+      top: 0rem;
+      right: 0rem;
+    }
+  }
+  &__checkbox:checked~&__button {
+    opacity: 1;
+    width: 6rem;
+    visibility: visible;
+    @include mobile('600px') {
+      top: 0rem;
+      right: 0rem;
+      width: 3rem;
+    }
+  }
+  &__btn-open {
+    height: 5rem;
+    width: 40rem;
+    z-index: 1000;
+    cursor: pointer;
+    background-color: transparent;
+    position: absolute;
+  }
+  &__button-icon {
+    position: relative;
+    background-color: transparent;
+    transform: rotate(135deg);
+    z-index: 2000;
+    transition: all .2s;
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      transform: rotate(90deg);
+    }
+    &,
+    &::after {
+      background-color: rgba(black, 0.5);
+      height: .2rem;
+      width: 2rem;
+      display: inline-block;
+    }
+    &__button:hover &__button-icon::after {
+      background-color: red;
+    }
+  }
+  &__input-text {
+    border: none;
+    width: 80%;
+    padding: 30px;
+    font-size: 30px;
+    font-weight: 700;
+    background-color: transparent;
+    transition: all 1s;
+    margin: 0 rem(50px);
+    color: rgba(black, 0.8);
+    @include mobile('600px') {
+      margin: 0 0 0 rem(25px);
+    }
+    &:focus {
+      outline: none;
+      border-bottom: 1px rgba(black, 0.2) solid;
+    }
+  }
+  &__event-gallary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 321px);
+    grid-template-rows: rem(212px);
+    grid-column-gap: rem(25px);
+    grid-row-gap: rem(30px);
+    justify-content: start;
+    margin: rem(20px) rem(50px);
+    @include mobile('600px') {
+      margin: rem(10px);
+      justify-content: center;
+    }
+  }
+}
