@@ -1,47 +1,81 @@
-#!/usr/bin/env bash
-set -eo pipefail
+#!/bin/bash
+set -o errexit
+set -o pipefail
 
-DEPLOY_SCRIPT_PATH="${HOME}/deploy"
+set_variables() {
+    COMMIT_HASH=$(git rev-parse --short HEAD)
 
-curl -o $DEPLOY_SCRIPT_PATH https://raw.githubusercontent.com/AndelaOSP/bash-helper-modules/master/k8s/deploy
-
-source $DEPLOY_SCRIPT_PATH
-
-DOCKER_REGISTRY=gcr.io
-GCLOUD_SERVICE_KEY_NAME=gcloud-service-key.json
-ALLOWED_DEPLOY_ENVIRONMENTS=('staging', 'production')
-
-require 'PRODUCTION_GOOGLE_COMPUTE_ZONE' $PRODUCTION_GOOGLE_COMPUTE_ZONE
-require 'STAGING_GOOGLE_COMPUTE_ZONE' $STAGING_GOOGLE_COMPUTE_ZONE
-require 'STAGING_CLUSTER_NAME' $STAGING_CLUSTER_NAME
-require 'PRODUCTION_CLUSTER_NAME' $PRODUCTION_CLUSTER_NAME
-require 'PROJECT_NAME' $PROJECT_NAME
-require 'GOOGLE_PROJECT_ID' $GOOGLE_PROJECT_ID
-require 'DOCKER_REGISTRY' $DOCKER_REGISTRY
-require 'GCLOUD_SERVICE_KEY' $GCLOUD_SERVICE_KEY
-
-BRANCH_NAME=$CIRCLE_BRANCH
-# set deployment environment
-setEnvironment $BRANCH_NAME
-# ensure its an allowed deployment environment
-isAllowedDeployEnvironment $ENVIRONMENT
-# get K8s deployment name
-
-getDeploymentName DEPLOYMENT_NAME
-
-# Set image image tag and name
-IMAGE_TAG=$(getImageTag $(getCommitHash))
-IMAGE_NAME=$(getImageName)
-
-main() {
-    installGoogleCloudSdk
-    authWithServiceAccount
-    configureGoogleCloudSdk
-    loginToContainerRegistry _json_key
-    buildAndTagDockerImage .
-    publishDockerImage
-    logoutContainerRegistry $DOCKER_REGISTRY
-    deployToKubernetesCluster backend
+    if [ "$CIRCLE_BRANCH" == 'master' ]; then
+        IMAGE_TAG=$COMMIT_HASH
+        ENVIRONMENT=production
+        GOOGLE_COMPUTE_ZONE=${PRODUCTION_ZONE}
+        GOOGLE_CLUSTER_NAME=${PRODUCTION_CLUSTER_NAME}
+    else
+        IMAGE_TAG="${CIRCLE_BRANCH}-${COMMIT_HASH}"
+        ENVIRONMENT=staging
+        GOOGLE_COMPUTE_ZONE=${STAGING_ZONE}
+        GOOGLE_CLUSTER_NAME=${STAGING_CLUSTER_NAME}
+    fi
 }
 
-main
+authorize_docker() {
+    echo "====> Store Sand authenticate with service account"
+    echo $GCLOUD_SERVICE_KEY | base64 --decode > ${HOME}/gcloud-service-key.json
+
+    echo "====> Login to docker registry"
+
+
+    docker login -u _json_key -p "$(cat ${HOME}/gcloud-service-key.json)" https://gcr.io
+}
+
+deploy_image() {
+    make release
+
+    make tag $IMAGE_TAG
+
+    make publish
+}
+
+install_google_cloud_sdk(){
+    echo "====> Installing google cloud sdk"
+    echo "deb http://packages.cloud.google.com/apt cloud-sdk-jessie main" | sudo tee /etc/apt/sources.list.d/google-cloud-sdk.list
+    curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+    sudo apt-get update && sudo apt-get install kubectl google-cloud-sdk
+}
+
+configure_google_cloud_sdk() {
+    echo "Configuring Google Cloud Sdk"
+    gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
+    gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+    gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
+    gcloud --quiet container clusters get-credentials ${GOOGLE_CLUSTER_NAME}
+}
+
+deploy_to_kubernetes(){
+     echo "====> Prepare image for deployement"
+
+    IMAGE="${DOCKER_REGISTRY}/${GOOGLE_PROJECT_ID}/${PROJECT_NAME}:${IMAGE_TAG}"
+    DEPLOYMENT_NAME="${ENVIRONMENT}-${PROJECT_NAME}"
+    echo "====> Deploying ${IMAGE} to ${DEPLOYMENT_NAME} in ${ENVIRONMENT} environment"
+
+
+    kubectl set image deployment/${DEPLOYMENT_NAME} backend=${IMAGE} -n "${ENVIRONMENT}"
+
+    if [ "$?" == "0" ]; then
+        echo "Deployment completed successfully"
+    else
+        echo "Failed to deploy ${IMAGE} to ${ENVIRONMENT} environment"
+    fi
+
+}
+
+main() {
+    set_variables
+    authorize_docker
+    deploy_image
+    install_google_cloud_sdk
+    configure_google_cloud_sdk
+    deploy_to_kubernetes
+}
+
+main "$@"
