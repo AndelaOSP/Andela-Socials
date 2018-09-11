@@ -4,8 +4,9 @@ REPO_NAME ?= andela-socials-backend
 
 DOCKER_TEST_COMPOSE_FILE := docker/test/docker-compose.yml
 DOCKER_TEST_PROJECT := "$(PROJECT_NAME)test"
-DOCKER_BACKEND_COMPOSE_FILE := docker/release/docker-compose.yml
+DOCKER_RELEASE_COMPOSE_FILE := docker/release/docker-compose.yml
 DOCKER_BACKEND_PROJECT := "$(PROJECT_NAME)-backend"
+DOCKER_FRONTEND_PROJECT := "$(PROJECT_NAME)-frontend"
 DOCKER_REGISTRY ?= gcr.io
 
 ifeq ($(DOCKER_REGISTRY), docker.io)
@@ -44,13 +45,24 @@ stop:
 	@ echo "All containers stopped successfully"
 
 build_backend:
-	${INFO} "Creating builder image"
-	@ docker-compose -p $(DOCKER_BACKEND_PROJECT) -f $(DOCKER_BACKEND_COMPOSE_FILE) build server
+	${INFO} "Creating backend server image"
+	@ docker-compose -p $(DOCKER_BACKEND_PROJECT) -f $(DOCKER_RELEASE_COMPOSE_FILE) build server
+	${SUCCESS} "Images build Completed successfully"
 	${INFO} "Building application artifacts.."
-	@ docker-compose -p $(DOCKER_BACKEND_PROJECT) -f $(DOCKER_BACKEND_COMPOSE_FILE) run -d server
+	@ docker-compose -p $(DOCKER_BACKEND_PROJECT) -f $(DOCKER_RELEASE_COMPOSE_FILE) run -d server
 	${INFO} "Check for completeness"
-	${CHECK} $(DOCKER_BACKEND_PROJECT) $(DOCKER_BACKEND_COMPOSE_FILE) server
+	${CHECK} $(DOCKER_BACKEND_PROJECT) $(DOCKER_RELEASE_COMPOSE_FILE) server
 	${SUCCESS} "Build complete"
+
+build_frontend:
+	${INFO} "Creating frontend image"
+	@ docker-compose -p $(DOCKER_FRONTEND_PROJECT) -f $(DOCKER_RELEASE_COMPOSE_FILE) build web
+	${SUCCESS} "Images build Completed successfully"
+	@ echo " "
+	${INFO} "Building frontend artifacts... "
+	@ docker-compose -p $(DOCKER_FRONTEND_PROJECT) -f $(DOCKER_RELEASE_COMPOSE_FILE) run -d web
+	${INFO} "Check for completeness"
+
 
 test:
 	${INFO} "Building required docker images for testing"

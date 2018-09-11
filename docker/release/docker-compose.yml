@@ -29,3 +29,13 @@ services:
         interval: 5s
         timeout: 10s
         retries: 5
+
+  web:
+    build:
+      context: ../../
+      dockerfile: docker/release/client/Dockerfile
+    command: npm run start:dev
+    ports:
+        - 9000:9000
+
+
