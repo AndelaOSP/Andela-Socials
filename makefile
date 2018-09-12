@@ -80,9 +80,7 @@ test:
 
 tag:
 	${INFO} "Tagging release image with tags $(TAG_ARGS)..."
-	@ echo "$(IMAGE_ID) and $(TAG_ARGS) "
-	# @ docker images | grep andelasocialsbackend_server
-	@ echo docker images $(REPO_NAME)_server -q
+	@ echo $(IMAGE_ID) $(TAG_ARGS)
 	@ $(foreach tag,$(TAG_ARGS), docker tag $(IMAGE_ID):latest $(DOCKER_REGISTRY)/$(ORG_NAME)/$(REPO_NAME):$(tag);)
 	${SUCCESS} "Tagging completed successfully"
 
