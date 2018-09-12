@@ -85,6 +85,7 @@ class EventForm extends Component {
     />
   )
 
+  formatDate = formData => (`${formData.date} ${formData.hour}:${formData.minute}:00`);
 
   validateFormData = (formData) => {
     const errors = JSON.parse(JSON.stringify(this.state.errors));
@@ -117,8 +118,8 @@ class EventForm extends Component {
     this.setState({ errors });
 
     if (isValid) {
-      const startDate = `${formData.start.date} ${formData.start.hour}:${formData.start.minute}:00`;
-      const endDate = `${formData.end.date} ${formData.end.hour}:${formData.end.minute}:00`;
+      const startDate = this.formatDate(formData.start);
+      const endDate = this.formatDate(formData.end);
       if (formMode === 'create') {
         const { createEvent } = this.props;
         createEvent({
