@@ -5,7 +5,6 @@ services:
     build:
       context: ../../
       dockerfile: docker/release/server/Dockerfile
-    image: andela-socials-backend
     depends_on:
         - database
     environment:
