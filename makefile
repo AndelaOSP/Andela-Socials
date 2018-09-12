@@ -46,7 +46,7 @@ stop:
 
 build_backend:
 	${INFO} "Creating backend server image"
-    @ echo "$(PROJECT_NAME)"
+	@ echo "$(PROJECT_NAME)"
 	@ docker-compose -p $(DOCKER_BACKEND_PROJECT) -f $(DOCKER_RELEASE_COMPOSE_FILE) build server
 	${SUCCESS} "Images build Completed successfully"
 	${INFO} "Building application artifacts.."
