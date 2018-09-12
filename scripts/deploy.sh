@@ -30,7 +30,6 @@ authorize_docker() {
 
 deploy_image() {
     make build_backend
-    echo " this image tag $IMAGE_TAG"
 
     make tag $IMAGE_TAG
 
