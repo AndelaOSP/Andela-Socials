@@ -1,3 +1,4 @@
+BACKEND_PROJECT_NAME ?= asocials-backend
 PROJECT_NAME ?= andela-socials
 ORG_NAME ?= bench-projects
 REPO_NAME ?= andela-socials-backend
