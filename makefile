@@ -79,7 +79,12 @@ test:
 
 tag:
 	${INFO} "Tagging release image with tags $(TAG_ARGS)..."
-	@ echo "asdfsdf"
+	@ echo " "
+    @ echo "$(TAG_ARGS)"
+    @ echo "$(IMAGE_ID)"
+    @ echo "$(DOCKER_REGISTRY)"
+    @ echo "$(ORG_NAME)"
+    @ echo "$(REPO_NAME)"
 	@ $(foreach tag,$(TAG_ARGS), docker tag $(IMAGE_ID) $(DOCKER_REGISTRY)/$(ORG_NAME)/$(REPO_NAME):$(tag);)
 	${SUCCESS} "Tagging completed successfully"
 
