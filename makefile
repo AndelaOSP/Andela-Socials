@@ -79,13 +79,13 @@ test:
 	${INFO} "Cleaning up workspace..."
 	@ docker-compose -p $(DOCKER_TEST_PROJECT) -f $(DOCKER_TEST_COMPOSE_FILE) down -v
 
-tag_backend:
+tag:
 	${INFO} "Tagging release image with tags $(TAG_ARGS)..."
 	@ $(foreach tag,$(TAG_ARGS), docker tag $(IMAGE_ID) $(DOCKER_REGISTRY)/$(ORG_NAME)/$(REPO_NAME):$(tag);)
 	@ docker images
 	${SUCCESS} "Tagging completed successfully"
 
-publish_backend:
+publish:
 	@ echo "we are in publishing now"
 	${INFO} "Publishing release image $(REPO_NAME)rel to $(DOCKER_REGISTRY)/$(REPO_NAME).."
 	@ $(foreach tag,$(shell echo $(REPO_EXPR)), docker push $(tag);)

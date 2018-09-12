@@ -31,10 +31,10 @@ authorize_docker() {
 deploy_image() {
     make build_backend
 
-    make tag_backend $IMAGE_TAG
+    make tag $IMAGE_TAG
     echo "$IMAGE_TAG ==>>>>>>>"
 
-    make publish_backend
+    make publish
 }
 
 install_google_cloud_sdk(){
