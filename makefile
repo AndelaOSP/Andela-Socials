@@ -5,7 +5,7 @@ REPO_NAME ?= andela-socials-backend
 DOCKER_TEST_COMPOSE_FILE := docker/test/docker-compose.yml
 DOCKER_TEST_PROJECT := "$(PROJECT_NAME)test"
 DOCKER_RELEASE_COMPOSE_FILE := docker/release/docker-compose.yml
-DOCKER_BACKEND_PROJECT = $(PROJECT_NAME)backend
+DOCKER_BACKEND_PROJECT = $(PROJECT_NAME)-backend
 DOCKER_FRONTEND_PROJECT := "$(PROJECT_NAME)-frontend"
 DOCKER_REGISTRY ?= gcr.io
 
