@@ -1,6 +1,6 @@
 PROJECT_NAME ?= andela-socials
 ORG_NAME ?= bench-projects
-REPO_NAME := "$(PROJECT_NAME)-backend"
+REPO_NAME ?= bench-projects
 
 DOCKER_TEST_COMPOSE_FILE := docker/test/docker-compose.yml
 DOCKER_TEST_PROJECT := "$(PROJECT_NAME)test"
