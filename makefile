@@ -8,7 +8,6 @@ DOCKER_RELEASE_COMPOSE_FILE := docker/release/docker-compose.yml
 DOCKER_BACKEND_PROJECT = $(PROJECT_NAME)-backend
 DOCKER_FRONTEND_PROJECT := "$(PROJECT_NAME)-frontend"
 DOCKER_REGISTRY ?= gcr.io
-IMAGE_ID ?= andela-socials-backend
 
 ifeq ($(DOCKER_REGISTRY), docker.io)
 	REPO_FILTER := $(ORG_NAME)/$(REPO_NAME)
@@ -82,7 +81,8 @@ test:
 tag:
 	${INFO} "Tagging release image with tags $(TAG_ARGS)..."
 	@ echo "$(IMAGE_ID) and $(TAG_ARGS) "
-	@ echo docker images $(DOCKER_BACKEND_PROJECT)_server -q
+    @ docker images | grep andelasocialsbackend_server
+	@ echo docker images $(REPO_NAME)_server -q
 	@ $(foreach tag,$(TAG_ARGS), docker tag $(IMAGE_ID) $(DOCKER_REGISTRY)/$(ORG_NAME)/$(REPO_NAME):$(tag);)
 	${SUCCESS} "Tagging completed successfully"
 
@@ -115,6 +115,6 @@ INSPECT := $$(docker-compose -p $$1 -f $$2 ps -q $$3 | xargs -I ARGS docker insp
 
 CHECK := @bash -c 'if [[ $(INSPECT) -ne 0 ]]; then exit $(INSPECT); fi' VALUE
 
-# IMAGE_ID = $$(docker images $(DOCKER_BACKEND_PROJECT)_server -q)
+IMAGE_ID = $$(docker images | grep andelasocialsbackend_server
 
 REPO_EXPR := $$(docker inspect -f '{{range .RepoTags}}{{.}} {{end}}' $(IMAGE_ID) | grep -oh "$(REPO_FILTER)" | xargs)
