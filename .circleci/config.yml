@@ -43,7 +43,7 @@ jobs:
     - run:
         name: Deploy application to staging
         command: |
-          bash scripts/deploy.sh
+          bash scripts/deployBackend.sh
 
 
 
@@ -52,12 +52,12 @@ workflows:
     test_and_deploy:
         jobs:
             - test
-            - deploy
-                # requires:
-                #     - test
-                # filters:
-                #     branches:
-                #         only:
-                #             - master
-                #             - /release\/v[0-9].[0-9].[0-9]/
-                #             - backend_release_make
+            - deploy:
+                requires:
+                    - test
+                filters:
+                    branches:
+                        only:
+                            - master
+                            - /release\/v[0-9].[0-9].[0-9]/
+                            - backend_release_make

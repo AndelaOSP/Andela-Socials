@@ -31,9 +31,9 @@ authorize_docker() {
 deploy_image() {
     make build_backend
 
-    make tag $IMAGE_TAG
+    make tag_backend $IMAGE_TAG
 
-    make publish
+    make publish_backend
 }
 
 install_google_cloud_sdk(){
