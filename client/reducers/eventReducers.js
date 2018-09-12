@@ -30,17 +30,9 @@ export const events = (state = initialState.events, action) => {
         }
       );
 
-
     case CREATE_EVENT: {
-      const createdEvent = {
-        eventsList: {
-          edges: state.events.eventsList
-            ? state.events.eventsList.edges.concat({ node: action.payload.createEvent.newEvent })
-            : { node: action.payload.createEvent.newEvent },
-          pageInfo: state.events.eventsList.pageInfo,
-        },
-      };
-      return Object.assign({}, state, { events: createdEvent });
+      const newEvents = { node: action.payload.createEvent.newEvent };
+      return [...state, newEvents];
     }
 
     case UPDATE_EVENT: {

@@ -5,7 +5,7 @@ import Calendar from '../../components/common/Calendar';
 import EventFilter from '../../components/filter/EventFilter';
 import EventCard from '../../components/cards/EventCard';
 import formatDate from '../../utils/formatDate';
-import { getEventsList } from '../../actions/graphql/eventGQLActions';
+import { getEventsList, createEvent } from '../../actions/graphql/eventGQLActions';
 import { getCategoryList } from '../../actions/graphql/categoryGQLActions';
 import EventNotFound from '../../components/EventNotFound';
 
@@ -186,4 +186,5 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   getEventsList,
   getCategoryList,
+  createEvent,
 })(EventsPage);

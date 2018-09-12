@@ -52,7 +52,7 @@ export const getEvent = id => ({
   error: false,
 });
 
-export const createEvent = (
+export const createEvent = ({
   title,
   description,
   featuredImage,
@@ -60,8 +60,8 @@ export const createEvent = (
   startDate,
   endDate,
   timezone,
-  categoryId
-) => dispatch => Client.mutate(
+  categoryId,
+}) => dispatch => Client.mutate(
   CREATE_EVENT_GQL(
     title,
     description,

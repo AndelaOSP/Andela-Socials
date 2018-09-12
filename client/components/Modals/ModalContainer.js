@@ -25,7 +25,7 @@ const ModalContent = ({
         <h3>{modalProps.modalHeadline}</h3>
       </header>
       <div className="modal__body">
-        <SpecificModal {...modalProps}/>
+        <SpecificModal dismiss={closeModal} {...modalProps}/>
       </div>
       <footer className="modal__btns">
         <button

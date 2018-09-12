@@ -13,6 +13,7 @@ import EventDetailsPage from '../Event/EventDetailsPage';
 import ModalContextProvider, { ModalContextCreator } from '../../components/Modals/ModalContext';
 import Modal from '../../components/Modals/ModalContainer';
 import LoadComponent from '../../utils/loadComponent';
+import { createEvent } from '../../actions/graphql/eventGQLActions';
 
 // stylesheet
 import '../../assets/style.scss';
@@ -88,6 +89,7 @@ class Dashboard extends Component {
           activeModal,
           openModal,
         }) => {
+          const { createEvent } = this.props;
           if (activeModal) return null;
           return (
             <button
@@ -96,6 +98,7 @@ class Dashboard extends Component {
                 modalHeadline: 'create event',
                 formMode: 'create',
                 formId: 'event-form',
+                createEvent,
               })}
               className="create-event-btn"
             >Create Event</button>
@@ -152,11 +155,14 @@ class Dashboard extends Component {
 Dashboard.propTypes = {
   location: PropTypes.shape({ pathname: PropTypes.string.isRequired }).isRequired,
   loadActiveUser: PropTypes.func.isRequired,
+  createEvent: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({ activeUser: state.activeUser });
 
 export default connect(mapStateToProps,
   {
-    loadActiveUser, displayLoginErrorMessage,
+    loadActiveUser,
+    displayLoginErrorMessage,
+    createEvent,
   })(Dashboard);
