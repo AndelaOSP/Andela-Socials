@@ -81,7 +81,7 @@ test:
 tag:
 	${INFO} "Tagging release image with tags $(TAG_ARGS)..."
 	@ echo $(IMAGE_ID) $(TAG_ARGS)
-	@ $(foreach tag,$(TAG_ARGS), docker tag $(IMAGE_ID):latest $(DOCKER_REGISTRY)/$(ORG_NAME)/$(REPO_NAME):$(tag);)
+	@ $(foreach tag,$(TAG_ARGS), docker tag $(IMAGE_ID) $(DOCKER_REGISTRY)/$(ORG_NAME)/$(REPO_NAME):$(tag);)
 	${SUCCESS} "Tagging completed successfully"
 
 publish:
@@ -113,6 +113,6 @@ INSPECT := $$(docker-compose -p $$1 -f $$2 ps -q $$3 | xargs -I ARGS docker insp
 
 CHECK := @bash -c 'if [[ $(INSPECT) -ne 0 ]]; then exit $(INSPECT); fi' VALUE
 
-IMAGE_ID = $$(docker images | grep andelasocialsbackend_server)
+IMAGE_ID = $$(docker images andelasocialsbackend_server -q)
 
 REPO_EXPR := $$(docker inspect -f '{{range .RepoTags}}{{.}} {{end}}' $(IMAGE_ID) | grep -oh "$(REPO_FILTER)" | xargs)
