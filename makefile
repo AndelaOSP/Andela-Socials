@@ -80,7 +80,7 @@ test:
 tag:
 	${INFO} "Tagging release image with tags $(TAG_ARGS)..."
 	@ echo " "
-    @ docker images
+	@ docker images
 	@ echo "Tag args==> $(TAG_ARGS)"
 	@ echo "Image Id==> $(IMAGE_ID)"
 	@ echo "Docker Registry===> $(DOCKER_REGISTRY)"
