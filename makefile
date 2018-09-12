@@ -82,6 +82,7 @@ test:
 tag_backend:
 	${INFO} "Tagging release image with tags $(TAG_ARGS)..."
 	@ $(foreach tag,$(TAG_ARGS), docker tag $(IMAGE_ID) $(DOCKER_REGISTRY)/$(ORG_NAME)/$(REPO_NAME):$(tag);)
+	@ docker images
 	${SUCCESS} "Tagging completed successfully"
 
 publish_backend:
