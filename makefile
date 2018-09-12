@@ -8,6 +8,7 @@ DOCKER_RELEASE_COMPOSE_FILE := docker/release/docker-compose.yml
 DOCKER_BACKEND_PROJECT = $(PROJECT_NAME)-backend
 DOCKER_FRONTEND_PROJECT := "$(PROJECT_NAME)-frontend"
 DOCKER_REGISTRY ?= gcr.io
+IMAGE_ID = $$(docker images $(DOCKER_BACKEND_PROJECT)_server -q)
 
 ifeq ($(DOCKER_REGISTRY), docker.io)
 	REPO_FILTER := $(ORG_NAME)/$(REPO_NAME)
@@ -81,7 +82,6 @@ test:
 tag:
 	${INFO} "Tagging release image with tags $(TAG_ARGS)..."
 	@ echo "$(IMAGE_ID) and $(TAG_ARGS) "
-	@ docker images
 	@ $(foreach tag,$(TAG_ARGS), docker tag $(IMAGE_ID) $(DOCKER_REGISTRY)/$(ORG_NAME)/$(REPO_NAME):$(tag);)
 	${SUCCESS} "Tagging completed successfully"
 
