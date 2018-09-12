@@ -85,6 +85,7 @@ tag_backend:
 	${SUCCESS} "Tagging completed successfully"
 
 publish_backend:
+	@ echo "we are in publishing now"
 	${INFO} "Publishing release image $(REPO_NAME)rel to $(DOCKER_REGISTRY)/$(REPO_NAME).."
 	@ $(foreach tag,$(shell echo $(REPO_EXPR)), docker push $(tag);)
 	${INFO} "Publish complete"

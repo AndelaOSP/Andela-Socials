@@ -32,6 +32,7 @@ deploy_image() {
     make build_backend
 
     make tag_backend $IMAGE_TAG
+    echo "$IMAGE_TAG ==>>>>>>>"
 
     make publish_backend
 }
