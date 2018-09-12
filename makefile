@@ -1,6 +1,6 @@
 PROJECT_NAME ?= andela-socials
 ORG_NAME ?= bench-projects
-REPO_NAME ?= bench-projects
+REPO_NAME ?= andela_socials-backend
 
 DOCKER_TEST_COMPOSE_FILE := docker/test/docker-compose.yml
 DOCKER_TEST_PROJECT := "$(PROJECT_NAME)test"
@@ -113,6 +113,6 @@ INSPECT := $$(docker-compose -p $$1 -f $$2 ps -q $$3 | xargs -I ARGS docker insp
 
 CHECK := @bash -c 'if [[ $(INSPECT) -ne 0 ]]; then exit $(INSPECT); fi' VALUE
 
-IMAGE_ID = $$(docker images $(REPO_NAME)_server -q)
+IMAGE_ID = $$(docker images $(DOCKER_BACKEND_PROJECT)_server -q)
 
 REPO_EXPR := $$(docker inspect -f '{{range .RepoTags}}{{.}} {{end}}' $(IMAGE_ID) | grep -oh "$(REPO_FILTER)" | xargs)
