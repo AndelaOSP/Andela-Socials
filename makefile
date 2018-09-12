@@ -115,6 +115,6 @@ INSPECT := $$(docker-compose -p $$1 -f $$2 ps -q $$3 | xargs -I ARGS docker insp
 
 CHECK := @bash -c 'if [[ $(INSPECT) -ne 0 ]]; then exit $(INSPECT); fi' VALUE
 
-IMAGE_ID = $$(docker images | grep andelasocialsbackend_server
+IMAGE_ID = $$(docker images | grep andelasocialsbackend_server)
 
 REPO_EXPR := $$(docker inspect -f '{{range .RepoTags}}{{.}} {{end}}' $(IMAGE_ID) | grep -oh "$(REPO_FILTER)" | xargs)
