@@ -24,8 +24,7 @@ function setup_server() {
 	pip install -r server/requirements.txt
 	python server/manage.py makemigrations
 	python server/manage.py migrate
-	echo "from django.contrib.auth.models import User; User.objects.filter(email='admin@example.com').delete(); User.objects.create_superuser('admin', 'admin@example.com', 'nimda')" | python server/manage.py shell
-
+	server/manage.py loaddata server/api/fixtures/initial.json
 }
 
 function setup_client() {
