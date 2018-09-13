@@ -24,7 +24,7 @@ function setup_server() {
 	pip install -r server/requirements.txt
 	python server/manage.py makemigrations
 	python server/manage.py migrate
-	server/manage.py loaddata server/api/fixtures/initial.json
+	python server/manage.py loaddata server/api/fixtures/initial.json
 }
 
 function setup_client() {
