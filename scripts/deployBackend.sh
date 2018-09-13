@@ -55,7 +55,7 @@ configure_google_cloud_sdk() {
 deploy_to_kubernetes(){
      echo "====> Prepare image for deployement"
 
-    IMAGE="${DOCKER_REGISTRY}/${GOOGLE_PROJECT_ID}/${PROJECT_NAME}:${IMAGE_TAG}"
+    IMAGE="${DOCKER_REGISTRY}/${GOOGLE_PROJECT_ID}/${REPO_NAME}:${IMAGE_TAG}"
     DEPLOYMENT_NAME="${ENVIRONMENT}-${BACKEND_PROJECT_NAME}"
     echo "====> Deploying ${IMAGE} to ${DEPLOYMENT_NAME} in ${ENVIRONMENT} environment"
 
