@@ -119,15 +119,15 @@ Your .env variable should look like this, you can aslo reference the file to see
 The UI mock for the project is available [here](https://www.figma.com/file/Yn3JRZ3YLBVSg4o8L9dhIAv2/Andela_Socials)
 
 ### DUMMY DATA
-You can seed the dummy data into your database using the command `python manage.py loaddata fixtures/initial.json` when that is done you have access to dummy categories and dummy users. A user information you can use is:
-*username:* _andelasocials_
-*password:* _testuser_
+Before you seed data into your new database, ensure you run `python server/manage.py migrate`.
+You can now seed the dummy data into your database using the command `server/manage.py loaddata server/api/fixtures/initial.json` when that is done you have access to dummy categories, events and dummy users.
+You need to log in with an andela email to have access to this dummies.
 
 ### DEFAULT ADMIN
 Navigate to django's default admin page `/admin` using the credentials below to gain access.
 
 USERNAME: admin
-PASSWORD: nimda
+PASSWORD: adminpassword
 
 
 ### CONTRIBUTORS

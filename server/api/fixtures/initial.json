@@ -1,1 +1,235 @@
-[{"model": "sessions.session", "pk": "48nybqji4ht14mr1st0g6n50b3l24qra", "fields": {"session_data": "M2IwYjZhZTY0MTI2NjNkOWRjYTE2ODc0YzFhZmJlOWY1M2EzYjk2Nzp7Il9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIzMDQ1NzdiMmQ5ODQxZjcxYzljYWM1MjU1MGFiOWRjZDRlMjg2ZDQ1In0=", "expire_date": "2017-09-23T00:43:07.338Z"}}, {"model": "sessions.session", "pk": "zgbxegfkjbob8l9ih4k89rylos6htpvf", "fields": {"session_data": "YjIzNGFlNTEwYjdiODk4NDcyMTNkMmJlNTBmMDhiYjVhZjUzM2IxMDp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIyOTg3Nzg3NWY2NGNjMThmZTYxNTljYzBiOGE2YzM5NjNjM2UzMzUyIn0=", "expire_date": "2017-09-23T00:35:53.886Z"}}, {"model": "api.category", "pk": 1, "fields": {"created_at": "2017-09-09T00:41:25.470Z", "updated_at": "2017-09-09T00:41:25.470Z", "name": "Swimming Meetup", "featured_image": "https://woocommerce.com/wp-content/themes/woo/images/wc-meetups/host-meetup.jpg"}}, {"model": "api.category", "pk": 2, "fields": {"created_at": "2017-09-09T00:41:38.742Z", "updated_at": "2017-09-09T00:41:38.743Z", "name": "Singing Meetup", "featured_image": "http://6798-presscdn-0-89.pagely.netdna-cdn.com/wp-content/uploads/2015/03/NJ-Tech-Meetup_Hoboken-e1425935269237.jpeg"}}, {"model": "api.category", "pk": 3, "fields": {"created_at": "2017-09-09T00:51:38.742Z", "updated_at": "2017-09-09T00:41:38.742Z", "name": "Baby Meetup", "featured_image": "https://www.firstpress.com.ng/wp-content/uploads/2017/07/attend-the-imisi3d-meetup-for-arvr-enthusiasts-hosted-at-google-nigeria-tomorrow.png"}}, {"model": "api.category", "pk": 4, "fields": {"created_at": "2017-09-09T01:51:38.742Z", "updated_at": "2017-09-09T01:51:38.742Z", "name": "Eating Meetup", "featured_image": "https://i2.wp.com/wp.laravel-news.com/wp-content/uploads/2017/05/laravel-nigeria.jpg"}}, {"model": "api.category", "pk": 5, "fields": {"created_at": "2017-09-09T01:31:38.742Z", "updated_at": "2017-09-09T01:31:38.742Z", "name": "Jumping Meetup", "featured_image": "https://cdn-images-1.medium.com/max/1600/1*ySjDsp5j-C4ql2ur6xN0-Q.jpeg"}}, {"model": "api.andelauserprofile", "pk": 1, "fields": {"google_id": 1, "user_id": 1, "user_picture": "https://lh5.googleusercontent.com/-vn0YzqZ85aY/AAAAAAAAAAI/AAAAAAAAAAA/AAnnY7rBfFdT-1_x5valCG6VkBneqWwtWg/s96-c/photo.jpg"}}, {"model": "api.andelauserprofile", "pk": 2, "fields": {"google_id": 2, "user_id": 2, "user_picture": "https://lh5.googleusercontent.com/-vn0YzqZ85aY/AAAAAAAAAAI/AAAAAAAAAAA/AAnnY7rBfFdT-1_x5valCG6VkBneqWwtWg/s96-c/photo.jpg"}}, {"model": "api.andelauserprofile", "pk": 3, "fields": {"google_id": 3, "user_id": 3, "user_picture": "https://lh5.googleusercontent.com/-vn0YzqZ85aY/AAAAAAAAAAI/AAAAAAAAAAA/AAnnY7rBfFdT-1_x5valCG6VkBneqWwtWg/s96-c/photo.jpg"}}, {"model": "auth.user", "pk": 1, "fields": {"password": "pbkdf2_sha256$36000$cebPXoPAAtpk$4e+aIGTTtdwyyd4H8ojn5wJ//bgCFyevickb74Vc26g=", "last_login": "2017-09-09T00:35:53.883Z", "is_superuser": true, "username": "bolaji", "first_name": "", "last_name": "", "email": "bolaji.olajide@andela.com", "is_staff": true, "is_active": true, "date_joined": "2017-09-09T00:35:28.114Z", "groups": [], "user_permissions": []}}, {"model": "auth.user", "pk": 2, "fields": {"password": "pbkdf2_sha256$36000$aPyaL959DXvL$AJlrn7jyUqBIaRkiNoBnMIcQ7EjJfjtsLy8+eAqDBHU=", "last_login": "2017-09-09T00:43:07.336Z", "is_superuser": true, "username": "sensei", "first_name": "", "last_name": "", "email": "sensei@andela.com", "is_staff": true, "is_active": true, "date_joined": "2017-09-09T00:42:53.655Z", "groups": [], "user_permissions": []}}, {"model": "auth.user", "pk": 3, "fields": {"password": "pbkdf2_sha256$36000$tIfOJzP0n2ar$6QjBT3OhXd+uD4ZJlsjWz7oCDDwU2/U4oNXE7SrR+Wc=", "last_login": null, "is_superuser": true, "username": "andelasocials", "first_name": "", "last_name": "", "email": "andelasocials@andela.com", "is_staff": true, "is_active": true, "date_joined": "2017-09-09T01:03:33.052Z", "groups": [], "user_permissions": []}}, {"model": "api.event", "pk": 1, "fields": {"created_at": "2017-09-09T08:26:25.932Z", "updated_at": "2017-09-09T08:26:25.932Z", "title": "Test", "description": "THis is a test event", "venue": "Pekas Night Club", "date": "September 10, 2017", "time": "01:00pm WAT", "creator": 2, "social_event": 3, "featured_image": "https://cdn.elegantthemes.com/blog/wp-content/uploads/2014/02/hold-wp-meetup-coffee-shop.jpg"}}, {"model": "api.event", "pk": 2, "fields": {"created_at": "2017-09-09T08:26:25.932Z", "updated_at": "2017-09-09T08:26:25.932Z", "title": "Hi-Impact Stuff", "description": "Come and be blessed", "venue": "Epic Tower", "date": "October 20, 2017", "time": "02:00pm WAT", "creator": 1, "social_event": 1, "featured_image": "https://cdn.elegantthemes.com/blog/wp-content/uploads/2014/02/hold-wp-meetup-coffee-shop.jpg"}}, {"model": "api.event", "pk": 3, "fields": {"created_at": "2017-10-09T08:26:25.932Z", "updated_at": "2017-10-09T08:26:25.932Z", "title": "Movie Night", "description": "Come and watch film", "venue": "Ozone Cinemas", "date": "October 30, 2017", "time": "02:00pm WAT", "creator": 2, "social_event": 1, "featured_image": "https://cdn.elegantthemes.com/blog/wp-content/uploads/2014/02/hold-wp-meetup-coffee-shop.jpg"}}, {"model": "api.event", "pk": 4, "fields": {"created_at": "2017-06-09T08:26:25.932Z", "updated_at": "2017-06-09T08:26:25.932Z", "title": "Game of Thrones", "description": "Kill white walkers", "venue": "National Stadium", "date": "December 10, 2019", "time": "10:00pm WAT", "creator": 2, "social_event": 2, "featured_image": "https://cdn.elegantthemes.com/blog/wp-content/uploads/2014/02/hold-wp-meetup-coffee-shop.jpg"}}, {"model": "api.event", "pk": 5, "fields": {"created_at": "2017-08-09T08:26:25.932Z", "updated_at": "2017-08-09T08:26:25.932Z", "title": "Football ", "description": "Score Goals", "venue": "National Theatre", "date": "August 10, 2019", "time": "07:00pm WAT", "creator": 2, "social_event": 4, "featured_image": "https://cdn.elegantthemes.com/blog/wp-content/uploads/2014/02/hold-wp-meetup-coffee-shop.jpg"}}, {"model": "api.event", "pk": 6, "fields": {"created_at": "2017-07-15T08:26:25.932Z", "updated_at": "2017-07-15T08:26:25.932Z", "title": "Fantasy League", "description": "Toast girls!", "venue": "National Stadium", "date": "November 19, 2017", "time": "10:00pm WAT", "creator": 3, "social_event": 5, "featured_image": "https://cdn.elegantthemes.com/blog/wp-content/uploads/2014/02/hold-wp-meetup-coffee-shop.jpg"}}, {"model": "api.attend", "pk": 1, "fields": {"created_at": "2017-09-09T00:41:59.134Z", "updated_at": "2017-09-09T00:41:59.134Z", "event_id": 1, "user_id": 1}}, {"model": "api.attend", "pk": 2, "fields": {"created_at": "2017-09-09T00:41:59.134Z", "updated_at": "2017-09-09T00:41:59.134Z", "event_id": 2, "user_id": 1}}, {"model": "api.attend", "pk": 3, "fields": {"created_at": "2017-09-09T00:41:59.134Z", "updated_at": "2017-09-09T00:41:59.134Z", "event_id": 3, "user_id": 1}}, {"model": "api.interest", "pk": 1, "fields": {"created_at": "2017-09-09T00:41:59.134Z", "updated_at": "2017-09-09T00:41:59.134Z", "follower": 1, "follower_category": 2}}, {"model": "api.interest", "pk": 2, "fields": {"created_at": "2017-09-09T00:43:27.282Z", "updated_at": "2017-09-09T00:43:27.282Z", "follower": 2, "follower_category": 2}}, {"model": "admin.logentry", "pk": 1, "fields": {"action_time": "2017-09-09T00:41:25.472Z", "user": 1, "content_type": 8, "object_id": "1", "object_repr": "Category object", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 2, "fields": {"action_time": "2017-09-09T00:41:38.743Z", "user": 1, "content_type": 8, "object_id": "2", "object_repr": "Category object", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 3, "fields": {"action_time": "2017-09-09T00:41:59.135Z", "user": 1, "content_type": 10, "object_id": "1", "object_repr": "Interest object", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 4, "fields": {"action_time": "2017-09-09T00:43:27.282Z", "user": 2, "content_type": 10, "object_id": "2", "object_repr": "Interest object", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 5, "fields": {"action_time": "2017-09-09T08:26:25.933Z", "user": 1, "content_type": 9, "object_id": "1", "object_repr": "Event object", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}]
+[
+  {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$36000$N92TfR4PrqJ7$DZSbvw4wIWbDjrZ+xfDisnqCNwVoyoAdx/meV7pqkHY=",
+      "last_login": "2018-09-09T00:35:53.883Z",
+      "is_superuser": true,
+      "username": "admin",
+      "first_name": "",
+      "last_name": "",
+      "email": "admin@andelasocial.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2018-09-09T00:35:28.114Z"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$36000$N92TfR4PrqJ7$DZSbvw4wIWbDjrZ+xfDisnqCNwVoyoAdx/meV7pqkHY=",
+      "last_login": "2018-09-09T00:35:53.883Z",
+      "is_superuser": false,
+      "username": "mayowa.makinde",
+      "first_name": "Mayowa",
+      "last_name": "Makinde",
+      "email": "mayowa.makinde@andela.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2018-09-09T00:35:28.114Z"
+    }
+  },
+  {
+    "model": "api.andelauserprofile",
+    "pk": 1,
+    "fields": {
+      "google_id": "-KjbP4MLRPiHQ7xWJyW6",
+      "user": 2,
+      "user_picture": "https://lh4.googleusercontent.com/-3fBTvXwf6rk/AAAAAAAAAAI/AAAAAAAAABg/SfDHcEucr3Q/photo.jpg?sz=50",
+      "credential": null,
+      "state": "M5yqxbT5G4TK90itYQI6bQULlOMQTl",
+      "slack_id": "mankind",
+      "timezone": ""
+    }
+  },
+  {
+    "model": "api.category",
+    "pk": 1,
+    "fields": {
+      "created_at": "2018-08-22T14:20:35.052Z",
+      "updated_at": "2018-08-22T14:20:35.052Z",
+      "name": "games",
+      "featured_image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWFyUfzpuJ8pRcICSJNktnkZ_pcufnITolgBkw21sss0fX0eDVBw",
+      "description": "For people who wants to be happy"
+    }
+  },
+  {
+    "model": "api.category",
+    "pk": 2,
+    "fields": {
+      "created_at": "2018-08-22T14:20:35.052Z",
+      "updated_at": "2018-08-22T14:20:35.052Z",
+      "name": "entertainment",
+      "featured_image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKRLFgFFq7ZdqY6unNK00HKlH9KXcZ17-gGk46X_9X53sANBHIrA",
+      "description": "For people who wants to be happy"
+    }
+  },
+  {
+    "model": "api.category",
+    "pk": 3,
+    "fields": {
+      "created_at": "2018-08-22T14:20:35.052Z",
+      "updated_at": "2018-08-22T14:20:35.052Z",
+      "name": "meetups",
+      "featured_image": "https://assets.zabbix.com/img/events/meetups/2017_moscow_meetup_hall.jpg",
+      "description": "For people who wants to be happy"
+    }
+  },
+  {
+    "model": "api.category",
+    "pk": 4,
+    "fields": {
+      "created_at": "2018-08-22T14:20:35.052Z",
+      "updated_at": "2018-08-22T14:20:35.052Z",
+      "name": "team",
+      "featured_image": "https://static.pulse.ng/img/incoming/origs8465383/4696366534-w644-h960/Super-Eagles.png",
+      "description": "For people who wants to be happy"
+    }
+  },
+  {
+    "model": "api.category",
+    "pk": 5,
+    "fields": {
+      "created_at": "2018-08-22T14:20:35.052Z",
+      "updated_at": "2018-08-22T14:20:35.052Z",
+      "name": "sports",
+      "featured_image": "http://ourladyandstbede.org.uk/wp-content/uploads/2018/01/9.png",
+      "description": "For people who wants to be happy"
+    }
+  },
+  {
+    "model": "api.category",
+    "pk": 6,
+    "fields": {
+      "created_at": "2018-08-22T14:20:35.052Z",
+      "updated_at": "2018-08-22T14:20:35.052Z",
+      "name": "hackathon",
+      "featured_image": "http://www.sidmach.com/sidmach/img/hackathon.png",
+      "description": "For people who wants to be happy"
+    }
+  },
+  {
+    "model": "api.category",
+    "pk": 7,
+    "fields": {
+      "created_at": "2018-08-22T14:20:35.052Z",
+      "updated_at": "2018-08-22T14:20:35.052Z",
+      "name": "party",
+      "featured_image": "https://3.bp.blogspot.com/-l4ELnV2MDV0/Vx49Vu7xUBI/AAAAAAAAWWk/7sH9hHdcwq4qg7DKN30UubqpQBHJZ8IvgCLcB/s1600/IMG-20160425-WA0006.jpg",
+      "description": "For people who wants to be happy"
+    }
+  },
+  {
+    "model": "api.category",
+    "pk": 8,
+    "fields": {
+      "created_at": "2018-08-22T14:20:35.052Z",
+      "updated_at": "2018-08-22T14:20:35.052Z",
+      "name": "religion",
+      "featured_image": "http://allthingsgraphed.com/public/images/science_religion.png",
+      "description": "For people who wants to be happy"
+    }
+  },
+  {
+    "model": "api.event",
+    "pk": 1,
+    "fields": {
+      "created_at": "2018-08-22T14:20:48.796Z",
+      "updated_at": "2018-08-22T14:20:48.796Z",
+      "title": "Rock n Roll with Jazzman",
+      "description": "You just need to be here to experience the magic",
+      "venue": "Ikoyi club, Ikoyi.",
+      "start_date": "2018-08-14 13:29:12.950122+00",
+      "end_date": "2018-08-14 13:29:05.622047+00",
+      "creator": 1,
+      "social_event": 1,
+      "featured_image": "https://fullcirclefdn.org/wp-content/uploads/2017/10/4acbb46502792d284511b08adaa44063.jpg",
+      "active": true,
+      "timezone": ""
+    }
+  },
+  {
+    "model": "api.event",
+    "pk": 2,
+    "fields": {
+      "created_at": "2018-08-22T14:41:57.833Z",
+      "updated_at": "2018-08-22T14:41:57.833Z",
+      "title": "Deloggs Hack",
+      "description": "Win a grand prize of $2,000 while doing what you love. All particpants are winners",
+      "venue": "Andela Epic Towers, Ilupeju",
+      "start_date": "2018-08-14 13:29:12.950122+00",
+      "end_date": "2018-08-14 13:29:05.622047+00",
+      "creator": 1,
+      "social_event": 6,
+      "featured_image": "http://www.sidmach.com/sidmach/img/hackathon.png",
+      "active": true,
+      "timezone": ""
+    }
+  },
+  {
+    "model": "api.event",
+    "pk": 3,
+    "fields": {
+      "created_at": "2018-08-22T14:58:03.347Z",
+      "updated_at": "2018-08-22T14:58:03.347Z",
+      "title": "Amity Party",
+      "description": "As always no long talk, this is gonna be lit",
+      "venue": "Amity, Maryland",
+      "start_date": "2018-08-14 13:29:12.950122+00",
+      "end_date": "2018-08-14 13:29:05.622047+00",
+      "creator": 1,
+      "social_event": 7,
+      "featured_image": "https://3.bp.blogspot.com/-l4ELnV2MDV0/Vx49Vu7xUBI/AAAAAAAAWWk/7sH9hHdcwq4qg7DKN30UubqpQBHJZ8IvgCLcB/s1600/IMG-20160425-WA0006.jpg",
+      "active": true,
+      "timezone": ""
+    }
+  },
+  {
+    "model": "api.event",
+    "pk": 4,
+    "fields": {
+      "created_at": "2018-08-22T14:58:49.140Z",
+      "updated_at": "2018-08-22T14:58:49.140Z",
+      "title": "Young peopl's fellowship",
+      "description": "Gathering of christians, happens every tuesday",
+      "venue": "Blue Room",
+      "start_date": "2018-08-14 13:29:12.950122+00",
+      "end_date": "2018-08-14 13:29:05.622047+00",
+      "creator": 1,
+      "social_event": 8,
+      "featured_image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeirE2hLY5cHfhHtiHlIshP1ju_bDqq_oB70wJbO9YfVG6odN0",
+      "active": true,
+      "timezone": ""
+    }
+  },
+  {
+    "model": "api.event",
+    "pk": 5,
+    "fields": {
+      "created_at": "2018-08-22T15:02:10.794Z",
+      "updated_at": "2018-08-22T15:02:10.794Z",
+      "title": "Jumat prayer",
+      "description": "Gathering of muslims, happens every friday",
+      "venue": "Patio",
+      "start_date": "2018-08-14 13:29:12.950122+00",
+      "end_date": "2018-08-14 13:29:05.622047+00",
+      "creator": 1,
+      "social_event": 8,
+      "featured_image": "https://static.pulse.ng/img/incoming/origs4003856/5205569464-w644-h429/Kul-Sharif-Mosque-in-Kazan-Russia-2.jpg",
+      "active": true,
+      "timezone": ""
+    }
+  },
+  {
+    "model": "api.interest",
+    "pk": 1,
+    "fields": {
+      "created_at": "2018-08-22T14:30:48.441Z",
+      "updated_at": "2018-08-22T14:30:48.441Z",
+      "follower": 1,
+      "follower_category": 1
+    }
+  }
+]
