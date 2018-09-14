@@ -134,11 +134,11 @@ class Dashboard extends Component {
     const { location: { search } } = this.props;
     const { activeUser, categoryList } = this.state;
 
-    const categories = Array.isArray(categoryList) ? categoryList.map(cat => ({
-      id: cat.node.id,
+    const categories = Array.isArray(categoryList) ? categoryList.map(category => ({
+      id: category.node.id,
       selected: false,
       key: 'category',
-      title: cat.node.name,
+      title: category.node.name,
     })) : [];
 
     if (search.split('?token=')[1]) {
