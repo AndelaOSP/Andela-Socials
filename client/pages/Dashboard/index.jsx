@@ -1,5 +1,6 @@
 // React lib import
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -41,7 +42,10 @@ const NotFound = LoadComponent(import('../../components/common/NotFound'));
 class Dashboard extends Component {
   constructor(props) {
     super(props);
-    this.state = { activeUser: {} };
+    this.state = {
+      activeUser: {},
+      categoryList: [],
+    };
   }
 
   /**
@@ -178,15 +182,16 @@ Dashboard.propTypes = {
   getCategoryList: PropTypes.func.isRequired,
 };
 
+const mapDispatchToProps = dispatch => bindActionCreators({
+  loadActiveUser,
+  displayLoginErrorMessage,
+  createEvent,
+  getCategoryList,
+}, dispatch);
+
 const mapStateToProps = state => ({
   activeUser: state.activeUser,
   socialClubs: state.socialClubs,
 });
 
-export default connect(mapStateToProps,
-  {
-    loadActiveUser,
-    displayLoginErrorMessage,
-    createEvent,
-    getCategoryList,
-  })(Dashboard);
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

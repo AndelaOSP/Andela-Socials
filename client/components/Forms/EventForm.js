@@ -197,7 +197,7 @@ class EventForm extends Component {
       categories,
     } = this.props;
     const { title, description, venue } = this.state.formData
-    const catClass = categoryError ? 'category-label category-error' : 'category-label';
+    const categoryClass = categoryError ? 'category-label category-error' : 'category-label';
     return (
       <form
         id={formId}
@@ -206,7 +206,7 @@ class EventForm extends Component {
       >
         {this.renderField('input', 'text', 'title', 'Title', formData, errors.title, title)}
         {this.renderField('text', 'text', 'description', 'Description', formData, errors.description, description)}
-        <span className={catClass}>Category</span>
+        <span className={categoryClass}>Category</span>
         <CustomDropDown
           title="Select Category"
           list={categories}
