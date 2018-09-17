@@ -38,7 +38,13 @@ services:
       context: ../../
       dockerfile: docker/release/client/Dockerfile
     command: npm run start:dev
+    environment:
+        - NODE_ENV=development
+        - DJANGO_SETTINGS_MODULE=a_socials.settings.prod
+
     ports:
         - 9000:9000
+    depends_on:
+        - server
 
 

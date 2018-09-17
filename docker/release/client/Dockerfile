@@ -15,3 +15,5 @@ COPY client /app
 RUN rm -rf node-modules
 
 RUN npm install
+
+RUN npm rebuild node-sass --force
