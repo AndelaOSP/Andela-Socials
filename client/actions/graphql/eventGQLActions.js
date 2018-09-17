@@ -75,7 +75,9 @@ export const createEvent = ({
 ).then(data => dispatch({
   type: CREATE_EVENT, payload: data.data, error: false,
 }))
-  .catch(error => handleError(error, dispatch));
+  .catch((error) => {
+    handleError(error, dispatch) 
+;});
 
 export const updateEvent = (
   eventId,

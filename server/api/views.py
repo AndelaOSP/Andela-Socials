@@ -25,6 +25,9 @@ from .serializers import CategorySerializer, EventSerializer,\
     AttendanceSerializer, EventDetailSerializer, InterestSerializer
 from .models import Category, Interest, Event, Attend, AndelaUserProfile
 from .utils.oauth_helper import save_credentials
+
+from .utils.upload_helper import file_uploader
+
 from .setpagination import LimitOffsetpage
 from .slack import get_slack_id, notify_channel, notify_user
 
@@ -205,7 +208,9 @@ class CreateEventView(CreateAPIView):
         try:
             social_event = Category.objects.get(id=int(social_event_id))
         except Category.DoesNotExist:
-            raise Http404
+            raise Http404\
+
+        # file_uploader
 
         new_event = Event(
             title=body_data.get('title'),

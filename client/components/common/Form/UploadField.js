@@ -9,7 +9,7 @@ class UploadField extends Component {
     imagePreviewUrl: '',
     error: {
       hasError: false,
-      message: 'Upload an image for the event',
+      message: 'Upload an image for d event',
     },
   };
 
@@ -30,6 +30,8 @@ class UploadField extends Component {
         },
       });
     } else {
+      const { onChange } = this.props;
+      onChange(e);
       reader.onloadend = () => {
         this.setState({
           imagePreviewUrl: reader.result,

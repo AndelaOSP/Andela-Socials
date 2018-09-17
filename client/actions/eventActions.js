@@ -1,13 +1,12 @@
 import axios from 'axios';
 
+import { LinkError } from 'apollo-link/lib/linkUtils';
 import { GET_EVENT, ATTEND_EVENT, CREATE_EVENT, SUBSCRIBED_EVENTS, UNATTEND_EVENT } from './constants';
 import { handleError } from '../utils/errorHandler';
 
-import { LinkError } from 'apollo-link/lib/linkUtils';
 
 
-export const getEvent = (event_id) => {
-  return (dispatch) => {
+export const getEvent = (event_id) => (dispatch) => {
     return apiCall(`/api/v1/event/${event_id}`, 'get')
       .then((res) => {
         dispatch({
@@ -18,10 +17,8 @@ export const getEvent = (event_id) => {
       })
       .catch(error => handleError(error, dispatch));
   };
-}
 
-export const joinEvent = (details) => {
-  return (dispatch) => {
+export const joinEvent = (details) => (dispatch) => {
     return apiCall('/api/v1/attend', 'post', details)
       .then((res) => {
         dispatch({
@@ -32,10 +29,8 @@ export const joinEvent = (details) => {
       })
       .catch(error => handleError(error, dispatch));
   };
-}
 
-export const createEvent = (eventData) => {
-  return (dispatch) => {
+export const createEvent = (eventData) => (dispatch) => {
     return apiCall('/api/v1/create/event', 'post', eventData)
       .then((res) => {
         dispatch({
@@ -46,10 +41,8 @@ export const createEvent = (eventData) => {
       })
       .catch(error => handleError(error, dispatch));
   };
-}
 
-export const getSubscribedEvents = () => {
-  return (dispatch) => {
+export const getSubscribedEvents = () => (dispatch) => {
     return apiCall('/api/v1/subscribed', 'get')
       .then((res) => {
         dispatch({
@@ -60,10 +53,8 @@ export const getSubscribedEvents = () => {
       })
       .catch(error => handleError(error, dispatch));
   };
-}
 
-export const unsubscribeEvent = (event) => {
-  return (dispatch) => {
+export const unsubscribeEvent = (event) => (dispatch) => {
     return apiCall('/api/v1/unsubscribe', 'post', event)
       .then((res) => {
         dispatch({
@@ -74,4 +65,3 @@ export const unsubscribeEvent = (event) => {
       })
       .catch(error => handleError(error, dispatch));
   };
-}

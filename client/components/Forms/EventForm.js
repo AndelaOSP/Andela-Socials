@@ -26,7 +26,7 @@ class EventForm extends Component {
       hasError: false,
       message: 'Enter the venue of the event',
     },
-    imgUrl: {
+    featuredImage: {
       hasError: false,
       message: 'Upload an image for the event',
     },
@@ -39,7 +39,7 @@ class EventForm extends Component {
         hasError: false,
         message: 'Invalid minute provided',
       },
-    }
+    },
   };
 
   state = {
@@ -62,7 +62,8 @@ class EventForm extends Component {
     if (fieldType === 'input') {
       if (type === 'file') {
         return (<UploadField
-          {...this.commonProps(id, type, label, formData, error)} />);
+          {...this.commonProps(id, type, label, formData, error)}
+          onChange={this.handleFormInput} />);
       }
       return (<InputField
         value={value}
@@ -76,10 +77,10 @@ class EventForm extends Component {
   }
 
 
-  renderTimePicker = (type) => (
-    <TimePicker 
+  renderTimePicker = type => (
+    <TimePicker
       type={type}
-      onChange={this.timeSelectHandler}    
+      onChange={this.timeSelectHandler}
       errors={this.state.errors.time}
       values={this.state.formData[type]}
     />
@@ -107,7 +108,9 @@ class EventForm extends Component {
   };
 
   formSubmitHandler = (e) => {
-    const { formMode, dismiss } = this.props;
+    const {
+      formMode, dismiss,
+    } = this.props;
     const { formData } = this.state;
 
     e.preventDefault();
@@ -149,16 +152,14 @@ class EventForm extends Component {
   };
 
   timeSelectHandler = (type, name, value) => {
-    const dateTime = {...this.state.formData[type]};
-    const formDataCopy = {...this.state.formData};
+    const dateTime = { ...this.state.formData[type] };
+    const formDataCopy = { ...this.state.formData };
     dateTime[name] = value;
     formDataCopy[type] = dateTime;
-    this.setState({
-      formData: formDataCopy 
-    })
+    this.setState({ formData: formDataCopy });
   };
 
-  getTimeValues = (type) => (
+  getTimeValues = type => (
     `${this.state.formData[type].hour}:${this.state.formData[type].minute}`
   )
 
@@ -168,7 +169,9 @@ class EventForm extends Component {
       formId,
       formData,
     } = this.props;
-    const { title, description, venue } = this.state.formData
+    const {
+      title, description, venue, featuredImage, start, end,
+    } = this.state.formData;
 
     return (
       <form
@@ -179,25 +182,25 @@ class EventForm extends Component {
         {this.renderField('input', 'text', 'title', 'Title', formData, errors.title, title)}
         {this.renderField('text', 'text', 'description', 'Description', formData, errors.description, description)}
         {this.renderField('input', 'text', 'venue', 'Venue', formData, errors.venue, venue)}
-        {this.renderField('input', 'file', 'featuredImage', 'Featured Image', formData, errors.imgUrl)}
+        {this.renderField('input', 'file', 'featuredImage', 'Featured Image', formData, errors.featuredImage, featuredImage)}
         {/* // TODO: Specify the exact measures for uploads, let's approximate for now */}
         <span>Note: A 1600 x 800 image is recommended</span>
-        <div className='date-time-picker-wrapper'>
-          <DateTimePicker 
+        <div className="date-time-picker-wrapper">
+          <DateTimePicker
             type="start"
             label="start-date"
-            time={this.renderTimePicker("start")} 
-            timeValue={this.getTimeValues("start")}
+            time={this.renderTimePicker('start')}
+            timeValue={this.getTimeValues('start')}
             dateSelected={this.timeSelectHandler}
-            dateValue={this.state.formData.start.date}
+            dateValue={start.date}
           />
-          <DateTimePicker 
+          <DateTimePicker
             type="end"
             label="end-date"
-            time={this.renderTimePicker("end")} 
-            timeValue={this.getTimeValues("end")}
+            time={this.renderTimePicker('end')}
+            timeValue={this.getTimeValues('end')}
             dateSelected={this.timeSelectHandler}
-            dateValue={this.state.formData.end.date}
+            dateValue={end.date}
           />
         </div>
       </form>
@@ -210,15 +213,15 @@ EventForm.defaultProps = {
     title: '',
     description: '',
     venue: '',
-    imgUrl: '',
+    featuredImage: '',
     start: {
-      hour: "17",
-      minute: "00",
+      hour: '17',
+      minute: '00',
       date: dateFns.format(new Date(), 'YYYY-MM-DD'),
     },
     end: {
-      hour: "18",
-      minute: "00",
+      hour: '18',
+      minute: '00',
       date: dateFns.format(new Date(), 'YYYY-MM-DD'),
     },
   },
@@ -233,7 +236,7 @@ EventForm.propTypes = {
     title: PropTypes.string,
     description: PropTypes.string,
     venue: PropTypes.string,
-    imgUrl: PropTypes.string,
+    featuredImage: PropTypes.string,
     start: PropTypes.object,
     end: PropTypes.object,
   }),
