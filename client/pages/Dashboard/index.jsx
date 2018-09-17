@@ -1,5 +1,6 @@
 // React lib import
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -14,6 +15,7 @@ import ModalContextProvider, { ModalContextCreator } from '../../components/Moda
 import Modal from '../../components/Modals/ModalContainer';
 import LoadComponent from '../../utils/loadComponent';
 import { createEvent } from '../../actions/graphql/eventGQLActions';
+import { getCategoryList } from '../../actions/graphql/categoryGQLActions';
 
 // stylesheet
 import '../../assets/style.scss';
@@ -40,7 +42,10 @@ const NotFound = LoadComponent(import('../../components/common/NotFound'));
 class Dashboard extends Component {
   constructor(props) {
     super(props);
-    this.state = { activeUser: {} };
+    this.state = {
+      activeUser: {},
+      categoryList: [],
+    };
   }
 
   /**
@@ -50,7 +55,14 @@ class Dashboard extends Component {
    * @returns {null}
    */
   componentDidMount() {
-    this.props.loadActiveUser();
+    const {
+      loadActiveUser,
+      getCategoryList,
+    } = this.props;
+    loadActiveUser();
+    getCategoryList({
+      first: 20, last: 20,
+    });
   }
 
 
@@ -64,7 +76,10 @@ class Dashboard extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     if (Object.keys(nextProps.activeUser).length > 0
       && (nextProps.activeUser !== prevState.activeUser)) {
-      return { activeUser: nextProps.activeUser || null };
+      return {
+        activeUser: nextProps.activeUser || null,
+        categoryList: nextProps.socialClubs.socialClubs,
+      };
     }
     return null;
   }
@@ -82,7 +97,7 @@ class Dashboard extends Component {
     }
   };
 
-  renderCreateEventButton = () => (
+  renderCreateEventButton = categories => (
     <ModalContextCreator.Consumer>
       {
         ({
@@ -98,6 +113,7 @@ class Dashboard extends Component {
                 modalHeadline: 'create event',
                 formMode: 'create',
                 formId: 'event-form',
+                categories,
                 createEvent,
               })}
               className="create-event-btn"
@@ -116,7 +132,14 @@ class Dashboard extends Component {
    */
   render() {
     const { location: { search } } = this.props;
-    const { activeUser } = this.state;
+    const { activeUser, categoryList } = this.state;
+
+    const categories = Array.isArray(categoryList) ? categoryList.map(category => ({
+      id: category.node.id,
+      selected: false,
+      key: 'category',
+      title: category.node.name,
+    })) : [];
 
     if (search.split('?token=')[1]) {
       localStorage.setItem('token', search.split('?token=')[1]);
@@ -145,7 +168,7 @@ class Dashboard extends Component {
           <Route path="/dashboard" render={() => <EventsPage />} />
           <Route path="*" component={NotFound} />
         </Switch>
-        {this.renderCreateEventButton()}
+        {this.renderCreateEventButton(categories)}
         <Modal />
       </ModalContextProvider>
     );
@@ -156,13 +179,19 @@ Dashboard.propTypes = {
   location: PropTypes.shape({ pathname: PropTypes.string.isRequired }).isRequired,
   loadActiveUser: PropTypes.func.isRequired,
   createEvent: PropTypes.func.isRequired,
+  getCategoryList: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({ activeUser: state.activeUser });
+const mapDispatchToProps = dispatch => bindActionCreators({
+  loadActiveUser,
+  displayLoginErrorMessage,
+  createEvent,
+  getCategoryList,
+}, dispatch);
 
-export default connect(mapStateToProps,
-  {
-    loadActiveUser,
-    displayLoginErrorMessage,
-    createEvent,
-  })(Dashboard);
+const mapStateToProps = state => ({
+  activeUser: state.activeUser,
+  socialClubs: state.socialClubs,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

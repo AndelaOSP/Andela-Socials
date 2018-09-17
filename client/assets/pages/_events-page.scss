@@ -540,3 +540,14 @@ main {
   text-transform: capitalize;
   margin-bottom: 5px;
 }
+
+.category-label {
+  font-size: 0.9375rem;
+  color: #303030;
+  font-weight: 400;
+  text-transform: capitalize;  
+}
+
+.category-error {
+  color: #db4437 !important;
+}

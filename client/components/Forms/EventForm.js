@@ -5,6 +5,7 @@ import dateFns from 'date-fns';
 import IncrementalSelect from '../common/IncrementalSelect';
 import TimePicker from '../common/Form/TimePicker';
 import DateTimePicker from '../common/Form/DateTimePicker';
+import CustomDropDown from '../common/CustomDropDown';
 
 import {
   InputField,
@@ -45,6 +46,8 @@ class EventForm extends Component {
   state = {
     formData: this.props.formData,
     errors: this.errors,
+    category: '',
+    categoryError: false,
   };
 
   commonProps = (id, type, label, formData, error) => ({
@@ -88,7 +91,12 @@ class EventForm extends Component {
 
   formatDate = formData => (`${formData.date} ${formData.hour}:${formData.minute}:00`);
 
+  handleCategory = (item) => {
+    this.setState({ category: item });
+  }
+
   validateFormData = (formData) => {
+    const { category } = this.state;
     const errors = JSON.parse(JSON.stringify(this.state.errors));
     const errorFields = Object.keys(errors);
 
@@ -100,25 +108,39 @@ class EventForm extends Component {
       }
     });
 
-    const isValid = errorFields.every(field => errors[field].hasError === false);
-
+    let isValid = errorFields.every(field => errors[field].hasError === false);
+    let categoryError = false;
+    if (category === '') {
+      isValid = false;
+      categoryError = true;
+    }
     return {
-      isValid, errors,
+      isValid,
+      errors,
+      categoryError,
     };
   };
 
   formSubmitHandler = (e) => {
     const {
-      formMode, dismiss,
+      formMode,
+      dismiss,
     } = this.props;
-    const { formData } = this.state;
+    const {
+      formData,
+      category,
+    } = this.state;
 
     e.preventDefault();
     const {
-      isValid, errors,
+      isValid, errors, categoryError,
     } = this.validateFormData(formData);
 
-    this.setState({ errors });
+    this.setState({
+      errors,
+      categoryError,
+    });
+
 
     if (isValid) {
       const startDate = this.formatDate(formData.start);
@@ -132,7 +154,7 @@ class EventForm extends Component {
           venue: formData.venue,
           startDate: dateFns.format(startDate, 'YYYY-MM-DDTHH:mm:ss.SSSZ'),
           endDate: dateFns.format(endDate, 'YYYY-MM-DDTHH:mm:ss.SSSZ'),
-          categoryId: 'Q2F0ZWdvcnlOb2RlOjI=', // To be populated on eventsform in next PR
+          categoryId: category,
           timezone: 'Africa/Algiers', // To be populated on eventsform in next PR
         });
         dismiss();
@@ -164,15 +186,19 @@ class EventForm extends Component {
   )
 
   render() {
-    const { errors } = this.state;
+    const {
+      errors,
+      categoryError,
+    } = this.state;
     const {
       formId,
       formData,
+      categories,
     } = this.props;
     const {
       title, description, venue, featuredImage, start, end,
     } = this.state.formData;
-
+    const categoryClass = categoryError ? 'category-label category-error' : 'category-label';
     return (
       <form
         id={formId}
@@ -181,6 +207,12 @@ class EventForm extends Component {
       >
         {this.renderField('input', 'text', 'title', 'Title', formData, errors.title, title)}
         {this.renderField('text', 'text', 'description', 'Description', formData, errors.description, description)}
+        <span className={categoryClass}>Category</span>
+        <CustomDropDown
+          title="Select Category"
+          list={categories}
+          onSelected={this.handleCategory}
+        />
         {this.renderField('input', 'text', 'venue', 'Venue', formData, errors.venue, venue)}
         {this.renderField('input', 'file', 'featuredImage', 'Featured Image', formData, errors.featuredImage, featuredImage)}
         {/* // TODO: Specify the exact measures for uploads, let's approximate for now */}
@@ -232,6 +264,7 @@ EventForm.propTypes = {
   createEvent: PropTypes.func.isRequired,
   formId: PropTypes.string.isRequired,
   dismiss: PropTypes.func.isRequired,
+  categories: PropTypes.arrayOf(PropTypes.object).isRequired,
   formData: PropTypes.shape({
     title: PropTypes.string,
     description: PropTypes.string,
