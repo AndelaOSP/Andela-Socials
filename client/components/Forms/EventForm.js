@@ -48,9 +48,9 @@ class EventForm extends Component {
     formData: this.props.formData,
     errors: this.errors,
     category: '',
-    categoryNoError: true,
+    categoryIsValid: true,
     timezone: '',
-    timezoneNoError: true,
+    timezoneIsValid: true,
   };
 
   commonProps = (id, type, label, formData, error) => ({
@@ -101,7 +101,7 @@ class EventForm extends Component {
     this.setState({ timezone });
   }
 
-  validateField = item => item !== '';
+  validateField = field => field !== '';
 
   validateFormData = (formData) => {
     const { category, timezone } = this.state;
@@ -117,15 +117,15 @@ class EventForm extends Component {
     });
 
     let isValid = errorFields.every(field => errors[field].hasError === false);
-    const categoryNoError = this.validateField(category);
-    const timezoneNoError = this.validateField(timezone);
-    isValid = (timezoneNoError && categoryNoError) ? isValid : false;
+    const categoryIsValid = this.validateField(category);
+    const timezoneIsValid = this.validateField(timezone);
+    isValid = (timezoneIsValid && categoryIsValid) ? isValid : false;
 
     return {
       isValid,
       errors,
-      categoryNoError,
-      timezoneNoError,
+      categoryIsValid,
+      timezoneIsValid,
     };
   };
 
@@ -142,13 +142,13 @@ class EventForm extends Component {
 
     e.preventDefault();
     const {
-      isValid, errors, categoryNoError, timezoneNoError,
+      isValid, errors, categoryIsValid, timezoneIsValid,
     } = this.validateFormData(formData);
 
     this.setState({
       errors,
-      categoryNoError,
-      timezoneNoError,
+      categoryIsValid,
+      timezoneIsValid,
     });
 
     if (isValid) {
@@ -199,8 +199,8 @@ class EventForm extends Component {
   render() {
     const {
       errors,
-      categoryNoError,
-      timezoneNoError,
+      categoryIsValid,
+      timezoneIsValid,
       timezone,
     } = this.state;
     const {
@@ -209,8 +209,8 @@ class EventForm extends Component {
       categories,
     } = this.props;
     const { title, description, venue } = this.state.formData
-    const categoryClass = categoryNoError ? 'category-label' : 'category-label category-error';
-    const timezoneClass = timezoneNoError ? 'category-label' : 'category-label category-error';
+    const categoryClass = categoryIsValid ? 'category-label' : 'category-label category-error';
+    const timezoneClass = timezoneIsValid ? 'category-label' : 'category-label category-error';
     return (
       <form
         id={formId}
