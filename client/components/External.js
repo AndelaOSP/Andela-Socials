@@ -9,8 +9,8 @@ const External = (props) => {
   const {
     location, savePermission, counter, oauth,
   } = props;
-  if (counter === 0 && location.location) {
-    savePermission(location.location.search);
+  if (counter === 0 && location) {
+    savePermission(location.search);
   }
   if (oauth !== '') {
     return (<Redirect to="/dashboard" />);

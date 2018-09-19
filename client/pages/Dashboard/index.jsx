@@ -170,7 +170,7 @@ class Dashboard extends Component {
         />
         <Switch>
           {this.redirectUser()}
-          <Route path="/oauthcallback" render={props => <External location={props} oauth={this.props.oauth} counter={oauthCounter} savePermission={this.props.savePermission}/>} />
+          <Route path="/oauthcallback" render={props => <External location={props.location} oauth={this.props.oauth} counter={oauthCounter} savePermission={this.props.savePermission}/>} />
           <Route path="/events/:eventId" render={props => <EventDetailsPage {...props} />} />
           <Route path="/events" render={() => <EventsPage />} />
           <Route path="/dashboard" render={() => <EventsPage />} />

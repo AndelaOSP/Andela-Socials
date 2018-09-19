@@ -2,6 +2,12 @@ import { handleError, handleInformation } from '../utils/errorHandler';
 import apiCall from '../utils/api';
 import { OAUTH } from './constants';
 
+/**
+ * Callback action
+ *
+ * @param {string} authUrl
+ * @return {{type: (object}}
+ */
 export const savePermission = (authUrl) => {
   return (dispatch) => {
     return apiCall(`/api/v1/oauthcallback${authUrl}`, 'get')
