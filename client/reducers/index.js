@@ -3,6 +3,7 @@ import { events, subscribedEvents, attendees, eventsSearchList } from './eventRe
 import interests from './interestReducers';
 import url from './urlReducers';
 import userReducers from './userReducers';
+import oauth from './oauthReducers';
 
 const rootReducer = {
   activeUser: userReducers,
@@ -14,6 +15,7 @@ const rootReducer = {
   attendees,
   interests,
   url,
+  oauth,
 };
 
 export default rootReducer;

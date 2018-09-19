@@ -75,7 +75,14 @@ export const createEvent = ({
 ).then(data => dispatch({
   type: CREATE_EVENT, payload: data.data, error: false,
 }))
-  .catch(error => handleError(error, dispatch));
+  .catch((error) => {
+    if (error.toString().includes('Calendar API not authorized')) {
+      const authUrl = error.graphQLErrors[0].AuthUrl;
+      window.location.href = authUrl;
+    } else {
+      handleError(error, dispatch);
+    }
+  });
 
 export const updateEvent = (
   eventId,

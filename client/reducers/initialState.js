@@ -12,4 +12,5 @@ export default {
   socialClubs: {},
   socialClub: {},
   eventsSearchList: [],
+  oauth: '',
 };

@@ -35,3 +35,6 @@ export const GET_EVENT_ATTENDENCE = 'GET_EVENT_ATTENDENCE';
 // Constants specific to interests
 export const INTERESTS = 'INTERESTS';
 export const INTEREST = 'INTEREST';
+
+// Constants OAUTH
+export const OAUTH = 'OAUTH';

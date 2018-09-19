@@ -13,6 +13,12 @@ export const handleError = (error) => {
   }
 };
 
+export const handleInformation = (information) => {
+  if (information) {
+    return toastr.info(information);
+  }
+};
+
 /**
  * Throws error to be handled somewhere else
  *
