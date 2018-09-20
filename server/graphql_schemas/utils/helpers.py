@@ -1,8 +1,10 @@
 import pytz
+import uuid
 import dateutil.parser as parser
 from api.utils.oauth_helper import get_auth_url
 from api.models import Interest
 from googleapiclient.discovery import build
+from google.cloud import storage
 
 from django.conf import settings
 
@@ -95,3 +97,23 @@ def build_event(event, invitees):
 
 def not_valid_timezone(timezone):
     return timezone not in pytz.all_timezones
+
+# Authenticate storage client
+storage_client = storage.Client.from_service_account_json('FULL_PATH_TO_CREDENTIALS_FILE')
+
+
+def file_uploader(metadata):
+    """
+        Upload file to Google cloud Bucket
+            :param metadata:
+    """
+    # Identify the storage bucket
+    bucket = storage_client.get_bucket('andela-social-uploads')
+    # Name the uplaoded file is going to take
+    destination_blob_name = 'images/' + metadata.get('file_name') + str(uuid.uuid4())
+    blob = bucket.blob(destination_blob_name)
+    # The actual file to be uploaded
+    source_file_name = "/Users/jeanabayo/Work/user.jpg"
+    blob.upload_from_filename(source_file_name)
+
+    print('File {} uploaded to {}.'.format(source_file_name, destination_blob_name))
