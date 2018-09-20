@@ -3,12 +3,14 @@ import rest_framework
 from graphene_django.views import GraphQLView
 from rest_framework.decorators import authentication_classes, permission_classes, api_view
 from rest_framework.settings import api_settings
+from graphene_file_upload.django import FileUploadGraphQLView
+
 from graphql_schemas.utils.helpers import UnauthorizedCalendarError
 
 from graphql.error.located_error import GraphQLLocatedError
 
 
-class DRFAuthenticatedGraphQLView(GraphQLView):
+class DRFAuthenticatedGraphQLView(FileUploadGraphQLView):
     def parse_body(self, request):
         if isinstance(request, rest_framework.request.Request):
             return request.data
@@ -39,6 +41,7 @@ class DRFAuthenticatedGraphQLView(GraphQLView):
 
 def format_located_error(error):
     if isinstance(error.original_error, GraphQLLocatedError):
+        print(":sad:")
         return format_located_error(error.original_error)
     if isinstance(error.original_error, UnauthorizedCalendarError):
         return {'message': error.original_error.message,

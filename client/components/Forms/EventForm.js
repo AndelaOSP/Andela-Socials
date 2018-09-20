@@ -150,7 +150,7 @@ class EventForm extends Component {
         createEvent({
           title: formData.title,
           description: formData.description,
-          featuredImage: formData.imgUrl,
+          featuredImage: formData.featuredImage,
           venue: formData.venue,
           startDate: dateFns.format(startDate, 'YYYY-MM-DDTHH:mm:ss.SSSZ'),
           endDate: dateFns.format(endDate, 'YYYY-MM-DDTHH:mm:ss.SSSZ'),
@@ -164,11 +164,31 @@ class EventForm extends Component {
     }
   };
 
+  getFormData = object => Object.keys(object).reduce((formData, key) => {
+    formData.append(key, object[key]);
+    return formData;
+  }, new FormData());
+
   handleFormInput = (e) => {
+    const {
+      validity,
+      files,
+      name,
+      value,
+    } = e.target;
+
     const { formData } = this.state;
+
     const newFormData = Object.assign({}, formData);
 
-    newFormData[e.target.name] = e.target.value;
+    if (validity.valid) {
+      /* eslint no-unused-expressions: 0 */
+      if (files) {
+        newFormData[name] = files[0];
+      } else {
+        newFormData[name] = value;
+      }
+    }
 
     this.setState({ formData: newFormData });
   };
@@ -204,6 +224,7 @@ class EventForm extends Component {
         id={formId}
         className="create-event-form"
         onSubmit={this.formSubmitHandler}
+        encType="multipart/form-data"
       >
         {this.renderField('input', 'text', 'title', 'Title', formData, errors.title, title)}
         {this.renderField('text', 'text', 'description', 'Description', formData, errors.description, description)}
