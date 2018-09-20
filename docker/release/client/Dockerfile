@@ -1,7 +1,7 @@
 FROM node:carbon
 
 LABEL MAINTAINER="Natalie Elizabeth <natalie.elizabeth@andela.com>"
-LABEL application="asocialsbackend"
+LABEL application="asocialsfrontend"
 
 ENV TERM=xterm-256color
 ENV CI=true
