@@ -17,7 +17,7 @@ db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
 
-# commenting this out in the meantime, until I know if we 
+# commenting this out in the meantime, until I know if we
 # are behind a proxy or not
 # @nnana_larhy
 # https://docs.djangoproject.com/en/2.1/ref/settings/#secure-proxy-ssl-header
