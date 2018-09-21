@@ -1,11 +1,19 @@
 import {
-  GET_EVENT, ATTEND_EVENT, SUBSCRIBED_EVENTS,
-  GET_EVENTS, LOAD_MORE_EVENTS, CREATE_EVENT, GET_ATTENDEES,
-  GET_EVENT_ATTENDENCE, UNATTEND_EVENT, SEARCH_EVENTS,
-  UPDATE_EVENT, DEACTIVATE_EVENT, SIGN_OUT,
+  GET_EVENT,
+  ATTEND_EVENT,
+  SUBSCRIBED_EVENTS,
+  GET_EVENTS,
+  LOAD_MORE_EVENTS,
+  CREATE_EVENT,
+  GET_ATTENDEES,
+  GET_EVENT_ATTENDENCE,
+  UNATTEND_EVENT,
+  SEARCH_EVENTS,
+  UPDATE_EVENT,
+  DEACTIVATE_EVENT,
+  SIGN_OUT,
 } from '../actions/constants';
 import initialState from './initialState';
-
 
 /**
  * Reducer for one events
@@ -19,16 +27,6 @@ export const events = (state = initialState.events, action) => {
       return [...action.payload];
     case LOAD_MORE_EVENTS:
       return [...state, ...action.payload];
-
-    case GET_EVENT:
-      return Object.assign(
-        {},
-        state,
-        {
-          event: state.events.eventsList.edges
-            .filter(item => item.node.id === action.payload.id),
-        }
-      );
 
     case CREATE_EVENT: {
       const newEvents = { node: action.payload.createEvent.newEvent };
@@ -54,8 +52,7 @@ export const events = (state = initialState.events, action) => {
     case DEACTIVATE_EVENT: {
       const deactivateEvent = {
         eventsList: {
-          edges: state.events.eventsList.edges
-            .filter(item => item.node.id !== action.payload.id),
+          edges: state.events.eventsList.edges.filter(item => item.node.id !== action.payload.id),
           pageInfo: state.events.eventsList.pageInfo,
         },
       };
@@ -64,9 +61,27 @@ export const events = (state = initialState.events, action) => {
 
     case SIGN_OUT:
       return Object.assign({}, state, {
-        events: initialState.events, event: initialState.event,
+        events: initialState.events,
+        event: initialState.event,
       });
 
+    default:
+      return state;
+  }
+};
+
+/**
+ * Reducer for one events
+ * @param {object} [state=initialState.event]
+ * @param {object} action
+ * @returns {array} new state of the events
+ */
+export const eventReducer = (state = initialState.event, action) => {
+  switch (action.type) {
+    case GET_EVENT: {
+      const { event } = action.payload.data;
+      return event || {};
+    }
     default:
       return state;
   }
@@ -84,25 +99,14 @@ export const subscribedEvents = (state = initialState.subscribedEvents, action) 
       return Object.assign({}, state, { subscribedEvents: action.payload.subscribedEvents });
 
     case ATTEND_EVENT:
-      return Object.assign(
-        {},
-        state,
-        {
-          subscribedEvents: state.subscribedEvents
-            .concat(action.payload.attendEvent.newAttendance),
-        }
-      );
+      return Object.assign({}, state, { subscribedEvents: state.subscribedEvents.concat(action.payload.attendEvent.newAttendance) });
 
     case UNATTEND_EVENT:
-      return Object.assign(
-        {},
-        state,
-        {
-          subscribedEvents: state.subscribedEvents
-            .filter(item => item.event.id
-              !== action.payload.unattendEvent.unsubscribedEvent.event.id),
-        }
-      );
+      return Object.assign({}, state, {
+        subscribedEvents: state.subscribedEvents.filter(
+          item => item.event.id !== action.payload.unattendEvent.unsubscribedEvent.event.id
+        ),
+      });
 
     case SIGN_OUT:
       return Object.assign({}, state, { subscribedEvents: initialState.subscribedEvents });
@@ -132,7 +136,8 @@ export const attendees = (state = initialState.attendees, action) => {
 
     case SIGN_OUT:
       return Object.assign({}, state, {
-        attendees: initialState.attendees, attendee: initialState.attendee,
+        attendees: initialState.attendees,
+        attendee: initialState.attendee,
       });
 
     default:
@@ -140,11 +145,7 @@ export const attendees = (state = initialState.attendees, action) => {
   }
 };
 
-
-export const eventsSearchList = (
-  state = initialState.eventsSearchList,
-  action
-) => {
+export const eventsSearchList = (state = initialState.eventsSearchList, action) => {
   switch (action.type) {
     case SEARCH_EVENTS:
       return [...action.payload];

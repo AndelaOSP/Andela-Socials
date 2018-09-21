@@ -22,10 +22,7 @@ import { getCategoryList } from '../../actions/graphql/categoryGQLActions';
 import '../../assets/style.scss';
 
 // thunk
-import {
-  loadActiveUser,
-  displayLoginErrorMessage,
-} from '../../actions/userActions';
+import { loadActiveUser, displayLoginErrorMessage } from '../../actions/userActions';
 import { savePermission } from '../../actions/outhActions';
 
 // utils
@@ -60,15 +57,14 @@ class Dashboard extends Component {
   componentDidMount() {
     this.setState({ oauthCounter: 1 });
     const {
-      loadActiveUser,
-      getCategoryList,
+      loadActiveUser, getCategoryList,
     } = this.props;
     loadActiveUser();
     getCategoryList({
-      first: 20, last: 20,
+      first: 20,
+      last: 20,
     });
   }
-
 
   /**
    * React Lifecycle hook
@@ -78,8 +74,10 @@ class Dashboard extends Component {
    * @returns {null}
    */
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (Object.keys(nextProps.activeUser).length > 0
-      && (nextProps.activeUser !== prevState.activeUser)) {
+    if (
+      Object.keys(nextProps.activeUser).length > 0
+      && nextProps.activeUser !== prevState.activeUser
+    ) {
       return {
         activeUser: nextProps.activeUser || null,
         categoryList: nextProps.socialClubs.socialClubs,
@@ -100,34 +98,34 @@ class Dashboard extends Component {
   redirectUser = () => {
     const { location: { pathname } } = this.props;
     if (pathname === '/') {
-      return (<Redirect to="/dashboard" />);
+      return <Redirect to="/dashboard" />;
     }
   };
 
   renderCreateEventButton = categories => (
     <ModalContextCreator.Consumer>
-      {
-        ({
-          activeModal,
-          openModal,
-        }) => {
-          const { createEvent } = this.props;
-          if (activeModal) return null;
-          return (
-            <button
-              type="button"
-              onClick={() => openModal('CREATE_EVENT', {
-                modalHeadline: 'create event',
-                formMode: 'create',
-                formId: 'event-form',
-                categories,
-                createEvent,
-              })}
-              className="create-event-btn"
-            >Create Event</button>
-          );
-        }
-      }
+      {({
+        activeModal, openModal,
+      }) => {
+        const { createEvent } = this.props;
+        if (activeModal) return null;
+        return (
+          <button
+            type="button"
+            onClick={() => openModal('CREATE_EVENT', {
+              modalHeadline: 'create event',
+              formMode: 'create',
+              formId: 'event-form',
+              categories,
+              createEvent,
+            })
+            }
+            className="create-event-btn"
+          >
+            Create Event
+          </button>
+        );
+      }}
     </ModalContextCreator.Consumer>
   );
 
@@ -139,23 +137,25 @@ class Dashboard extends Component {
    */
   render() {
     const { location: { search } } = this.props;
-    const { activeUser, categoryList, oauthCounter } = this.state;
+    const {
+      activeUser, categoryList, oauthCounter,
+    } = this.state;
 
-    const categories = Array.isArray(categoryList) ? categoryList.map(category => ({
-      id: category.node.id,
-      selected: false,
-      key: 'category',
-      title: category.node.name,
-    })) : [];
+    const categories = Array.isArray(categoryList)
+      ? categoryList.map(category => ({
+        id: category.node.id,
+        selected: false,
+        key: 'category',
+        title: category.node.name,
+      }))
+      : [];
 
     if (search.split('?token=')[1]) {
       localStorage.setItem('token', search.split('?token=')[1]);
     }
 
     if (isTokenExpired() || !isLoggedIn()) {
-      return (
-        <Redirect to="/login" />
-      );
+      return <Redirect to="/login" />;
     }
 
     if (search === '?error=failed+to+create+user+token') {
@@ -170,8 +170,21 @@ class Dashboard extends Component {
         />
         <Switch>
           {this.redirectUser()}
-          <Route path="/oauthcallback" render={props => <External location={props.location} oauth={this.props.oauth} counter={oauthCounter} savePermission={this.props.savePermission}/>} />
-          <Route path="/events/:eventId" render={props => <EventDetailsPage {...props} />} />
+          <Route
+            path="/oauthcallback"
+            render={props => (
+              <External
+                location={props.location}
+                oauth={this.props.oauth}
+                counter={oauthCounter}
+                savePermission={this.props.savePermission}
+              />
+            )}
+          />
+          <Route
+            path="/events/:eventId"
+            render={props => <EventDetailsPage {...props} activeUser={activeUser} />}
+          />
           <Route path="/events" render={() => <EventsPage />} />
           <Route path="/dashboard" render={() => <EventsPage />} />
           <Route path="*" component={NotFound} />
@@ -190,13 +203,16 @@ Dashboard.propTypes = {
   getCategoryList: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  loadActiveUser,
-  displayLoginErrorMessage,
-  createEvent,
-  getCategoryList,
-  savePermission,
-}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators(
+  {
+    loadActiveUser,
+    displayLoginErrorMessage,
+    createEvent,
+    getCategoryList,
+    savePermission,
+  },
+  dispatch
+);
 
 const mapStateToProps = state => ({
   activeUser: state.activeUser,
@@ -205,4 +221,7 @@ const mapStateToProps = state => ({
   oauthCounter: 1,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Dashboard);

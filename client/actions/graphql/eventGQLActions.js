@@ -1,5 +1,5 @@
 import EVENT_LIST_GQL from '../../Graphql/Queries/EventListGQL';
-// import EVENT_GQL from '../../Graphql/Queries/EventGQL';
+import EVENT_GQL from '../../Graphql/Queries/EventGQL';
 import CREATE_EVENT_GQL from '../../Graphql/Mutations/CreateEventGQL';
 import UPDATE_EVENT_GQL from '../../Graphql/Mutations/UpdateEventGQL';
 import DEACTIVATE_EVENT_GQL from '../../Graphql/Mutations/DeactivateEventGQL';
@@ -17,7 +17,6 @@ import {
 import { handleError } from '../../utils/errorHandler';
 import Client from '../../client';
 
-
 export const getEventsList = ({
   after = '',
   first = 9,
@@ -25,13 +24,12 @@ export const getEventsList = ({
   startDate,
   venue,
   category,
-}) => dispatch => Client.query(
-  EVENT_LIST_GQL(after, first, title, startDate, venue, category)
-).then(data => dispatch({
-  type: after ? LOAD_MORE_EVENTS : GET_EVENTS,
-  payload: data.data.eventsList.edges,
-  error: false,
-}))
+}) => dispatch => Client.query(EVENT_LIST_GQL(after, first, title, startDate, venue, category))
+  .then(data => dispatch({
+    type: after ? LOAD_MORE_EVENTS : GET_EVENTS,
+    payload: data.data.eventsList.edges,
+    error: false,
+  }))
   .catch(error => handleError(error, dispatch));
 
 /**
@@ -41,16 +39,13 @@ export const getEventsList = ({
  * to get the id of the event
  */
 
-// export const getEvent = id => dispatch => Client.query(
-//   EVENT_GQL(id)
-// ).then(data => dispatch({type: GET_EVENT, payload: data, error: false,}))
-// .catch(error => handleError(error, dispatch));
-
-export const getEvent = id => ({
-  type: GET_EVENT,
-  payload: { id },
-  error: false,
-});
+export const getEvent = id => dispatch => Client.query(EVENT_GQL(id))
+  .then(data => dispatch({
+    type: GET_EVENT,
+    payload: data,
+    error: false,
+  }))
+  .catch(error => handleError(error, dispatch));
 
 export const createEvent = ({
   title,
@@ -94,38 +89,28 @@ export const updateEvent = (
   time,
   socialEventId
 ) => dispatch => Client.mutate(
-  UPDATE_EVENT_GQL(
-    eventId,
-    title,
-    description,
-    featuredImage,
-    venue,
-    date,
-    time,
-    socialEventId
-  )
-).then(data => dispatch({
-  type: UPDATE_EVENT, payload: data.data, error: false,
-}))
+  UPDATE_EVENT_GQL(eventId, title, description, featuredImage, venue, date, time, socialEventId)
+)
+  .then(data => dispatch({
+    type: UPDATE_EVENT,
+    payload: data.data,
+    error: false,
+  }))
   .catch(error => handleError(error, dispatch));
 
-export const deactivateEvent = (eventId, clientMutationId = '') => dispatch => Client.mutate(
-  DEACTIVATE_EVENT_GQL(eventId, clientMutationId)
-).then(data => dispatch({
-  type: DEACTIVATE_EVENT, payload: { id: eventId },
-}))
+export const deactivateEvent = (eventId, clientMutationId = '') => dispatch => Client.mutate(DEACTIVATE_EVENT_GQL(eventId, clientMutationId))
+  .then(() => dispatch({
+    type: DEACTIVATE_EVENT,
+    payload: { id: eventId },
+  }))
   .catch(error => console.log(`received error ${error}`));
 
-
 export const searchEvents = ({
-  after = '',
-  first = 9,
-  title,
-}) => dispatch => Client.query(
-  EVENT_LIST_GQL(after, first, title)
-).then(data => dispatch({
-  type: SEARCH_EVENTS,
-  payload: data.data.eventsList.edges,
-  error: false,
-}))
+  after = '', first = 9, title,
+}) => dispatch => Client.query(EVENT_LIST_GQL(after, first, title))
+  .then(data => dispatch({
+    type: SEARCH_EVENTS,
+    payload: data.data.eventsList.edges,
+    error: false,
+  }))
   .catch(error => handleError(error, dispatch));
