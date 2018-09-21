@@ -20,9 +20,7 @@ module.exports = merge(webpackCommonConfig, {
       template: '../public/index.html',
       filename: './index.html',
     }),
-    new BundleTracker({
-      filename: '../webpack-stats.json',
-    }),
+    new BundleTracker({ filename: '../webpack-stats.json' }),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.HotModuleReplacementPlugin(),
   ],

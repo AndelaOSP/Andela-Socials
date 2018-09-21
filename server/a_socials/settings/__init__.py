@@ -4,7 +4,7 @@ import dotenv
 
 dotenv.load()
 
-if dotenv.get('HEROKU'):
+if dotenv.get('GCP'):
     from .prod import *
 else:
     from .dev import *
