@@ -11,10 +11,6 @@ from graphql.error.located_error import GraphQLLocatedError
 
 
 class DRFAuthenticatedGraphQLView(FileUploadGraphQLView):
-    def parse_body(self, request):
-        if isinstance(request, rest_framework.request.Request):
-            return request.data
-        return super(GraphQLView, self).parse_body(request)
 
     @classmethod
     def as_view(cls, *args, **kwargs):
@@ -41,7 +37,6 @@ class DRFAuthenticatedGraphQLView(FileUploadGraphQLView):
 
 def format_located_error(error):
     if isinstance(error.original_error, GraphQLLocatedError):
-        print(":sad:")
         return format_located_error(error.original_error)
     if isinstance(error.original_error, UnauthorizedCalendarError):
         return {'message': error.original_error.message,

@@ -50,6 +50,48 @@ class EventForm extends Component {
     categoryError: false,
   };
 
+  componentDidUpdate(prevProps) {
+    const { imageUploaded } = this.props;
+    if (prevProps.imageUploaded !== imageUploaded) {
+      this.handleUploadedImages(imageUploaded);
+    }
+  }
+
+  handleUploadedImages = (imageUploaded) => {
+    const {
+      error,
+      node,
+    } = imageUploaded[imageUploaded.length - 1];
+    // After the upload is successful, create the actual event
+    if (!error && node.responseMessage) {
+      this.saveCreatedEvent(node);
+    }
+  }
+
+  saveCreatedEvent = (imageNode) => {
+    const {
+      formData,
+      category,
+    } = this.state;
+    const startDate = this.formatDate(formData.start);
+    const endDate = this.formatDate(formData.end);
+    const {
+      createEvent,
+      dismiss,
+    } = this.props;
+    createEvent({
+      title: formData.title,
+      description: formData.description,
+      venue: formData.venue,
+      featuredImage: imageNode.imageUrl,
+      startDate: dateFns.format(startDate, 'YYYY-MM-DDTHH:mm:ss.SSSZ'),
+      endDate: dateFns.format(endDate, 'YYYY-MM-DDTHH:mm:ss.SSSZ'),
+      categoryId: category,
+      timezone: 'Africa/Algiers', // To be populated on eventsform in next PR
+    });
+    dismiss();
+  }
+
   commonProps = (id, type, label, formData, error) => ({
     id: `event-${id}`,
     name: id,
@@ -122,14 +164,8 @@ class EventForm extends Component {
   };
 
   formSubmitHandler = (e) => {
-    const {
-      formMode,
-      dismiss,
-    } = this.props;
-    const {
-      formData,
-      category,
-    } = this.state;
+    const { formMode } = this.props;
+    const { formData } = this.state;
 
     e.preventDefault();
     const {
@@ -143,21 +179,10 @@ class EventForm extends Component {
 
 
     if (isValid) {
-      const startDate = this.formatDate(formData.start);
-      const endDate = this.formatDate(formData.end);
       if (formMode === 'create') {
-        const { createEvent } = this.props;
-        createEvent({
-          title: formData.title,
-          description: formData.description,
-          featuredImage: formData.featuredImage,
-          venue: formData.venue,
-          startDate: dateFns.format(startDate, 'YYYY-MM-DDTHH:mm:ss.SSSZ'),
-          endDate: dateFns.format(endDate, 'YYYY-MM-DDTHH:mm:ss.SSSZ'),
-          categoryId: category,
-          timezone: 'Africa/Algiers', // To be populated on eventsform in next PR
-        });
-        dismiss();
+        const { uploadImage } = this.props;
+        // Upload event feature image and ensure it's uploaded
+        uploadImage({ featuredImage: formData.featuredImage });
       } else if (formMode === 'update') {
         // CALL Update endpoint
       }
@@ -182,7 +207,6 @@ class EventForm extends Component {
     const newFormData = Object.assign({}, formData);
 
     if (validity.valid) {
-      /* eslint no-unused-expressions: 0 */
       if (files) {
         newFormData[name] = files[0];
       } else {
@@ -283,6 +307,7 @@ EventForm.defaultProps = {
 EventForm.propTypes = {
   formMode: PropTypes.oneOf(['create', 'update']).isRequired,
   createEvent: PropTypes.func.isRequired,
+  uploadImage: PropTypes.func.isRequired,
   formId: PropTypes.string.isRequired,
   dismiss: PropTypes.func.isRequired,
   categories: PropTypes.arrayOf(PropTypes.object).isRequired,

@@ -7,6 +7,7 @@ from .category.schema import CategoryQuery, CategoryMutation
 from .event.schema import EventQuery, EventMutation
 from .interest.schema import InterestQuery, InterestMutation
 from .users.schema import AndelaUserQuery
+from .image.schema import ImageMutation
 
 
 class Query(
@@ -25,6 +26,7 @@ class Mutation(
   InterestMutation,
   AttendMutation,
   CategoryMutation,
+  ImageMutation,
   graphene.ObjectType
   ):
     debug = graphene.Field(DjangoDebug, name='__debug')

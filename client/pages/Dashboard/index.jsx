@@ -15,6 +15,7 @@ import ModalContextProvider, { ModalContextCreator } from '../../components/Moda
 import Modal from '../../components/Modals/ModalContainer';
 import LoadComponent from '../../utils/loadComponent';
 import { createEvent } from '../../actions/graphql/eventGQLActions';
+import uploadImage from '../../actions/graphql/uploadGQLActions';
 import { getCategoryList } from '../../actions/graphql/categoryGQLActions';
 
 // stylesheet
@@ -104,7 +105,10 @@ class Dashboard extends Component {
           activeModal,
           openModal,
         }) => {
-          const { createEvent } = this.props;
+          // TODO: This should be removed, duplicate naming
+          const {
+            createEvent, uploadImage,
+          } = this.props;
           if (activeModal) return null;
           return (
             <button
@@ -115,6 +119,7 @@ class Dashboard extends Component {
                 formId: 'event-form',
                 categories,
                 createEvent,
+                uploadImage,
               })}
               className="create-event-btn"
             >Create Event</button>
@@ -132,7 +137,10 @@ class Dashboard extends Component {
    */
   render() {
     const { location: { search } } = this.props;
-    const { activeUser, categoryList } = this.state;
+    const {
+      activeUser,
+      categoryList,
+    } = this.state;
 
     const categories = Array.isArray(categoryList) ? categoryList.map(category => ({
       id: category.node.id,
@@ -169,7 +177,7 @@ class Dashboard extends Component {
           <Route path="*" component={NotFound} />
         </Switch>
         {this.renderCreateEventButton(categories)}
-        <Modal />
+        <Modal {...this.props} />
       </ModalContextProvider>
     );
   }
@@ -179,6 +187,7 @@ Dashboard.propTypes = {
   location: PropTypes.shape({ pathname: PropTypes.string.isRequired }).isRequired,
   loadActiveUser: PropTypes.func.isRequired,
   createEvent: PropTypes.func.isRequired,
+  uploadImage: PropTypes.func.isRequired,
   getCategoryList: PropTypes.func.isRequired,
 };
 
@@ -186,12 +195,14 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   loadActiveUser,
   displayLoginErrorMessage,
   createEvent,
+  uploadImage,
   getCategoryList,
 }, dispatch);
 
 const mapStateToProps = state => ({
   activeUser: state.activeUser,
   socialClubs: state.socialClubs,
+  imageUploaded: state.uploadImage,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

@@ -13,11 +13,12 @@ import EventForm from '../Forms/EventForm';
  */
 const MODAL_COMPONENTS = { CREATE_EVENT: EventForm };
 
-const ModalContent = ({
-  modalProps,
-  closeModal,
-  activeModal,
-}) => {
+const ModalContent = (props) => {
+  const {
+    modalProps,
+    closeModal,
+    activeModal,
+  } = props;
   const SpecificModal = MODAL_COMPONENTS[activeModal];
   return (
     <div className="modal__content">
@@ -25,7 +26,7 @@ const ModalContent = ({
         <h3>{modalProps.modalHeadline}</h3>
       </header>
       <div className="modal__body">
-        <SpecificModal dismiss={closeModal} {...modalProps}/>
+        <SpecificModal dismiss={closeModal} {...modalProps} {...props} />
       </div>
       <footer className="modal__btns">
         <button
@@ -74,10 +75,10 @@ ModalContainer.propTypes = {
   modalProps: PropTypes.shape({ modalHeadline: PropTypes.string.isRequired }).isRequired,
 };
 
-export default () => (
-  <ModalContextCreator.Consumer>
-    {
-      props => <ModalContainer {...props}/>
-    }
-  </ModalContextCreator.Consumer>
+export default ({ imageUploaded }) => (
+    <ModalContextCreator.Consumer>
+      {
+        props => <ModalContainer imageUploaded={imageUploaded} {...props} />
+      }
+    </ModalContextCreator.Consumer>
 );

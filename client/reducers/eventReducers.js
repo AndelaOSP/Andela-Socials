@@ -2,7 +2,7 @@ import {
   GET_EVENT, ATTEND_EVENT, SUBSCRIBED_EVENTS,
   GET_EVENTS, LOAD_MORE_EVENTS, CREATE_EVENT, GET_ATTENDEES,
   GET_EVENT_ATTENDENCE, UNATTEND_EVENT, SEARCH_EVENTS,
-  UPDATE_EVENT, DEACTIVATE_EVENT, SIGN_OUT,
+  UPDATE_EVENT, DEACTIVATE_EVENT, SIGN_OUT, UPLOAD_IMAGE,
 } from '../actions/constants';
 import initialState from './initialState';
 
@@ -67,6 +67,26 @@ export const events = (state = initialState.events, action) => {
         events: initialState.events, event: initialState.event,
       });
 
+    default:
+      return state;
+  }
+};
+
+/**
+ * Reducer for uploading an image
+ * @param {object} [state=initialState.events]
+ * @param {object} action
+ * @param {array}
+ */
+export const uploadImage = (state = initialState.events, action) => {
+  switch (action.type) {
+    case UPLOAD_IMAGE: {
+      const imageUploaded = {
+        node: action.payload.uploadImage,
+        error: action.error,
+      };
+      return [...state, imageUploaded];
+    }
     default:
       return state;
   }

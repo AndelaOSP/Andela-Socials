@@ -17,6 +17,9 @@ export const UPDATE_EVENT = 'UPDATE_EVENT';
 export const CREATE_EVENT = 'CREATE_EVENT';
 export const DEACTIVATE_EVENT = 'DEACTIVATE_EVENT';
 
+// Constants specific to uplaoding files
+export const UPLOAD_IMAGE = 'UPLOAD_IMAGE';
+
 // Constants specific to subscribed events
 export const SUBSCRIBED_EVENTS = 'SUBSCRIBED_EVENTS';
 export const UNSUBSCRIBE_EVENT = 'UNSUBSCRIBE_EVENT';

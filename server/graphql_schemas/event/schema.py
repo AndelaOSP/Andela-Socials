@@ -11,15 +11,13 @@ from graphene import relay, ObjectType
 from graphql_relay import from_global_id
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
-from graphene_file_upload.scalars import Upload
 from graphql import GraphQLError
 
 from graphql_schemas.utils.helpers import (is_not_admin,
                                            update_instance,
                                            send_calendar_invites,
                                            raise_calendar_error,
-                                           not_valid_timezone,
-                                           file_uploader)
+                                           not_valid_timezone)
 from graphql_schemas.utils.hasher import Hasher
 from api.models import Event, Category, AndelaUserProfile, \
     Interest, Attend
@@ -50,7 +48,7 @@ class CreateEvent(relay.ClientIDMutation):
         venue = graphene.String(required=True)
         start_date = graphene.DateTime(required=True)
         end_date = graphene.DateTime(required=True)
-        featured_image = graphene.List(graphene.String)
+        featured_image = graphene.String(required=True)
         category_id = graphene.ID(required=True)
         timezone = graphene.String(required=False)
 
@@ -60,7 +58,6 @@ class CreateEvent(relay.ClientIDMutation):
     def mutate_and_get_payload(cls, root, info, **input):
         category_id = from_global_id(input.pop('category_id'))[1]
 
-        import pdb; pdb.set_trace()
         try:
             category = Category.objects.get(
                 pk=category_id)
