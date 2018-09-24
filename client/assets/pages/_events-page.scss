@@ -551,3 +551,23 @@ main {
 .category-error {
   color: #db4437 !important;
 }
+
+.timezone-label {
+  padding: 0.6025rem 0rem;
+}
+
+.timezone {
+  display: block !important;
+  font: unset !important;
+  position: relative;
+  z-index: 1;
+}
+
+.timezone input  {
+  border: 0.0625rem solid #e9eff4 !important;
+  border-radius: 0.625rem !important;
+}
+
+.timezone ul  {
+  background-color: white;
+}

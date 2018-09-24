@@ -20,4 +20,3 @@ done
 >&2 echo "Postgres is up - continuing..."
 
 /start-server.sh
-

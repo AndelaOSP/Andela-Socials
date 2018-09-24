@@ -9,6 +9,7 @@ import { Route, Redirect, Switch } from 'react-router-dom';
 
 // components
 import Header from '../../components/common/Header';
+import External from '../../components/External';
 import EventsPage from '../Event/EventsPage';
 import EventDetailsPage from '../Event/EventDetailsPage';
 import ModalContextProvider, { ModalContextCreator } from '../../components/Modals/ModalContext';
@@ -22,10 +23,8 @@ import { getCategoryList } from '../../actions/graphql/categoryGQLActions';
 import '../../assets/style.scss';
 
 // thunk
-import {
-  loadActiveUser,
-  displayLoginErrorMessage,
-} from '../../actions/userActions';
+import { loadActiveUser, displayLoginErrorMessage } from '../../actions/userActions';
+import { savePermission } from '../../actions/outhActions';
 
 // utils
 import isLoggedIn from '../../utils/isLoggedIn';
@@ -46,6 +45,7 @@ class Dashboard extends Component {
     this.state = {
       activeUser: {},
       categoryList: [],
+      oauthCounter: 0,
     };
   }
 
@@ -56,16 +56,16 @@ class Dashboard extends Component {
    * @returns {null}
    */
   componentDidMount() {
+    this.setState({ oauthCounter: 1 });
     const {
-      loadActiveUser,
-      getCategoryList,
+      loadActiveUser, getCategoryList,
     } = this.props;
     loadActiveUser();
     getCategoryList({
-      first: 20, last: 20,
+      first: 20,
+      last: 20,
     });
   }
-
 
   /**
    * React Lifecycle hook
@@ -75,12 +75,17 @@ class Dashboard extends Component {
    * @returns {null}
    */
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (Object.keys(nextProps.activeUser).length > 0
-      && (nextProps.activeUser !== prevState.activeUser)) {
+    if (
+      Object.keys(nextProps.activeUser).length > 0
+      && nextProps.activeUser !== prevState.activeUser
+    ) {
       return {
         activeUser: nextProps.activeUser || null,
         categoryList: nextProps.socialClubs.socialClubs,
       };
+    }
+    if (nextProps.oauth !== prevState.oauth) {
+      return { oauth: nextProps.oauth };
     }
     return null;
   }
@@ -94,7 +99,7 @@ class Dashboard extends Component {
   redirectUser = () => {
     const { location: { pathname } } = this.props;
     if (pathname === '/') {
-      return (<Redirect to="/dashboard" />);
+      return <Redirect to="/dashboard" />;
     }
   };
 
@@ -138,25 +143,24 @@ class Dashboard extends Component {
   render() {
     const { location: { search } } = this.props;
     const {
-      activeUser,
-      categoryList,
+      activeUser, categoryList, oauthCounter,
     } = this.state;
 
-    const categories = Array.isArray(categoryList) ? categoryList.map(category => ({
-      id: category.node.id,
-      selected: false,
-      key: 'category',
-      title: category.node.name,
-    })) : [];
+    const categories = Array.isArray(categoryList)
+      ? categoryList.map(category => ({
+        id: category.node.id,
+        selected: false,
+        key: 'category',
+        title: category.node.name,
+      }))
+      : [];
 
     if (search.split('?token=')[1]) {
       localStorage.setItem('token', search.split('?token=')[1]);
     }
 
     if (isTokenExpired() || !isLoggedIn()) {
-      return (
-        <Redirect to="/login" />
-      );
+      return <Redirect to="/login" />;
     }
 
     if (search === '?error=failed+to+create+user+token') {
@@ -171,7 +175,21 @@ class Dashboard extends Component {
         />
         <Switch>
           {this.redirectUser()}
-          <Route path="/events/:eventId" render={props => <EventDetailsPage {...props} />} />
+          <Route
+            path="/oauthcallback"
+            render={props => (
+              <External
+                location={props.location}
+                oauth={this.props.oauth}
+                counter={oauthCounter}
+                savePermission={this.props.savePermission}
+              />
+            )}
+          />
+          <Route
+            path="/events/:eventId"
+            render={props => <EventDetailsPage {...props} activeUser={activeUser} />}
+          />
           <Route path="/events" render={() => <EventsPage />} />
           <Route path="/dashboard" render={() => <EventsPage />} />
           <Route path="*" component={NotFound} />
@@ -191,18 +209,27 @@ Dashboard.propTypes = {
   getCategoryList: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  loadActiveUser,
-  displayLoginErrorMessage,
-  createEvent,
-  uploadImage,
-  getCategoryList,
-}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators(
+  {
+    loadActiveUser,
+    displayLoginErrorMessage,
+    createEvent,
+    uploadImage,
+    getCategoryList,
+    savePermission,
+  },
+  dispatch
+);
 
 const mapStateToProps = state => ({
   activeUser: state.activeUser,
   socialClubs: state.socialClubs,
   imageUploaded: state.uploadImage,
+  oauth: state.oauth,
+  oauthCounter: 1,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Dashboard);

@@ -1,30 +1,27 @@
-""" Production related settings."""
-import os
-import dotenv
-from dj_database_url import config, parse
-
+""" Production specific settings."""
 from .base import *
 
-# Load the .env file to get environment variables
-dotenv.load()
+# Parse database configuration from $DATABASE_URL
+import dj_database_url
 
 ALLOWED_HOSTS = ['*']
-
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
-    'default': parse(dotenv.get('DATABASE_URL'))
+    'default': dj_database_url.config(default=dotenv.get('DATABASE_URL'))
 }
 
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
 DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
 
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+# commenting this out in the meantime, until I know if we
+# are behind a proxy or not
+# @nnana_larhy
+# https://docs.djangoproject.com/en/2.1/ref/settings/#secure-proxy-ssl-header
 
-# SET WEBPACK_LOADER_CACHE
-WEBPACK_LOADER['DEFAULT']['CACHE'] = not DEBUG
+# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 ENVIRONMENT = "production"

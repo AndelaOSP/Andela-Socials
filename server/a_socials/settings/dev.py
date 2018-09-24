@@ -1,17 +1,9 @@
-""" Development related settings."""
+""" Development specific settings."""
 import sys
-
-import dotenv
 
 from .base import *
 
-# Load the .env file to get environment variables
-dotenv.load()
-
 ALLOWED_HOSTS = ['*']
-
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 TEST_RUNNER = 'snapshottest.django.TestRunner'
 
@@ -33,8 +25,5 @@ DATABASES = {
       }
     }
  }
-
-# SET WEBPACK_LOADER_CACHE
-WEBPACK_LOADER['DEFAULT']['CACHE'] = not DEBUG
 
 ENVIRONMENT = "development"

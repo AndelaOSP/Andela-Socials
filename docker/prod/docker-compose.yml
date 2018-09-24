@@ -33,7 +33,7 @@ services:
     ports:
       - "9000:9000"
     volumes:
-      - static_dir:/andela_social/static
+      - /andela_social/node_modules/
 
   database:
     container_name: prod_andela_socials_db
@@ -58,4 +58,3 @@ services:
       - "0.0.0.0:80:80"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - staticfiles:/andela_social/staticfiles

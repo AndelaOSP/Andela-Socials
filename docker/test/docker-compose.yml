@@ -4,16 +4,23 @@ services:
   database:
     image: postgres:10.4
     restart: always
+    expose:
+      - "5432"
     environment:
       - POSTGRES_USER=a_social
       - POSTGRES_PASSWORD=a_social
       - POSTGRES_DB=a_social
-  app:
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+
+  test:
     build:
       context: ../../
       dockerfile: docker/test/Dockerfile
+    env_file: "test.env"
+    command: ["bash","docker/test/wait_for_db.sh"]
     depends_on:
       - database
-    env_file:
-      - test.env
-    command: ["bash","docker/test/wait_for_db.sh"]

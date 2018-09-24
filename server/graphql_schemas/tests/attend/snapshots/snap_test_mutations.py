@@ -33,7 +33,7 @@ snapshots['AttendanceTestCase::test_user_can_attend_an_event 1'] = {
             'clientMutationId': 'rand',
             'newAttendance': {
                 'event': {
-                    'id': 'RXZlbnROb2RlOjM=',
+                    'id': 'RXZlbnROb2RlOjk=',
                     'title': 'Test'
                 },
                 'status': 'ATTENDING'
@@ -48,7 +48,7 @@ snapshots['AttendanceTestCase::test_user_can_change_event_status 1'] = {
             'clientMutationId': 'rand',
             'newAttendance': {
                 'event': {
-                    'id': 'RXZlbnROb2RlOjU=',
+                    'id': 'RXZlbnROb2RlOjEx',
                     'title': 'Test'
                 },
                 'status': 'DECLINED'

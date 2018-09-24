@@ -30,7 +30,7 @@ services:
       - database
     ports:
       - "8000:8000"
-    
+
   client:
     container_name: dev_andela_social_client
     build:

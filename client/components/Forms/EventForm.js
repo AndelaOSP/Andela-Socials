@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import dateFns from 'date-fns';
+import TimezonePicker from 'react-timezone';
 
 import IncrementalSelect from '../common/IncrementalSelect';
 import TimePicker from '../common/Form/TimePicker';
@@ -47,7 +48,9 @@ class EventForm extends Component {
     formData: this.props.formData,
     errors: this.errors,
     category: '',
-    categoryError: false,
+    categoryIsValid: true,
+    timezone: '',
+    timezoneIsValid: true,
   };
 
   componentDidUpdate(prevProps) {
@@ -72,6 +75,7 @@ class EventForm extends Component {
     const {
       formData,
       category,
+      timezone,
     } = this.state;
     const startDate = this.formatDate(formData.start);
     const endDate = this.formatDate(formData.end);
@@ -87,7 +91,7 @@ class EventForm extends Component {
       startDate: dateFns.format(startDate, 'YYYY-MM-DDTHH:mm:ss.SSSZ'),
       endDate: dateFns.format(endDate, 'YYYY-MM-DDTHH:mm:ss.SSSZ'),
       categoryId: category,
-      timezone: 'Africa/Algiers', // To be populated on eventsform in next PR
+      timezone,
     });
     dismiss();
   }
@@ -133,12 +137,20 @@ class EventForm extends Component {
 
   formatDate = formData => (`${formData.date} ${formData.hour}:${formData.minute}:00`);
 
-  handleCategory = (item) => {
-    this.setState({ category: item });
+  handleCategory = (category) => {
+    this.setState({ category });
   }
 
+  handleTimezone = (timezone) => {
+    this.setState({ timezone });
+  }
+
+  validateField = field => field !== '';
+
   validateFormData = (formData) => {
-    const { category } = this.state;
+    const {
+      category, timezone,
+    } = this.state;
     const errors = JSON.parse(JSON.stringify(this.state.errors));
     const errorFields = Object.keys(errors);
 
@@ -151,15 +163,15 @@ class EventForm extends Component {
     });
 
     let isValid = errorFields.every(field => errors[field].hasError === false);
-    let categoryError = false;
-    if (category === '') {
-      isValid = false;
-      categoryError = true;
-    }
+    const categoryIsValid = this.validateField(category);
+    const timezoneIsValid = this.validateField(timezone);
+    isValid = (timezoneIsValid && categoryIsValid) ? isValid : false;
+
     return {
       isValid,
       errors,
-      categoryError,
+      categoryIsValid,
+      timezoneIsValid,
     };
   };
 
@@ -169,14 +181,14 @@ class EventForm extends Component {
 
     e.preventDefault();
     const {
-      isValid, errors, categoryError,
+      isValid, errors, categoryIsValid, timezoneIsValid,
     } = this.validateFormData(formData);
 
     this.setState({
       errors,
-      categoryError,
+      categoryIsValid,
+      timezoneIsValid,
     });
-
 
     if (isValid) {
       if (formMode === 'create') {
@@ -232,7 +244,9 @@ class EventForm extends Component {
   render() {
     const {
       errors,
-      categoryError,
+      categoryIsValid,
+      timezoneIsValid,
+      timezone,
     } = this.state;
     const {
       formId,
@@ -242,7 +256,8 @@ class EventForm extends Component {
     const {
       title, description, venue, featuredImage, start, end,
     } = this.state.formData;
-    const categoryClass = categoryError ? 'category-label category-error' : 'category-label';
+    const categoryClass = categoryIsValid ? 'category-label' : 'category-label category-error';
+    const timezoneClass = timezoneIsValid ? 'category-label' : 'category-label category-error';
     return (
       <form
         id={formId}
@@ -262,6 +277,19 @@ class EventForm extends Component {
         {this.renderField('input', 'file', 'featuredImage', 'Featured Image', formData, errors.featuredImage, featuredImage)}
         {/* // TODO: Specify the exact measures for uploads, let's approximate for now */}
         <span>Note: A 1600 x 800 image is recommended</span>
+        <div className="timezone-label">
+          <span className={timezoneClass}>Timezone</span>
+        </div>
+        <div>
+          <TimezonePicker
+            value={timezone}
+            onChange={this.handleTimezone}
+            className="timezone"
+            inputProps={{
+              name: 'timezone', placeholder: 'Select Timezone...',
+            }}
+          />
+        </div>
         <div className="date-time-picker-wrapper">
           <DateTimePicker
             type="start"

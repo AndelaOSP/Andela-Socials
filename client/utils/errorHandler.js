@@ -14,6 +14,18 @@ export const handleError = (error) => {
 };
 
 /**
+ * Handles information (excluding error) coming from api calls
+ *
+ * @param {string} information
+ * @returns {function} information display
+ */
+export const handleInformation = (information) => {
+  if (information) {
+    return toastr.info(information);
+  }
+};
+
+/**
  * Throws error to be handled somewhere else
  *
  * @param {object} error

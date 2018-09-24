@@ -5,14 +5,46 @@ services:
     build:
       context: ../../
       dockerfile: docker/release/server/Dockerfile
-
-    env_file:
-        - ./prod.env
+    depends_on:
+        - database
     environment:
       - DJANGO_SETTINGS_MODULE=a_socials.settings.prod
-
-    command : ["gunicorn", "a_socials.wsgi:application", "--bind", "0.0.0.0:8000"]
-
+      - DATABASE_URL=postgresql://a_social:a_social@database:5432/a_social
+      - NODE_ENV=development
+      - SECRET_KEY=${SECRET_KEY}
+      - OAUTH2_CLIENT_ID=${OAUTH2_CLIENT_ID}
+      - OAUTH2_CLIENT_SECRET=${OAUTH2_CLIENT_SECRET}
+    command: gunicorn --bind 0.0.0.0:8000 a_socials.wsgi:application
     ports:
         - 8000:8000
+
+  database:
+    image: postgres
+    restart: always
+    expose:
+        - "5432"
+    environment:
+        - POSTGRES_USER=a_social
+        - POSTGRES_PASSWORD=a_social
+        - POSTGRES_DB=a_social
+    healthcheck:
+        test: ["CMD-SHELL", "pg_isready -U postgres"]
+        interval: 5s
+        timeout: 10s
+        retries: 5
+
+  web:
+    build:
+      context: ../../
+      dockerfile: docker/release/client/Dockerfile
+    command: npm run start:dev
+    environment:
+        - NODE_ENV=development
+        - DJANGO_SETTINGS_MODULE=a_socials.settings.prod
+
+    ports:
+        - 9000:9000
+    depends_on:
+        - server
+
 

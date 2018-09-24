@@ -1,16 +1,24 @@
 const webpack = require('webpack');
-
 require('dotenv').config({ path: '../.env' });
 
 const isInDebugMode = debugString => debugString === 'TRUE';
 const DEBUG = JSON.stringify(process.env.DEBUG);
 
-
 module.exports = {
   entry: '../index.js',
+  context: __dirname,
   target: 'web',
   plugins: [
-    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        screw_ie8: true,
+        warnings: false,
+      },
+      mangle: { screw_ie8: true },
+      comments: false,
+      sourceMap: true,
+      minimize: true,
+    }),
     new webpack.LoaderOptionsPlugin({
       minimize: !isInDebugMode(DEBUG),
       debug: isInDebugMode(DEBUG),
@@ -31,11 +39,12 @@ module.exports = {
     }),
   ],
   module: {
-    loaders: [
+    rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
+        query: { presets: ['es2015', 'react', 'stage-0'] },
       },
       {
         test: /(\.css|scss)$/, loaders: ['style-loader', 'css-loader', 'sass-loader'],
@@ -51,6 +60,6 @@ module.exports = {
       },
     ],
   },
-  node: {fs: 'empty',},
-  resolve: {extensions: ['.js', '.jsx'],},
+  node: { fs: 'empty' },
+  resolve: { extensions: ['.js', '.jsx'] },
 };

@@ -27,3 +27,4 @@ yarn-error.log
 .coverage
 .tox
 warning.log
+client/dist

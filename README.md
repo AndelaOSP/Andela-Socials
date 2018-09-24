@@ -129,6 +129,11 @@ Navigate to django's default admin page `/admin` using the credentials below to 
 USERNAME: admin
 PASSWORD: adminpassword
 
+### DEPLOYMENT TO GCP
+To make any deployments to GCP, the application has to go through the workflow stipulated on the Circleci `config.yml` file. The workflow has two parts, test and deploy of which, deploy only works with the `Master` and `Release` branches. Considering that the whole deployment process is really long, there steps are under the `scripts/deployBackend.sh` file.
+
+### BUILDING, TAGGING AND RELEASE
+To test whether the backend or frontend are working correctly within a docker container, run `make build_backend` or `make build_frontend` which will create images for both. If they exit successfully, you can then move to the next stage which will be to tag and publish which are done using the `make tag` and `make publish` commands respectively.
 
 ### CONTRIBUTORS
 View the list of [contributors](https://github.com/AndelaOSP/Andela-Socials/contributors) who participate in this project.
