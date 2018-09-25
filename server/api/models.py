@@ -129,7 +129,8 @@ class AndelaUserProfile(models.Model):
                                             (user_data,))
         return user_profile
 
-    async def check_diff_and_update(self, idinfo):
+    @staticmethod
+    async def check_diff_and_update(idinfo):
         """Check for differences between request/idinfo and model data.
                     Args:
                         idinfo: data passed in from post method.
@@ -140,11 +141,13 @@ class AndelaUserProfile(models.Model):
             "timezone": get_slack_user_timezone(idinfo["email"])
         }
 
+        stored_user = AndelaUserProfile.objects.get(google_id=idinfo['id'])
+
         for field in data:
-            if getattr(self, field) != data[field] and \
+            if getattr(stored_user, field) != data[field] and \
                     data[field] != '':
-                setattr(self, field, data[field])
-        self.save()
+                setattr(stored_user, field, data[field])
+        stored_user.save()
 
 
 User.profile = property(

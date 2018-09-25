@@ -75,17 +75,21 @@ class Dashboard extends Component {
    * @returns {null}
    */
   static getDerivedStateFromProps(nextProps, prevState) {
+    const temporaryState = {};
     if (
       Object.keys(nextProps.activeUser).length > 0
       && nextProps.activeUser !== prevState.activeUser
     ) {
-      return {
-        activeUser: nextProps.activeUser || null,
-        categoryList: nextProps.socialClubs.socialClubs,
-      };
+      temporaryState.activeUser = nextProps.activeUser || null;
     }
     if (nextProps.oauth !== prevState.oauth) {
-      return { oauth: nextProps.oauth };
+      temporaryState.oauth = nextProps.oauth;
+    }
+    if (nextProps.categoryList !== prevState.categoryList) {
+      temporaryState.categoryList = nextProps.categoryList;
+    }
+    if (Object.keys(temporaryState).length > 0) {
+      return temporaryState;
     }
     return null;
   }
@@ -225,6 +229,7 @@ const mapStateToProps = state => ({
   activeUser: state.activeUser,
   socialClubs: state.socialClubs,
   imageUploaded: state.uploadImage,
+  categoryList: state.socialClubs.socialClubs || [],
   oauth: state.oauth,
   oauthCounter: 1,
 });
