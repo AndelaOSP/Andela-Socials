@@ -8,7 +8,7 @@ from graphql_schemas.utils.helpers import upload_image_file
 
 class UploadImage(relay.ClientIDMutation):
     class Input:
-        # Use Upload to make graphene understand
+        # Use Upload to make graphene understand multipart/form-data
         featured_image = Upload(required=True)
     response_message = graphene.String()
     image_url = graphene.String()

@@ -112,14 +112,16 @@ def _safe_filename(filename):
     basename, extension = filename.rsplit('.', 1)
     return "{0}-{1}.{2}".format(basename, date, extension)
 
-# Authenticate storage client
-storage_client = storage.Client.from_service_account_json(os.getenv('GOOGLE_CLOUD_CREDENTIALS_PATH'))
 
 def upload_image_file(uploaded_file):
     """
     Uploads a file to a given Cloud Storage bucket and returns the public url
     to the new object.
     """
+
+    # Authenticate storage client
+    storage_client = storage.Client.from_service_account_json(os.getenv('GOOGLE_CLOUD_CREDENTIALS_PATH'))
+
     filename = _safe_filename(uploaded_file.name)
 
     bucket = storage_client.get_bucket(os.getenv('GOOGLE_CLOUD_BUCKET_NAME'))

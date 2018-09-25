@@ -5,6 +5,7 @@ import {
   subscribedEvents,
   attendees,
   eventsSearchList,
+  uploadImage,
 } from './eventReducers';
 import interests from './interestReducers';
 import url from './urlReducers';

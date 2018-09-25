@@ -10,7 +10,7 @@ from graphql_schemas.utils.helpers import UnauthorizedCalendarError
 from graphql.error.located_error import GraphQLLocatedError
 
 
-class DRFAuthenticatedGraphQLView(FileUploadGraphQLView):
+class DRFAuthenticatedGraphQLView(FileUploadGraphQLView, GraphQLView):
 
     @classmethod
     def as_view(cls, *args, **kwargs):

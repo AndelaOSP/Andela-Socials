@@ -12,6 +12,7 @@ import {
   UPDATE_EVENT,
   DEACTIVATE_EVENT,
   SIGN_OUT,
+  UPLOAD_IMAGE,
 } from '../actions/constants';
 import initialState from './initialState';
 
