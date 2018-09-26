@@ -131,7 +131,9 @@ class Dashboard extends Component {
                 uploadImage,
               })}
               className="create-event-btn"
-            >Create Event</button>
+            >
+              <span className="create-event-btn__icon">+</span>
+            </button>
           );
         }
       }

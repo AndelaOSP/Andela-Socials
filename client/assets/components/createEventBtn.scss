@@ -8,4 +8,10 @@
   right: rem(20px);
   border-radius: 50%;
   color: $white;
+  &__icon {
+    font-size: rem(48px);
+    position: absolute;
+    top: rem(2px);
+    left: rem(29px);
+  } 
 }
