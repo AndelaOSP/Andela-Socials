@@ -1,12 +1,13 @@
 import axios from 'axios';
 
-import { LinkError } from 'apollo-link/lib/linkUtils';
 import { GET_EVENT, ATTEND_EVENT, CREATE_EVENT, SUBSCRIBED_EVENTS, UNATTEND_EVENT } from './constants';
 import { handleError } from '../utils/errorHandler';
 
+import { LinkError } from 'apollo-link/lib/linkUtils';
 
 
-export const getEvent = (event_id) => (dispatch) => {
+export const getEvent = (event_id) => {
+  return (dispatch) => {
     return apiCall(`/api/v1/event/${event_id}`, 'get')
       .then((res) => {
         dispatch({
@@ -17,8 +18,10 @@ export const getEvent = (event_id) => (dispatch) => {
       })
       .catch(error => handleError(error, dispatch));
   };
+}
 
-export const joinEvent = (details) => (dispatch) => {
+export const joinEvent = (details) => {
+  return (dispatch) => {
     return apiCall('/api/v1/attend', 'post', details)
       .then((res) => {
         dispatch({
@@ -29,8 +32,10 @@ export const joinEvent = (details) => (dispatch) => {
       })
       .catch(error => handleError(error, dispatch));
   };
+}
 
-export const createEvent = (eventData) => (dispatch) => {
+export const createEvent = (eventData) => {
+  return (dispatch) => {
     return apiCall('/api/v1/create/event', 'post', eventData)
       .then((res) => {
         dispatch({
@@ -41,8 +46,10 @@ export const createEvent = (eventData) => (dispatch) => {
       })
       .catch(error => handleError(error, dispatch));
   };
+}
 
-export const getSubscribedEvents = () => (dispatch) => {
+export const getSubscribedEvents = () => {
+  return (dispatch) => {
     return apiCall('/api/v1/subscribed', 'get')
       .then((res) => {
         dispatch({
@@ -53,8 +60,10 @@ export const getSubscribedEvents = () => (dispatch) => {
       })
       .catch(error => handleError(error, dispatch));
   };
+}
 
-export const unsubscribeEvent = (event) => (dispatch) => {
+export const unsubscribeEvent = (event) => {
+  return (dispatch) => {
     return apiCall('/api/v1/unsubscribe', 'post', event)
       .then((res) => {
         dispatch({
@@ -65,3 +74,4 @@ export const unsubscribeEvent = (event) => (dispatch) => {
       })
       .catch(error => handleError(error, dispatch));
   };
+}
