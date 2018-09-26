@@ -39,7 +39,7 @@ class EventsPage extends React.Component {
  */
   componentDidMount() {
     const { eventStartDate } = this.state;
-    this.getEvents({ startDate: "" });
+    this.getEvents({ startDate: eventStartDate });
     this.getCategories({
       first: 20, last: 20,
     });

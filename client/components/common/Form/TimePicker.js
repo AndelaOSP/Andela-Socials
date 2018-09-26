@@ -26,6 +26,22 @@ const commonProps = (type, onChange) => ({
   onChange
 });
 
+const renderIncrementalSelect = (
+  type,
+  onChange,
+  style,
+  name,
+  values,
+  errors) => (
+  <IncrementalSelect 
+    {...timeProps[name]} 
+    {...commonProps(type, onChange)}
+    value={values[name]}
+    error={errors[name]}
+    style={style}
+  />
+)
+
 const TimePicker = ({
   onChange,
   errors,
@@ -34,20 +50,8 @@ const TimePicker = ({
 }) => {
   return (
     <div className="liner">
-      <IncrementalSelect 
-        {...timeProps.hour}
-        {...commonProps(type, onChange)}
-        value={values.hour}
-        error={errors.hour}
-        style="time-left"
-      />  
-      <IncrementalSelect 
-        {...timeProps.minute}
-        {...commonProps(type, onChange)}
-        value={values.minute}
-        error={errors.minute}
-        style="time-right"
-      />  
+      {renderIncrementalSelect(type, onChange, "time-left", "hour", values, errors)}
+      {renderIncrementalSelect(type, onChange, "time-right", "minute", values, errors)}
     </div>
   )};
 
