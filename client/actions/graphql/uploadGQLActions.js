@@ -8,9 +8,9 @@ import Client from '../../client';
 
 const uploadImage = ({ featuredImage }) => dispatch => Client.mutate(
   UPLOAD_IMAGE_GQL(featuredImage)
-).then(data => dispatch({
+).then(response => dispatch({
   type: UPLOAD_IMAGE,
-  payload: data.data,
+  payload: response.data,
   error: false,
 })).catch((error) => {
   handleError(error, dispatch);

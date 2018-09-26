@@ -120,7 +120,9 @@ def upload_image_file(uploaded_file):
     """
 
     # Authenticate storage client
-    storage_client = storage.Client.from_service_account_json(os.getenv('GOOGLE_CLOUD_CREDENTIALS_PATH'))
+    storage_client = storage.Client.from_service_account_json(
+        os.getenv('GOOGLE_CLOUD_CREDENTIALS_PATH')
+    )
 
     filename = _safe_filename(uploaded_file.name)
 

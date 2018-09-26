@@ -15,7 +15,7 @@ const MODAL_COMPONENTS = { CREATE_EVENT: EventForm };
 
 const ModalContent = (props) => {
   const { modalProps, closeModal, activeModal } = props;
-  const SpecificModal = MODAL_COMPONENzTS[activeModal];
+  const SpecificModal = MODAL_COMPONENTS[activeModal];
   return (
     <div className="modal__content">
       <header className="modal__header">
