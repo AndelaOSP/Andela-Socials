@@ -13,9 +13,11 @@ DOCKER_FRONTEND_PROJECT := "$(PROJECT_NAME)-frontend"
 DOCKER_REGISTRY ?= gcr.io
 
 ifeq ($(DOCKER_REGISTRY), docker.io)
-	REPO_FILTER := ($(ORG_NAME)/$(BACKEND_REPO_NAME) || $(ORG_NAME)/$(FRONTEND_REPO_NAME))
+	REPO_FILTER := $(ORG_NAME)/$(BACKEND_REPO_NAME)
+	REPO_FILTER2 := $(ORG_NAME)/$(FRONTEND_REPO_NAME)
 else
-	REPO_FILTER := ($(DOCKER_REGISTRY)/$(ORG_NAME)/$(BACKEND_REPO_NAME)[^[:space:]|\$$]*
+	REPO_FILTER := $(DOCKER_REGISTRY)/$(ORG_NAME)/$(BACKEND_REPO_NAME)[^[:space:]|\$$]*
+	REPO_FILTER2 := $(DOCKER_REGISTRY)/$(ORG_NAME)/$(FRONTEND_REPO_NAME)[^[:space:]|\$$]*
 endif
 
 
@@ -101,7 +103,6 @@ upgrade:
 tag:
 	${INFO} "Tagging release image with tags $(TAG_ARGS)..."
 	@ $(foreach tag,$(TAG_ARGS), docker tag $(IMAGE_ID) $(DOCKER_REGISTRY)/$(ORG_NAME)/$(BACKEND_REPO_NAME):$(tag);)
-
 	${SUCCESS} "Tagging completed successfully"
 
 tagFrontend:
@@ -152,10 +153,9 @@ INSPECT := $$(docker-compose -p $$1 -f $$2 ps -q $$3 | xargs -I ARGS docker insp
 
 CHECK := @bash -c 'if [[ $(INSPECT) -ne 0 ]]; then exit $(INSPECT); fi' VALUE
 
-IMAGE_ID = $$(docker images $(BACKEND_REPO_NAME)_server  -q )
-FRONTEND_IMAGE_ID = $$(docker images $(FRONTEND_REPO_NAME)_web  -q )
+IMAGE_ID = $$(docker images andelasocialsbackend_server -q)
+FRONTEND_IMAGE_ID = $$(docker images andelasocialsfrontend_web  -q )
 
 REPO_EXPR := $$(docker inspect -f '{{range .RepoTags}}{{.}} {{end}}' $(IMAGE_ID) | grep -oh "$(REPO_FILTER)" | xargs)
 REPO_EXPR_FRONTEND := $$(docker inspect -f '{{range .RepoTags}}{{.}} {{end}}' $(FRONTEND_IMAGE_ID) | grep -oh "$(REPO_FILTER)" | xargs)
 
-# $$(docker images andelasocialsbackend_server -q) ||

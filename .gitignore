@@ -29,14 +29,10 @@ cypress.json
 **/cypress/screenshots
 **/cypress/plugins
 **/cypress/support
-
 yarn-error.log
 .coverage
 .tox
 warning.log
 client/dist
-<<<<<<< HEAD
 andela_creds.json
-=======
 artifacts/
->>>>>>> ch[FrontendRelease]: Add Dockerfiles for the deployment of the frontend
