@@ -35,4 +35,8 @@ yarn-error.log
 .tox
 warning.log
 client/dist
+<<<<<<< HEAD
 andela_creds.json
+=======
+artifacts/
+>>>>>>> ch[FrontendRelease]: Add Dockerfiles for the deployment of the frontend

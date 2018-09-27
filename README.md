@@ -51,6 +51,13 @@ This scripts automatically sets up the project.
 Subsequently, if you need to START the application after the initial setup has completed you can run the command:
 ```
 scripts/start.sh
+
+```
+
+If you need to START the production side of the application, you can run the command:
+```
+scripts/startProd.sh
+
 ```
 
 ### STOPPING THE APP

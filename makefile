@@ -1,7 +1,9 @@
 BACKEND_PROJECT_NAME ?= asocials-backend
+FRONTEND_PROJECT_NAME ?= asocials-frontend
 PROJECT_NAME ?= andela-socials
 ORG_NAME ?= bench-projects
-REPO_NAME ?= andela-socials-backend
+BACKEND_REPO_NAME ?= andela-socials-backend
+FRONTEND_REPO_NAME ?= andela-socials-frontend
 
 DOCKER_TEST_COMPOSE_FILE := docker/test/docker-compose.yml
 DOCKER_TEST_PROJECT := "$(PROJECT_NAME)test"
@@ -11,9 +13,9 @@ DOCKER_FRONTEND_PROJECT := "$(PROJECT_NAME)-frontend"
 DOCKER_REGISTRY ?= gcr.io
 
 ifeq ($(DOCKER_REGISTRY), docker.io)
-	REPO_FILTER := $(ORG_NAME)/$(REPO_NAME)
+	REPO_FILTER := ($(ORG_NAME)/$(BACKEND_REPO_NAME) || $(ORG_NAME)/$(FRONTEND_REPO_NAME))
 else
-	REPO_FILTER := $(DOCKER_REGISTRY)/$(ORG_NAME)/$(REPO_NAME)[^[:space:]|\$$]*
+	REPO_FILTER := ($(DOCKER_REGISTRY)/$(ORG_NAME)/$(BACKEND_REPO_NAME)[^[:space:]|\$$]*
 endif
 
 
@@ -58,13 +60,18 @@ build_backend:
 
 build_frontend:
 	${INFO} "Creating frontend image"
-	@ docker-compose -p $(DOCKER_FRONTEND_PROJECT) -f $(DOCKER_RELEASE_COMPOSE_FILE) build web
+	@ docker-compose -p $(DOCKER_FRONTEND_PROJECT) -f $(DOCKER_RELEASE_COMPOSE_FILE) build --pull web
 	${SUCCESS} "Images build Completed successfully"
 	@ echo " "
 	${INFO} "Building frontend artifacts... "
 	@ docker-compose -p $(DOCKER_FRONTEND_PROJECT) -f $(DOCKER_RELEASE_COMPOSE_FILE) run -d web
 	${INFO} "Check for completeness"
-
+	${CHECK} $(DOCKER_FRONTEND_PROJECT) $(DOCKER_RELEASE_COMPOSE_FILE) web
+	${SUCCESS} "Build completed successfully"
+	@ echo " "
+	${INFO} "Copying application artifacts"
+	@ docker cp $$(docker-compose -p $(DOCKER_FRONTEND_PROJECT) -f $(DOCKER_RELEASE_COMPOSE_FILE) ps -q web):/app/. artifacts
+	${SUCCESS} "Artifacts copied successfully"
 
 test:
 	${INFO} "Building required docker images for testing"
@@ -81,18 +88,36 @@ test:
 
 tag:
 	${INFO} "Tagging release image with tags $(TAG_ARGS)..."
-	@ $(foreach tag,$(TAG_ARGS), docker tag $(IMAGE_ID) $(DOCKER_REGISTRY)/$(ORG_NAME)/$(REPO_NAME):$(tag);)
-	@ docker images
+	@ $(foreach tag,$(TAG_ARGS), docker tag $(IMAGE_ID) $(DOCKER_REGISTRY)/$(ORG_NAME)/$(BACKEND_REPO_NAME):$(tag);)
+
+	${SUCCESS} "Tagging completed successfully"
+
+tagFrontend:
+	${INFO} "Tagging release image with tags $(TAG_ARGS)..."
+	@ $(foreach tag,$(TAG_ARGS), docker tag $(FRONTEND_IMAGE_ID) $(DOCKER_REGISTRY)/$(ORG_NAME)/$(FRONTEND_REPO_NAME):$(tag);)
 	${SUCCESS} "Tagging completed successfully"
 
 publish:
 	@ echo "we are in publishing now"
-	${INFO} "Publishing release image $(REPO_NAME)rel to $(DOCKER_REGISTRY)/$(REPO_NAME).."
+	${INFO} "Publishing release image $(BACKEND_REPO_NAME)rel to $(DOCKER_REGISTRY)/$(BACKEND_REPO_NAME).."
 	@ $(foreach tag,$(shell echo $(REPO_EXPR)), docker push $(tag);)
 	${INFO} "Publish complete"
 
+publishFrontend:
+	@ echo "we are in publishing now"
+	${INFO} "Publishing release image $(FRONTEND_REPO_NAME)rel to $(DOCKER_REGISTRY)/$(FRONTEND_REPO_NAME).."
+	@ $(foreach tag,$(shell echo $(REPO_EXPR_FRONTEND)), docker push $(tag);)
+	${INFO} "Publish complete"
 
 ifeq (tag,$(firstword $(MAKECMDGOALS)))
+  TAG_ARGS := $(word 2, $(MAKECMDGOALS))
+  ifeq ($(TAG_ARGS),)
+    $(error You must specify a tag)
+  endif
+  $(eval $(TAG_ARGS):;@:)
+endif
+
+ifeq (tagFrontend,$(firstword $(MAKECMDGOALS)))
   TAG_ARGS := $(word 2, $(MAKECMDGOALS))
   ifeq ($(TAG_ARGS),)
     $(error You must specify a tag)
@@ -115,6 +140,10 @@ INSPECT := $$(docker-compose -p $$1 -f $$2 ps -q $$3 | xargs -I ARGS docker insp
 
 CHECK := @bash -c 'if [[ $(INSPECT) -ne 0 ]]; then exit $(INSPECT); fi' VALUE
 
-IMAGE_ID = $$(docker images andelasocialsbackend_server -q)
+IMAGE_ID = $$(docker images $(BACKEND_REPO_NAME)_server  -q )
+FRONTEND_IMAGE_ID = $$(docker images $(FRONTEND_REPO_NAME)_web  -q )
 
 REPO_EXPR := $$(docker inspect -f '{{range .RepoTags}}{{.}} {{end}}' $(IMAGE_ID) | grep -oh "$(REPO_FILTER)" | xargs)
+REPO_EXPR_FRONTEND := $$(docker inspect -f '{{range .RepoTags}}{{.}} {{end}}' $(FRONTEND_IMAGE_ID) | grep -oh "$(REPO_FILTER)" | xargs)
+
+# $$(docker images andelasocialsbackend_server -q) ||
