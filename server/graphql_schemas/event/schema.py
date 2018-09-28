@@ -69,7 +69,6 @@ class CreateEvent(relay.ClientIDMutation):
         new_event.save()
         return new_event
 
-
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
         category_id = from_global_id(input.pop('category_id'))[1]
@@ -80,12 +79,14 @@ class CreateEvent(relay.ClientIDMutation):
                 user=info.context.user
             )
             if user_profile.credential and user_profile.credential.valid:
-                new_event = CreateEvent.create_event(category, user_profile, **input)
+                new_event = CreateEvent.create_event(
+                    category, user_profile, **input)
                 # Send calender invite in background
                 BackgroundTaskWorker.start_work(send_calendar_invites,
                                                 (user_profile, new_event))
             else:
-                new_event = CreateEvent.create_event(category, user_profile, **input)
+                new_event = CreateEvent.create_event(
+                    category, user_profile, **input)
                 CreateEvent.notify_event_in_slack(category, input, new_event)
                 raise_calendar_error(user_profile)
 
@@ -101,14 +102,15 @@ class CreateEvent(relay.ClientIDMutation):
             category_followers = Interest.objects.filter(
                 follower_category_id=category.id)
             message = (f"A new event has been created in {category.name} "
-                    f"group \n Title: {input.get('title')} \n"
-                    f"Description: {input.get('description')} \n "
-                    f"Venue: {input.get('venue')} \n"
-                    f"Date: {input.get('date')} \n Time: {input.get('time')}")
+                       f"group \n Title: {input.get('title')} \n"
+                       f"Description: {input.get('description')} \n "
+                       f"Venue: {input.get('venue')} \n"
+                       f"Date: {input.get('date')} \n Time: {input.get('time')}")
             slack_id_not_in_db = []
             all_users_attendance = []
             for instance in category_followers:
-                new_attendance = Attend(user=instance.follower, event=new_event)
+                new_attendance = Attend(
+                    user=instance.follower, event=new_event)
                 all_users_attendance.append(new_attendance)
                 if instance.follower.slack_id:
                     slack_response = notify_user(
@@ -126,7 +128,8 @@ class CreateEvent(relay.ClientIDMutation):
                     if retrieved_slack_id != '':
                         instance.follower.slack_id = retrieved_slack_id
                         instance.follower.save()
-                        slack_response = notify_user(message, retrieved_slack_id)
+                        slack_response = notify_user(
+                            message, retrieved_slack_id)
                         if not slack_response['ok']:
                             logging.warn(slack_response)
                     else:
