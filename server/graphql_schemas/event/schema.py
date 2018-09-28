@@ -105,7 +105,8 @@ class CreateEvent(relay.ClientIDMutation):
                        f"group \n Title: {input.get('title')} \n"
                        f"Description: {input.get('description')} \n "
                        f"Venue: {input.get('venue')} \n"
-                       f"Date: {input.get('date')} \n Time: {input.get('time')}")
+                       f"Date: {input.get('date')} \n"
+                       f"Time: {input.get('time')}")
             slack_id_not_in_db = []
             all_users_attendance = []
             for instance in category_followers:
