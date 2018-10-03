@@ -129,8 +129,8 @@ def validate_image(file_obj):
 def upload_image_file(uploaded_file):
     if settings.ENVIRONMENT == "production":
         """
-        Uploads a file to a given Cloud Storage bucket and returns the public url
-        to the new object.
+        Uploads a file to a given Cloud Storage bucket and
+        returns the public url to the new object.
         """
 
         # Authenticate storage client
@@ -152,7 +152,8 @@ def upload_image_file(uploaded_file):
     if settings.ENVIRONMENT == "development":
         validate_image(uploaded_file)
         fs = FileSystemStorage()
-        filename = fs.save(uploaded_file.name, uploaded_file)
+        safe_filename = _safe_filename(uploaded_file.name)
+        filename = fs.save(safe_filename, uploaded_file)
         url = "http://localhost:8000/static{}".format(
             fs.url(filename))
         return url
