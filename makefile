@@ -49,7 +49,7 @@ stop:
 
 build_backend:
 	${INFO} "Creating backend server image"
-	@ echo "$(PROJECT_NAME)"
+	@ echo "$(BACKEND_PROJECT_NAME)"
 	@ docker-compose -p $(DOCKER_BACKEND_PROJECT) -f $(DOCKER_RELEASE_COMPOSE_FILE) build server
 	${SUCCESS} "Images build Completed successfully"
 	${INFO} "Building application artifacts.."
@@ -85,6 +85,18 @@ test:
 	@ docker cp $$(docker-compose -p $(DOCKER_TEST_PROJECT) -f $(DOCKER_TEST_COMPOSE_FILE) ps -q test):/application/.coverage reports
 	${INFO} "Cleaning up workspace..."
 	@ docker-compose -p $(DOCKER_TEST_PROJECT) -f $(DOCKER_TEST_COMPOSE_FILE) down -v
+
+upgrade:
+	${INFO} "Updating migrations for backend"
+	@ echo "$(BACKEND_PROJECT_NAME)"
+	@ docker-compose -p $(DOCKER_BACKEND_PROJECT) -f $(DOCKER_RELEASE_COMPOSE_FILE) run --rm server python manage.py migrate
+	${SUCCESS} "Migration complete"
+	@ docker-compose -p $(DOCKER_BACKEND_PROJECT) -f $(DOCKER_RELEASE_COMPOSE_FILE) run --rm server ./manage.py loaddata api/fixtures/initial.json
+	${INFO} "Check for completeness"
+	${CHECK} $(DOCKER_BACKEND_PROJECT) $(DOCKER_RELEASE_COMPOSE_FILE) server
+	${SUCCESS} "Upgrade complete"
+
+
 
 tag:
 	${INFO} "Tagging release image with tags $(TAG_ARGS)..."

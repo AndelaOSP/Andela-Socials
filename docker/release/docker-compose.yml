@@ -38,7 +38,7 @@ services:
     build:
       context: ../../
       dockerfile: docker/release/client/Dockerfile
-    command: serve -s -p 9000
+    command: node server.js
     environment:
         - SERVER_API_BASE_URL=http://api-staging-socials.andela.com/graphql
     ports:
