@@ -148,6 +148,7 @@ class UpdateEvent(relay.ClientIDMutation):
         startDate = graphene.DateTime()
         endDate = graphene.DateTime()
         featured_image = graphene.String()
+        timezone = graphene.String()
         category_id = graphene.ID()
         event_id = graphene.ID(required=True)
 
