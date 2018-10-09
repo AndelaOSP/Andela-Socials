@@ -63,8 +63,12 @@ export default class DateTimePicker extends Component {
 
   toggleClick = (event) => {
     const { showPicker } = this.state;
+    const { id } = event.target;
     if (this.node.contains(event.target)) {
-      return this.setState({ showPicker: !showPicker });
+      if (id === 'calendar-button') {
+        return this.setState({ showPicker: !showPicker });
+      }
+      return this.setState({ showPicker: true });
     }
     return this.setState({ showPicker: false });
   }
