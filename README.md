@@ -21,17 +21,17 @@ git@github.com:AndelaOSP/Andela-Socials.git
 
 Create a `.env` file in the root directory with the content of the `.env.sample` and edit with your personal details.
 
-For a proper `.env` details reach out to the Team Lead when in doubt. :)
+For the proper `.env` details reach out to the Team Lead when in doubt. :)
 
 #### DB CREATION (Ignore if you have the database created already)
 Use the createdb.sh script to setup your database for the application
 
-Your .env variable should contain the values listed below, you can aslo reference the file to see how it is used.
-```sh
-    DB_USER=a_socials
-    DB_PASS=a_socials
-    DB_PORT=5432
-    DB_NAME=a_socials
+Your .env variables should contain the values listed below, you can reference the file to see how it is used.
+    ```sh	
+    DB_USER=a_socials	
+    DB_PASS=a_socials	
+    DB_PORT=5432	
+    DB_NAME=a_socials	
 ```
 
 #### Node Installation

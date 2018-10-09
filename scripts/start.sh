@@ -29,6 +29,8 @@ function start_server() {
   python server/manage.py runserver 0.0.0.0:8000
 }
 
-start_client && start_server
+chmod u+x scripts/checkEnv.sh
+scripts/checkEnv.sh
 
+start_client && start_server
 exit 0
