@@ -13,9 +13,10 @@ from graphql.error.located_error import GraphQLLocatedError
 class DRFAuthenticatedGraphQLView(FileUploadGraphQLView, GraphQLView):
 
     def parse_body(self, request):
-        if isinstance(request, rest_framework.request.Request):
+        content_type = self.get_content_type(request)
+        if content_type != 'multipart/form-data':
             return request.data
-        return super(GraphQLView, self).parse_body(request)
+        return super(DRFAuthenticatedGraphQLView, self).parse_body(request)
 
     @classmethod
     def as_view(cls, *args, **kwargs):
