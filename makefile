@@ -66,7 +66,7 @@ build_frontend:
 	${SUCCESS} "Images build Completed successfully"
 	@ echo " "
 	${INFO} "Building frontend artifacts... "
-	@ docker-compose -p $(DOCKER_FRONTEND_PROJECT) -f $(DOCKER_RELEASE_COMPOSE_FILE) run -d web
+	@ docker-compose -p $(DOCKER_FRONTEND_PROJECT) -f $(DOCKER_RELEASE_COMPOSE_FILE) run --no-deps -d web
 	${INFO} "Check for completeness"
 	${CHECK} $(DOCKER_FRONTEND_PROJECT) $(DOCKER_RELEASE_COMPOSE_FILE) web
 	${SUCCESS} "Build completed successfully"
