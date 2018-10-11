@@ -8,7 +8,8 @@
     "start": "webpack --config config/webpack.config.prod.js && node server.js",
     "precommit": "lint-staged",
     "stylelint-staged": "stylelint \"client/**/*.scss\" --syntax scss",
-    "test": "cypress run -P ../"
+    "test": "cypress run -P ../",
+    "cypress:open": "cypress open"
   },
   "lint-staged": {
     "client/**/*.{js,jsx,json,scss,css}": [
@@ -77,7 +78,7 @@
   "devDependencies": {
     "babel-eslint": "8.2.6",
     "babel-preset-env": "1.7.0",
-    "cypress": "3.0.1",
+    "cypress": "3.1.0",
     "eslint": "4.19.1",
     "eslint-config-airbnb": "17.0.0",
     "eslint-config-prettier": "2.9.0",
