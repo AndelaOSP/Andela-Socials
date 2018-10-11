@@ -31,21 +31,46 @@ export default class DateTimePicker extends Component {
     fullDate: "",
   }
 
-  toggleClick = () => {
-    this.setState({
-      showPicker: !this.state.showPicker 
-    })
+  componentDidMount() {
+    document.addEventListener('click', this.toggleClick, false);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.toggleClick, false);
   }
 
   onDateSelect = (value) => {
     this.props.dateSelected(this.props.type, "date", value) 
   }
 
-
   getDateTime = () => {
     const { dateValue, timeValue } = this.props;
     const dateTime = `${dateValue}      ${timeValue}`
     return dateTime
+  }
+
+  togglePickerIcon = () => {
+    const { showPicker } = this.state;
+    if (showPicker) {
+      return (
+        <button id="calendar-button" className="close-picker-icon" type="button" > &times; </button>
+      );
+    }
+    return (
+      <button id="calendar-button" type="button" value="cal" > calendar_today </button>
+    );
+  }
+
+  toggleClick = (event) => {
+    const { showPicker } = this.state;
+    const { id } = event.target;
+    if (this.node.contains(event.target)) {
+      if (id === 'calendar-button') {
+        return this.setState({ showPicker: !showPicker });
+      }
+      return this.setState({ showPicker: true });
+    }
+    return this.setState({ showPicker: false });
   }
 
   render() {
@@ -56,12 +81,12 @@ export default class DateTimePicker extends Component {
       dateValue,
     } = this.props;
     return (
-      <div className="time-picker-input-field">
+      <div className="time-picker-input-field" ref={node => this.node = node}>
         <div className="time-picker-label">{label}</div>
       <div className="time-picker">
         <div className="time-picker-header">
           <span>{this.getDateTime()}</span>
-          <button id="calendar-button" type="reset" value="cal" onClick={this.toggleClick} > calendar_today </button>
+          {this.togglePickerIcon()}
         </div>
         {this.state.showPicker &&
             <Picker 

@@ -13,7 +13,7 @@ const TextField = ({
   label,
   onChange,
   className,
-  defaultValue,
+  value,
   disabled,
   error: {
     hasError,
@@ -33,8 +33,8 @@ const TextField = ({
     <textarea
       name={name}
       id={id}
+      value={value}
       placeholder={placeholder}
-      defaultValue={defaultValue}
       className="as-form-group__input as-form-group__input--text_area"
       onChange={onChange}
       disabled={disabled}

@@ -14,7 +14,7 @@ import {
   SEARCH_EVENTS,
 } from '../constants';
 
-import { handleError } from '../../utils/errorHandler';
+import { handleError, handleInformation } from '../../utils/errorHandler';
 import Client from '../../client';
 
 export const getEventsList = ({
@@ -79,23 +79,27 @@ export const createEvent = ({
     }
   });
 
-export const updateEvent = (
+export const updateEvent = ({
   eventId,
   title,
   description,
   featuredImage,
   venue,
-  date,
-  time,
-  socialEventId
-) => dispatch => Client.mutate(
-  UPDATE_EVENT_GQL(eventId, title, description, featuredImage, venue, date, time, socialEventId)
+  startDate,
+  endDate,
+  timezone,
+  categoryId,
+}) => dispatch => Client.mutate(
+  UPDATE_EVENT_GQL(eventId, title, description, featuredImage, venue, startDate, endDate, timezone, categoryId)
 )
-  .then(data => dispatch({
-    type: UPDATE_EVENT,
-    payload: data.data,
-    error: false,
-  }))
+  .then((data) => {
+    handleInformation(data.data.updateEvent.actionMessage);
+    dispatch({
+      type: UPDATE_EVENT,
+      payload: data.data,
+      error: false,
+    });
+  })
   .catch(error => handleError(error, dispatch));
 
 export const deactivateEvent = (eventId, clientMutationId = '') => dispatch => Client.mutate(DEACTIVATE_EVENT_GQL(eventId, clientMutationId))

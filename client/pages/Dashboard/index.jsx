@@ -12,10 +12,11 @@ import Header from '../../components/common/Header';
 import External from '../../components/External';
 import EventsPage from '../Event/EventsPage';
 import EventDetailsPage from '../Event/EventDetailsPage';
+import Invite from '../Invite';
 import ModalContextProvider, { ModalContextCreator } from '../../components/Modals/ModalContext';
 import Modal from '../../components/Modals/ModalContainer';
 import LoadComponent from '../../utils/loadComponent';
-import { createEvent } from '../../actions/graphql/eventGQLActions';
+import { createEvent, updateEvent } from '../../actions/graphql/eventGQLActions';
 import uploadImage from '../../actions/graphql/uploadGQLActions';
 import { getCategoryList } from '../../actions/graphql/categoryGQLActions';
 
@@ -24,7 +25,7 @@ import '../../assets/style.scss';
 
 // thunk
 import { loadActiveUser, displayLoginErrorMessage } from '../../actions/userActions';
-import { savePermission } from '../../actions/outhActions';
+import { savePermission } from '../../actions/oauthActions';
 
 // utils
 import isLoggedIn from '../../utils/isLoggedIn';
@@ -129,6 +130,7 @@ class Dashboard extends Component {
                 categories,
                 createEvent,
                 uploadImage,
+                updateEvent: () => '',
               })}
               className="create-event-btn"
             >
@@ -147,7 +149,7 @@ class Dashboard extends Component {
    * @memberof Dashboard
    */
   render() {
-    const { location: { search } } = this.props;
+    const { location: { search }, uploadImage, updateEvent } = this.props;
     const {
       activeUser, categoryList, oauthCounter,
     } = this.state;
@@ -194,8 +196,9 @@ class Dashboard extends Component {
           />
           <Route
             path="/events/:eventId"
-            render={props => <EventDetailsPage {...props} activeUser={activeUser} />}
+            render={props => <EventDetailsPage {...props} activeUser={activeUser} categories={categories} updateEvent={updateEvent} uploadImage={uploadImage} />}
           />
+          <Route path="/invite/:inviteHash" component={Invite} />
           <Route path="/events" render={() => <EventsPage />} />
           <Route path="/dashboard" render={() => <EventsPage />} />
           <Route path="*" component={NotFound} />
@@ -220,6 +223,7 @@ const mapDispatchToProps = dispatch => bindActionCreators(
     loadActiveUser,
     displayLoginErrorMessage,
     createEvent,
+    updateEvent,
     uploadImage,
     getCategoryList,
     savePermission,

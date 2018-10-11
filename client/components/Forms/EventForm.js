@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import dateFns from 'date-fns';
 import TimezonePicker from 'react-timezone';
+import moment from 'moment-timezone';
 
 import IncrementalSelect from '../common/IncrementalSelect';
 import TimePicker from '../common/Form/TimePicker';
@@ -53,47 +54,40 @@ class EventForm extends Component {
     timezoneIsValid: true,
   };
 
+  componentDidMount() {
+    const { formMode, eventData } = this.props;
+    if (formMode === 'update') {
+      const eventEndDate = moment(eventData.endDate);
+      const eventStartDate = moment(eventData.startDate);
+      this.setState({
+        timezone: eventData.timezone,
+        category: eventData.socialEvent.id,
+        formData: {
+          description: eventData.description,
+          end: {
+            hour: eventEndDate.format('HH'),
+            minute: eventEndDate.format('mm'),
+            date: eventEndDate.format('YYYY-MM-DD'),
+          },
+          featuredImage: eventData.featuredImage,
+          start: {
+            hour: eventStartDate.format('HH'),
+            minute: eventStartDate.format('mm'),
+            date: eventStartDate.format('YYYY-MM-DD'),
+          },
+          title: eventData.title,
+          venue: eventData.venue,
+          category: eventData.socialEvent.name,
+        },
+      });
+    }
+  }
+
   componentDidUpdate(prevProps) {
     const { imageUploaded } = this.props;
     if (prevProps.imageUploaded !== imageUploaded) {
       this.handleUploadedImages(imageUploaded);
     }
-  }
-
-  handleUploadedImages = (imageUploaded) => {
-    const {
-      error,
-      node,
-    } = imageUploaded[imageUploaded.length - 1];
-    // After the upload is successful, create the actual event
-    if (!error && node.responseMessage) {
-      this.saveCreatedEvent(node);
-    }
-  }
-
-  saveCreatedEvent = (imageNode) => {
-    const {
-      formData,
-      category,
-      timezone,
-    } = this.state;
-    const startDate = this.formatDate(formData.start);
-    const endDate = this.formatDate(formData.end);
-    const {
-      createEvent,
-      dismiss,
-    } = this.props;
-    createEvent({
-      title: formData.title,
-      description: formData.description,
-      venue: formData.venue,
-      featuredImage: imageNode.imageUrl,
-      startDate: dateFns.format(startDate, 'YYYY-MM-DDTHH:mm:ss.SSSZ'),
-      endDate: dateFns.format(endDate, 'YYYY-MM-DDTHH:mm:ss.SSSZ'),
-      categoryId: category,
-      timezone,
-    });
-    dismiss();
   }
 
   commonProps = (id, type, label, formData, error) => ({
@@ -108,11 +102,12 @@ class EventForm extends Component {
 
 
   renderField = (fieldType, type, id, label, formData, error, value) => {
-    switch(fieldType) {
-      case "input":
+    switch (fieldType) {
+      case 'input':
         if (type === 'file') {
           return (<UploadField
             {...this.commonProps(id, type, label, formData, error)}
+            imageUrl={value}
             onChange={this.handleFormInput} />);
         }
         return (<InputField
@@ -202,12 +197,35 @@ class EventForm extends Component {
     });
 
     if (isValid) {
+      const { uploadImage } = this.props;
       if (formMode === 'create') {
-        const { uploadImage } = this.props;
         // Upload event feature image and ensure it's uploaded
         uploadImage({ featuredImage: formData.featuredImage });
       } else if (formMode === 'update') {
-        // CALL Update endpoint
+        const { eventData, dismiss, eventData: { id } } = this.props;
+        const {
+          category,
+          timezone,
+        } = this.state;
+        const startDate = this.formatDate(formData.start);
+        const endDate = this.formatDate(formData.end);
+        if (formData.featuredImage !== eventData.featuredImage) {
+          uploadImage({ featuredImage: formData.featuredImage });
+        } else {
+          const { updateEvent } = this.props;
+          updateEvent({
+            eventId: id,
+            title: formData.title,
+            description: formData.description,
+            venue: formData.venue,
+            featuredImage: formData.featuredImage,
+            startDate: dateFns.format(startDate, 'YYYY-MM-DDTHH:mm:ss.SSSZ'),
+            endDate: dateFns.format(endDate, 'YYYY-MM-DDTHH:mm:ss.SSSZ'),
+            categoryId: category,
+            timezone,
+          });
+          dismiss();
+        }
       }
     }
   };
@@ -241,16 +259,66 @@ class EventForm extends Component {
   };
 
   timeSelectHandler = (type, name, value) => {
-    const dateTime = { ...this.state.formData[type] };
-    const formDataCopy = { ...this.state.formData };
+    const { formData } = this.state;
+    const dateTime = { ...formData[type] };
+    const formDataCopy = { ...formData };
     dateTime[name] = value;
     formDataCopy[type] = dateTime;
     this.setState({ formData: formDataCopy });
   };
 
-  getTimeValues = type => (
-    `${this.state.formData[type].hour}:${this.state.formData[type].minute}`
-  )
+  getTimeValues = (type) => {
+    const { formData } = this.state;
+    const {
+      hour, minute,
+    } = formData[type];
+    return `${hour}:${minute}`;
+  }
+
+  saveEvent = (imageNode) => {
+    const {
+      formData,
+      category,
+      timezone,
+    } = this.state;
+    const startDate = this.formatDate(formData.start);
+    const endDate = this.formatDate(formData.end);
+    const {
+      createEvent,
+      updateEvent,
+      eventData,
+      formMode,
+      dismiss,
+    } = this.props;
+    const eventToBeSaved = {
+      title: formData.title,
+      description: formData.description,
+      venue: formData.venue,
+      featuredImage: imageNode.imageUrl,
+      startDate: dateFns.format(startDate, 'YYYY-MM-DDTHH:mm:ss.SSSZ'),
+      endDate: dateFns.format(endDate, 'YYYY-MM-DDTHH:mm:ss.SSSZ'),
+      categoryId: category,
+      timezone,
+    };
+    if (formMode === 'create') {
+      createEvent(eventToBeSaved);
+    } else {
+      eventToBeSaved.eventId = eventData.id;
+      updateEvent(eventToBeSaved);
+    }
+    dismiss();
+  }
+
+  handleUploadedImages = (imageUploaded) => {
+    const {
+      error,
+      node,
+    } = imageUploaded[imageUploaded.length - 1];
+    // After the upload is successful, create the actual event
+    if (!error && node.responseMessage) {
+      this.saveEvent(node);
+    }
+  }
 
   render() {
     const {
@@ -265,10 +333,11 @@ class EventForm extends Component {
       categories,
     } = this.props;
     const {
-      title, description, venue, featuredImage, start, end,
-    } = this.state.formData;
+      formData: { title, description, venue, featuredImage, category, }
+    } = this.state;
     const categoryClass = categoryIsValid ? 'category-label' : 'category-label category-error';
     const timezoneClass = timezoneIsValid ? 'category-label' : 'category-label category-error';
+    const categoryTitle = category || 'Select Category';
     return (
       <form
         id={formId}
@@ -280,7 +349,7 @@ class EventForm extends Component {
         {this.renderField('text', 'text', 'description', 'Description', formData, errors.description, description)}
         <span className={categoryClass}>Category</span>
         <CustomDropDown
-          title="Select Category"
+          title= {categoryTitle}
           list={categories}
           onSelected={this.handleCategory}
         />
@@ -301,7 +370,7 @@ class EventForm extends Component {
             }}
           />
         </div>
-        <div className='date-time-picker-wrapper'>
+        <div className="date-time-picker-wrapper">
           {this.renderField('timePicker', 'start', '', 'start-date')}
           {this.renderField('timePicker', 'end', '', 'end-date')}
         </div>
@@ -336,6 +405,8 @@ EventForm.propTypes = {
   formId: PropTypes.string.isRequired,
   dismiss: PropTypes.func.isRequired,
   categories: PropTypes.arrayOf(PropTypes.object).isRequired,
+  updateEvent: PropTypes.func.isRequired,
+  eventData: PropTypes.shape({}),
   formData: PropTypes.shape({
     title: PropTypes.string,
     description: PropTypes.string,

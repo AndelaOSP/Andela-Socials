@@ -1,7 +1,7 @@
 describe('Login Page', () => {
   it('should find the ANDELA logo and a login button on the Login page', () => {
     // Should visit the application login page
-    cy.visit(Cypress.env('HOST_URL'));
+    cy.visit(Cypress.env('CYPRESS_HOST_URL'));
 
     cy.wait(1000);
 

@@ -10,6 +10,7 @@ import NotFound from '../../components/common/NotFound';
 // stylesheet
 import '../../assets/pages/_event_details-page.scss';
 
+import { ModalContextCreator } from '../../components/Modals/ModalContext';
 /**
  * @description Currently contains an event details page layout
  *
@@ -17,6 +18,15 @@ import '../../assets/pages/_event_details-page.scss';
  * @extends {React.Component}
  */
 class EventDetailsPage extends React.Component {
+  constructor(props) {
+    super(props);
+    const { events } = this.props;
+    this.state = {
+      events,
+      updated: false,
+    };
+  }
+
   /**
    * React Lifecycle hook
    *
@@ -24,26 +34,56 @@ class EventDetailsPage extends React.Component {
    * @returns {null}
    */
   componentDidMount() {
-    const { match: { params: { eventId } } } = this.props;
-    const { getEventAction } = this.props;
-    getEventAction(eventId);
+    this.loadEvent();
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.events.status && (nextProps.events !== prevState.events && prevState.updated === false)) {
+      return { updated: true };
+    }
+
+    if (prevState.updated) {
+      return { updated: false };
+    }
+    return null;
   }
 
   topSection = () => {
     const {
+      event,
       event: {
-        title, startDate, endDate, venue, timezone, socialEvent,
+        title, startDate, endDate, venue, timezone, socialEvent, creator: { googleId },
+        description, featuredImage,
       },
+      activeUser: { id },
     } = this.props;
+    const eventData = {
+      id: event.id,
+      title,
+      startDate,
+      endDate,
+      venue,
+      timezone,
+      socialEvent,
+      description,
+      featuredImage,
+    };
+    const creator = id === googleId;
     return (
       <div className="event-details__top">
         <div className="event-details__section">
           <div className="event-details__event_title">{title}</div>
           <div className="event-details__social_event">{socialEvent.name}</div>
-          <button type="submit" className="event-details__rsvp_button">
-            {' '}
-            RSVP &#10004;
-          </button>
+          {creator
+            ? <div>
+            {this.renderCreateEventButton(eventData)}
+            </div>
+            : <button type="submit" className="event-details__rsvp_button">
+              {' '}
+              RSVP &#10004;
+            </button>
+          }
+
         </div>
         <div className="event-details__section">
           <div className="event-details__location_time event-details__section">
@@ -103,7 +143,49 @@ class EventDetailsPage extends React.Component {
     );
   };
 
+  loadEvent() {
+    const { match: { params: { eventId } } } = this.props;
+    const { getEventAction } = this.props;
+    getEventAction(eventId);
+  }
+
+  renderCreateEventButton = eventData => (
+    <ModalContextCreator.Consumer>
+      {
+        ({
+          activeModal,
+          openModal,
+        }) => {
+          const { categories, uploadImage, updateEvent } = this.props;
+          if (activeModal) return null;
+          return (
+            <button type="button"
+              onClick={() => openModal(
+                'UPDATE_EVENT', {
+                  modalHeadline: 'Update event',
+                  formMode: 'update',
+                  formId: 'event-form',
+                  eventData,
+                  categories,
+                  createEvent: () => '',
+                  updateEvent,
+                  uploadImage,
+                }
+              )}
+              className="event-details__edit">
+              {' '}
+              &#9998;
+            </button>);
+        }
+      }
+    </ModalContextCreator.Consumer>
+  );  
+
   render() {
+    const { updated } = this.state;
+    if (updated) {
+      this.loadEvent();
+    }
     const { event } = this.props;
     if (!Object.keys(event).length) {
       return <NotFound />;
@@ -118,6 +200,11 @@ class EventDetailsPage extends React.Component {
 }
 EventDetailsPage.propTypes = {
   match: PropTypes.shape({ params: PropTypes.shape({ eventId: PropTypes.string }) }),
+  getEventAction: PropTypes.func,
+  events: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.object),
+    PropTypes.shape({}),
+  ]),
   event: PropTypes.shape({
     id: PropTypes.string,
     active: PropTypes.bool,
@@ -129,16 +216,24 @@ EventDetailsPage.propTypes = {
     featuredImage: PropTypes.string,
     socialEvent: PropTypes.shape({ name: PropTypes.string }),
     attendSet: PropTypes.shape({ edges: PropTypes.arrayOf(PropTypes.shape({})) }),
+    categories: PropTypes.arrayOf(PropTypes.shape({})),
   }),
   activeUser: PropTypes.shape({ id: PropTypes.string }),
 };
 EventDetailsPage.defaultProps = {
   match: {},
-  event: {},
+  event: [],
+  events: [],
   activeUser: { id: '' },
+  getEventAction: () => null,
 };
 const mapDispatchToProps = dispatch => bindActionCreators({ getEventAction: getEvent }, dispatch);
-const mapStateToProps = ({ event }) => ({ event });
+const mapStateToProps = (state) => {
+  return {
+    event: state.event,
+    events: state.events,
+  };
+};
 export default connect(
   mapStateToProps,
   mapDispatchToProps

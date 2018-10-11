@@ -91,4 +91,12 @@
     font-weight: lighter;
     padding: 19px 0 20px 0;
   }
+  &__edit {
+    color: #365edb;
+    border-color: #365edb;
+    font-size: large;
+    width: rem(49px);
+    height: rem(42px);
+    margin: 0 0 0 26px;    
+  }
 }

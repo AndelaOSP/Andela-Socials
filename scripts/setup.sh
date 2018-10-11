@@ -34,7 +34,7 @@ function setup_client() {
 	export status=$?
 	echo $status
 
-	if [[ $status!=0 ]]; then
+	if [[ $status != 0 ]]; then
 		echo 'I will be installing yarn for you now'
 		npm install -g yarn
 	fi
@@ -43,7 +43,6 @@ function setup_client() {
 		# run yarn install to install dependencies
 		yarn install
 	fi
-
 }
 
 venv

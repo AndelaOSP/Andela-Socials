@@ -5,13 +5,27 @@ import { InputField } from '.';
 import { UploadIcon, CloseIcon } from '../../../assets/icons';
 
 class UploadField extends Component {
-  state = {
-    imagePreviewUrl: '',
-    error: {
-      hasError: false,
-      message: 'Upload an image for d event',
-    },
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      imagePreviewUrl: '',
+      updated: false,
+      error: {
+        hasError: false,
+        message: 'Upload an image for d event',
+      },
+    };
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (prevState.updated === false && prevState.imagePreviewUrl !== nextProps.imageUrl) {
+      return {
+        imagePreviewUrl: nextProps.imageUrl,
+        updated: true,
+      };
+    }
+    return null;
+  }
 
   handleImageChange = (e) => {
     e.preventDefault();

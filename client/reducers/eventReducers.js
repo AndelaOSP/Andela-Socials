@@ -35,19 +35,19 @@ export const events = (state = initialState.events, action) => {
     }
 
     case UPDATE_EVENT: {
-      const updatedEvent = {
-        eventsList: {
-          edges: state.events.eventsList.edges.map((item) => {
-            let newItem = {};
-            if (item.node.id === action.payload.updateEvent.updatedEvent.id) {
-              newItem = { node: action.payload.updateEvent.updatedEvent };
-            }
-            return newItem;
-          }),
-          pageInfo: state.events.eventsList.pageInfo,
-        },
+      const stateFormat = state.events || state;
+      const updated = stateFormat.map((item) => {
+        let newItem = {};
+        if (item.node.id === action.payload.updateEvent.updatedEvent.id) {
+          newItem = { node: action.payload.updateEvent.updatedEvent };
+          return newItem;
+        }
+        return item;
+      });
+      return {
+        events: updated,
+        status: 'updated',
       };
-      return Object.assign({}, state, { events: updatedEvent });
     }
 
     case DEACTIVATE_EVENT: {

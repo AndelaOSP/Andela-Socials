@@ -14,8 +14,19 @@ class CustomDropDown extends Component {
     this.state = {
       listOpen: false,
       headerTitle: this.props.title,
+      updated: false,
     };
     this.selectedItem = this.selectedItem.bind(this);
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (prevState.updated === false && prevState.headerTitle !== nextProps.title) {
+      return {
+        headerTitle: nextProps.title,
+        updated: true,
+      };
+    }
+    return null;
   }
 
   handleClickOutside() {

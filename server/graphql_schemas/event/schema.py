@@ -54,10 +54,24 @@ class CreateEvent(relay.ClientIDMutation):
 
     new_event = graphene.Field(EventNode)
 
+    @staticmethod
+    def create_event(category, user_profile, **input):
+        if not input.get('timezone'):
+            input['timezone'] = user_profile.timezone
+        if not_valid_timezone(input.get('timezone')):
+            return GraphQLError("Timezone is invalid")
+
+        new_event = Event.objects.create(
+            **input,
+            creator=user_profile,
+            social_event=category
+        )
+        new_event.save()
+        return new_event
+
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
         category_id = from_global_id(input.pop('category_id'))[1]
-
         try:
             category = Category.objects.get(
                 pk=category_id)
@@ -65,68 +79,64 @@ class CreateEvent(relay.ClientIDMutation):
                 user=info.context.user
             )
             if user_profile.credential and user_profile.credential.valid:
-                if not input.get('timezone'):
-                    input['timezone'] = user_profile.timezone
-                if not_valid_timezone(input.get('timezone')):
-                    return GraphQLError("Timezone is invalid")
-                new_event = Event.objects.create(
-                    **input,
-                    creator=user_profile,
-                    social_event=category
-                )
-                new_event.save()
-
+                new_event = CreateEvent.create_event(
+                    category, user_profile, **input)
                 # Send calender invite in background
                 BackgroundTaskWorker.start_work(send_calendar_invites,
                                                 (user_profile, new_event))
             else:
+                new_event = CreateEvent.create_event(
+                    category, user_profile, **input)
+                CreateEvent.notify_event_in_slack(category, input, new_event)
                 raise_calendar_error(user_profile)
 
         except ValueError as e:
             raise GraphQLError("An Error occurred. \n{}".format(e))
 
-        try:
-            CreateEvent.notify_event_in_slack(category, input, new_event)
-        except BaseException as e:
-            logging.warn(e)
-
+        CreateEvent.notify_event_in_slack(category, input, new_event)
         return cls(new_event=new_event)
 
     @staticmethod
     def notify_event_in_slack(category, input, new_event):
-        category_followers = Interest.objects.filter(
-            follower_category_id=category.id)
-        message = (f"A new event has been created in {category.name} "
-                   f"group \n Title: {input.get('title')} \n"
-                   f"Description: {input.get('description')} \n "
-                   f"Venue: {input.get('venue')} \n"
-                   f"Date: {input.get('date')} \n Time: {input.get('time')}")
-        slack_id_not_in_db = []
-        all_users_attendance = []
-        for instance in category_followers:
-            new_attendance = Attend(user=instance.follower, event=new_event)
-            all_users_attendance.append(new_attendance)
-            if instance.follower.slack_id:
-                slack_response = notify_user(
-                    message, instance.follower.slack_id)
-                if not slack_response['ok']:
-                    logging.warn(slack_response)
-            else:
-                slack_id_not_in_db.append(instance)
-        Attend.objects.bulk_create(all_users_attendance)
-
-        if slack_id_not_in_db:
-            for instance in slack_id_not_in_db:
-                retrieved_slack_id = get_slack_id(
-                    model_to_dict(instance.follower.user))
-                if retrieved_slack_id != '':
-                    instance.follower.slack_id = retrieved_slack_id
-                    instance.follower.save()
-                    slack_response = notify_user(message, retrieved_slack_id)
+        try:
+            category_followers = Interest.objects.filter(
+                follower_category_id=category.id)
+            message = (f"A new event has been created in {category.name} "
+                       f"group \n Title: {input.get('title')} \n"
+                       f"Description: {input.get('description')} \n "
+                       f"Venue: {input.get('venue')} \n"
+                       f"Date: {input.get('date')} \n"
+                       f"Time: {input.get('time')}")
+            slack_id_not_in_db = []
+            all_users_attendance = []
+            for instance in category_followers:
+                new_attendance = Attend(
+                    user=instance.follower, event=new_event)
+                all_users_attendance.append(new_attendance)
+                if instance.follower.slack_id:
+                    slack_response = notify_user(
+                        message, instance.follower.slack_id)
                     if not slack_response['ok']:
                         logging.warn(slack_response)
                 else:
-                    continue
+                    slack_id_not_in_db.append(instance)
+            Attend.objects.bulk_create(all_users_attendance)
+
+            if slack_id_not_in_db:
+                for instance in slack_id_not_in_db:
+                    retrieved_slack_id = get_slack_id(
+                        model_to_dict(instance.follower.user))
+                    if retrieved_slack_id != '':
+                        instance.follower.slack_id = retrieved_slack_id
+                        instance.follower.save()
+                        slack_response = notify_user(
+                            message, retrieved_slack_id)
+                        if not slack_response['ok']:
+                            logging.warn(slack_response)
+                    else:
+                        continue
+        except BaseException as e:
+            logging.warn(e)
 
 
 class UpdateEvent(relay.ClientIDMutation):
@@ -135,9 +145,10 @@ class UpdateEvent(relay.ClientIDMutation):
         title = graphene.String()
         description = graphene.String()
         venue = graphene.String()
-        startDate = graphene.DateTime()
-        endDate = graphene.DateTime()
+        start_date = graphene.DateTime()
+        end_date = graphene.DateTime()
         featured_image = graphene.String()
+        timezone = graphene.String()
         category_id = graphene.ID()
         event_id = graphene.ID(required=True)
 

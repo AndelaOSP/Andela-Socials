@@ -1,0 +1,48 @@
+@import "../tools/mixins.scss";
+
+.event-invite {
+  &__main_card {
+    box-shadow: 0 .25rem .5rem 0 #000000;
+    @include column-flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    width: 50vw;
+    margin: 5vh auto;
+    padding: 10px;
+  }
+  &__event_img {
+    border-radius: .3125rem 0;
+    object-fit: scale-down;
+    max-width: 85%;
+    margin: 0 auto;
+  }
+  &__title {
+  margin: .625rem auto;
+  }
+  &__error {
+    margin: auto;
+    color: red;
+  }
+  &__button {
+    border: 0.5px solid #676b6b;
+    border-radius: .3125rem;
+    width: auto;
+    height: 3.125rem;
+    line-height: 3.125rem;
+    margin: 2.5rem auto;
+    text-align: center;
+    padding: 0 20px;
+  }
+  &__go_btn {
+    background: #365EDB;
+    color: white;
+  }
+  @media screen and (max-width: 480px) {
+    &__main_card {
+      @include mobile(480px);
+      display: grid;
+      width: 90vw;
+      height: auto;
+    }
+  }
+}

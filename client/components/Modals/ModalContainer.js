@@ -11,7 +11,10 @@ import EventForm from '../Forms/EventForm';
     'CREATE_EVENT': EventModal,
   };
  */
-const MODAL_COMPONENTS = { CREATE_EVENT: EventForm };
+const MODAL_COMPONENTS = {
+  CREATE_EVENT: EventForm,
+  UPDATE_EVENT: EventForm,
+};
 
 const ModalContent = (props) => {
   const { modalProps, closeModal, activeModal } = props;

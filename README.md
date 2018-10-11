@@ -13,6 +13,7 @@ These will improve socialization between Andelans inside and outside the company
 
 
 ### INSTALLATION
+
 Clone from git using
 ```
 git@github.com:AndelaOSP/Andela-Socials.git
@@ -21,6 +22,17 @@ git@github.com:AndelaOSP/Andela-Socials.git
 Create a `.env` file in the root directory with the content of the `.env.sample` and edit with your personal details.
 
 For a proper `.env` details reach out to the Team Lead when in doubt. :)
+
+#### DB CREATION (Ignore if you have the database created already)
+Use the createdb.sh script to setup your database for the application
+
+Your .env variable should contain the values listed below, you can aslo reference the file to see how it is used.
+```sh
+    DB_USER=a_socials
+    DB_PASS=a_socials
+    DB_PORT=5432
+    DB_NAME=a_socials
+```
 
 #### Node Installation
 It is advisable to use node version 8 for this project. Check your node version using `node --version`. To help manage the node versions you can install and run on your system you can use nvm. Follow this [guide](https://gist.github.com/d2s/372b5943bce17b964a79#install-nvm-for-managing-nodejs-versions) to help install nvm.
@@ -46,6 +58,7 @@ To STOP the application run the command:
 ```
 scripts/stop.sh
 ```
+
 ### TEST
 To run server side test run the command below:
 ```
@@ -103,17 +116,6 @@ For the production application, [Nginx](https://www.nginx.com/resources/glossary
 
 Please note that you only need to build the dockerized application once. Subsequently, run `make start` to start the application.
 
-
-### DB CREATION
-Use the createdb.sh script to setup your database for the application
-
-Your .env variable should look like this, you can aslo reference the file to see how it is used.
-```
-    DB_USER=a_socials
-    DB_PASS=a_socials
-    DB_PORT=5432
-    DB_NAME=a_socials
-```
 
 ### UI MOCK
 The UI mock for the project is available [here](https://www.figma.com/file/Yn3JRZ3YLBVSg4o8L9dhIAv2/Andela_Socials)

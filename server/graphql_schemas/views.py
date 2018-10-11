@@ -12,11 +12,19 @@ from graphql.error.located_error import GraphQLLocatedError
 
 class DRFAuthenticatedGraphQLView(FileUploadGraphQLView, GraphQLView):
 
+    def parse_body(self, request):
+        content_type = self.get_content_type(request)
+        if content_type != 'multipart/form-data':
+            return request.data
+        return super(DRFAuthenticatedGraphQLView, self).parse_body(request)
+
     @classmethod
     def as_view(cls, *args, **kwargs):
         view = super(GraphQLView, cls).as_view(*args, **kwargs)
-        view = permission_classes(api_settings.DEFAULT_PERMISSION_CLASSES)(view)
-        view = authentication_classes(api_settings.DEFAULT_AUTHENTICATION_CLASSES)(view)
+        view = permission_classes(
+            api_settings.DEFAULT_PERMISSION_CLASSES)(view)
+        view = authentication_classes(
+            api_settings.DEFAULT_AUTHENTICATION_CLASSES)(view)
         view = api_view(['GET', 'POST'])(view)
         return view
 

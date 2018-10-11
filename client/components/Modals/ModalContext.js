@@ -6,6 +6,7 @@ export const ModalContextCreator = React.createContext();
 class ModalContext extends Component {
   modalTypes = [
     'CREATE_EVENT',
+    'UPDATE_EVENT',
   ];
 
   defaultModalProps = { modalHeadline: 'default modal headline' };

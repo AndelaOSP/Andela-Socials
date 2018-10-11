@@ -41,3 +41,6 @@ export const INTEREST = 'INTEREST';
 
 // Constants OAUTH
 export const OAUTH = 'OAUTH';
+
+// Constants Invites
+export const VALIDATE_INVITE = 'VALIDATE_INVITE';
