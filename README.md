@@ -27,7 +27,7 @@ For the proper `.env` details reach out to the Team Lead when in doubt. :)
 Use the createdb.sh script to setup your database for the application
 
 Your .env variables should contain the values listed below, you can reference the file to see how it is used.
-    ```sh	
+```sh	
     DB_USER=a_socials	
     DB_PASS=a_socials	
     DB_PORT=5432	
