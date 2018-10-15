@@ -22,7 +22,11 @@ staticfiles/
 .DS_Store
 static/
 venv/
+# Cypress
 cypress.env.json
+cypress.json
+**/cypress/videos
+**/cypress/screenshots
 yarn-error.log
 .coverage
 .tox

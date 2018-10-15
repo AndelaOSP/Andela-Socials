@@ -8,7 +8,8 @@
     "start": "webpack --config config/webpack.config.prod.js && node server.js",
     "precommit": "lint-staged",
     "stylelint-staged": "stylelint \"client/**/*.scss\" --syntax scss",
-    "test": "cypress run -P ../",
+    "test:visual": "cypress run",
+    "test": "jest",
     "cypress:open": "cypress open"
   },
   "lint-staged": {

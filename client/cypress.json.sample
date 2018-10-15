@@ -1,0 +1,10 @@
+{
+    "projectId": "", # Generated when initializing Cypress via the interface
+    "baseUrl": "http://localhost:9000", # Helps us not repeating the baseUrl i.e, cy.visit('/')
+    "watchForFileChanges": true, # For watching tests
+    # Setup some of the envs we're using, access them by Cypress.env()
+    "env": {
+        "ANDELA_API_BASE_URL": "https://api-prod.andela.com",
+        "BASE_URL": "http://localhost:9000/home"
+    }
+}
