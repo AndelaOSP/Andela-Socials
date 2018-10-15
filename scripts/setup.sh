@@ -45,7 +45,26 @@ function setup_client() {
 	fi
 }
 
+function create_db(){
+	if psql -lqtA | cut -d\| -f1 | grep -qxF "a_socials"; then
+		echo "You already have a database named a_socials."
+	else
+		echo "You need to create a database."
+		echo -e "\n\n\033[31mPlease provide a single argument for the username/dbname\033[0m\n"
+		read dbname
+		DBNAME=$dbname
+		echo -e "\n\n\033[31mPlease provide just one argument as the username\033[0m\n"
+		read dbuser
+		USERNAME_DBNAME=$dbuser
+		if ! psql -lqtA | grep  $USERNAME_DBNAME; then
+			createuser -P -s -e $DBNAME
+		fi
+		createdb --username=$USERNAME_DBNAME --owner=$USERNAME_DBNAME -W $DBNAME
+	fi
+}
+
 venv
+create_db
 setup_server
 setup_client
 exit 0
