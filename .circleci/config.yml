@@ -69,6 +69,7 @@ jobs:
     steps:
     - checkout
     - setup_remote_docker
+    - run: cd client && yarn install --production=false
     - run:
         name: Deploy frontend application
         command: |
