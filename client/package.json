@@ -10,6 +10,7 @@
     "stylelint-staged": "stylelint \"client/**/*.scss\" --syntax scss",
     "test:visual": "cypress run",
     "test": "jest",
+    "test:watch": "jest --watch",
     "cypress:open": "cypress open"
   },
   "lint-staged": {
@@ -80,6 +81,9 @@
     "babel-eslint": "8.2.6",
     "babel-preset-env": "1.7.0",
     "cypress": "3.1.0",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.6.0",
+    "enzyme-to-json": "^3.3.4",
     "eslint": "4.19.1",
     "eslint-config-airbnb": "17.0.0",
     "eslint-config-prettier": "2.9.0",
@@ -88,6 +92,7 @@
     "eslint-plugin-prettier": "2.6.0",
     "eslint-plugin-react": "7.10.0",
     "husky": "0.14.3",
+    "jest": "23.6.0",
     "lint-staged": "7.2.0",
     "prettier": "1.13.5",
     "redux-devtools": "3.4.0",
