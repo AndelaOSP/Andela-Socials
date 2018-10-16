@@ -99,7 +99,6 @@ upgrade:
 	${SUCCESS} "Upgrade complete"
 
 
-
 tag:
 	${INFO} "Tagging release image with tags $(TAG_ARGS)..."
 	@ $(foreach tag,$(TAG_ARGS), docker tag $(IMAGE_ID) $(DOCKER_REGISTRY)/$(ORG_NAME)/$(BACKEND_REPO_NAME):$(tag);)
@@ -121,6 +120,7 @@ publishFrontend:
 	${INFO} "Publishing release image $(FRONTEND_REPO_NAME)rel to $(DOCKER_REGISTRY)/$(FRONTEND_REPO_NAME).."
 	@ $(foreach tag,$(shell echo $(REPO_EXPR_FRONTEND)), docker push $(tag);)
 	${INFO} "Publish complete"
+
 
 ifeq (tag,$(firstword $(MAKECMDGOALS)))
   TAG_ARGS := $(word 2, $(MAKECMDGOALS))
