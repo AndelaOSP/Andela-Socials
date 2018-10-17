@@ -8,7 +8,7 @@ ENV NODE_PATH /usr/local/lib/node_modules/
 
 RUN npm install -g express@4.16.3 dotenv@4.0.0
 
-COPY artifacts /app/dist
+COPY client/dist /app/dist
 COPY client/server.js /app
 
 WORKDIR /app
