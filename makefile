@@ -66,7 +66,7 @@ build_frontend:
 	${SUCCESS} "Images build Completed successfully"
 	@ echo " "
 	${INFO} "Building frontend artifacts... "
-	@ docker-compose -p $(DOCKER_FRONTEND_PROJECT) -f $(DOCKER_RELEASE_COMPOSE_FILE) run --no-deps -d web
+	@ docker-compose -p $(DOCKER_FRONTEND_PROJECT) -f $(DOCKER_RELEASE_COMPOSE_FILE) run -d web
 	${INFO} "Check for completeness"
 	${CHECK} $(DOCKER_FRONTEND_PROJECT) $(DOCKER_RELEASE_COMPOSE_FILE) web
 	${SUCCESS} "Build completed successfully"
@@ -98,10 +98,10 @@ upgrade:
 	${CHECK} $(DOCKER_BACKEND_PROJECT) $(DOCKER_RELEASE_COMPOSE_FILE) server
 	${SUCCESS} "Upgrade complete"
 
-
 tag:
 	${INFO} "Tagging release image with tags $(TAG_ARGS)..."
 	@ $(foreach tag,$(TAG_ARGS), docker tag $(IMAGE_ID) $(DOCKER_REGISTRY)/$(ORG_NAME)/$(BACKEND_REPO_NAME):$(tag);)
+	@ docker images
 	${SUCCESS} "Tagging completed successfully"
 
 tagFrontend:
@@ -110,8 +110,8 @@ tagFrontend:
 	${SUCCESS} "Tagging completed successfully"
 
 publish:
-	@ echo "we are in publishing now"
 	${INFO} "Publishing release image $(BACKEND_REPO_NAME)rel to $(DOCKER_REGISTRY)/$(BACKEND_REPO_NAME).."
+	echo "$(REPO_FILTER)"
 	@ $(foreach tag,$(shell echo $(REPO_EXPR)), docker push $(tag);)
 	${INFO} "Publish complete"
 
@@ -157,5 +157,4 @@ IMAGE_ID = $$(docker images andelasocialsbackend_server -q)
 FRONTEND_IMAGE_ID = $$(docker images andelasocialsfrontend_web  -q )
 
 REPO_EXPR := $$(docker inspect -f '{{range .RepoTags}}{{.}} {{end}}' $(IMAGE_ID) | grep -oh "$(REPO_FILTER)" | xargs)
-REPO_EXPR_FRONTEND := $$(docker inspect -f '{{range .RepoTags}}{{.}} {{end}}' $(FRONTEND_IMAGE_ID) | grep -oh "$(REPO_FILTER)" | xargs)
-
+REPO_EXPR_FRONTEND := $$(docker inspect -f '{{range .RepoTags}}{{.}} {{end}}' $(FRONTEND_IMAGE_ID) | grep -oh "$(REPO_FILTER2)" | xargs)
