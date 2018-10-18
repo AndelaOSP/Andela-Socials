@@ -56,6 +56,7 @@ deploy_to_kubernetes(){
      echo "====> Prepare image for deployement"
 
     IMAGE="${DOCKER_REGISTRY}/${GOOGLE_PROJECT_ID}/${BACKEND_REPO_NAME}:${IMAGE_TAG}"
+    echo ${BACKEND_REPO_NAME}
     DEPLOYMENT_NAME="${ENVIRONMENT}-${BACKEND_PROJECT_NAME}"
     echo "====> Deploying ${IMAGE} to ${DEPLOYMENT_NAME} in ${ENVIRONMENT} environment"
 

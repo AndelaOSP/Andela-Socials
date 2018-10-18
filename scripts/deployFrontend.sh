@@ -68,6 +68,7 @@ deploy_to_kubernetes(){
 
 
     kubectl set image deployment/${DEPLOYMENT_NAME} frontend=${IMAGE} -n "${ENVIRONMENT}"
+    
 
 
     if [ "$?" == "0" ]; then
