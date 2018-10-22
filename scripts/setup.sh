@@ -2,23 +2,7 @@
 
 set -e
 set -o pipefail # if any code doesn't return 0, exit the script
-set -x # print each step of your code to the terminal
 
-
-function venv() {
-	echo 'Do you want me to install and activate a virtualenvironment?'
-	echo 'Enter y or n'
-
-	read response
-
-	if [ $response == "y" ]; then
-		pip install virtualenv
-		virtualenv --python=python3 venv
-	  source venv/bin/activate
-	else
-		echo 'I take it you have a virtual environment activated'
-	fi
-}
 
 function setup_server() {
 	pip install -r server/requirements.txt
@@ -63,7 +47,10 @@ function create_db(){
 	fi
 }
 
-venv
+source scripts/configureVirtualEnv.sh
+load_env_vars
+create_virtualenv
+
 create_db
 setup_server
 setup_client

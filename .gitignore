@@ -35,3 +35,4 @@ yarn-error.log
 .tox
 warning.log
 client/dist
+andela_creds.json
