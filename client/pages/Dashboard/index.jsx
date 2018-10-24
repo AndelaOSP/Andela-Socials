@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 
 // third-party imports
 import { Route, Redirect, Switch } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 // components
 import Header from '../../components/common/Header';
@@ -33,6 +34,7 @@ import isTokenExpired from '../../utils/isTokenExpired';
 
 // other routes
 const NotFound = LoadComponent(import('../../components/common/NotFound'));
+
 
 /**
  * Represents Dashboard component
@@ -163,8 +165,16 @@ class Dashboard extends Component {
       }))
       : [];
 
+
     if (search.split('?token=')[1]) {
       localStorage.setItem('token', search.split('?token=')[1]);
+    }
+
+    if (!localStorage.getItem('token')) {
+      const token = Cookies.get('jwt-token');
+      if (token) {
+        localStorage.setItem('token', token);
+      }
     }
 
     if (isTokenExpired() || !isLoggedIn()) {
