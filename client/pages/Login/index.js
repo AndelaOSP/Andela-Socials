@@ -1,5 +1,6 @@
 // React lib import
 import React from 'react';
+import { Route } from 'react-router-dom';
 
 // third-party imports
 import { Redirect } from 'react-router-dom';
