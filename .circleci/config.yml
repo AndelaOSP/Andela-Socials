@@ -69,7 +69,6 @@ jobs:
     steps:
     - checkout
     - setup_remote_docker
-    - run: cd client && rm -rf node_modules && yarn install --production=false && yarn run build && cd ..
     - run:
         name: Deploy frontend application
         command: |
