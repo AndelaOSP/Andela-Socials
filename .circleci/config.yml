@@ -64,7 +64,12 @@ jobs:
     docker:
         - image: circleci/node:9.8.0
           environment:
-            TERM: xterm-256color
+            - TERM: xterm-256color
+            - ANDELA_API_BASE_URL: https://api-prod.andela.com/
+            - SERVER_API_BASE_URL: http://api-staging-socials.andela.com/graphql
+            - FRONTEND_BASE_URL: http://staging-socials.andela.com
+            - G_SUITE_DOMAIN: http://andela.com
+            - CLIENT_ID: 1047993778878-tvd9n8v1mag2g4mv1rugkfm016h69ech.apps.googleusercontent.com
     working_directory: ~/andela-socials-frontend
     steps:
     - checkout
