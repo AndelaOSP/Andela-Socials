@@ -35,6 +35,10 @@ deploy_image() {
     yarn install
     export NODE_ENV=production
     export ANDELA_API_BASE_URL=${ANDELA_API_BASE_URL}
+    export G_SUITE_DOMAIN=${G_SUITE_DOMAIN}
+    export SERVER_API_BASE_URL=${SERVER_API_BASE_URL}
+    export FRONTEND_BASE_URL=${FRONTEND_BASE_URL}
+    export CLIENT_ID=${CLIENT_ID}
     yarn run build
     cd ..
     make build_frontend
