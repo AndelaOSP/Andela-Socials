@@ -34,6 +34,9 @@ deploy_image() {
     export G_SUITE_DOMAIN=${G_SUITE_DOMAIN}
     export ANDELA_API_BASE_URL=${ANDELA_API_BASE_URL}
     export CLIENT_ID=${CLIENT_ID}
+
+    echo ${FRONTEND_BASE_URL} ${SERVER_API_BASE_URL} ${G_SUITE_DOMAIN} ${ANDELA_API_BASE_URL} ${CLIENT_ID}
+
     cd client && npm run build && cd ..
     make build_frontend
 
