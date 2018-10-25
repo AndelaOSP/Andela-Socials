@@ -79,23 +79,24 @@ workflows:
     version: 2
     test_and_deploy:
         jobs:
-            - test
-            - deployBackend:
-                requires:
-                    - test
-                filters:
-                    branches:
-                        only:
-                            - master
-                            - develop
-                            - /release\/v[0-9].[0-9].[0-9]/
+            # - test
+            # - deployBackend:
+            #     requires:
+            #         - test
+            #     filters:
+            #         branches:
+            #             only:
+            #                 - master
+            #                 - develop
+            #                 - /release\/v[0-9].[0-9].[0-9]/
 
             - deployFrontend:
-                requires:
-                    - test
+                # requires:
+                #     - test
                 filters:
                     branches:
                         only:
                             - master
                             - develop
                             - /release\/v[0-9].[0-9].[0-9]/
+                            - fix-staging
