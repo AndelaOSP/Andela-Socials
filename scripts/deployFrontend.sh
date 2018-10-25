@@ -34,6 +34,7 @@ deploy_image() {
     cd client
     yarn install
     export NODE_ENV=production
+    export ANDELA_API_BASE_URL=${ANDELA_API_BASE_URL}
     yarn run build
     cd ..
     make build_frontend
