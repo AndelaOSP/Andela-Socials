@@ -6,10 +6,16 @@ import PropTypes from 'prop-types';
 import SearchBar from './SearchBar';
 import NotificationCenter from './NotificationCenter';
 import UserProfile from './UserProfile';
+import SideNav from './SideNav';
 import LogoReplacement from '../../assets/icons/LogoReplacement';
 
 // assets
 import '../../assets/components/navbar.scss';
+
+
+const openNav = () => {
+  document.getElementById('mySidenav').style.width = '250px';
+};
 
 const NavMenu = ({
   to,
@@ -19,8 +25,7 @@ const NavMenu = ({
       <NavLink to={to} activeClassName="link__container--active">
         <span>{children}</span>
       </NavLink>
-    </div>
-);
+    </div>);
 
 NavMenu.propTypes = {
   to: PropTypes.string.isRequired,
@@ -38,9 +43,16 @@ const NavBar = (props) => {
     <Fragment>
       <nav className="top-navbar">
         <div className="navbar-header">
-          <button
+          <div>
+            <button type="button" onClick={openNav} className="navbar-brand-mobile">
+              {LogoReplacement}
+            </button>
+          </div>
+          {/* Supposed to be a navbar */}
+          {/* <button
             type="button"
             className="navbar-toggle collapsed"
+            onClick={openNav}
             data-toggle="collapse"
             data-target="#nav-bar"
             aria-expanded="false"
@@ -50,20 +62,33 @@ const NavBar = (props) => {
             <span className="icon-bar" />
             <span className="icon-bar" />
             <span className="icon-bar" />
-          </button>
+          </button> */}
           <Link to="/home" className="navbar-brand">
             {LogoReplacement}
           </Link>
         </div>
+        <SideNav
+          signOut={signOut}
+        />
         <div className="top-navbar__right-container">
-          <SearchBar searchText={searchText} events={events} onSearchInputChange={onSearchInputChange} />
-          <NotificationCenter />
-          <UserProfile
-            firstName={firstName}
-            lastName={lastName}
-            imageUrl={imageUrl}
-            signOut={signOut}
-          />
+          <div className="top-navbar__right-container__search">
+            <SearchBar
+              searchText={searchText}
+              events={events}
+              onSearchInputChange={onSearchInputChange}
+            />
+          </div>
+          <div className="top-navbar__right-container__item">
+            <NotificationCenter />
+          </div>
+          <div className="top-navbar__right-container__item">
+            <UserProfile
+              firstName={firstName}
+              lastName={lastName}
+              imageUrl={imageUrl}
+              signOut={signOut}
+            />
+          </div>
         </div>
       </nav>
       <div className="navbar">

@@ -51,10 +51,32 @@
   background-color: $white;
   margin: 0;
   border: 0;
+  @include mobile('766px') {
+    display: flex;
+    justify-content: flex-end;
+  }
   .navbar-brand {
     height: rem(70px);
     width: rem(70px);
-    @include centered-flex
+    @include centered-flex;
+    @include mobile('600px') {
+      display: none;
+    }
+  }
+  .navbar-brand-mobile {
+    display: none;
+    border: none;
+    @include mobile('600px') {
+      display: block;
+      height: rem(70px);
+      width: rem(70px);
+    }
+  }
+}
+
+.navbar-header {
+  @include mobile('766px') {
+    width: 100%;
   }
 }
 
@@ -64,6 +86,14 @@
   justify-content: flex-end;
   padding: 0;
   height: rem(70px);
+  &__item {
+    @include mobile('600px') {
+      display: none;
+    }
+  }
+  &__search {
+    z-index: 1;
+  }
   .nav-profile {
     min-width: rem(183.5px);
     margin: 0;
