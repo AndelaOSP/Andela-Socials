@@ -6,6 +6,8 @@ LABEL application="asocialsbackend"
 
 ENV TERM=xterm-256color
 
+ARG GOOGLE_CLOUD_CREDENTIALS_FILE
+
 # Set mirrors to Nearest Zone for faster builds
 RUN sed -i "s/http:\/\/archive./http:\/\/nz.archive./g" /etc/apt/sources.list
 
@@ -23,4 +25,6 @@ RUN pip install -r requirements.txt
 
 # Copy server files to work directory
 COPY server /app
+
+RUN echo $GOOGLE_CLOUD_CREDENTIALS_FILE | base64 --decode >> gcloud-service-key.json
 
