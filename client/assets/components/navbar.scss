@@ -51,21 +51,21 @@
   background-color: $white;
   margin: 0;
   border: 0;
-  @include mobile('766px') {
+  @include mobile(rem(766px)) {
     display: flex;
   }
   .navbar-brand {
     height: rem(70px);
     width: rem(70px);
     @include centered-flex;
-    @include mobile('600px') {
+    @include mobile(rem(600px)) {
       display: none;
     }
   }
   .navbar-brand-mobile {
     display: none;
     border: none;
-    @include mobile('600px') {
+    @include mobile(rem(600px)) {
       display: block;
       height: rem(70px);
       width: rem(70px);
@@ -74,7 +74,7 @@
 }
 
 .navbar-header {
-  @include mobile('766px') {
+  @include mobile(rem(766px)) {
     width: 100%;
   }
 }
@@ -85,18 +85,18 @@
   justify-content: flex-end;
   padding: 0;
   height: rem(70px);
-  @include mobile('600px') {
+  @include mobile(rem(600px)) {
     width: 100%;
   }
   &__item {
     padding-left: 3%;
-    @include mobile('600px') {
+    @include mobile(rem(600px)) {
       display: none;
     }
   }
   &__search {
     z-index: 1;
-    @include mobile('600px') {
+    @include mobile(rem(600px)) {
       padding-right: 5%;
     }
   }
@@ -226,13 +226,13 @@
     padding: 0;
     margin: 0;
     justify-content: center;
-    @include mobile('640px') {
+    @include mobile(rem(640px)) {
       width: 14rem;
     }
     .form-group {
       @include flex;
       align-items: center;
-      @include mobile('640px') {
+      @include mobile(rem(640px)) {
         width: 100%;
       }
     }
@@ -241,7 +241,7 @@
       width: 15rem;
       box-shadow: none;
       background: transparent;
-      @include mobile('640px') {
+      @include mobile(rem(640px)) {
         width: 85%;
       }
     }

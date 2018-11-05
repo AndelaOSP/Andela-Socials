@@ -14,7 +14,7 @@ import '../../assets/components/navbar.scss';
 
 
 const openNav = () => {
-  document.getElementById('mySidenav').style.width = '250px';
+  document.getElementById('mySidenav').style.width = '15.6rem';
 };
 
 const NavMenu = ({
