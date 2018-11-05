@@ -61,13 +61,7 @@ class DashBoardView(APIView):
     authentication_classes = (AllowAny,)
 
     def get(self, request):
-        if dotenv.get('NODE_ENV') == 'development':
-            return Response('welcome to Andela social API')
-        return render(
-            request,
-            'index.html',
-            {'environment': dotenv.get('NODE_ENV')}
-        )
+        return Response('welcome to Andela social API')
 
 
 class CategoryListView(BaseListAPIView):
