@@ -241,11 +241,12 @@ class EventDetailsPage extends React.Component {
     );
   }
 }
+
 EventDetailsPage.propTypes = {
   match: PropTypes.shape({ params: PropTypes.shape({ eventId: PropTypes.string }) }),
   getEventAction: PropTypes.func,
   deactivateEventAction: PropTypes.func,
-  history: PropTypes.shape({ push: PropTypes.string.isRequired }),
+  history: PropTypes.shape({ push: PropTypes.func.isRequired }),
   events: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.object),
     PropTypes.shape({}),
@@ -265,19 +266,22 @@ EventDetailsPage.propTypes = {
   }),
   activeUser: PropTypes.shape({ id: PropTypes.string }),
 };
+
 EventDetailsPage.defaultProps = {
   match: {},
   event: [],
   events: [],
   activeUser: { id: '' },
-  history: { push: '' },
+  history: { push: () => null },
   getEventAction: () => null,
   deactivateEventAction: () => null,
 };
+
 const mapDispatchToProps = dispatch => bindActionCreators({
   getEventAction: getEvent,
   deactivateEventAction: deactivateEvent,
 }, dispatch);
+
 const mapStateToProps = (state) => {
   return {
     event: state.event,
