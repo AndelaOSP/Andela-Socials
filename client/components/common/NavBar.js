@@ -48,21 +48,6 @@ const NavBar = (props) => {
               {LogoReplacement}
             </button>
           </div>
-          {/* Supposed to be a navbar */}
-          {/* <button
-            type="button"
-            className="navbar-toggle collapsed"
-            onClick={openNav}
-            data-toggle="collapse"
-            data-target="#nav-bar"
-            aria-expanded="false"
-            aria-controls="navbar"
-          >
-            <span className="sr-only">Toggle navigation</span>
-            <span className="icon-bar" />
-            <span className="icon-bar" />
-            <span className="icon-bar" />
-          </button> */}
           <Link to="/home" className="navbar-brand">
             {LogoReplacement}
           </Link>
