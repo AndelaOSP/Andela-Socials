@@ -53,7 +53,6 @@
   border: 0;
   @include mobile('766px') {
     display: flex;
-    justify-content: flex-end;
   }
   .navbar-brand {
     height: rem(70px);
@@ -86,17 +85,25 @@
   justify-content: flex-end;
   padding: 0;
   height: rem(70px);
+  @include mobile('600px') {
+    width: 100%;
+  }
   &__item {
+    padding-left: 3%;
     @include mobile('600px') {
       display: none;
     }
   }
   &__search {
     z-index: 1;
+    @include mobile('600px') {
+      padding-right: 5%;
+    }
   }
   .nav-profile {
     min-width: rem(183.5px);
     margin: 0;
+    padding-right: 12%;
     &__list-menus {
       @include column-flex;
       align-items: center;
@@ -145,11 +152,9 @@
     }
     &__button {
       box-shadow: none;
-      margin-right: rem(26px);
     }
   }
   .notification-container {
-    padding: 0 2.375rem 0 3rem;
     &__button {
       margin: 0;
       padding: 0;
@@ -221,15 +226,24 @@
     padding: 0;
     margin: 0;
     justify-content: center;
+    @include mobile('640px') {
+      width: 14rem;
+    }
     .form-group {
       @include flex;
       align-items: center;
+      @include mobile('640px') {
+        width: 100%;
+      }
     }
     &__input {
       border: 0;
       width: 15rem;
       box-shadow: none;
       background: transparent;
+      @include mobile('640px') {
+        width: 85%;
+      }
     }
   }
 }
