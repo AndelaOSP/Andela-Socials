@@ -10,7 +10,14 @@ class DeleteForm extends Component {
   handleDelete() {
     // To be implemented in next PR
     const { eventId } = this.props;
-    const { deleteEvent } = this.props;
+    const {
+      deleteEvent,
+      dismiss,
+      back,
+    } = this.props;
+    deleteEvent(eventId);
+    back();
+    dismiss();
   }
 
   render() {
@@ -33,6 +40,8 @@ DeleteForm.propTypes = {
   formText: PropTypes.string,
   eventId: PropTypes.string.isRequired,
   deleteEvent: PropTypes.func.isRequired,
+  dismiss: PropTypes.func.isRequired,
+  back: PropTypes.func.isRequired,
 };
 
 export default DeleteForm;

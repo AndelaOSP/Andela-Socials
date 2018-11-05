@@ -51,13 +51,7 @@ export const events = (state = initialState.events, action) => {
     }
 
     case DEACTIVATE_EVENT: {
-      const deactivateEvent = {
-        eventsList: {
-          edges: state.events.eventsList.edges.filter(item => item.node.id !== action.payload.id),
-          pageInfo: state.events.eventsList.pageInfo,
-        },
-      };
-      return Object.assign({}, state, { events: deactivateEvent });
+      return state.filter(item => item.node.id !== action.payload.id);
     }
 
     case SIGN_OUT:

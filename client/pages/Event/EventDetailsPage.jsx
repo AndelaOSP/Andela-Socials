@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import durationConverter from '../../utils/durationConverter';
-import { getEvent } from '../../actions/graphql/eventGQLActions';
+import { getEvent, deactivateEvent } from '../../actions/graphql/eventGQLActions';
 import NotFound from '../../components/common/NotFound';
 
 // stylesheet
@@ -25,6 +25,7 @@ class EventDetailsPage extends React.Component {
       events,
       updated: false,
     };
+    this.handleBack = this.handleBack.bind(this);
   }
 
   /**
@@ -144,6 +145,11 @@ class EventDetailsPage extends React.Component {
     );
   };
 
+  handleBack() {
+    const { history: { push } } = this.props;
+    push('/dashboard');
+  }
+
   loadEvent() {
     const { match: { params: { eventId } } } = this.props;
     const { getEventAction } = this.props;
@@ -194,6 +200,7 @@ class EventDetailsPage extends React.Component {
               title,
               id,
             },
+            deactivateEventAction,
           } = this.props;
           if (activeModal) return null;
           return (
@@ -204,6 +211,8 @@ class EventDetailsPage extends React.Component {
                   formText: `Are you sure you want to delete the Event '${title}' ?`,
                   eventId: id,
                   formId: 'delete-event-form',
+                  deleteEvent: deactivateEventAction,
+                  back: this.handleBack,
                 }
               )}
               className="event-details__delete">
@@ -235,6 +244,8 @@ class EventDetailsPage extends React.Component {
 EventDetailsPage.propTypes = {
   match: PropTypes.shape({ params: PropTypes.shape({ eventId: PropTypes.string }) }),
   getEventAction: PropTypes.func,
+  deactivateEventAction: PropTypes.func,
+  history: PropTypes.shape({ push: PropTypes.string.isRequired }),
   events: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.object),
     PropTypes.shape({}),
@@ -259,9 +270,14 @@ EventDetailsPage.defaultProps = {
   event: [],
   events: [],
   activeUser: { id: '' },
+  history: { push: '' },
   getEventAction: () => null,
+  deactivateEventAction: () => null,
 };
-const mapDispatchToProps = dispatch => bindActionCreators({ getEventAction: getEvent }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({
+  getEventAction: getEvent,
+  deactivateEventAction: deactivateEvent,
+}, dispatch);
 const mapStateToProps = (state) => {
   return {
     event: state.event,

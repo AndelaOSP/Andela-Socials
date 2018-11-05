@@ -103,11 +103,14 @@ export const updateEvent = ({
   .catch(error => handleError(error, dispatch));
 
 export const deactivateEvent = (eventId, clientMutationId = '') => dispatch => Client.mutate(DEACTIVATE_EVENT_GQL(eventId, clientMutationId))
-  .then(() => dispatch({
-    type: DEACTIVATE_EVENT,
-    payload: { id: eventId },
-  }))
-  .catch(error => console.log(`received error ${error}`));
+  .then((data) => {
+    handleInformation(data.data.deactivateEvent.actionMessage);
+    dispatch({
+      type: DEACTIVATE_EVENT,
+      payload: { id: eventId },
+    });
+  })
+  .catch(error => handleError(error, dispatch));
 
 export const searchEvents = ({
   after = '', first = 9, title,
