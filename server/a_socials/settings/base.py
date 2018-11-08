@@ -220,3 +220,5 @@ GOOGLE_OAUTH2_STORAGE_MODEL = {
     'user_property': 'user_id',
     'credentials_property': 'credential'
 }
+
+FRONTEND_BASE_URL = dotenv.get('FRONTEND_BASE_URL')
