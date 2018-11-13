@@ -1,24 +1,25 @@
 import gql from 'graphql-tag';
 
-const ATTEND_EVENT_GQL = (eventId, clientMutationId = '') => ({
+const ATTEND_EVENT_GQL = (eventId, clientMutationId = '', status = 'attending') => ({
   mutation: gql`
-    mutation($input: AttendSocialEventInput!){
+    mutation($input: AttendEventInput!){
       attendEvent(input: $input){
         newAttendance{
           id
           createdAt
           updatedAt
+          status
           event{
             createdAt
             updatedAt
             id
-            time
             title
             description
             venue
-            date
+            startDate
+            endDate
             featuredImage
-            active
+            active          
           }
         }
         clientMutationId
@@ -28,6 +29,7 @@ const ATTEND_EVENT_GQL = (eventId, clientMutationId = '') => ({
     input: {
       eventId,
       clientMutationId,
+      status,
     },
   },
 });

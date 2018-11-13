@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 import durationConverter from '../../utils/durationConverter';
 import { getEvent, deactivateEvent } from '../../actions/graphql/eventGQLActions';
+import { attendEvent } from '../../actions/graphql/attendGQLActions';
 import NotFound from '../../components/common/NotFound';
 
 // stylesheet
@@ -26,6 +27,7 @@ class EventDetailsPage extends React.Component {
       updated: false,
     };
     this.handleBack = this.handleBack.bind(this);
+    this.rsvpEvent = this.rsvpEvent.bind(this);
   }
 
   /**
@@ -80,7 +82,7 @@ class EventDetailsPage extends React.Component {
               {this.renderCreateEventButton(eventData)}
               {this.renderDeleteEventButton()}
             </div>
-            : <button type="submit" className="event-details__rsvp_button">
+            : <button type="button" onClick={this.rsvpEvent} className="event-details__rsvp_button">
               {' '}
               RSVP &#10004;
             </button>
@@ -113,7 +115,7 @@ class EventDetailsPage extends React.Component {
     } = this.props;
     const users = edges.length > 0
       ? edges.map(
-        object => (object.node.user.googleId === id ? 'You' : `@${object.node.user.slackId} ,`)
+        object => (object.node.user.googleId === id ? 'You,' : `@${object.node.user.slackId}, `)
       )
       : 'No one';
     return (
@@ -154,6 +156,14 @@ class EventDetailsPage extends React.Component {
     const { match: { params: { eventId } } } = this.props;
     const { getEventAction } = this.props;
     getEventAction(eventId);
+  }
+
+  rsvpEvent() {
+    const {
+      attendEventAction,
+      event: { id },
+    } = this.props;
+    attendEventAction(id);
   }
 
   renderCreateEventButton = eventData => (
@@ -246,6 +256,7 @@ EventDetailsPage.propTypes = {
   match: PropTypes.shape({ params: PropTypes.shape({ eventId: PropTypes.string }) }),
   getEventAction: PropTypes.func,
   deactivateEventAction: PropTypes.func,
+  attendEventAction: PropTypes.func,
   history: PropTypes.shape({ push: PropTypes.func.isRequired }),
   events: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.object),
@@ -275,11 +286,13 @@ EventDetailsPage.defaultProps = {
   history: { push: () => null },
   getEventAction: () => null,
   deactivateEventAction: () => null,
+  attendEventAction: () => null,
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   getEventAction: getEvent,
   deactivateEventAction: deactivateEvent,
+  attendEventAction: attendEvent,
 }, dispatch);
 
 const mapStateToProps = (state) => {

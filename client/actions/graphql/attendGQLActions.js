@@ -5,7 +5,7 @@ import SUBSCRIBED_EVENTS_GQL from '../../Graphql/Queries/SubscribedEventsGQL';
 
 import { ATTEND_EVENT, UNATTEND_EVENT, SUBSCRIBED_EVENTS, GET_ATTENDEES, GET_EVENT_ATTENDENCE } from '../constants';
 
-import { handleError } from '../../utils/errorHandler';
+import { handleError, handleInformation } from '../../utils/errorHandler';
 import Client from '../../client';
 
 
@@ -31,7 +31,15 @@ export const getSubscribedEvents = () => dispatch => Client.query(
 
 export const attendEvent = (eventId, clientMutationId = '') => dispatch => Client.mutate(
   ATTEND_EVENT_GQL(eventId, clientMutationId)
-).then(data => dispatch({ type: ATTEND_EVENT, payload: data.data, error: false, }))
+).then((data) => {
+  const { attendEvent: { newAttendance } } = data.data;
+  handleInformation(`'${newAttendance.status} action' was successful`);
+  dispatch({
+    type: ATTEND_EVENT,
+    payload: data.data,
+    error: false,
+  });
+})
 .catch(error => handleError(error, dispatch));
 
 export const unAttendEvent = (eventId, clientMutationId = '') => dispatch => Client.mutate(
