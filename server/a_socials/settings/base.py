@@ -14,8 +14,6 @@ import os
 import dotenv
 import sys
 
-
-from datetime import timedelta
 from corsheaders.defaults import default_headers
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -197,8 +195,8 @@ REST_FRAMEWORK = {
 CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ALLOW_HEADERS = default_headers + (
-  'Authorization',
-  'Token'
+    'Authorization',
+    'Token'
 )
 
 EMAIL_HOST = dotenv.get('EMAIL_HOST')

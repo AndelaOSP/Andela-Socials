@@ -1,6 +1,5 @@
 import logging
 
-from graphql_relay import to_global_id
 from api.models import Category
 from .base import BaseCategoryTestCase
 

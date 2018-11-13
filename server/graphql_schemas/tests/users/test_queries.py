@@ -6,6 +6,7 @@ class QueryAndelaUserTestCase(BaseUserTestCase):
     """
     Test queries on events endpoint
     """
+
     def test_query_users_list(self):
         query = '''
         query {
@@ -23,7 +24,6 @@ class QueryAndelaUserTestCase(BaseUserTestCase):
         self.request.user = self.user1
         result = self.client.execute(query, context_value=self.request)
         self.assertMatchSnapshot(result)
-
 
     def test_query_users_by_id(self):
         query = f'''

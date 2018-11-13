@@ -1,5 +1,3 @@
-import rest_framework
-
 from graphene_django.views import GraphQLView
 from rest_framework.decorators import authentication_classes, permission_classes, api_view
 from rest_framework.settings import api_settings

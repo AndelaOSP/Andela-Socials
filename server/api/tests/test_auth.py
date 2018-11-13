@@ -19,14 +19,14 @@ def generate_token(payload):
 class AndelaTokenAuthenticationTestCase(TestCase):
 
     payload = dict(
-      UserInfo=dict(
-        id='-FFGHtid',
-        email='test.test@andela.com',
-        first_name='test',
-        last_name='test',
-        picture='https://test.pictuegvbjkjnj',
-      ),
-      aud='andela.com'
+        UserInfo=dict(
+            id='-FFGHtid',
+            email='test.test@andela.com',
+            first_name='test',
+            last_name='test',
+            picture='https://test.pictuegvbjkjnj',
+        ),
+        aud='andela.com'
     )
 
     def setUp(self):

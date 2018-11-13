@@ -5,7 +5,6 @@ from graphql_relay import from_global_id
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
 from django.core.exceptions import ObjectDoesNotExist
-from graphql import GraphQLError
 
 
 from api.models import Attend, Event, AndelaUserProfile

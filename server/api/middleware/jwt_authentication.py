@@ -12,7 +12,7 @@ def jwt_authentication_middleware(get_response):
             user = user_jwt[0]
             andela_user_profile = AndelaUserProfile.objects.get(user=user)
             request.user = andela_user_profile
-        except Exception as e:
+        except Exception:
             pass
 
         return get_response(request)

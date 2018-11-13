@@ -1,25 +1,15 @@
 import json
 import dotenv
 from django.http import Http404, HttpResponseForbidden
-from django import http
-from django.views.generic.base import TemplateView, View
-from django.http import HttpResponse, HttpResponseRedirect
-from django.core.urlresolvers import reverse_lazy
-from django.contrib.auth.models import User
-from django.urls import reverse
-from django.contrib.auth import login
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
 from django.shortcuts import render
-from rest_framework import status
-from rest_framework import filters
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework.generics import GenericAPIView, ListAPIView, CreateAPIView
 from rest_framework.views import APIView
-from rest_framework_jwt.settings import api_settings
 
 from .serializers import CategorySerializer, EventSerializer,\
     AttendanceSerializer, EventDetailSerializer, InterestSerializer
@@ -27,7 +17,6 @@ from .models import Category, Interest, Event, Attend, AndelaUserProfile
 from .utils.oauth_helper import save_credentials
 
 from .setpagination import LimitOffsetpage
-from .slack import get_slack_id, notify_channel, notify_user
 
 
 class LoginRequiredMixin(object):

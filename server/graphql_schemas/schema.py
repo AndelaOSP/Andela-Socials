@@ -11,24 +11,24 @@ from .image.schema import ImageMutation
 
 
 class Query(
-  CategoryQuery,
-  InterestQuery,
-  EventQuery,
-  AttendQuery,
-  AndelaUserQuery,
-  graphene.ObjectType
+    CategoryQuery,
+    InterestQuery,
+    EventQuery,
+    AttendQuery,
+    AndelaUserQuery,
+    graphene.ObjectType
 ):
     debug = graphene.Field(DjangoDebug, name='__debug')
 
 
 class Mutation(
-  EventMutation,
-  InterestMutation,
-  AttendMutation,
-  CategoryMutation,
-  ImageMutation,
-  graphene.ObjectType
-  ):
+    EventMutation,
+    InterestMutation,
+    AttendMutation,
+    CategoryMutation,
+    ImageMutation,
+    graphene.ObjectType
+):
     debug = graphene.Field(DjangoDebug, name='__debug')
 
 

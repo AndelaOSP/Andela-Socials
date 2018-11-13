@@ -14,6 +14,7 @@ class CategoryUserAdmin(admin.ModelAdmin):
         }),
     )
 
+
 admin.site.register(Category, CategoryUserAdmin)
 admin.site.register(Interest)
 admin.site.register(Event)

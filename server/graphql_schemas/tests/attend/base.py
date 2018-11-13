@@ -1,5 +1,5 @@
 from django.test import RequestFactory
-from api.models import AndelaUserProfile, Category, Event, UserProxy, Attend,\
+from api.models import AndelaUserProfile, Category, Event, Attend,\
     Interest
 from graphene.test import Client
 from snapshottest.django import TestCase
@@ -8,6 +8,7 @@ from graphql_schemas.schema import schema
 from django.utils import timezone
 
 from ..events.base import create_user
+
 
 def create_interest(user, category):
     interest = Interest.objects.create(

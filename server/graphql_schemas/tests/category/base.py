@@ -8,7 +8,7 @@ from graphql_schemas.schema import schema
 
 class BaseCategoryTestCase(TestCase):
     def setUp(self):
-        for index in range(1,6):
+        for index in range(1, 6):
             self.category = Category.objects.create(
                 name="Swimming Meetup {}".format(index),
                 description="For people who want to be happy.",

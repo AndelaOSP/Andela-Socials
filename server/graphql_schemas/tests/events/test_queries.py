@@ -26,7 +26,7 @@ class QueryEventTestCase(BaseEventTestCase):
         client = self.client
         request.user = self.admin.user
         self.assertMatchSnapshot(client.execute(query,
-                                 context_value=request))
+                                                context_value=request))
 
     def test_query_single_event(self):
         query = """
@@ -35,7 +35,7 @@ class QueryEventTestCase(BaseEventTestCase):
                 id
                 description
                 title
-                active 
+                active
             }
         }
         """
@@ -43,7 +43,7 @@ class QueryEventTestCase(BaseEventTestCase):
         client = self.client
         request.user = self.admin.user
         self.assertMatchSnapshot(client.execute(query,
-                                 context_value=request))
+                                                context_value=request))
 
     def test_get_event_list(self):
         query = """
@@ -58,10 +58,10 @@ class QueryEventTestCase(BaseEventTestCase):
                 venue
                 socialEvent    {
                 id
-                name			
+                name
                             }
                         }
-                cursor		
+                cursor
                     }
                 }
             }"""
@@ -84,10 +84,10 @@ class QueryEventTestCase(BaseEventTestCase):
                 venue
                 socialEvent    {
                 id
-                name			
+                name
                             }
                         }
-                cursor		
+                cursor
                     }
                 }
             }"""
@@ -110,10 +110,10 @@ class QueryEventTestCase(BaseEventTestCase):
                 venue
                 socialEvent    {
                 id
-                name			
+                name
                             }
                         }
-                cursor		
+                cursor
                     }
                 }
             }"""

@@ -1,5 +1,4 @@
 import os
-import uuid
 import datetime
 import pytz
 import dateutil.parser as parser

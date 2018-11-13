@@ -36,7 +36,7 @@ def create_user(userId, calendar_authorized=False):
     if calendar_authorized:
         credentials = Credentials({
             'token': 'some weird unique string {}'.format(userId)
-            })
+        })
         credentials.expiry = None
         google_object['credential'] = credentials
 
@@ -79,10 +79,10 @@ def create_event(event_creator, category, active=True, id=5):
 
 def create_category():
     category = Category.objects.create(
-                    name="social event",
-                    featured_image="featured_image",
-                    description="a test description"
-            )
+        name="social event",
+        featured_image="featured_image",
+        description="a test description"
+    )
     return category
 
 

@@ -1,7 +1,6 @@
 import logging
 import mock
 from graphql_relay import to_global_id
-from django.utils import timezone
 
 from .base import BaseEventTestCase
 from ..events.base import create_user

@@ -1,5 +1,3 @@
-import graphene
-
 from graphene import relay
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType

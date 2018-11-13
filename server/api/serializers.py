@@ -30,8 +30,10 @@ class EventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Event
-        fields = ('id', 'title', 'description', 'venue', 'date', 'time', 'social_event', 'creator', 'featured_image',
-                  'created_at', 'attendees_count')
+        fields = ('id', 'title', 'description', 'venue', 'date', 'time',
+                  'social_event', 'creator', 'featured_image', 'created_at',
+                  'attendees_count'
+                  )
 
 
 class AttendanceSerializer(serializers.ModelSerializer):
@@ -51,8 +53,10 @@ class EventDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Event
-        fields = ('id', 'title', 'description', 'venue', 'date', 'time', 'social_event', 'creator', 'featured_image',
-                  'created_at', 'attendees')
+        fields = ('id', 'title', 'description', 'venue', 'date', 'time',
+                  'social_event', 'creator', 'featured_image', 'created_at',
+                  'attendees'
+                  )
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -62,7 +66,9 @@ class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ('id', 'name', 'members_count', 'featured_image', 'description', 'events')
+        fields = ('id', 'name', 'members_count', 'featured_image',
+                  'description', 'events'
+                  )
 
 
 class InterestSerializer(serializers.ModelSerializer):

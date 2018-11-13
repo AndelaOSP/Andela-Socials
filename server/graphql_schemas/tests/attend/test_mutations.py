@@ -1,7 +1,7 @@
 import logging
 
 from graphql_relay import to_global_id
-from api.models import Attend, User
+from api.models import User
 from .base import BaseEventTestCase
 
 logging.disable(logging.ERROR)

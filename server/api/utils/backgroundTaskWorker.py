@@ -20,7 +20,6 @@ class BackgroundTaskWorker:
 
     @classmethod
     def start_work(cls, asyn_function, args):
-
         """This function helps to run an unpredictable function in the background.
 
         it uses an event loop as central executor.
@@ -36,7 +35,6 @@ class BackgroundTaskWorker:
 
     @classmethod
     def run_task(cls, asyn_function, args):
-
         """This function creates a future task which runs in background
         until completion
 
