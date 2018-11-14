@@ -178,7 +178,10 @@ class Dashboard extends Component {
     }
 
     if (isTokenExpired() || !isLoggedIn()) {
-      return <Redirect to="/login" />;
+      return <Redirect to={{
+        pathname: '/login',
+        state: {"previousLocation": window.location.href}
+      }} />;
     }
 
     if (search === '?error=failed+to+create+user+token') {

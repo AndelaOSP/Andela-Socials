@@ -19,7 +19,8 @@ dotenv.config();
  * @memberof LoginPage
  */
 const Login = (props) => {
-  const redirectUrl = `${process.env.ANDELA_API_BASE_URL}/login?redirect_url=${process.env.FRONTEND_BASE_URL}`;
+  const previousLocation = props.location.state ? props.location.state.previousLocation : null
+  const redirectUrl = `${process.env.ANDELA_API_BASE_URL}/login?redirect_url=${previousLocation ? previousLocation : process.env.FRONTEND_BASE_URL}`;
   if (isLoggedIn()) {
     return (<Redirect to="/events" />);
   }
