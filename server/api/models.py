@@ -249,7 +249,9 @@ class Attend(BaseInfo):
         (PEN, 'pending'),
     )
     user = models.ForeignKey(AndelaUserProfile, on_delete=models.CASCADE)
-    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event,
+                              on_delete=models.CASCADE,
+                              related_name="attendSet")
     status = models.CharField(max_length=20, choices=STATUSCHOICE, default=PEN)
 
     class Meta:

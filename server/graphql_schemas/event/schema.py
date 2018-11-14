@@ -25,6 +25,8 @@ from api.slack import get_slack_id, notify_user
 
 from api.utils.backgroundTaskWorker import BackgroundTaskWorker
 
+from ..attend.schema import AttendNode
+
 logging.basicConfig(
     filename='warning.log',
     level=logging.DEBUG,
@@ -33,6 +35,11 @@ logging.basicConfig(
 
 
 class EventNode(DjangoObjectType):
+    attendSet = AttendNode()
+
+    def resolve_attendSet(self, info, **kwargs):
+        return self.attendSet.filter(status="attending")
+
     class Meta:
         model = Event
         filter_fields = {'start_date': ['exact', 'istartswith'],
