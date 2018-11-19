@@ -33,12 +33,12 @@ export const attendEvent = (eventId, clientMutationId = '') => dispatch => Clien
   ATTEND_EVENT_GQL(eventId, clientMutationId)
 ).then((data) => {
   const { attendEvent: { newAttendance } } = data.data;
-  handleInformation(`'${newAttendance.status} action' was successful`);
   dispatch({
     type: ATTEND_EVENT,
     payload: data.data,
     error: false,
   });
+  handleInformation(`'${newAttendance.status} action' was successful`);
 })
 .catch(error => handleError(error, dispatch));
 
