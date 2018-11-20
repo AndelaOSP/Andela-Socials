@@ -7,7 +7,6 @@ from django.forms.models import model_to_dict
 from django.core.mail import EmailMessage
 from django.core.exceptions import ObjectDoesNotExist
 from django.template.loader import get_template
-from django.conf import settings
 from django.utils import timezone
 from graphene import relay, ObjectType
 from graphql_relay import from_global_id
@@ -20,6 +19,7 @@ from graphql_schemas.utils.helpers import (is_not_admin,
                                            send_calendar_invites,
                                            raise_calendar_error,
                                            not_valid_timezone)
+from graphql_schemas.utils.hasher import Hasher
 from api.models import Event, Category, AndelaUserProfile, \
     Interest, Attend
 from api.slack import get_slack_id, notify_user
@@ -244,7 +244,10 @@ class SendEventInvite(relay.ClientIDMutation):
             raise GraphQLError(
                 "User cannot invite self")
 
-        invite_url = f"{settings.FRONTEND_BASE_URL}/{event_id}"
+        invite_hash = Hasher.gen_hash([
+            event.id, receiver.user.id, sender.user.id])
+        invite_url = info.context.build_absolute_uri(
+            f"/invite/{invite_hash}")
         data_values = {
             'title': event.title,
             'imgUrl': event.featured_image,
@@ -265,6 +268,48 @@ class SendEventInvite(relay.ClientIDMutation):
             return cls(message="Event invite delivered")
         else:
             raise GraphQLError("Event invite not delivered")
+
+
+class ValidateEventInvite(relay.ClientIDMutation):
+    isValid = graphene.Boolean()
+    event = graphene.Field(EventNode)
+    message = graphene.String()
+
+    class Input:
+        hash_string = graphene.String(required=True)
+
+    @classmethod
+    def mutate_and_get_payload(cls, root, info, **input):
+        hash_string = input.get('hash_string')
+        user_id = info.context.user.id
+        try:
+            data = Hasher.reverse_hash(hash_string)
+            if not data or len(data) != 3:
+                raise GraphQLError("Bad Request: Invalid invite URL")
+            event_id, receiver_id, sender_id = data
+            assert user_id == receiver_id
+            event = Event.objects.get(id=event_id)
+            if timezone.now() > parse(event.end_date):
+                raise GraphQLError("Expired Invite: Event has ended")
+            AndelaUserProfile.objects.get(user_id=sender_id)
+            return cls(
+                isValid=True, event=event,
+                message="OK: Event invite is valid")
+        except AssertionError:
+            return cls(
+                isValid=False,
+                message="Forbidden: Unauthorized access"
+            )
+        except ObjectDoesNotExist:
+            return cls(
+                isValid=False,
+                message="Not Found: Invalid event/user in invite"
+            )
+        except GraphQLError as err:
+            return cls(
+                isValid=False,
+                message=str(err)
+            )
 
 
 class EventQuery(object):
@@ -290,3 +335,4 @@ class EventMutation(ObjectType):
     deactivate_event = DeactivateEvent.Field()
     send_event_invite = SendEventInvite.Field()
     update_event = UpdateEvent.Field()
+    validate_event_invite = ValidateEventInvite.Field()
