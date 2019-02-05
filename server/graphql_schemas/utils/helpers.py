@@ -66,7 +66,8 @@ async def send_calendar_invites(andela_user, event):
          :param event:
     """
     invitees = Interest.objects.filter(follower_category=event.social_event)
-    invitee_list = [{'email': invitee.email} for invitee in invitees]
+    invitee_list = [{'email': invitee.follower.user.email}
+                    for invitee in invitees]
     payload = build_event(event, invitee_list)
 
     calendar = build('calendar', 'v3', credentials=andela_user.credential)
