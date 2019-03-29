@@ -86,9 +86,8 @@ workflows:
                     branches:
                         only:
                             - master
-                            - develop
                             - /release\/v[0-9].[0-9].[0-9]/
-                            - fix-staging
+                            - staging
 
             - deployFrontend:
                 requires:
@@ -97,6 +96,5 @@ workflows:
                     branches:
                         only:
                             - master
-                            - develop
                             - /release\/v[0-9].[0-9].[0-9]/
-                            - fix-staging
+                            - staging
