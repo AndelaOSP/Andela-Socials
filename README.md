@@ -148,6 +148,21 @@ For the production application, [Nginx](https://www.nginx.com/resources/glossary
 
 Please note that you only need to build the dockerized application once. Subsequently, run `make start` to start the application.
 
+
+### Ngrok
+
+This service only runs when using docker in production mode locally **NB**: **Configured to use frontend only**.
+```
+Reference:
+	https://ngrok.com/product
+	https://ngrok.com/docs
+```
+Once you have docker running locally for prod, navigate to Ngrok dashboard
+```
+http://localhost:4040/status
+``` 
+to get the public URL. e.g. `https://05473cbc.ngrok.io` 
+
 ### UI MOCK
 
 The UI mock for the project is available [here](https://www.figma.com/file/Yn3JRZ3YLBVSg4o8L9dhIAv2/Andela_Socials)
