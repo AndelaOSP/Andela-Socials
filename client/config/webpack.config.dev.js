@@ -40,7 +40,6 @@ module.exports = merge(webpackCommonConfig, {
         secure: false,
       },
     },
-    clientLogLevel: 'none',
     hot: true,
     inline: true,
     historyApiFallback: true,

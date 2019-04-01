@@ -3,6 +3,7 @@ version: '3'
 volumes:
   postgres_data: {}
   postgres_backup: {}
+  a_socials_node_modules:
 
 services:
   database:
@@ -42,3 +43,6 @@ services:
       - server
     ports:
       - "9000:9000"
+    volumes:
+      - ../../client:/andela_social
+      - a_socials_node_modules:/andela_social/node_modules
