@@ -160,7 +160,7 @@
   --bg-color: #f9f9f9;
   --neutral-color: #fff;
   --calender-header-color: #DEDEDE;
-  --calender-selected-backgroung: #3359DB;
+  --calendar-selected-background: #3359DB;
 }
 
 main {
@@ -216,7 +216,7 @@ main {
       cursor: pointer;
       transition: 0.25s ease-out;
       &:hover {
-        background: var(--calender-selected-backgroung);
+        background: var(--calendar-selected-background);
         color: var(--neutral-color);
         transition: 0.5s ease-out;
         border-radius: 50%;
@@ -225,7 +225,7 @@ main {
     .selected {
       border-radius: 50%;
       color: var(--neutral-color);
-      background: var(--calender-selected-backgroung);
+      background: var(--calendar-selected-background);
     }
     .row {
       border-bottom: 1px solid var(--border-color);
@@ -357,14 +357,25 @@ main {
 }
 
 .cd-list {
+  max-height: 168px;
+  overflow: scroll;
   background: white;
   list-style: none;
   margin-top: 33px;
-  padding: 5px 0 5px 5px;
+  padding: 5px 0;
   border: 1px solid #DEDEDE;
   position: absolute;
   z-index: 20;
   width: 100%;
+}
+
+.cd-list__item {
+  padding-left: 5px;
+}
+
+.cd-list__item:hover {
+  color: var(--neutral-color);
+  background-color: var(--calendar-selected-background);
 }
 
 .event-button {
@@ -382,7 +393,7 @@ main {
   padding: .625rem;
   border: .0625rem solid #e9eff4;
   outline: none;
-  border-radius: .625rem;  
+  border-radius: .625rem;
   width: 90%;
 }
 
@@ -421,7 +432,7 @@ main {
 
 .cf{
   zoom:1;
-}    
+}
 /* Form wrapper styling */
 .time-picker-wrapper {
   height: 1.9rem;
@@ -433,9 +444,9 @@ main {
 
 .time-picker-wrapper input {
   width: 70%;
-  float: left;   
+  float: left;
   border: 0;
-  background: #fff;  
+  background: #fff;
 }
 
 .time-picker-wrapperinput:focus {
@@ -460,7 +471,7 @@ main {
   color: #999;
   font-weight: normal;
   font-style: italic;
-}   
+}
 
 /* Form submit button */
 .time-picker-wrapper #idiv {
@@ -475,12 +486,12 @@ main {
   font-family: 'Material Icons', Helvetica;
   height: 100%;
 
-}  
+}
 
 
-.time-picker-wrapper #idiv:hover{    
+.time-picker-wrapper #idiv:hover{
 
-}  
+}
 
 
 .time-picker-header{
@@ -493,7 +504,7 @@ main {
 }
 
 .time-picker-wrapper #idiv:active,
-.time-picker-wrapper #idiv:focus{  
+.time-picker-wrapper #idiv:focus{
 
 }
 
@@ -510,12 +521,12 @@ main {
 .time-picker-wrapper #idiv:focus:before,
 .time-picker-wrapper #idiv:active:before{
   border-right-color: #c42f2f;
-}     
+}
 
 .time-picker-wrapper #idiv::-moz-focus-inner { /* remove extra button spacing for Mozilla Firefox */
   border: 0;
   padding: 0;
-} 
+}
 
 .date-time-picker-wrapper {
   display: flex;
@@ -527,7 +538,7 @@ main {
   margin-left: 60%;
 }
 
-.time-left { 
+.time-left {
   float: left;
 }
 
@@ -547,7 +558,7 @@ main {
   font-size: 0.9375rem;
   color: #303030;
   font-weight: 400;
-  text-transform: capitalize;  
+  text-transform: capitalize;
 }
 
 .category-error {

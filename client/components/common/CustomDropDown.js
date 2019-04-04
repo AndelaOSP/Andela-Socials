@@ -60,7 +60,7 @@ class CustomDropDown extends Component {
        {listOpen && <ul className="cd-list">
          {list.map(item => (
            <li
-            className="dd-list-item"
+            className="cd-list__item"
             onClick={(event) => this.selectedItem(event, item)}
             key={item.id}
             >
