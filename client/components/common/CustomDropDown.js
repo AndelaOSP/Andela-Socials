@@ -14,19 +14,8 @@ class CustomDropDown extends Component {
     this.state = {
       listOpen: false,
       headerTitle: this.props.title,
-      updated: false,
     };
     this.selectedItem = this.selectedItem.bind(this);
-  }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (prevState.updated === false && prevState.headerTitle !== nextProps.title) {
-      return {
-        headerTitle: nextProps.title,
-        updated: true,
-      };
-    }
-    return null;
   }
 
   handleClickOutside() {
@@ -37,7 +26,8 @@ class CustomDropDown extends Component {
     this.setState(prevState => ({ listOpen: !prevState.listOpen }));
   }
 
-  selectedItem(item) {
+  selectedItem(event, item) {
+    event.preventDefault();
     this.setState({
       headerTitle: item.title,
       listOpen: false,
@@ -68,7 +58,13 @@ class CustomDropDown extends Component {
       </div>
        {listOpen && <ul className="cd-list">
          {list.map(item => (
-           <li className="dd-list-item" onClick={() => this.selectedItem(item)} key={item.id} >{item.title}</li>
+           <li
+            className="dd-list-item"
+            onClick={(event) => this.selectedItem(event, item)}
+            key={item.id}
+            >
+              {item.title}
+            </li>
          ))}
         </ul>}
       </div>
