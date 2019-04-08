@@ -27,7 +27,7 @@ export const getEventsList = ({
 }) => dispatch => Client.query(EVENT_LIST_GQL(after, first, title, startDate, venue, category))
   .then(data => dispatch({
     type: after ? LOAD_MORE_EVENTS : GET_EVENTS,
-    payload: data.data.eventsList.edges,
+    payload: data.data.eventsList,
     error: false,
   }))
   .catch(error => handleError(error, dispatch));

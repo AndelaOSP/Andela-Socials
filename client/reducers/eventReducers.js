@@ -25,18 +25,22 @@ import initialState from './initialState';
 export const events = (state = initialState.events, action) => {
   switch (action.type) {
     case GET_EVENTS:
-      return [...action.payload];
+      const { edges, pageInfo } = action.payload;
+      return { eventList: edges, pageInfo };
+      
     case LOAD_MORE_EVENTS:
-      return [...state, ...action.payload];
+      const { eventList } = state;
+      const { edges: newEvents, pageInfo: newPageInfo } = action.payload;
+      return { eventList: [...eventList, ...newEvents], pageInfo: newPageInfo };
 
     case CREATE_EVENT: {
-      const newEvents = { node: action.payload.createEvent.newEvent };
-      return [...state, newEvents];
+      const newEvent = { node: action.payload.createEvent.newEvent };
+      return { ...state, eventList: [...(state.eventList), newEvent] };
     }
 
     case UPDATE_EVENT: {
-      const stateFormat = state.events || state;
-      const updated = stateFormat.map((item) => {
+      const stateFormat = state.eventList || state;
+      const updated = (stateFormat).map((item) => {
         let newItem = {};
         if (item.node.id === action.payload.updateEvent.updatedEvent.id) {
           newItem = { node: action.payload.updateEvent.updatedEvent };
@@ -44,14 +48,12 @@ export const events = (state = initialState.events, action) => {
         }
         return item;
       });
-      return {
-        events: updated,
-        status: 'updated',
-      };
+      return { ...state, eventList: [...updated], status: 'updated' };
     }
 
     case DEACTIVATE_EVENT: {
-      return state.filter(item => item.node.id !== action.payload.id);
+      const newEventList = state.eventList.filter(item => item.node.id !== action.payload.id);
+      return { ...state, eventList: [...newEventList] };
     }
 
     case SIGN_OUT:

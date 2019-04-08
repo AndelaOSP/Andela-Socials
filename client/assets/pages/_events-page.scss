@@ -4,6 +4,7 @@
   &__container {
     background-color: rgba(244, 248, 249, 1);
     display: grid;
+    height: 10rem;
     grid-template-columns: [full-start] rem(30px) [sidebar-start] rem(330px) [sidebar-end] rem(30px) [event-gallery-start] auto [event-gallery-end] rem(36px) [full-end];
     grid-template-rows: auto rem(147.69px);
     @include mobile('600px') {
@@ -26,15 +27,19 @@
     grid-row-gap: rem(30px);
     align-content: start;
     justify-content: flex-start;
+    padding-bottom: 1rem;
   }
   &__footer {
     grid-column: event-gallery-start/event-gallery-end;
     height: 100%;
     width: 100%;
-    margin-top: rem(29.69px);
     display: flex;
     justify-content: center;
     align-items: center;
+
+    &--hidden {
+      display: none;
+    }
   }
   &__load-more-button {
     width: 16vw;

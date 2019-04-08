@@ -47,13 +47,13 @@ class EventsPage extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const {
-      events, socialClubs,
+      events: { eventList, pageInfo: { hasNextPage } }, socialClubs,
     } = nextProps;
-
-    const eventLength = events.length;
-    const lastEventItemCursor = eventLength ? events[eventLength - 1].cursor : '';
+    const eventLength = eventList.length;
+    const lastEventItemCursor = eventLength ? eventList[eventLength - 1].cursor : '';
     this.setState({
-      eventList: events,
+      eventList,
+      hasNextPage,
       categoryList: socialClubs.socialClubs,
       lastEventItemCursor,
     });
@@ -154,7 +154,7 @@ class EventsPage extends React.Component {
   }
 
   render() {
-    const { categoryList } = this.state;
+    const { categoryList, hasNextPage } = this.state;
     const catList = Array.isArray(categoryList) ? categoryList.map(item => ({
       id: item.node.id,
       title: item.node.name,
@@ -168,7 +168,7 @@ class EventsPage extends React.Component {
           <Calendar dateSelected={this.getFilteredEvents} />
         </div>
         {this.renderEventGallery()}
-        <div className="event__footer">
+        <div className={`event__footer ${hasNextPage ? '' : 'event__footer--hidden'}`} >
           <button onClick={this.loadMoreEvents} type="button" className="btn-blue event__load-more-button">
             Load more
           </button>
