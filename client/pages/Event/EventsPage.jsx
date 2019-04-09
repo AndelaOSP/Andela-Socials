@@ -150,11 +150,15 @@ class EventsPage extends React.Component {
         {listOfEventCard}
       </div>);
     }
-    return <EventNotFound statusMessage="404" mainMessage="Events not found" />;
+    return (<EventNotFound
+              mainMessage="No events available at the moment"
+              subMessage="Click on the + button below to create an event"
+            />);
   }
 
   render() {
     const { categoryList } = this.state;
+    const { events } = this.props;
     const catList = Array.isArray(categoryList) ? categoryList.map(item => ({
       id: item.node.id,
       title: item.node.name,
@@ -168,11 +172,15 @@ class EventsPage extends React.Component {
           <Calendar dateSelected={this.getFilteredEvents} />
         </div>
         {this.renderEventGallery()}
-        <div className="event__footer">
-          <button onClick={this.loadMoreEvents} type="button" className="btn-blue event__load-more-button">
-            Load more
-          </button>
-        </div>
+        {
+          events.length > 0
+            ? (<div className="event__footer">
+                <button onClick={this.loadMoreEvents} type="button" className="btn-blue event__load-more-button">
+                  Load more
+                </button>
+              </div>)
+            : null
+        }
       </div>
     );
   }

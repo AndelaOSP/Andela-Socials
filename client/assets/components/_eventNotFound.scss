@@ -1,7 +1,6 @@
 .no-events {
   grid-column: event-gallery-start/event-gallery-end;
   &__container {
-    height: 100%;
     width: 100%;
     display: grid;
     justify-content: center;
@@ -9,6 +8,7 @@
     grid-template-columns: auto;
     grid-template-rows: repeat(3, auto);
     text-align: center;
+    margin-top: 20%;
     color: #365edb;
     font-family: inherit;
   }

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const EventNotFound = (props) => {
   const {
-    statusMessage, mainMessage,
+    statusMessage, mainMessage, subMessage,
   } = props;
   return (
 
@@ -16,6 +16,9 @@ const EventNotFound = (props) => {
         <h3 className="no-events__main-message">
           {mainMessage}
         </h3>
+        <p>
+          {subMessage}
+        </p>
       </div>
     </div>
   );
@@ -25,11 +28,13 @@ const EventNotFound = (props) => {
 EventNotFound.propTypes = {
   mainMessage: PropTypes.string,
   statusMessage: PropTypes.string,
+  subMessage: PropTypes.string,
 };
 
 EventNotFound.defaultProps = {
   mainMessage: '',
   statusMessage: '',
+  subMessage: '',
 };
 
 
