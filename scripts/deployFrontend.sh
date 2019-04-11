@@ -49,7 +49,7 @@ install_google_cloud_sdk(){
     echo "====> Installing google cloud sdk"
     echo "deb http://packages.cloud.google.com/apt cloud-sdk-jessie main" | sudo tee /etc/apt/sources.list.d/google-cloud-sdk.list
     curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-    sudo apt-get update && sudo apt-get install kubectl google-cloud-sdk
+    sudo apt-get update && sudo apt-get upgrade && sudo apt-get install google-cloud-sdk
     echo ">>>>>>>>>>>>>>>>. here"
 }
 
