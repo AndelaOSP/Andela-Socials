@@ -24,7 +24,7 @@ snapshots['MutateEventTestCase::test_create_event_with_calendar_unauthorizd 1'] 
     },
     'errors': [
         {
-            'AuthUrl': 'https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=1023621061664-1b7grp47bee4qu0k0a5114dvm1icl65k.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Fapi%2Fv1%2Foauthcallback&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar&state=7E9F5nsDZ5W1nhiyAxiYKN4Kugjhp0&prompt=consent&included_granted_scopes=true&login_hint=testemailcreatorId%40email.com&access_type=offline',
+            'AuthUrl': 'https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=1023621061664-1b7grp47bee4qu0k0a5114dvm1icl65k.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A9000%2Foauthcallback&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar&state=NToYaUnx33V8fOL3jBN3is0dnh7R1V&prompt=consent&included_granted_scopes=true&login_hint=testemailcreatorId%40email.com&access_type=offline',
             'message': 'Calendar API not authorized'
         }
     ]
@@ -194,16 +194,9 @@ snapshots['MutateEventTestCase::test_update_event_as_non_creator 1'] = {
 snapshots['MutateEventTestCase::test_validate_invite_link 1'] = {
     'data': {
         'validateEventInvite': {
-            'event': {
-                'active': True,
-                'description': 'test description default',
-                'endDate': '2018-11-20 20:08:07.127325+00:00',
-                'startDate': '2018-11-20 20:08:07.127325+00:00',
-                'title': 'test title default',
-                'venue': 'test venue'
-            },
-            'isValid': True,
-            'message': 'OK: Event invite is valid'
+            'event': None,
+            'isValid': False,
+            'message': 'Expired Invite: Event has ended'
         }
     }
 }
@@ -233,7 +226,7 @@ snapshots['MutateEventTestCase::test_validate_invite_link_invalid_sender 1'] = {
         'validateEventInvite': {
             'event': None,
             'isValid': False,
-            'message': 'Not Found: Invalid event/user in invite'
+            'message': 'Expired Invite: Event has ended'
         }
     }
 }
