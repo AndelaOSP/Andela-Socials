@@ -50,8 +50,7 @@ install_google_cloud_sdk(){
     sudo rm -rf /var/lib/apt/lists/ /etc/apt/sources.list
     echo "deb http://packages.cloud.google.com/apt cloud-sdk-jessie main" | sudo tee /etc/apt/sources.list.d/google-cloud-sdk.list
     curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-    sudo apt-get update && sudo apt-get upgrade && sudo apt-get install google-cloud-sdk
-    echo ">>>>>>>>>>>>>>>>. here"
+    sudo apt-get update && sudo apt-get upgrade && sudo apt-get install google-cloud-sdk kubectl
 }
 
 configure_google_cloud_sdk() {
