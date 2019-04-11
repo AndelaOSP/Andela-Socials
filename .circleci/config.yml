@@ -88,7 +88,6 @@ workflows:
                             - master
                             - develop
                             - /release\/v[0-9].[0-9].[0-9]/
-                            - update-staging
 
             - deployFrontend:
                 requires:
@@ -99,4 +98,4 @@ workflows:
                             - master
                             - develop
                             - /release\/v[0-9].[0-9].[0-9]/
-                            - update-staging
+
