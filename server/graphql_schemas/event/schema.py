@@ -20,6 +20,7 @@ from graphql_schemas.utils.helpers import (is_not_admin,
                                            validate_event_dates,
                                            raise_calendar_error,
                                            not_valid_timezone)
+from graphql_schemas.scalars import NonEmptyString
 from graphql_schemas.utils.hasher import Hasher
 from api.models import Event, Category, AndelaUserProfile, \
     Interest, Attend
@@ -52,9 +53,9 @@ class EventNode(DjangoObjectType):
 
 class CreateEvent(relay.ClientIDMutation):
     class Input:
-        title = graphene.String(required=True)
-        description = graphene.String(required=True)
-        venue = graphene.String(required=True)
+        title = NonEmptyString(required=True)
+        description = NonEmptyString(required=True)
+        venue = NonEmptyString(required=True)
         start_date = graphene.DateTime(required=True)
         end_date = graphene.DateTime(required=True)
         featured_image = graphene.String(required=True)
@@ -90,15 +91,13 @@ class CreateEvent(relay.ClientIDMutation):
             user_profile = AndelaUserProfile.objects.get(
                 user=info.context.user
             )
+            new_event = CreateEvent.create_event(
+                category, user_profile, **input)
             if user_profile.credential and user_profile.credential.valid:
-                new_event = CreateEvent.create_event(
-                    category, user_profile, **input)
                 # Send calender invite in background
                 BackgroundTaskWorker.start_work(send_calendar_invites,
                                                 (user_profile, new_event))
             else:
-                new_event = CreateEvent.create_event(
-                    category, user_profile, **input)
                 CreateEvent.notify_event_in_slack(category, input, new_event)
                 raise_calendar_error(user_profile)
 

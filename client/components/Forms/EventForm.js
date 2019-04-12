@@ -161,7 +161,7 @@ class EventForm extends Component {
     const errorFields = Object.keys(errors);
 
     errorFields.forEach((field) => {
-      if ((field !== 'time' && field !== 'imgUrl') && formData[field].length === 0) {
+      if ((field !== 'time' && field !== 'imgUrl') && formData[field].trim().length === 0) {
         errors[field].hasError = true;
       } else {
         errors[field].hasError = false;
