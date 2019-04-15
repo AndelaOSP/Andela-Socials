@@ -49,7 +49,7 @@ class AttendEvent(relay.ClientIDMutation):
                 user_attendance.save()
             else:
                 raise GraphQLError(
-                    "The event is nolonger available")
+                    "The event is no longer available")
 
         except ObjectDoesNotExist:
             user_attendance = Attend.objects.create(
