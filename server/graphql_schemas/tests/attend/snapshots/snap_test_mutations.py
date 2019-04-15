@@ -19,7 +19,7 @@ snapshots['AttendanceTestCase::test_nonexisting_user_cannot_subscribe_to_event 1
                     'line': 3
                 }
             ],
-            'message': "time data '2019-04-11 13:48:46.440761+00:0000' does not match format '%Y-%m-%d %H:%M:%S.%f%z'",
+            'message': "''",
             'path': [
                 'attendEvent'
             ]
@@ -39,7 +39,7 @@ snapshots['AttendanceTestCase::test_user_can_attend_an_event 1'] = {
                     'line': 3
                 }
             ],
-            'message': "time data '2019-04-11 13:48:46.612649+00:0000' does not match format '%Y-%m-%d %H:%M:%S.%f%z'",
+            'message': "''",
             'path': [
                 'attendEvent'
             ]
@@ -59,7 +59,7 @@ snapshots['AttendanceTestCase::test_user_can_change_event_status 1'] = {
                     'line': 3
                 }
             ],
-            'message': "time data '2019-04-11 13:48:46.767437+00:0000' does not match format '%Y-%m-%d %H:%M:%S.%f%z'",
+            'message': "''",
             'path': [
                 'attendEvent'
             ]

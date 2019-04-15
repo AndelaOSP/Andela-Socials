@@ -6,8 +6,9 @@ from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
 from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime
-from django.utils import timezone
 from graphql import GraphQLError
+from dateutil.parser import parse
+from pytz import timezone
 
 
 from api.models import Attend, Event, AndelaUserProfile
@@ -33,13 +34,15 @@ class AttendEvent(relay.ClientIDMutation):
         status = input.get('status')
         db_event_id = from_global_id(event_id)[1]
         event = Event.objects.get(id=db_event_id)
-        event_date = datetime.strptime(event.start_date+'00', '%Y-%m-%d %H:%M:%S.%f%z')
-        today = timezone.now()
+
+        event_start_date = parse(event.start_date)
+        event_tz = timezone(event.timezone)
+        today = datetime.now(event_tz)
         user = info.context.user
         andela_user_profile = AndelaUserProfile.objects.get(
             user_id=user.id)
         try:
-            if today < event_date:
+            if today < event_start_date:
                 user_attendance = Attend.objects.get(
                     user=andela_user_profile, event=event)
                 user_attendance.status = status
