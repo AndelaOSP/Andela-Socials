@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import formatDate from '../../utils/formatDate';
 
@@ -10,7 +11,7 @@ const EventCard = (props) => {
   } = props;
 
   return (
-    <a className="event-link" href={`/events/${id}`}>
+    <Link className="event-link" to={`/events/${id}`}>
       <div className="event-card">
         <img src={featuredImage || '/assets/img/img_group_selfie.jpg'} alt={title} className="event-card__picture" />
         <div className="event-card__caption-group">
@@ -19,7 +20,7 @@ const EventCard = (props) => {
           <p className="event-card__caption event-card__caption--tags">{`#${socialEvent.name}` || '#swimming #meetup'}</p>
         </div>
       </div>
-    </a>
+    </Link>
 
   );
 };
