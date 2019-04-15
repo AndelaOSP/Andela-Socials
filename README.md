@@ -160,18 +160,24 @@ Reference:
 Once you have docker running locally for prod, navigate to Ngrok dashboard
 ```
 http://localhost:4040/status
-``` 
-to get the public URL. e.g. `https://05473cbc.ngrok.io` 
+```
+to get the public URL. e.g. `https://05473cbc.ngrok.io`
 
 ### UI MOCK
 
 The UI mock for the project is available [here](https://www.figma.com/file/Yn3JRZ3YLBVSg4o8L9dhIAv2/Andela_Socials)
 
-### DUMMY DATA
+### DATABASE SEEDING
+
+#### Static Dummy Data
 
 Before you seed data into your new database, ensure you run `python server/manage.py migrate`.
 You can now seed the dummy data into your database using the command `server/manage.py loaddata server/api/fixtures/initial.json` when that is done you have access to dummy categories, events and dummy users.
 You need to log in with an andela email to have access to this dummies.
+
+#### Dynamic Dummy Data
+
+In order to seed dynamic data like Events that show up in the current day and futuristic dates, ensure that you have already seeded static dummy data as described above. The static dummy data is a dependency for the dynamic dummy data. To load in dynamic dummy data at anytime, run `python server/manage.py load_dynamic_fixtures`. To load a specific fixture, run `python server/manage.py load_dynamic_fixtures api <filename_of_fixture>`.
 
 ### DEFAULT ADMIN
 
