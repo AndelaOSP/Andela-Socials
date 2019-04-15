@@ -2,6 +2,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import moment from 'moment-timezone';
 
 import durationConverter from '../../utils/durationConverter';
 import { getEvent, deactivateEvent } from '../../actions/graphql/eventGQLActions';
@@ -41,7 +42,10 @@ class EventDetailsPage extends React.Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.events.status && (nextProps.events !== prevState.events && prevState.updated === false)) {
+    if (
+      nextProps.events.status
+      && (nextProps.events !== prevState.events && prevState.updated === false)
+    ) {
       return { updated: true };
     }
 
@@ -55,8 +59,17 @@ class EventDetailsPage extends React.Component {
     const {
       event,
       event: {
-        title, startDate, endDate, venue, timezone, socialEvent, creator: { googleId },
-        description, featuredImage,
+        title,
+        startDate,
+        endDate,
+        venue,
+        timezone,
+        socialEvent,
+        creator: { googleId },
+        description,
+        featuredImage,
+        attendSet: { edges },
+        newAttendance,
       },
       activeUser: { id },
     } = this.props;
@@ -71,23 +84,48 @@ class EventDetailsPage extends React.Component {
       description,
       featuredImage,
     };
+    let message;
     const creator = id === googleId;
+    const currentTimezone = moment.tz.guess();
+    const currentDate = moment.tz(currentTimezone);
+    const startDateInCurrentTimezone = moment.tz(startDate, currentTimezone);
+    const endDateInCurrentTimezone = moment.tz(endDate, currentTimezone);
+    const isPastEvent = currentDate.isAfter(endDateInCurrentTimezone);
+    const hasCommenced = endDateInCurrentTimezone.isAfter(startDateInCurrentTimezone)
+      && startDateInCurrentTimezone.isBefore(currentDate);
+
+    const activeUserIsAttending = edges.find(edge => edge.node.user.googleId === id);
+    
+    if (isPastEvent) {
+      message = 'This is a past event';
+    } else if (hasCommenced) {
+      message = 'This event has already started';
+    } else if (activeUserIsAttending || (newAttendance && newAttendance.status === 'ATTENDING')) {
+      message = 'You\'re attending this event';
+    }
+
     return (
       <div className="event-details__top">
         <div className="event-details__section">
           <div className="event-details__event_title">{title}</div>
           <div className="event-details__social_event">{socialEvent.name}</div>
-          {creator
-            ? <div>
+          {creator ? (
+            <div>
               {this.renderCreateEventButton(eventData)}
               {this.renderDeleteEventButton()}
             </div>
-            : <button type="button" onClick={this.rsvpEvent} className="event-details__rsvp_button">
+          ) : (
+            <button
+              type="button"
+              onClick={this.rsvpEvent}
+              className="event-details__rsvp_button"
+              tooltip={message}
+              disabled={ message ? ' disabled' : null}
+            >
               {' '}
-              RSVP &#10004;
+              Attend &#10004;
             </button>
-          }
-
+          )}
         </div>
         <div className="event-details__section">
           <div className="event-details__location_time event-details__section">
@@ -168,69 +206,68 @@ class EventDetailsPage extends React.Component {
 
   renderCreateEventButton = eventData => (
     <ModalContextCreator.Consumer>
-      {
-        ({
-          activeModal,
-          openModal,
-        }) => {
-          const { categories, uploadImage, updateEvent } = this.props;
-          if (activeModal) return null;
-          return (
-            <button type="button"
-              onClick={() => openModal(
-                'UPDATE_EVENT', {
-                  modalHeadline: 'Update event',
-                  formMode: 'update',
-                  formId: 'event-form',
-                  eventData,
-                  categories,
-                  createEvent: () => '',
-                  updateEvent,
-                  uploadImage,
-                }
-              )}
-              className="event-details__edit">
-              {' '}
-              &#9998;
-            </button>);
-        }
-      }
+      {({
+        activeModal, openModal,
+      }) => {
+        const {
+          categories, uploadImage, updateEvent,
+        } = this.props;
+        if (activeModal) return null;
+        return (
+          <button
+            type="button"
+            onClick={() => openModal('UPDATE_EVENT', {
+              modalHeadline: 'Update event',
+              formMode: 'update',
+              formId: 'event-form',
+              eventData,
+              categories,
+              createEvent: () => '',
+              updateEvent,
+              uploadImage,
+            })
+            }
+            className="event-details__edit"
+          >
+            {' '}
+            &#9998;
+          </button>
+        );
+      }}
     </ModalContextCreator.Consumer>
   );
 
   renderDeleteEventButton = () => (
     <ModalContextCreator.Consumer>
-      {
-        ({
-          activeModal,
-          openModal,
-        }) => {
-          const {
-            event: {
-              title,
-              id,
-            },
-            deactivateEventAction,
-          } = this.props;
-          if (activeModal) return null;
-          return (
-            <button type="button"
-              onClick={() => openModal(
-                'DELETE_EVENT', {
-                  modalHeadline: 'Delete event',
-                  formText: `Are you sure you want to delete the Event '${title}' ?`,
-                  eventId: id,
-                  formId: 'delete-event-form',
-                  deleteEvent: deactivateEventAction,
-                  back: this.handleBack,
-                }
-              )}
-              className="event-details__delete">
-              {' '}
-              &#10005;
-            </button>);
-        }
-      }
+      {({
+        activeModal, openModal,
+      }) => {
+        const {
+          event: {
+            title, id,
+          },
+          deactivateEventAction,
+        } = this.props;
+        if (activeModal) return null;
+        return (
+          <button
+            type="button"
+            onClick={() => openModal('DELETE_EVENT', {
+              modalHeadline: 'Delete event',
+              formText: `Are you sure you want to delete the Event '${title}' ?`,
+              eventId: id,
+              formId: 'delete-event-form',
+              deleteEvent: deactivateEventAction,
+              back: this.handleBack,
+            })
+            }
+            className="event-details__delete"
+          >
+            {' '}
+            &#10005;
+          </button>
+        );
+      }}
     </ModalContextCreator.Consumer>
   );
 
@@ -258,10 +295,7 @@ EventDetailsPage.propTypes = {
   deactivateEventAction: PropTypes.func,
   attendEventAction: PropTypes.func,
   history: PropTypes.shape({ push: PropTypes.func.isRequired }),
-  events: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.object),
-    PropTypes.shape({}),
-  ]),
+  events: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.shape({})]),
   event: PropTypes.shape({
     id: PropTypes.string,
     active: PropTypes.bool,
@@ -289,18 +323,19 @@ EventDetailsPage.defaultProps = {
   attendEventAction: () => null,
 };
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  getEventAction: getEvent,
-  deactivateEventAction: deactivateEvent,
-  attendEventAction: attendEvent,
-}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators(
+  {
+    getEventAction: getEvent,
+    deactivateEventAction: deactivateEvent,
+    attendEventAction: attendEvent,
+  },
+  dispatch
+);
 
-const mapStateToProps = (state) => {
-  return {
-    event: state.event,
-    events: state.events,
-  };
-};
+const mapStateToProps = state => ({
+  event: state.event,
+  events: state.events,
+});
 export default connect(
   mapStateToProps,
   mapDispatchToProps

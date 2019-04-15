@@ -97,7 +97,20 @@ export const eventReducer = (state = initialState.event, action) => {
   switch (action.type) {
     case GET_EVENT: {
       const { event } = action.payload.data;
-      return event || {};
+      return {
+        ...state, event,
+      };
+    }
+    case ATTEND_EVENT: {
+      const { attendEvent: { newAttendance } } = action.payload;
+      return {
+        ...state, newAttendance,
+      };
+    }
+    case UNATTEND_EVENT: {
+      return {
+        ...state, newAttendance: undefined,
+      };
     }
     default:
       return state;
@@ -114,27 +127,6 @@ export const subscribedEvents = (state = initialState.subscribedEvents, action) 
   switch (action.type) {
     case SUBSCRIBED_EVENTS:
       return Object.assign({}, state, { subscribedEvents: action.payload.subscribedEvents });
-
-    case ATTEND_EVENT:
-      if (state.subscribedEvents !== undefined) {
-        const { subscribedEvents } = state;
-        const { payload } = action;
-        const eventCount =  subscribedEvents.filter(event => (event.id === payload.attendEvent.newAttendance.id)).length;
-        if (eventCount < 1) {
-          subscribedEvents.push(action.payload.attendEvent.newAttendance);
-          return { ...state, subscribedEvents };
-        }
-        return state;
-      }
-      return { ...state, subscribedEvents: [action.payload.attendEvent.newAttendance] };
-      
-
-    case UNATTEND_EVENT:
-      return Object.assign({}, state, {
-        subscribedEvents: state.subscribedEvents.filter(
-          item => item.event.id !== action.payload.unattendEvent.unsubscribedEvent.event.id
-        ),
-      });
 
     case SIGN_OUT:
       return Object.assign({}, state, { subscribedEvents: initialState.subscribedEvents });

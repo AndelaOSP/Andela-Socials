@@ -57,18 +57,58 @@
     font-size: rem(20px);
     font-style: normal;
     font-weight: lighter;
-    padding: 0 0 0 rem(26px);
-    margin-top: rem(-15px);
+    margin: 0 0 0 rem(26px);
     color: #797979;
   }
   &__rsvp_button{
-    margin: 0 0 0 rem(26px);
+    margin: rem(14px) 0 0 rem(26px);
     background-color: #3359DB;
     font-size: 1.25em;
     color: white;
     width: rem(147px);
     height: rem(41px);
+    &:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
   }
+  [tooltip] {
+    margin: 20px;
+    position: relative;
+  }
+  [tooltip]::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    margin-left: 2px;
+    transform: translateY(-50%) rotate(90deg);
+    border-color: rgba(0,0,0,0.7) transparent transparent     transparent;
+    border-style: solid;
+    z-index: 100;
+    opacity: 0;
+  }
+  [tooltip]::after {
+    content: attr(tooltip);
+    text-align: center;
+    background: rgba(0,0,0,0.7);
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    margin-left: 8px;
+    transform: translateX(0) translateY(-50%);
+    color: #fff;
+    padding: 4px 4px;
+    font-size: 12px;
+    min-width: 120px;
+    border-radius: 5px;
+    pointer-events: none;
+    z-index:99;
+    opacity:0;
+  }
+  [tooltip]:hover::after,[tooltip]:hover::before {
+    opacity:1
+ }
   &__location_time h5 {
     font-size: 1.25rem;
     font-style: normal;
