@@ -17,6 +17,7 @@ from graphql import GraphQLError
 from graphql_schemas.utils.helpers import (is_not_admin,
                                            update_instance,
                                            send_calendar_invites,
+                                           validate_event_dates,
                                            raise_calendar_error,
                                            not_valid_timezone)
 from graphql_schemas.utils.hasher import Hasher
@@ -64,6 +65,9 @@ class CreateEvent(relay.ClientIDMutation):
 
     @staticmethod
     def create_event(category, user_profile, **input):
+        is_date_valid = validate_event_dates(input)
+        if not is_date_valid.get('status'):
+            raise GraphQLError(is_date_valid.get('message'))
         if not input.get('timezone'):
             input['timezone'] = user_profile.timezone
         if not_valid_timezone(input.get('timezone')):
