@@ -1,0 +1,175 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title> Andela Socials </title>
+    <style type="text/css">
+      table {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+      }
+
+      table tr {
+      	width: 100%;
+        margin-bottom: 10px;
+      }
+      
+      td {
+      	width: 100%;
+      	padding: 5px 60px;
+      }
+
+      .email-template__container {
+      	position: relative;
+        width: 765px;
+        min-height: 100vh;
+        border: 2px solid #000;
+      }
+
+      .email-template__header {
+        margin: 0;
+        width: 100%;
+        height: 15%;
+        border: none;
+        padding: 20px;
+      }
+
+     img {
+        background-color: #0000FF;
+        height: 100%;
+      }
+
+      table.email-template__body {
+        margin: 0;
+        padding: 25px 50px;
+        width: 100%;
+        border: none;
+        border-top: 1px solid #000;
+        text-align: center;
+      }
+
+      a.email-template__body__btn {
+        padding: 15px 40px;
+        max-height: 52px;
+        color: #FFF;
+        background-color: #3359DB;
+        text-decoration: none;
+        margin-top: 30px;
+      }
+
+      p.email-template__body__text {
+        font-size: 22px;
+        font-weight: 300;
+        margin-bottom: 10px;
+        color: #000;
+      }
+
+      .email-template__body__text.bold-text {
+        font-weight: bold;
+      }
+
+      table.email-template__footer {
+      	position: absolute;
+        bottom: 0;
+        height: 15%;
+        width: 100%;
+        margin: 0;
+        padding: 10px 50px;
+        background-color: #F1F9FF;
+        border: none;
+        border-top: 1px solid #000;
+        text-align: center;
+
+      }
+      
+      .email-template__footer td {
+      	width: 100%;
+      	padding: 5px 60px;
+      }
+
+      .email-template__footer__text {
+        font-size: 14px;
+        font-weight: 300;
+        color: #000;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="email-template__container">
+      <div class="email-template__header">
+        <img
+          src="http://res.cloudinary.com/dd3lv0o93/image/upload/v1531322847/Andela_Logo_3_jkv99w.png"
+          alt="andela-logo"
+        />
+      </div>
+      <table class="email-template__body">
+        <tr>
+          <td>
+            <p class="email-template__body__text bold-text">Hi {{receiverName}}!</p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p class="email-template__body__text">You have received an invite from
+              <span class="email-template__body__text bold-text">{{senderName}}</span> to attend the
+              <span class="email-template__body__text bold-text">{{title}}</span>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <p class="email-template__body__text bold-text">Date</p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p class="email-template__body__text">{{startDate}}</p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p class="email-template__body__text bold-text">Venue</>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p class="email-template__body__text">{{venue}}</p>
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+        </tr>
+        <tr>
+          <td>
+            <a
+            type="button"
+            class="email-template__body__btn"
+            target="_blank"
+            href="{{url}}"
+            >
+              RSVP Now
+            </a>
+          </td>
+        </tr>
+      </table>
+      <table class="email-template__footer">
+        <tr>
+          <td>
+            <p class="email-template__footer__text">Have a question?</p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p class="email-template__footer__text">support@andelasocials.com</p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p class="email-template__footer__text">unsubscribe</p>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>

@@ -4,7 +4,6 @@ import logging
 from dateutil.parser import parse
 from django.forms.models import model_to_dict
 
-from django.core.mail import EmailMessage
 from django.core.exceptions import ObjectDoesNotExist
 from django.template.loader import get_template
 from django.utils import timezone
@@ -17,6 +16,8 @@ from graphql import GraphQLError
 from graphql_schemas.utils.helpers import (is_not_admin,
                                            update_instance,
                                            send_calendar_invites,
+                                           send_event_invite_email,
+                                           send_event_invite_emails,
                                            raise_calendar_error,
                                            not_valid_timezone)
 from graphql_schemas.utils.hasher import Hasher
@@ -86,15 +87,16 @@ class CreateEvent(relay.ClientIDMutation):
             user_profile = AndelaUserProfile.objects.get(
                 user=info.context.user
             )
+            new_event = CreateEvent.create_event(
+                category, user_profile, **input)
+            # Send email invites in background
+            BackgroundTaskWorker.start_work(send_event_invite_emails,
+                (user_profile, new_event, info.context))
             if user_profile.credential and user_profile.credential.valid:
-                new_event = CreateEvent.create_event(
-                    category, user_profile, **input)
                 # Send calender invite in background
                 BackgroundTaskWorker.start_work(send_calendar_invites,
-                                                (user_profile, new_event))
+                    (user_profile, new_event))
             else:
-                new_event = CreateEvent.create_event(
-                    category, user_profile, **input)
                 CreateEvent.notify_event_in_slack(category, input, new_event)
                 raise_calendar_error(user_profile)
 
@@ -244,25 +246,7 @@ class SendEventInvite(relay.ClientIDMutation):
             raise GraphQLError(
                 "User cannot invite self")
 
-        invite_hash = Hasher.gen_hash([
-            event.id, receiver.user.id, sender.user.id])
-        invite_url = info.context.build_absolute_uri(
-            f"/invite/{invite_hash}")
-        data_values = {
-            'title': event.title,
-            'imgUrl': event.featured_image,
-            'venue': event.venue,
-            'startDate': event.start_date,
-            'url': invite_url
-        }
-        message = get_template('event_invite.html').render(data_values)
-        msg = EmailMessage(
-            f"You have been invited to an event by {sender.user.username}",
-            message,
-            to=[receiver_email]
-        )
-        msg.content_subtype = 'html'
-        sent = msg.send()
+        sent = send_event_invite_email(sender, event, receiver, info.context)
 
         if sent:
             return cls(message="Event invite delivered")

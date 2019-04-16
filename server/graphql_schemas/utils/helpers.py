@@ -4,11 +4,15 @@ import pytz
 import dateutil.parser as parser
 from django.core.exceptions import ValidationError
 from django.core.files.storage import FileSystemStorage
+from django.core import mail
+from django.core.exceptions import ObjectDoesNotExist
+from django.template.loader import get_template
 
 from api.utils.oauth_helper import get_auth_url
-from api.models import Interest
+from api.models import Interest, AndelaUserProfile
 from googleapiclient.discovery import build
 from google.cloud import storage
+from graphql_schemas.utils.hasher import Hasher
 
 from django.conf import settings
 
@@ -55,8 +59,8 @@ def raise_calendar_error(user_profile):
             :param user_profile:
     """
     auth_url = get_auth_url(user_profile)
-    raise UnauthorizedCalendarError(message="Calendar API not authorized",
-                                    auth_url=auth_url)
+    raise UnauthorizedCalendarError(
+        message="Calendar API not authorized", auth_url=auth_url)
 
 
 async def send_calendar_invites(andela_user, event):
@@ -71,9 +75,92 @@ async def send_calendar_invites(andela_user, event):
     payload = build_event(event, invitee_list)
 
     calendar = build('calendar', 'v3', credentials=andela_user.credential)
+
     if settings.ENVIRONMENT == "production":
-        calendar.events().insert(calendarId='primary', sendNotifications=True,
-                                 body=payload).execute()
+        calendar.events().insert(calendarId='primary',
+            sendNotifications=True, body=payload).execute()
+            
+
+def send_event_invite_email(andela_user, event, receiver, info):
+    """
+        Send single email
+         :param andela_user:
+         :param event:
+         :param receiver
+         :param info:
+    """
+    sender = andela_user
+    invite_hash = Hasher.gen_hash([
+        event.id, receiver.user.id, sender.user.id])
+    invite_url = info.build_absolute_uri(
+        f"/invite/{invite_hash}")
+
+    data_values = {
+        'title': event.title,
+        'imgUrl': event.featured_image,
+        'venue': event.venue,
+        'startDate': parser.parse(str(
+            event.start_date)).strftime("%a, %b %d %Y %H:%M"),
+        'url': invite_url,
+        'senderName': sender.user.first_name,
+        'receiverName': receiver.user.first_name,
+    }
+    message = get_template('event_email_invite.html').render(data_values)
+    msg = mail.EmailMessage(
+        f"You have been invited to an event by {sender.user.username}",
+        message,
+        to=[receiver.user.email]
+    )
+    msg.content_subtype = 'html'
+    sent = msg.send()
+
+    return sent
+
+
+async def send_event_invite_emails(andela_user, event, info):
+    """
+        Send mass emails asynchronously
+         :param andela_user:
+         :param event:
+         :param info:
+    """
+    message_list = []
+    sender = andela_user
+    invitees = Interest.objects.filter(follower_category=event.social_event)
+    invitee_list = [{'email': invitee.follower.user.email}
+        for invitee in invitees]
+
+    for invitee in invitee_list:
+        receiver = AndelaUserProfile.objects.get(
+                user__email=invitee['email'])
+        invite_hash = Hasher.gen_hash([
+            event.id, receiver.user.id, sender.user.id])
+        invite_url = info.build_absolute_uri(
+            f"/invite/{invite_hash}")
+        data_values = {
+            'title': event.title,
+            'imgUrl': event.featured_image,
+            'venue': event.venue,
+            'startDate': parser.parse(str(
+                event.start_date)).strftime("%a, %b %d %Y %H:%M"),
+            'url': invite_url,
+            'senderName': sender.user.first_name,
+            'receiverName': receiver.user.first_name,
+        }
+        message = get_template('event_email_invite.html').render(data_values)
+        msg = mail.EmailMessage(
+            f"You have been invited to an event by {sender.user.username}",
+            message,
+            sender.user.email,
+            to=[receiver.user.email],
+        )
+        msg.content_subtype = 'html'
+        message_list.append(msg)
+
+    connection = mail.get_connection()
+    connection.open()
+    connection.send_messages(message_list)
+    connection.close()
 
 
 def build_event(event, invitees):
