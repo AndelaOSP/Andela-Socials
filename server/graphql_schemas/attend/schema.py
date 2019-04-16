@@ -35,6 +35,8 @@ class AttendEvent(relay.ClientIDMutation):
         event = Event.objects.get(id=db_event_id)
         event_start_date = parse(event.start_date)
         event_tz = timezone(event.timezone)
+        if (event_start_date.tzinfo is None):
+            event_start_date = event_start_date.replace(tzinfo=event_tz)
         today = datetime.now(event_tz)
         user = info.context.user
         andela_user_profile = AndelaUserProfile.objects.get(
