@@ -20,27 +20,28 @@ class InterestNode(DjangoObjectType):
 class JoinCategory(relay.ClientIDMutation):
     """Join a category"""
     class Input:
-        category_id = graphene.ID(required=True)
+        categories = graphene.List(graphene.ID)
 
-    joined_category = graphene.Field(InterestNode)
+    joined_category_list = graphene.List(InterestNode)
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
-        category_id = input.get('category_id')
+        category_id_list = [category for category in input.pop('categories')]
         user = AndelaUserProfile.objects.get(user=info.context.user)
-        user_category = Category.objects.get(pk=from_global_id(category_id)[1])
+        user_category_list = [Category.objects.get(pk=from_global_id(category_id)[1])
+            for category_id in category_id_list]
         try:
-            joined_category = Interest(
-                follower=user,
-                follower_category=user_category
-            )
-            joined_category.save()
+            joined_category_list = []
+            for user_category in user_category_list:
+                joined_category  = Interest(follower=user, follower_category=user_category)
+                joined_category_list.append(joined_category)
+            Interest.objects.bulk_create(joined_category_list)
         except IntegrityError:
             raise GraphQLError(
                 'User has already shown interest in this category'
             )
 
-        return JoinCategory(joined_category=joined_category)
+        return JoinCategory(joined_category_list=joined_category_list)
 
 
 class UnJoinCategory(relay.ClientIDMutation):
