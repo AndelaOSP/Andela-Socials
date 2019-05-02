@@ -98,7 +98,7 @@ export const eventReducer = (state = initialState.event, action) => {
     case GET_EVENT: {
       const { event } = action.payload.data;
       return {
-        ...state, event,
+        ...state, ...event,
       };
     }
     case ATTEND_EVENT: {
