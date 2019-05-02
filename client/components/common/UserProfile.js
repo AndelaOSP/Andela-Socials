@@ -22,6 +22,9 @@ const UserProfile = ({
       <span className="caret nav-profile__dropdown-icon" />
     </button>
     <ul className="dropdown-menu nav-profile__list-menus">
+    <li>
+    <Link to="/interests">Interests</Link>
+    </li>
       <li>
         <Link to="/settings">Settings</Link>
       </li>
