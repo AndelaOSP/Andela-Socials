@@ -1,7 +1,7 @@
 import dotenv
 
 from slackclient import SlackClient
-
+from os import getenv
 dotenv.load()
 
 # instantiate Slack & Twilio clients
@@ -24,8 +24,10 @@ def get_slack_id(user):
     Helper function to get user's slack name.
     """
     members = get_slack_users()
-    user_name = [member for member in members if member.get('profile').get(
-        'email') == user['email']]
+    user_name = [
+        member for member in members
+        if member.get('profile').get('email') == user['email']
+    ]
     return user_name[0].get('id') if user_name else ''
 
 
@@ -79,18 +81,32 @@ def new_event_message(message, event_url):
         "text": {
             "type": "mrkdwn",
             "text": message
-            }
+        }
     }, {
-        "type": "actions",
-        "elements": [
-            {
-                "type": "button",
-                "text": {
-                    "type": "plain_text",
-                    "text": "View Details",
-                    "emoji": True
-                },
-                "url": event_url
-            }
-        ]
+        "type":
+        "actions",
+        "elements": [{
+            "type": "button",
+            "text": {
+                "type": "plain_text",
+                "text": "View Details",
+                "emoji": True
+            },
+            "url": event_url
+        }]
     }]
+
+
+def get_slack_user_token(code):
+    """
+    Gets the slack user's oauth token in order to make requests
+    on their behalf
+        :param code - the code returned by slack after authorization :
+    """
+    response = slack_client.api_call(
+        "oauth.token",
+        client_id=getenv('SLACK_CLIENT_ID'),
+        client_secret=getenv('SLACK_CLIENT_SECRET'),
+        code=code)
+
+    return response

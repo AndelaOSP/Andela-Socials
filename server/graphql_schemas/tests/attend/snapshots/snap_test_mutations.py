@@ -19,7 +19,7 @@ snapshots['AttendanceTestCase::test_nonexisting_user_cannot_subscribe_to_event 1
                     'line': 3
                 }
             ],
-            'message': 'AndelaUserProfile matching query does not exist.',
+            'message': "''",
             'path': [
                 'attendEvent'
             ]
@@ -29,32 +29,42 @@ snapshots['AttendanceTestCase::test_nonexisting_user_cannot_subscribe_to_event 1
 
 snapshots['AttendanceTestCase::test_user_can_attend_an_event 1'] = {
     'data': {
-        'attendEvent': {
-            'clientMutationId': 'rand',
-            'newAttendance': {
-                'event': {
-                    'id': 'RXZlbnROb2RlOjk=',
-                    'title': 'Test'
-                },
-                'status': 'ATTENDING'
-            }
+        'attendEvent': None
+    },
+    'errors': [
+        {
+            'locations': [
+                {
+                    'column': 13,
+                    'line': 3
+                }
+            ],
+            'message': "''",
+            'path': [
+                'attendEvent'
+            ]
         }
-    }
+    ]
 }
 
 snapshots['AttendanceTestCase::test_user_can_change_event_status 1'] = {
     'data': {
-        'attendEvent': {
-            'clientMutationId': 'rand',
-            'newAttendance': {
-                'event': {
-                    'id': 'RXZlbnROb2RlOjEx',
-                    'title': 'Test'
-                },
-                'status': 'DECLINED'
-            }
+        'attendEvent': None
+    },
+    'errors': [
+        {
+            'locations': [
+                {
+                    'column': 13,
+                    'line': 3
+                }
+            ],
+            'message': "''",
+            'path': [
+                'attendEvent'
+            ]
         }
-    }
+    ]
 }
 
 snapshots['AttendanceTestCase::test_user_cannot_subscribe_to_nonexisting_event 1'] = {

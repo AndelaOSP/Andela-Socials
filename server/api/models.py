@@ -90,6 +90,7 @@ class AndelaUserProfile(models.Model):
     credential = CredentialsField()
     state = models.CharField(max_length=80, blank=True)
     slack_id = models.CharField(max_length=80, blank=True)
+    slack_token = models.CharField(max_length=200, blank=True)
     timezone = models.CharField(max_length=80, blank=True)
 
     def __str__(self):

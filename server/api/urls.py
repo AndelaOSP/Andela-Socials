@@ -50,4 +50,6 @@ urlpatterns = [
 
     url(r'^oauthcallback/?$', views.OauthCallback.as_view(),
         name='oauth_callback'),
+    url(r'^slack/authorize/?$', views.LaunchSlackAuthorization.as_view(),
+        name="authorizeslack"),
 ]

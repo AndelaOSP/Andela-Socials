@@ -1,6 +1,8 @@
+import os
 import json
 import dotenv
-from django.http import Http404, HttpResponseForbidden
+
+from django.http import Http404, HttpResponseForbidden, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
@@ -242,3 +244,11 @@ class OauthCallback(APIView):
             return HttpResponseForbidden()
         else:
             return Response({'message': 'Authorization was a success'})
+
+class LaunchSlackAuthorization(APIView):
+    def get(self, request, *args, **kwargs):
+        client_id = os.getenv('SLACK_CLIENT_ID')
+        scope='read'
+        oauth_url = f'https://slack.com/oauth/authorize?client_id={client_id}&scope={scope}'
+
+        return HttpResponseRedirect(oauth_url)
