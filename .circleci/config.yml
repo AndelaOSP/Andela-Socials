@@ -1,78 +1,77 @@
 version: 2
 jobs:
-  test:
-    docker:
-      - image: circleci/python:3.6.1
-      - image: circleci/postgres:9.4
-        environment:
-          - TERM: xterm-256color
-          - POSTGRES_USER: circleci
-          - POSTGRES_DB: circlecidb
-          - POSTGRES_PASSWORD: $DB_PASSWORD
-    working_directory: ~/andela-socials-backend
+    test:
+        docker:
+            - image: circleci/python:3.6.1
+            - image: circleci/postgres:9.4
+              environment:
+                  - TERM: xterm-256color
+                  - POSTGRES_USER: circleci
+                  - POSTGRES_DB: circlecidb
+                  - POSTGRES_PASSWORD: $DB_PASSWORD
+        working_directory: ~/andela-socials-backend
 
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run:
-          name: install dependencies
-          command: |
-            python3 -m venv venv
-            . venv/bin/activate
-            pip install -r server/requirements.txt
-      - run:
-          name: run tests
-          command: |
-            . venv/bin/activate
-            export DJANGO_SETTINGS_MODULE=a_socials.settings.dev
-            python server/manage.py test --snapshot-update server/api/tests/ server/graphql_schemas/tests/
+        steps:
+            - checkout
+            - setup_remote_docker
+            - run:
+                  name: install dependencies
+                  command: |
+                      python3 -m venv venv
+                      . venv/bin/activate
+                      pip install -r server/requirements.txt
+            - run:
+                  name: run tests
+                  command: |
+                      . venv/bin/activate
+                      export DJANGO_SETTINGS_MODULE=a_socials.settings.dev
+                      python server/manage.py test --snapshot-update server/api/tests/ server/graphql_schemas/tests/ --keepdb
 
-      - store_artifacts:
-          path: test-reports
-          destination: test-reports
+            - store_artifacts:
+                  path: test-reports
+                  destination: test-reports
 
-  upgrade-database:
-    docker:
-        - image: circleci/python:3.6.1
-          environment:
-            TERM: xterm-256color
-    working_directory: ~/andela-socials-backend
-    steps:
-    - checkout
-    - setup_remote_docker
-    - run:
-        name: Upgrade database
-        command: |
-            bash scripts/upgrade.sh
+    upgrade-database:
+        docker:
+            - image: circleci/python:3.6.1
+              environment:
+                  TERM: xterm-256color
+        working_directory: ~/andela-socials-backend
+        steps:
+            - checkout
+            - setup_remote_docker
+            - run:
+                  name: Upgrade database
+                  command: |
+                      bash scripts/upgrade.sh
 
+    deployBackend:
+        docker:
+            - image: circleci/python:3.6.1
+              environment:
+                  TERM: xterm-256color
+        working_directory: ~/andela-socials-backend
+        steps:
+            - checkout
+            - setup_remote_docker
+            - run:
+                  name: Deploy backend application
+                  command: |
+                      bash scripts/deployBackend.sh
 
-  deployBackend:
-    docker:
-        - image: circleci/python:3.6.1
-          environment:
-            TERM: xterm-256color
-    working_directory: ~/andela-socials-backend
-    steps:
-    - checkout
-    - setup_remote_docker
-    - run:
-        name: Deploy backend application
-        command: |
-          bash scripts/deployBackend.sh
-
-  deployFrontend:
-    docker:
-        - image: circleci/node:9.8.0
-          environment:
-            - TERM: xterm-256color
-    working_directory: ~/andela-socials-frontend
-    steps:
-    - checkout
-    - setup_remote_docker
-    - run:
-        name: Deploy frontend application
-        command: |
-            bash scripts/deployFrontend.sh
+    deployFrontend:
+        docker:
+            - image: circleci/node:9.8.0
+              environment:
+                  - TERM: xterm-256color
+        working_directory: ~/andela-socials-frontend
+        steps:
+            - checkout
+            - setup_remote_docker
+            - run:
+                  name: Deploy frontend application
+                  command: |
+                      bash scripts/deployFrontend.sh
 
 workflows:
     version: 2
@@ -80,21 +79,21 @@ workflows:
         jobs:
             - test
             - deployBackend:
-                requires:
-                    - test
-                filters:
-                    branches:
-                        only:
-                            - master
-                            - /release\/v[0-9].[0-9].[0-9]/
-                            - staging
+                  requires:
+                      - test
+                  filters:
+                      branches:
+                          only:
+                              - master
+                              - /release\/v[0-9].[0-9].[0-9]/
+                              - staging
 
             - deployFrontend:
-                requires:
-                    - test
-                filters:
-                    branches:
-                        only:
-                            - master
-                            - /release\/v[0-9].[0-9].[0-9]/
-                            - staging
+                  requires:
+                      - test
+                  filters:
+                      branches:
+                          only:
+                              - master
+                              - /release\/v[0-9].[0-9].[0-9]/
+                              - staging
