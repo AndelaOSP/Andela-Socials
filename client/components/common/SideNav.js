@@ -19,7 +19,7 @@ const SideNav = ({ signOut }) => (
         <Link to="/notifications" onClick={closeNav}>Notifications</Link>
       </div>
       <div>
-        <Link to="/interests" onClick={closeNav}>Interests</Link>
+        <Link to="/interests" onClick={closeNav}>My Interests</Link>
       </div>
       <div>
         <Link to="/settings" onClick={closeNav}>Settings</Link>
