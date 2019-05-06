@@ -23,7 +23,7 @@ const UserProfile = ({
     </button>
     <ul className="dropdown-menu nav-profile__list-menus">
     <li>
-    <Link to="/interests">Interests</Link>
+    <Link to="/interests">My Interests</Link>
     </li>
       <li>
         <Link to="/settings">Settings</Link>
