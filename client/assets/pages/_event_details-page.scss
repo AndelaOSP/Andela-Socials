@@ -3,7 +3,7 @@
   position: absolute;
   left: 2.5vw;
   width: 95vw;
-  top: rem(150px);
+  top: rem(159px);
 
   &__top{
     background-color: #FFF;
@@ -62,11 +62,11 @@
   }
   &__rsvp_button{
     margin: rem(14px) 0 0 rem(26px);
+    border-radius: 8%;
     background-color: #3359DB;
-    font-size: 1.25em;
+    font-size: 1.35em;
     color: white;
-    width: rem(147px);
-    height: rem(41px);
+    padding: rem(5px) rem(30px);
     &:disabled {
       background-color: #ccc;
       cursor: not-allowed;
@@ -112,8 +112,7 @@
   &__location_time h5 {
     font-size: 1.25rem;
     font-style: normal;
-    font-weight: lighter;
-    text-decoration: underline;
+    font-weight: 350;
     line-height: rem(10px);
   
   }
@@ -122,6 +121,7 @@
     font-style: normal;
     font-weight: lighter;
     overflow-wrap: break-word;
+    margin-bottom: rem(-20px);
   }
   &__description h5 {
     font-size: 1.25rem;

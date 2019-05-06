@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment-timezone';
 
-import durationConverter from '../../utils/durationConverter';
 import { getEvent, deactivateEvent } from '../../actions/graphql/eventGQLActions';
 import { attendEvent } from '../../actions/graphql/attendGQLActions';
 import NotFound from '../../components/common/NotFound';
@@ -95,7 +94,7 @@ class EventDetailsPage extends React.Component {
       && startDateInCurrentTimezone.isBefore(currentDate);
 
     const activeUserIsAttending = edges.find(edge => edge.node.user.googleId === id);
-    
+
     if (isPastEvent) {
       message = 'This is a past event';
     } else if (hasCommenced) {
@@ -115,17 +114,17 @@ class EventDetailsPage extends React.Component {
               {this.renderDeleteEventButton()}
             </div>
           ) : (
-            <button
-              type="button"
-              onClick={this.rsvpEvent}
-              className="event-details__rsvp_button"
-              tooltip={message}
-              disabled={ message ? ' disabled' : null}
-            >
-              {' '}
-              Attend &#10004;
+              <button
+                type="button"
+                onClick={this.rsvpEvent}
+                className="event-details__rsvp_button"
+                tooltip={message}
+                disabled={message ? ' disabled' : null}
+              >
+                {' '}
+                Attend &#10004;
             </button>
-          )}
+            )}
         </div>
         <div className="event-details__section">
           <div className="event-details__location_time event-details__section">
@@ -134,7 +133,8 @@ class EventDetailsPage extends React.Component {
           </div>
           <div className="event-details__location_time event-details__section">
             <h5>DATE AND TIME</h5> <br />
-            <p>{durationConverter(startDate, endDate, timezone)}</p>
+            <p>{moment(startDate).format('ddd D MMM YYYY')}</p> <br />
+            <p>{moment(startDate).format('LT')} - {moment.tz(endDate, moment.tz.guess()).format('LT  z')}</p>
           </div>
         </div>
       </div>
