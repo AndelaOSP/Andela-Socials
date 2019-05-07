@@ -94,3 +94,18 @@ def new_event_message(message, event_url):
             }
         ]
     }]
+    
+
+def get_slack_channels_list(exclude_archived=False, limit=100):
+    """
+    Helper Function to get list of all slcak conversations
+    """
+    channels_list = slack_client.api_call(
+        "conversations.list",
+        exclude_archived=exclude_archived,
+        limit=limit
+    )
+    if channels_list.get('ok'):
+        # retrieve all slack channels
+        return channels_list
+    return ''
