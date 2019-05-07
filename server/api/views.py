@@ -1,18 +1,17 @@
 import os
 import json
-import dotenv
 
 from django.http import Http404, HttpResponseForbidden, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-
-from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework.generics import GenericAPIView, ListAPIView, CreateAPIView
 from rest_framework.views import APIView
 
+from api.slack import notify_user, generate_simple_message
+from api.utils.event_helpers import is_not_past_event, save_user_attendance
 from .serializers import CategorySerializer, EventSerializer,\
     AttendanceSerializer, EventDetailSerializer, InterestSerializer
 from .models import Category, Interest, Event, Attend, AndelaUserProfile
@@ -244,6 +243,53 @@ class OauthCallback(APIView):
             return HttpResponseForbidden()
         else:
             return Response({'message': 'Authorization was a success'})
+
+
+class SlackActionsCallback(APIView):
+    authentication_classes = ()
+    permission_classes = (AllowAny,)
+
+    def post(self, request,):
+        data = request.data
+        payload = json.loads(data['payload'])
+        actions = payload.get('actions')
+
+        attend_action, action = self.check_action_type(actions, 'attend_event')
+        if attend_action:
+            event_id = int(action['value'])
+            user_slack_id = payload.get('user').get('id')
+
+            try:
+                event = Event.objects.get(id=event_id)
+                if is_not_past_event(event):
+                    andela_user_profile = AndelaUserProfile.objects.get(slack_id=user_slack_id)
+
+                    user_attendance, created = save_user_attendance(event, andela_user_profile, 'attending')
+                    if not created:
+                        message = generate_simple_message('> You are already an attendee for the event :see_no_evil:')
+                    else:
+                        message = generate_simple_message(
+                            '> You\'ve successfully registered for the event :tada:')
+
+                else:
+                    message = generate_simple_message(
+                        'Oops! The event you want to attend is a past event')
+            except Event.DoesNotExist:
+                    message = generate_simple_message(
+                        'Oops! It seems this event has been removed.')
+            except AndelaUserProfile.DoesNotExist:
+                message = generate_simple_message(
+                    'Oops! It seems you no longer have an account on the platform')
+
+            notify_user(message, user_slack_id)
+        return Response()
+
+    @staticmethod
+    def check_action_type(actions, action_type):
+        for action in actions:
+            if action.get('action_id') == action_type:
+                return True, action
+        return False, None
 
 class LaunchSlackAuthorization(APIView):
     def get(self, request, *args, **kwargs):

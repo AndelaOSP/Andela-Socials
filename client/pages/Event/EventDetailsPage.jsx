@@ -124,7 +124,7 @@ class EventDetailsPage extends React.Component {
                 {' '}
                 Attend &#10004;
             </button>
-            )}
+          )}
         </div>
         <div className="event-details__section">
           <div className="event-details__location_time event-details__section">

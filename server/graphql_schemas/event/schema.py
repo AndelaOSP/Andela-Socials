@@ -115,13 +115,13 @@ class CreateEvent(relay.ClientIDMutation):
                 follower_category_id=category.id)
             event_id = to_global_id(EventNode._meta.name, new_event.id)
             event_url = f"{dotenv.get('FRONTEND_BASE_URL')}/{event_id}"
-            message = (f"*A new event has been created in {category.name} "
-                       f"group* \n *Title:* {input.get('title')} \n"
-                       f"*Description:* {input.get('description')} \n "
-                       f"*Venue:* {input.get('venue')} \n"
-                       f"*Date:* {input.get('start_date').date()} \n"
-                       f"*Time:* {input.get('start_date').time()}")
-            blocks = new_event_message(message, event_url)
+            message = (f"*A new event has been created in `{category.name}` group*\n"
+                       f"> *Title:* {input.get('title')}\n"
+                       f"> *Description:* {input.get('description')}\n"
+                       f"> *Venue:* {input.get('venue')}\n"
+                       f"> *Date:*  {input.get('start_date').date()}\n"
+                       f"> *Time:*  {input.get('start_date').time()}")
+            blocks = new_event_message(message, event_url, str(new_event.id))
             slack_id_not_in_db = []
             all_users_attendance = []
             for instance in category_followers:
@@ -130,7 +130,7 @@ class CreateEvent(relay.ClientIDMutation):
                 all_users_attendance.append(new_attendance)
                 if instance.follower.slack_id:
                     slack_response = notify_user(
-                        blocks, instance.follower.slack_id)
+                        blocks, instance.follower.slack_id, text="New upcoming event from Andela socials")
                     if not slack_response['ok']:
                         logging.warn(slack_response)
                 else:

@@ -4,13 +4,10 @@ from graphene import relay, ObjectType
 from graphql_relay import from_global_id
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
-from django.core.exceptions import ObjectDoesNotExist
-from dateutil.parser import parse
 from graphql import GraphQLError
-from datetime import datetime
-from pytz import timezone
 
 from api.models import Attend, Event, AndelaUserProfile
+from api.utils.event_helpers import is_not_past_event, save_user_attendance
 
 
 class AttendNode(DjangoObjectType):
@@ -33,29 +30,15 @@ class AttendEvent(relay.ClientIDMutation):
         status = input.get('status')
         db_event_id = from_global_id(event_id)[1]
         event = Event.objects.get(id=db_event_id)
-        event_start_date = parse(event.start_date)
-        event_tz = timezone(event.timezone)
-        if (event_start_date.tzinfo is None):
-            event_start_date = event_start_date.replace(tzinfo=event_tz)
-        today = datetime.now(event_tz)
         user = info.context.user
         andela_user_profile = AndelaUserProfile.objects.get(
             user_id=user.id)
-        try:
-            if today < event_start_date:
-                user_attendance = Attend.objects.get(
-                    user=andela_user_profile, event=event)
-                user_attendance.status = status
-                user_attendance.save()
-            else:
-                raise GraphQLError(
-                    "The event is no longer available")
 
-        except ObjectDoesNotExist:
-            user_attendance = Attend.objects.create(
-                user=andela_user_profile,
-                status=status,
-                event=event)
+        if is_not_past_event(event):
+            user_attendance, created = save_user_attendance(event, andela_user_profile, status)
+        else:
+            raise GraphQLError(
+                "The event is no longer available")
 
         return cls(new_attendance=user_attendance)
 

@@ -45,7 +45,7 @@ def notify_channel(message):
     )
 
 
-def notify_user(message, slack_id):
+def notify_user(message, slack_id, **kwargs):
     """
     Notify the user with the given id with the message
         :param message:
@@ -57,6 +57,7 @@ def notify_user(message, slack_id):
         blocks=message,
         as_user=True,
         reply_broadcast=True,
+        **kwargs,
     )
 
 
@@ -72,7 +73,7 @@ def get_slack_user_timezone(email):
     return ''
 
 
-def new_event_message(message, event_url):
+def new_event_message(message, event_url, event_id):
     """
     Return slack message to send when new event is created
     """
@@ -83,17 +84,45 @@ def new_event_message(message, event_url):
             "text": message
         }
     }, {
-        "type":
-        "actions",
-        "elements": [{
-            "type": "button",
-            "text": {
-                "type": "plain_text",
-                "text": "View Details",
-                "emoji": True
+        "type": "actions",
+        "block_id": "event_actions",
+        "elements": [
+            {
+                "type": "button",
+                "text": {
+                    "type": "plain_text",
+                    "text": "Attend",
+                },
+                "action_id": "attend_event",
+                "style": "primary",
+                "value": event_id
             },
-            "url": event_url
-        }]
+            {
+                "type": "button",
+                "text": {
+                    "type": "plain_text",
+                    "text": "View Details",
+                    "emoji": True
+                },
+                "url": event_url
+            }
+        ]
+    }]
+
+
+def generate_simple_message(text):
+    """
+    Generate message block
+    :rtype: list
+    :param text:
+    :return: list of dictionary containing the slack markdown message structure
+    """
+    return [{
+        "type": "section",
+        "text": {
+            "type": "mrkdwn",
+            "text": text
+        }
     }]
 
 
@@ -110,3 +139,4 @@ def get_slack_user_token(code):
         code=code)
 
     return response
+
