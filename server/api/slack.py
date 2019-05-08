@@ -70,7 +70,7 @@ def get_slack_user_timezone(email):
     return ''
 
 
-def new_event_message(message, event_url):
+def new_event_message(message, event_url, image_url):
     """
     Return slack message to send when new event is created
     """
@@ -80,6 +80,15 @@ def new_event_message(message, event_url):
             "type": "mrkdwn",
             "text": message
             }
+    }, {
+        "type": "image",
+        "title": {
+            "type": "plain_text",
+            "text": "Featured Image",
+            "emoji": True
+        },
+        "image_url": image_url,
+        "alt_text": "Featured Image"
     }, {
         "type": "actions",
         "elements": [
