@@ -121,7 +121,8 @@ class CreateEvent(relay.ClientIDMutation):
                        f"> *Venue:* {input.get('venue')}\n"
                        f"> *Date:*  {input.get('start_date').date()}\n"
                        f"> *Time:*  {input.get('start_date').time()}")
-            blocks = new_event_message(message, event_url, str(new_event.id))
+            blocks = new_event_message(
+                message, event_url, str(new_event.id), input.get('featured_image'))
             slack_id_not_in_db = []
             all_users_attendance = []
             for instance in category_followers:
