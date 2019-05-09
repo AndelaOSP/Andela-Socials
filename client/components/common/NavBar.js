@@ -1,10 +1,11 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 // components
 import SearchBar from './SearchBar';
 import UserProfile from './UserProfile';
+import SubNav from './SubNav';
 import SideNav from './SideNav';
 import LogoReplacement from '../../assets/icons/LogoReplacement';
 
@@ -16,21 +17,6 @@ const openNav = () => {
   document.getElementById('mySidenav').style.width = '15.6rem';
 };
 
-const NavMenu = ({
-  to,
-  children,
-}) => (
-    <div className="link__container">
-      <NavLink to={to} activeClassName="link__container--active">
-        <span>{children}</span>
-      </NavLink>
-    </div>);
-
-NavMenu.propTypes = {
-  to: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
-};
-
 const NavBar = (props) => {
   const {
     onSearchInputChange, events,
@@ -39,7 +25,7 @@ const NavBar = (props) => {
     imageUrl,
   } = props;
   return (
-    <Fragment>
+    <div className="navbar-container">
       <nav className="top-navbar">
         <div className="navbar-header">
           <div>
@@ -73,12 +59,8 @@ const NavBar = (props) => {
           </div>
         </div>
       </nav>
-      <div className="navbar">
-        <div className="navbar__bottom-section">
-          <NavMenu to="/dashboard">Dashboard</NavMenu>
-        </div>
-      </div>
-    </Fragment>
+      <SubNav />
+    </div>
   );
 };
 

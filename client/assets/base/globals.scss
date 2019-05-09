@@ -46,6 +46,9 @@ p {
   padding: 50px;
   max-width: 1800px;
 }
+.dash-container {
+  padding-top: 11em;
+}
 
 .btn-primary {
   @include button-variant($white, $primary, $primary);

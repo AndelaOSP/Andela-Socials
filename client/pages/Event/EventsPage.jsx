@@ -209,8 +209,10 @@ class EventsPage extends React.Component {
     return (
       <div className="event__container">
         <div className="event__sidebar">
-          <EventFilter categoryList={catList} filterSelected={this.getFilteredEvents} />
-          <Calendar dateSelected={this.getFilteredEvents} />
+          <div className="event__sidebar-fixed">
+            <EventFilter categoryList={catList} filterSelected={this.getFilteredEvents} />
+            <Calendar dateSelected={this.getFilteredEvents} />
+          </div>
         </div>
         {this.renderEventGallery()}
         <div className={`event__footer ${hasNextPage ? '' : 'event__footer--hidden'}`} >

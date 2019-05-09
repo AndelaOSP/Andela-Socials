@@ -5,7 +5,23 @@
   box-shadow: 0 0.3rem 0.2rem 0 rgba(0,0,0,0.15);
   background: $white;
   border: none;
-
+  transition: all .4s ease-in-out;
+  height: 100%;
+  min-height: 0;
+  margin: 0;
+  max-height: 300px;
+  overflow-y: hidden;
+  &-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+  }
+  &-hide {
+    opacity: .9;
+    max-height: 0;
+  }
   a {
     @include centered-flex;
     font-size: rem(20px);
@@ -19,9 +35,6 @@
   &__bottom-section {
     @include centered-flex;
     height: rem(70px);
-    border-top-style: solid;
-    border-width: thin;
-    border-color: map-get($colors, bonjour);
 
     .link__container{
       @include centered-flex;
@@ -50,7 +63,7 @@
   border-radius: 0;
   background-color: $white;
   margin: 0;
-  border: 0;
+  border-bottom: thin solid map-get($colors, bonjour);
   @include mobile(rem(766px)) {
     display: flex;
   }

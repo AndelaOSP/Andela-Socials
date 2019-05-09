@@ -159,34 +159,36 @@ class Dashboard extends Component {
     }
     return (
       <ModalContextProvider>
-        <Header
-          firstName={activeUser.firstName || ''}
-          lastName={activeUser.lastName || ''}
-          imageUrl={activeUser.picture || ''}
-        />
-        <Switch>
-          {this.redirectUser()}
-          <Route
-            path="/oauthcallback"
-            render={props => (
-              <External
-                location={props.location}
-                oauth={this.props.oauth}
-                counter={oauthCounter}
-                savePermission={this.props.savePermission}
-              />
-            )}
+        <div className="dash-container">
+          <Header
+            firstName={activeUser.firstName || ''}
+            lastName={activeUser.lastName || ''}
+            imageUrl={activeUser.picture || ''}
           />
-          <Route
-            path="/events/:eventId"
-            render={props => <EventDetailsPage {...props} activeUser={activeUser} categories={categories} updateEvent={updateEvent} uploadImage={uploadImage} />}
-          />
-          <Route path="/invite/:inviteHash" component={Invite} />
-          <Route path="/events" render={() => <EventsPage />} />
-          <Route path="/dashboard" render={() => <EventsPage createEvent={createEvent} categories={categories} uploadImage={uploadImage} />} />
-          <Route path="/interests" render={() => <Interests />} />
-          <Route path="*" component={NotFound} />
-        </Switch>
+          <Switch>
+            {this.redirectUser()}
+            <Route
+              path="/oauthcallback"
+              render={props => (
+                <External
+                  location={props.location}
+                  oauth={this.props.oauth}
+                  counter={oauthCounter}
+                  savePermission={this.props.savePermission}
+                />
+              )}
+            />
+            <Route
+              path="/events/:eventId"
+              render={props => <EventDetailsPage {...props} activeUser={activeUser} categories={categories} updateEvent={updateEvent} uploadImage={uploadImage} />}
+            />
+            <Route path="/invite/:inviteHash" component={Invite} />
+            <Route path="/events" render={() => <EventsPage />} />
+            <Route path="/dashboard" render={() => <EventsPage createEvent={createEvent} categories={categories} uploadImage={uploadImage} />} />
+            <Route path="/interests" render={() => <Interests />} />
+            <Route path="*" component={NotFound} />
+          </Switch>
+        </div>
         <Modal {...this.props} />
       </ModalContextProvider>
     );
