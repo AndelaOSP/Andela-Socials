@@ -7,10 +7,14 @@ from graphene_django.types import DjangoObjectType
 from graphql import GraphQLError
 
 from api.models import Attend, Event, AndelaUserProfile
+<<<<<<< HEAD
 from api.slack import invite_to_event_channel
 from api.utils.backgroundTaskWorker import BackgroundTaskWorker
 from api.utils.event_helpers import is_not_past_event, save_user_attendance
 from graphql_schemas.utils.helpers import update_event_status_on_calendar
+=======
+from api.utils.event_helpers import is_not_past_event, save_user_attendance
+>>>>>>> ft(slack-attend-event): User should be able to attend event from slack) (#181)
 
 
 class AttendNode(DjangoObjectType):
@@ -36,6 +40,7 @@ class AttendEvent(relay.ClientIDMutation):
         user = info.context.user
         andela_user_profile = AndelaUserProfile.objects.get(
             user_id=user.id)
+<<<<<<< HEAD
         BackgroundTaskWorker.start_work(update_event_status_on_calendar,
             (andela_user_profile, event))
         if is_not_past_event(event):
@@ -44,6 +49,11 @@ class AttendEvent(relay.ClientIDMutation):
                 BackgroundTaskWorker.start_work(invite_to_event_channel,
                                                 (andela_user_profile.slack_id, event.slack_channel, event.creator.slack_token))
 
+=======
+
+        if is_not_past_event(event):
+            user_attendance, created = save_user_attendance(event, andela_user_profile, status)
+>>>>>>> ft(slack-attend-event): User should be able to attend event from slack) (#181)
         else:
             raise GraphQLError(
                 "The event is no longer available")

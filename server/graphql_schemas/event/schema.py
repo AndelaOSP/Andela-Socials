@@ -155,8 +155,12 @@ class CreateEvent(relay.ClientIDMutation):
                        f"> *Venue:* {input.get('venue')}\n"
                        f"> *Date:*  {input.get('start_date').date()}\n"
                        f"> *Time:*  {input.get('start_date').time()}")
+<<<<<<< HEAD
             blocks = new_event_message(
                 message, event_url, str(new_event.id), input.get('featured_image'))
+=======
+            blocks = new_event_message(message, event_url, str(new_event.id))
+>>>>>>> ft(slack-attend-event): User should be able to attend event from slack) (#181)
             slack_id_not_in_db = []
             all_users_attendance = []
             for instance in category_followers:
@@ -165,8 +169,12 @@ class CreateEvent(relay.ClientIDMutation):
                 all_users_attendance.append(new_attendance)
                 if instance.follower.slack_id:
                     slack_response = notify_user(
+<<<<<<< HEAD
                         blocks, instance.follower.slack_id,
                         text="New upcoming event from Andela socials")
+=======
+                        blocks, instance.follower.slack_id, text="New upcoming event from Andela socials")
+>>>>>>> ft(slack-attend-event): User should be able to attend event from slack) (#181)
                     if not slack_response['ok']:
                         logging.warn(slack_response)
                 else:

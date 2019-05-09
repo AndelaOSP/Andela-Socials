@@ -10,7 +10,11 @@ from rest_framework.permissions import AllowAny
 from rest_framework.generics import GenericAPIView, ListAPIView, CreateAPIView
 from rest_framework.views import APIView
 
+<<<<<<< HEAD
 from api.slack import notify_user, generate_simple_message, get_slack_user_token
+=======
+from api.slack import notify_user, generate_simple_message
+>>>>>>> ft(slack-attend-event): User should be able to attend event from slack) (#181)
 from api.utils.event_helpers import is_not_past_event, save_user_attendance
 from .serializers import CategorySerializer, EventSerializer,\
     AttendanceSerializer, EventDetailSerializer, InterestSerializer
@@ -277,13 +281,20 @@ class SlackActionsCallback(APIView):
                     else:
                         message = generate_simple_message(
                             '> You\'ve successfully registered for the event :tada:')
+<<<<<<< HEAD
                         add_event_to_calendar(andela_user_profile, event)
+=======
+>>>>>>> ft(slack-attend-event): User should be able to attend event from slack) (#181)
 
                 else:
                     message = generate_simple_message(
                         'Oops! The event you want to attend is a past event')
             except Event.DoesNotExist:
+<<<<<<< HEAD
                 message = generate_simple_message(
+=======
+                    message = generate_simple_message(
+>>>>>>> ft(slack-attend-event): User should be able to attend event from slack) (#181)
                         'Oops! It seems this event has been removed.')
             except AndelaUserProfile.DoesNotExist:
                 message = generate_simple_message(

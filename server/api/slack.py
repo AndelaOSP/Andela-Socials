@@ -75,7 +75,11 @@ def get_slack_user_timezone(email):
     return ''
 
 
+<<<<<<< HEAD
 def new_event_message(message, event_url, event_id, image_url):
+=======
+def new_event_message(message, event_url, event_id):
+>>>>>>> ft(slack-attend-event): User should be able to attend event from slack) (#181)
     """
     Return slack message to send when new event is created
     """
@@ -86,6 +90,7 @@ def new_event_message(message, event_url, event_id, image_url):
             "text": message
         }
     }, {
+<<<<<<< HEAD
         "type": "image",
         "title": {
             "type": "plain_text",
@@ -95,6 +100,8 @@ def new_event_message(message, event_url, event_id, image_url):
         "image_url": image_url,
         "alt_text": "Featured Image"
     }, {
+=======
+>>>>>>> ft(slack-attend-event): User should be able to attend event from slack) (#181)
         "type": "actions",
         "block_id": "event_actions",
         "elements": [
@@ -152,6 +159,7 @@ def get_slack_user_token(code):
 
     return response
 
+<<<<<<< HEAD
 
 def get_slack_channels_list(limit=100):
     """
@@ -174,3 +182,5 @@ def invite_to_event_channel(user_id, event_channel, channel_creator_token):
             channel=event_channel,
             user=user_id,
         )
+=======
+>>>>>>> ft(slack-attend-event): User should be able to attend event from slack) (#181)

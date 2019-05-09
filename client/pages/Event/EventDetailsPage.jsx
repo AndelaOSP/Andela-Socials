@@ -170,8 +170,12 @@ class EventDetailsPage extends React.Component {
                 {' '}
                 Attend &#10004;
             </button>
+<<<<<<< HEAD
 >>>>>>> bug(header): fix header style (#179)
             )}
+=======
+          )}
+>>>>>>> ft(slack-attend-event): User should be able to attend event from slack) (#181)
         </div>
         <div className="event-details__section">
           <div className="event-details__location_time event-details__section">
