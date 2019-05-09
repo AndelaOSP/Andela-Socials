@@ -76,10 +76,14 @@ def get_slack_user_timezone(email):
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 def new_event_message(message, event_url, event_id, image_url):
 =======
 def new_event_message(message, event_url, event_id):
 >>>>>>> ft(slack-attend-event): User should be able to attend event from slack) (#181)
+=======
+def new_event_message(message, event_url, event_id, image_url):
+>>>>>>> chore(slack): add featured image in slack message (#187)
     """
     Return slack message to send when new event is created
     """
@@ -91,6 +95,9 @@ def new_event_message(message, event_url, event_id):
         }
     }, {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> chore(slack): add featured image in slack message (#187)
         "type": "image",
         "title": {
             "type": "plain_text",
@@ -100,8 +107,11 @@ def new_event_message(message, event_url, event_id):
         "image_url": image_url,
         "alt_text": "Featured Image"
     }, {
+<<<<<<< HEAD
 =======
 >>>>>>> ft(slack-attend-event): User should be able to attend event from slack) (#181)
+=======
+>>>>>>> chore(slack): add featured image in slack message (#187)
         "type": "actions",
         "block_id": "event_actions",
         "elements": [

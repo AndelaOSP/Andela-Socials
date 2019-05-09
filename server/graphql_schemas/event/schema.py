@@ -156,11 +156,16 @@ class CreateEvent(relay.ClientIDMutation):
                        f"> *Date:*  {input.get('start_date').date()}\n"
                        f"> *Time:*  {input.get('start_date').time()}")
 <<<<<<< HEAD
+<<<<<<< HEAD
             blocks = new_event_message(
                 message, event_url, str(new_event.id), input.get('featured_image'))
 =======
             blocks = new_event_message(message, event_url, str(new_event.id))
 >>>>>>> ft(slack-attend-event): User should be able to attend event from slack) (#181)
+=======
+            blocks = new_event_message(
+                message, event_url, str(new_event.id), input.get('featured_image'))
+>>>>>>> chore(slack): add featured image in slack message (#187)
             slack_id_not_in_db = []
             all_users_attendance = []
             for instance in category_followers:
