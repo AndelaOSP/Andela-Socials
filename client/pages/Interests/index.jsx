@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import InterestCard from '../../components/cards/InterestCard';
@@ -10,6 +11,12 @@ import { getCalendarUrl } from '../../actions/graphql/interestGQLActions';
 import { createInterests, removeInterests, getUserInterests } from '../../actions/graphql/interestGQLActions'
 import { bindActionCreators } from 'redux';
 
+=======
+import React from 'react';
+import { connect } from 'react-redux';
+import InterestCard from '../../components/cards/InterestCard';
+import interests from '../../fixtures/interests';
+>>>>>>> feat(interests): create interests page (#186)
 
 /**
  * @description allows users to select their interests
@@ -18,6 +25,7 @@ import { bindActionCreators } from 'redux';
  * @extends {React.Component}
  */
 class Interests extends React.Component {
+<<<<<<< HEAD
   constructor(props, context) {
     super(props, context);
   }
@@ -25,6 +33,10 @@ class Interests extends React.Component {
     interests: [],
     unjoinedInterests: [],
     joinInterests: []
+=======
+  state = {
+    interests,
+>>>>>>> feat(interests): create interests page (#186)
   }
 
   /**
@@ -33,6 +45,7 @@ class Interests extends React.Component {
    * @memberof Interests
    * @returns {null}
    */
+<<<<<<< HEAD
   async componentDidMount() {
     const { interests, getUserInterests } = this.props;
     await getUserInterests();
@@ -165,11 +178,50 @@ class Interests extends React.Component {
                 handleClick={this.handleClick}
                 active={!!this.state.interests.find(interest => interest.id == id)}
               />
+=======
+  componentDidMount() {
+    // get interests when component mounts
+  }
+
+
+  handleClick = (index, isSelected = true) => {
+    const interests = Object.assign(this.state.interests);
+    interests[index].isSelected = isSelected;
+    this.setState({
+      interests,
+    });
+  }
+  
+  render() {
+    const { interests } = this.state;
+
+    return (
+      <div className="interests-page">
+        <div className="interests">
+          {
+            interests.map(({name, isSelected}, index) => {
+              return <InterestCard
+                key={index}
+                index={index}
+                name={name}
+                active={isSelected}
+                handleClick={this.handleClick} />
+>>>>>>> feat(interests): create interests page (#186)
             })
           }
         </div>
         <footer>
+<<<<<<< HEAD
           {this.showAuthenticateModal()}
+=======
+          <button
+            className="interests__btn interests__btn-cancel"
+            type="button"
+          >Cancel</button>
+          <button
+            className="interests__btn interests__btn-submit"
+          >Submit</button>
+>>>>>>> feat(interests): create interests page (#186)
         </footer>
       </div>
     );
@@ -177,6 +229,7 @@ class Interests extends React.Component {
 }
 
 const mapStateToProps = state => ({
+<<<<<<< HEAD
   categoryList: state.socialClubs.socialClubs || [],
   interests: state.interests,
 });
@@ -192,3 +245,8 @@ const mapDispatchToProps = dispatch => bindActionCreators(
 );
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Interests));
+=======
+});
+
+export default connect(mapStateToProps, {})(Interests);
+>>>>>>> feat(interests): create interests page (#186)

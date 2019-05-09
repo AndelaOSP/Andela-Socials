@@ -200,6 +200,7 @@ class Dashboard extends Component {
             lastName={activeUser.lastName || ''}
             imageUrl={activeUser.picture || ''}
           />
+<<<<<<< HEAD
           <Switch>
             {this.redirectUser()}
             <Route
@@ -234,6 +235,14 @@ class Dashboard extends Component {
             <Route path="*" component={NotFound} />
           </Switch>
         </div>
+=======
+          <Route path="/invite/:inviteHash" component={Invite} />
+          <Route path="/events" render={() => <EventsPage />} />
+          <Route path="/dashboard" render={() => <EventsPage createEvent={createEvent} categories={categories} uploadImage={uploadImage} />} />
+          <Route path="/interests" render={() => <Interests />} />
+          <Route path="*" component={NotFound} />
+        </Switch>
+>>>>>>> feat(interests): create interests page (#186)
         <Modal {...this.props} />
       </ModalContextProvider>
     );

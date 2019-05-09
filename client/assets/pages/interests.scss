@@ -15,6 +15,7 @@
 
 .interests-page {
   padding: 2em 5em 7em;
+<<<<<<< HEAD
   text-align: center;
   @include tablet {
     padding: 2em 1.5em 7em;
@@ -33,13 +34,29 @@
     justify-items: center;
     @include tablet {
       grid-template-columns: repeat(4,1fr);
+=======
+  @include tablet {
+    padding: 2em 2em 7em;
+  }
+  .interests {
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    justify-items: center;
+    @include tablet {
+      grid-template-columns: repeat(3,1fr);
+>>>>>>> feat(interests): create interests page (#186)
     }
     @include mobile {
       grid-template-columns: repeat(2,1fr);
     }
     &-card {
+<<<<<<< HEAD
       padding: .7em .7em .7em 1.2em;
       min-width: 10em;
+=======
+      padding: 1em 1em 1em 1.5em;
+      min-width: 12.5em;
+>>>>>>> feat(interests): create interests page (#186)
       cursor: pointer;
       color: #C4C4C4;
       border: 1px solid #C4C4C4;
@@ -52,12 +69,20 @@
       p {
         text-transform: capitalize;
         margin-right: .4em;
+<<<<<<< HEAD
         font-size: 18px;
       }
       &__icon-close {
         @include centered-flex;
         width: 2em;
         height: 2em;
+=======
+      }
+      &__icon-close {
+        @include centered-flex;
+        width: 2.2em;
+        height: 2.2em;
+>>>>>>> feat(interests): create interests page (#186)
         border-radius: 50%;
         border: 1px solid #C4C4C4;
         margin-left: auto;
@@ -68,12 +93,24 @@
           }        
         }
         .interest-icon {
+<<<<<<< HEAD
           font-size: 12px;
         }
       }
       &__icon-check {
         font-size: 20px;
         margin-left: auto;
+=======
+          font-size: 13px;
+        }
+      }
+      &__icon-check {
+        font-size: 22px;
+        margin-left: auto;
+        .interest-icon {
+          font-size: 13px;
+        }
+>>>>>>> feat(interests): create interests page (#186)
       }
       p {
         font-size: 20px;
