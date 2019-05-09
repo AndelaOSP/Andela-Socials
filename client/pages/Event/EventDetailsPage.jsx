@@ -4,7 +4,11 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment-timezone';
 
+<<<<<<< HEAD
 import { getEvent, deactivateEvent, shareEvent } from '../../actions/graphql/eventGQLActions';
+=======
+import { getEvent, deactivateEvent } from '../../actions/graphql/eventGQLActions';
+>>>>>>> bug(header): fix header style (#179)
 import { attendEvent } from '../../actions/graphql/attendGQLActions';
 import { getSlackChannelsList } from '../../actions/graphql/slackChannelsGQLActions';
 import NotFound from '../../components/common/NotFound';
@@ -126,6 +130,7 @@ class EventDetailsPage extends React.Component {
               {this.renderDeleteEventButton()}
             </div>
           ) : (
+<<<<<<< HEAD
               <Fragment>
                 <button
                   type="button"
@@ -154,6 +159,18 @@ class EventDetailsPage extends React.Component {
                   </div>
                 )}
               </Fragment>
+=======
+              <button
+                type="button"
+                onClick={this.rsvpEvent}
+                className="event-details__rsvp_button"
+                tooltip={message}
+                disabled={message ? ' disabled' : null}
+              >
+                {' '}
+                Attend &#10004;
+            </button>
+>>>>>>> bug(header): fix header style (#179)
             )}
         </div>
         <div className="event-details__section">

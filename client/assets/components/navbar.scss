@@ -113,7 +113,6 @@
   &__item {
     padding-left: 3%;
     margin-right: rem(16px);
-
     @include mobile(rem(600px)) {
       display: none;
     }
