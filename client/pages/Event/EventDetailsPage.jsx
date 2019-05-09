@@ -188,7 +188,7 @@ class EventDetailsPage extends React.Component {
             <p>{users}</p>
           </div>
           <div className="event-details__tags">
-            <h5>Tags:</h5>
+            <h5>TAGS:</h5>
             <p>#{socialEvent.name}</p>
           </div>
         </div>

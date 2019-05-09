@@ -28,24 +28,28 @@
     background-color: #fff;
     display: flex;
     flex-wrap: wrap;
+    margin-bottom: rem(100px);
   }
   &__img-container {
     overflow: hidden;
   }
   &__picture {
     width: 90%;
-    margin: rem(28px) rem(35px) rem(48px) rem(28px);
+    margin: rem(15px) rem(35px) rem(30px) rem(28px);
+    overflow: hidden;
   }
   &__gallery-picture {
     width: rem(84px);
     height: rem(89px);
-    margin-bottom: rem(39px);
-    margin-left: rem(20px);
+    margin-bottom: 0;
+    margin-left:0;
+    border: 2px solid black;
   }
   &__mini-gallery {
     margin-left: rem(28px);
     max-width: 41vw;
     display: inline-flex;
+    background: rgb(230, 18, 18);
   }
   &__event_title {
     font-family: DIN Pro;
@@ -151,21 +155,45 @@
     margin-bottom: rem(-20px);
   }
   &__description h5 {
-    font-size: 1.25rem;
+    font-size: 1.55rem;
     font-style: normal;
-    font-weight: bolder;
+    font-weight: 300;
     line-height: rem(7px);
     padding-top: rem(19px);
-    margin-bottom: 0.5rem;
+    margin-bottom: .5rem; 
+    margin-left: rem(15px);
   }
-  &__description article,
-  &__attending p,
-  &__tags p {
+  &__description article, &__tags p{
     font-style: normal;
     font-size: 1.2rem;
     word-break: break-all;
     font-weight: lighter;
     padding: rem(19px) 0 rem(20px) 0;
+    margin-left: rem(15px);
+    color:  #858383;
+  }
+  &__tags h5{
+    margin-left: rem(15px);
+    font-size: 1.0rem;
+    font-weight: 300;
+  }
+  &__attending{
+    display: flex;
+    margin-bottom: rem(18px);
+    p{
+      margin-left: rem(10px);
+      font-weight: lighter;
+      font-size: 1rem;
+      padding-top: 1px;
+      color:  #858383;
+    }
+    h5{
+      margin-top: 5px;
+      margin-left: rem(15px);
+      font-size: 1.0rem;
+      font-weight: 400;
+      font-weight: 300;
+    }
   }
   &__edit {
     color: #365edb;
