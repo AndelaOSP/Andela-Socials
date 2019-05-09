@@ -170,6 +170,10 @@ def get_slack_user_token(code):
     return response
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    
+>>>>>>> feature(channels): Get all slack public channels (#188)
 
 def get_slack_channels_list(limit=100):
     """
@@ -184,6 +188,7 @@ def get_slack_channels_list(limit=100):
         # retrieve all slack channels
         return channels_list
     return ''
+<<<<<<< HEAD
 
 
 def invite_to_event_channel(user_id, event_channel, channel_creator_token):
@@ -194,3 +199,5 @@ def invite_to_event_channel(user_id, event_channel, channel_creator_token):
         )
 =======
 >>>>>>> ft(slack-attend-event): User should be able to attend event from slack) (#181)
+=======
+>>>>>>> feature(channels): Get all slack public channels (#188)

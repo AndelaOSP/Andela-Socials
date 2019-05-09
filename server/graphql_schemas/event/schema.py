@@ -27,12 +27,19 @@ from graphql_schemas.utils.helpers import (is_not_admin,
                                            add_event_to_calendar)
 from graphql_schemas.scalars import NonEmptyString
 from graphql_schemas.utils.hasher import Hasher
+<<<<<<< HEAD
 from api.models import (Event, Category, AndelaUserProfile,
                         Interest, Attend)
 from api.slack import (get_slack_id,
                        notify_user,
                        new_event_message,
                        get_slack_channels_list, notify_channel)
+=======
+from api.models import Event, Category, AndelaUserProfile, \
+    Interest, Attend
+from api.slack import get_slack_id, notify_user, new_event_message, get_slack_channels_list
+
+>>>>>>> feature(channels): Get all slack public channels (#188)
 from api.utils.backgroundTaskWorker import BackgroundTaskWorker
 
 from api.constants import SLACK_CHANNEL_DATA
@@ -399,6 +406,43 @@ class ValidateEventInvite(relay.ClientIDMutation):
                 message=str(err)
             )
 
+class ChannelList(graphene.ObjectType):
+    id = graphene.ID()
+    name = graphene.String()
+    is_channel = graphene.String()
+    created = graphene.Int()
+    creator = graphene.String()
+    is_archived = graphene.Boolean()
+    is_general = graphene.Boolean()
+    name_normalized = graphene.String()
+    is_shared = graphene.Boolean()
+    is_org_shared = graphene.Boolean()
+    is_member = graphene.Boolean()
+    is_private = graphene.Boolean()
+    unlinked = graphene.String()
+    is_im = graphene.Boolean()
+    is_mpim = graphene.Boolean()
+    is_group = graphene.Boolean()
+    members = graphene.List(graphene.String)
+    previous_names = graphene.List(graphene.String)
+    num_members = graphene.Int()
+    parent_conversation = graphene.String()
+    is_pending_ext_shared = graphene.Boolean()
+    pending_shared = graphene.List(graphene.Boolean)
+    is_ext_shared = graphene.Boolean()
+
+
+class ResponseMetadata(graphene.ObjectType):
+    next_cursor = graphene.String()
+
+
+class SlackChannelsList(graphene.ObjectType):
+    ok = graphene.Boolean()
+    channels = graphene.List(ChannelList)
+    response_metadata = graphene.Field(ResponseMetadata)
+
+    class Meta:
+        interfaces = (relay.Node,)
 
 class ChannelList(graphene.ObjectType):
     id = graphene.ID()
@@ -467,8 +511,14 @@ class ShareEvent(relay.ClientIDMutation):
 
 class EventQuery(object):
     event = relay.Node.Field(EventNode)
+<<<<<<< HEAD
     events_list = DjangoFilterConnectionField(EventNode, filterset_class=EventFilter)
     slack_channels_list = graphene.Field(SlackChannelsList)
+=======
+    events_list = DjangoFilterConnectionField(EventNode)
+    slack_channels_list = graphene.Field(SlackChannelsList)
+
+>>>>>>> feature(channels): Get all slack public channels (#188)
 
     def resolve_event(self, info, **kwargs):
         id = kwargs.get('id')
@@ -488,12 +538,21 @@ class EventQuery(object):
         slack_list = get_slack_channels_list()
         responseMetadata = ResponseMetadata(**slack_list.get('response_metadata'))
         for items in slack_list.get('channels'):
+<<<<<<< HEAD
             selection = SLACK_CHANNEL_DATA
             filtered_channel = dict(filter(lambda x: x[0] in selection, items.items()))
             channel = ChannelList(**filtered_channel)
             channels.append(channel)
         return SlackChannelsList(
             ok=slack_list.get('ok'), channels=channels, response_metadata=responseMetadata)
+=======
+            selection = ['topic', 'purpose', 'shared_team_ids']
+            filtered_channel = dict(filter(lambda x: x[0] not in selection, items.items()))
+            channel = ChannelList(**filtered_channel)
+            channels.append(channel)
+        return SlackChannelsList(
+            ok=slack_list.get('ok'),channels=channels,response_metadata=responseMetadata)
+>>>>>>> feature(channels): Get all slack public channels (#188)
 
 
 class EventMutation(ObjectType):
