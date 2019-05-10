@@ -38,6 +38,8 @@ class Interests extends React.Component {
 
     return (
       <div className="interests-page">
+        <h2 className="interests-page__header">Choose activities that interest you.</h2>
+        <p className="interests-page__subheader">Select and deselect interests below.</p>
         <div className="interests">
           {
             interests.map(({name, isSelected}, index) => {
