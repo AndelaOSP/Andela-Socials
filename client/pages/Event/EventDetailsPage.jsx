@@ -75,6 +75,8 @@ class EventDetailsPage extends React.Component {
       },
       activeUser: { id },
     } = this.props;
+
+    const { showSlackChannels } = this.state;
     const eventData = {
       id: event.id,
       title,
@@ -138,7 +140,7 @@ class EventDetailsPage extends React.Component {
                 {' '}
                 Share on Slack {<SlackIcon color="white" width="7%"/>}
               </button>
-              {this.state.showSlackChannels && (
+              {showSlackChannels && (
                 <div className="menu">
                     {this.renderSlackChannels()}
                 </div>
@@ -203,22 +205,21 @@ class EventDetailsPage extends React.Component {
     );
   };
 
-  renderSlackChannels = () => {
-    return slackChannels.channels.map(channel => <a key={channel.id}>{channel.name}</a> )
-  }
+  renderSlackChannels = () => slackChannels.channels.map(channel => (
+            <a
+             href
+             key={channel.id}>
+              {channel.name}
+            </a>));
+
+  // eslint-disable-next-line react/sort-comp
   handleBack() {
-    const {
-      history: { push }
-    } = this.props;
+    const { history: { push } } = this.props;
     push('/dashboard');
   }
 
   loadEvent() {
-    const {
-      match: {
-        params: { eventId }
-      }
-    } = this.props;
+    const { match: { params: { eventId } } } = this.props;
     const { getEventAction } = this.props;
     getEventAction(eventId);
   }
@@ -353,6 +354,9 @@ EventDetailsPage.propTypes = {
     categories: PropTypes.arrayOf(PropTypes.shape({})),
   }),
   activeUser: PropTypes.shape({ id: PropTypes.string }),
+  updateEvent: PropTypes.func,
+  uploadImage: PropTypes.func,
+  categories: PropTypes.arrayOf(PropTypes.shape({})),
 };
 
 EventDetailsPage.defaultProps = {
@@ -361,9 +365,12 @@ EventDetailsPage.defaultProps = {
   events: [],
   activeUser: { id: '' },
   history: { push: () => null },
+  categories: [],
   getEventAction: () => null,
   deactivateEventAction: () => null,
   attendEventAction: () => null,
+  updateEvent: () => null,
+  uploadImage: () => null,
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators(
@@ -376,7 +383,7 @@ const mapDispatchToProps = dispatch => bindActionCreators(
 );
 
 const mapStateToProps = state => ({
-  event: state.event,
+  event: state.event.event,
   events: state.events,
 });
 export default connect(

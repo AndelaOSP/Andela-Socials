@@ -1,4 +1,5 @@
 @import '../tools/functions.scss';
+
 .event-details {
   position: absolute;
   left: 2.5vw;
@@ -6,16 +7,18 @@
   top: rem(159px);
 
   &__top {
-    background-color: #fff;
+    background-color: #FFF;
     display: flex;
     flex-wrap: wrap;
   }
+
   &__section {
     width: 50%;
     max-height: 100%;
     float: left;
     padding: rem(19px) rem(19px) rem(12px) rem(19px);
-    background-color: #fff;
+    background-color: #FFF;
+
     @media screen and (max-width: rem(840px)) {
       width: 100%;
     }
@@ -25,38 +28,44 @@
     margin-top: rem(20px);
     width: 95vw;
     min-height: 50vh;
-    background-color: #fff;
+    background-color: #FFF;
     display: flex;
     flex-wrap: wrap;
     margin-bottom: rem(100px);
   }
+
   &__img-container {
     overflow: hidden;
   }
+
   &__picture {
     width: 90%;
     margin: rem(15px) rem(35px) rem(30px) rem(28px);
     overflow: hidden;
   }
+
   &__gallery-picture {
     width: rem(84px);
     height: rem(89px);
     margin-bottom: 0;
     margin-left:0;
-    border: 2px solid black;
+    border: 2px solid #000;
   }
+
   &__mini-gallery {
     margin-left: rem(28px);
     max-width: 41vw;
     display: inline-flex;
     background: rgb(230, 18, 18);
   }
+
   &__event_title {
-    font-family: DIN Pro;
+    font-family: 'Primary-DINPro';
     font-weight: bold;
     font-size: rem(40px);
     padding: 0 0 0 rem(26px);
   }
+
   &__social_event {
     font-size: rem(20px);
     font-style: normal;
@@ -64,49 +73,57 @@
     margin: 0 0 0 rem(26px);
     color: #797979;
   }
+
   &__rsvp_button {
     margin: rem(14px) 0 0 rem(26px);
     border-radius: 5px;
     background-color: #3359DB;
-    font-size: 1.35em;
-    color: white;
+    font-size: 1.35rem;
+    color: #FFF;
     padding: rem(5px) rem(30px);
+
     &:disabled {
-      background-color: #ccc;
+      background-color: #CCC;
       cursor: not-allowed;
     }
   }
+
   &__slack_button {
     border-radius: 5px;
-    background-color: #3f0f3f;
-    font-size: 1.35em;
-    color: white;
+    background-color: #3F0F3F;
+    font-size: 1.35rem;
+    color: #FFF;
     width: rem(180px);
     height: rem(39px);
   }
+
   .menu {
     position: absolute;
     width: rem(180px);
     margin: 0 0 0 rem(180px);
     top: 180px;
     box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.1);
+
     a {
       text-decoration: none;
       display: block;
-      font-size: 1.25em;
+      font-size: 1.25rem;
       height: rem(41px);
-      background-color: #fff;
+      background-color: #FFF;
       padding: 5px 15px;
       cursor: pointer;
+
       &:hover {
-        background-color: #eee;
+        background-color: #EEE;
       }
     }
   }
+
   [tooltip] {
     margin: 20px;
     position: relative;
   }
+
   [tooltip]::before {
     content: '';
     position: absolute;
@@ -119,6 +136,7 @@
     z-index: 100;
     opacity: 0;
   }
+
   [tooltip]::after {
     content: attr(tooltip);
     text-align: center;
@@ -128,7 +146,7 @@
     left: 100%;
     margin-left: 8px;
     transform: translateX(0) translateY(-50%);
-    color: #fff;
+    color: #FFF;
     padding: 4px 4px;
     font-size: 12px;
     min-width: 120px;
@@ -137,16 +155,19 @@
     z-index: 99;
     opacity: 0;
   }
+
   [tooltip]:hover::after,
   [tooltip]:hover::before {
     opacity: 1;
   }
+
   &__location_time h5 {
     font-size: 1.25rem;
     font-style: normal;
     font-weight: 350;
     line-height: rem(10px);
   }
+
   &__location_time p {
     font-size: 1.25rem;
     font-style: normal;
@@ -154,58 +175,75 @@
     overflow-wrap: break-word;
     margin-bottom: rem(-20px);
   }
+
   &__description h5 {
     font-size: 1.55rem;
+    font-family: 'Lato';
     font-style: normal;
     font-weight: 300;
     line-height: rem(7px);
     padding-top: rem(19px);
-    margin-bottom: .5rem; 
+    margin-bottom: .5rem;
     margin-left: rem(15px);
   }
-  &__description article, &__tags p{
+
+  &__attending h5,
+  &__tags h5 {
+    font-family: 'Lato';
+    font-weight: 700;
+  }
+
+  &__description article,
+  &__attending p,
+  &__tags p {
+    font-family: 'Lato';
     font-style: normal;
     font-size: 1.2rem;
     word-break: break-all;
     font-weight: lighter;
     padding: rem(19px) 0 rem(20px) 0;
     margin-left: rem(15px);
-    color:  #858383;
+    color: #858383;
   }
-  &__tags h5{
+
+  &__tags h5 {
     margin-left: rem(15px);
     font-size: 1.0rem;
     font-weight: 300;
   }
-  &__attending{
+
+  &__attending {
     display: flex;
     margin-bottom: rem(18px);
-    p{
+
+    p {
       margin-left: rem(10px);
       font-weight: lighter;
       font-size: 1rem;
       padding-top: 1px;
-      color:  #858383;
+      color: #858383;
     }
-    h5{
+
+    h5 {
       margin-top: 5px;
       margin-left: rem(15px);
       font-size: 1.0rem;
       font-weight: 400;
-      font-weight: 300;
     }
   }
+
   &__edit {
-    color: #365edb;
-    border-color: #365edb;
+    color: #365EDB;
+    border-color: #365EDB;
     font-size: large;
     width: rem(49px);
     height: rem(42px);
     margin: 0 0 0 rem(26px);
   }
+
   &__delete {
-    color: #db4437;
-    border-color: #db4437;
+    color: #DB4437;
+    border-color: #DB4437;
     font-size: large;
     width: rem(49px);
     height: rem(42px);

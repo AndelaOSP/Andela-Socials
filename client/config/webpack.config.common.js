@@ -53,7 +53,7 @@ module.exports = {
         test: /\.(jpeg|png|gif|svg|jpg)$/, loader: 'url-loader?limit=25000',
       },
       {
-        test: /\.otf$/, loader: 'file-loader',
+        test: /\.(otf|ttf)$/, loader: 'file-loader',
       },
       {
         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=image/svg+xml',
