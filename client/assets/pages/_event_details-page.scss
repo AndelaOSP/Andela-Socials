@@ -1,5 +1,8 @@
 @import '../tools/functions.scss';
+<<<<<<< HEAD
 
+=======
+>>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
 .event-details {
   position: absolute;
   left: 2.5vw;
@@ -7,18 +10,29 @@
   top: rem(159px);
 
   &__top {
+<<<<<<< HEAD
     background-color: #FFFFFF;
     display: flex;
     flex-wrap: wrap;
   }
 
+=======
+    background-color: #fff;
+    display: flex;
+    flex-wrap: wrap;
+  }
+>>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
   &__section {
     width: 50%;
     max-height: 100%;
     float: left;
     padding: rem(19px) rem(19px) rem(12px) rem(19px);
+<<<<<<< HEAD
     background-color: #FFFFFF;
 
+=======
+    background-color: #fff;
+>>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
     @media screen and (max-width: rem(840px)) {
       width: 100%;
     }
@@ -28,42 +42,66 @@
     margin-top: rem(20px);
     width: 95vw;
     min-height: 50vh;
+<<<<<<< HEAD
     background-color: #FFFFFF;
+=======
+    background-color: #fff;
+>>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
     display: flex;
     flex-wrap: wrap;
     margin-bottom: rem(100px);
   }
+<<<<<<< HEAD
 
   &__img-container {
     overflow: hidden;
   }
 
+=======
+  &__img-container {
+    overflow: hidden;
+  }
+>>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
   &__picture {
     width: 90%;
     margin: rem(15px) rem(35px) rem(30px) rem(28px);
     overflow: hidden;
   }
+<<<<<<< HEAD
 
+=======
+>>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
   &__gallery-picture {
     width: rem(84px);
     height: rem(89px);
     margin-bottom: 0;
     margin-left: 0;
   }
+<<<<<<< HEAD
 
+=======
+>>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
   &__mini-gallery {
     margin-left: rem(28px);
     max-width: 41vw;
     display: inline-flex;
   }
+<<<<<<< HEAD
 
   &__event_title {
     font-family: "Primary-DINPro";
+=======
+  &__event_title {
+    font-family: DIN Pro;
+>>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
     font-weight: bold;
     font-size: rem(40px);
     padding: 0 0 0 rem(26px);
   }
+<<<<<<< HEAD
 
+=======
+>>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
   &__social_event {
     font-size: rem(20px);
     font-style: normal;
@@ -71,6 +109,7 @@
     margin: 0 0 0 rem(26px);
     color: #797979;
   }
+<<<<<<< HEAD
 
   &__rsvp_button {
     margin: rem(14px) 0 0 rem(26px);
@@ -83,6 +122,11 @@
 
 =======
     border-radius: 8%;
+=======
+  &__rsvp_button {
+    margin: rem(14px) 0 0 rem(26px);
+    border-radius: 5px;
+>>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
     background-color: #3359DB;
     font-size: 1.35em;
     color: white;
@@ -93,6 +137,7 @@
       cursor: not-allowed;
     }
   }
+<<<<<<< HEAD
 
   &__slack_button {
     border-radius: 5px;
@@ -125,6 +170,35 @@
     }
   }
 
+=======
+  &__slack_button {
+    border-radius: 5px;
+    background-color: #3f0f3f;
+    font-size: 1.35em;
+    color: white;
+    width: rem(180px);
+    height: rem(39px);
+  }
+  .menu {
+    position: absolute;
+    width: rem(180px);
+    margin: 0 0 0 rem(180px);
+    top: 180px;
+    box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.1);
+    a {
+      text-decoration: none;
+      display: block;
+      font-size: 1.25em;
+      height: rem(41px);
+      background-color: #fff;
+      padding: 5px 15px;
+      cursor: pointer;
+      &:hover {
+        background-color: #eee;
+      }
+    }
+  }
+>>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
   [tooltip] {
     margin: 20px;
     position: relative;
@@ -160,6 +234,7 @@
     pointer-events: none;
     z-index: 99;
     opacity: 0;
+<<<<<<< HEAD
   }
 
   [tooltip]:hover::after,
@@ -167,6 +242,13 @@
     opacity: 1;
   }
 
+=======
+  }
+  [tooltip]:hover::after,
+  [tooltip]:hover::before {
+    opacity: 1;
+  }
+>>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
   &__location_time h5 {
     font-size: 1.25rem;
     font-style: normal;
@@ -190,6 +272,7 @@
     line-height: rem(7px);
     padding-top: rem(19px);
     margin-bottom: 0.5rem;
+<<<<<<< HEAD
     margin-left: rem(15px);
   }
 
@@ -203,6 +286,12 @@
   &__attending p,
   &__tags p {
     font-family: "Lato";
+=======
+  }
+  &__description article,
+  &__attending p,
+  &__tags p {
+>>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
     font-style: normal;
     font-size: 1.2rem;
     word-break: break-all;
@@ -248,8 +337,8 @@
   }
 
   &__delete {
-    color: #DB4437;
-    border-color: #DB4437;
+    color: #db4437;
+    border-color: #db4437;
     font-size: large;
     width: rem(49px);
     height: rem(42px);
