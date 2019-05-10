@@ -31,16 +31,17 @@ def get_slack_id(user):
     return user_name[0].get('id') if user_name else ''
 
 
-def notify_channel(message):
+def notify_channel(message, text, channel_id=dotenv.get('DEFAULT_CHANNEL_ID')):
     """
     Notify the channel with the given message
         :param message:
     """
     slack_client.api_call(
         "chat.postMessage",
-        channel="#andela_socials",
-        text=message,
-        as_user=True,
+        channel=channel_id,
+        blocks=message,
+        text=text,
+        as_user=False,
         reply_broadcast=True,
     )
 
@@ -149,7 +150,6 @@ def get_slack_user_token(code):
 
     return response
 
-    
 
 def get_slack_channels_list(limit=100):
     """

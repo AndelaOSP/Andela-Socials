@@ -23,10 +23,12 @@ from graphql_schemas.utils.helpers import (is_not_admin,
                                            not_valid_timezone)
 from graphql_schemas.scalars import NonEmptyString
 from graphql_schemas.utils.hasher import Hasher
-from api.models import Event, Category, AndelaUserProfile, \
-    Interest, Attend
-from api.slack import get_slack_id, notify_user, new_event_message, get_slack_channels_list
-
+from api.models import (Event, Category, AndelaUserProfile,
+                        Interest, Attend)
+from api.slack import (get_slack_id,
+                       notify_user,
+                       new_event_message,
+                       get_slack_channels_list, notify_channel)
 from api.utils.backgroundTaskWorker import BackgroundTaskWorker
 
 from ..attend.schema import AttendNode
@@ -131,7 +133,8 @@ class CreateEvent(relay.ClientIDMutation):
                 all_users_attendance.append(new_attendance)
                 if instance.follower.slack_id:
                     slack_response = notify_user(
-                        blocks, instance.follower.slack_id, text="New upcoming event from Andela socials")
+                        blocks, instance.follower.slack_id,
+                        text="New upcoming event from Andela socials")
                     if not slack_response['ok']:
                         logging.warn(slack_response)
                 else:
@@ -357,11 +360,45 @@ class SlackChannelsList(graphene.ObjectType):
     class Meta:
         interfaces = (relay.Node,)
 
+
+class ShareEvent(relay.ClientIDMutation):
+    class Input:
+        event_id = graphene.ID()
+        channel_id = graphene.String()
+
+    event = graphene.Field(EventNode)
+
+    @classmethod
+    def mutate_and_get_payload(cls, root, info, **input):
+        event_id = from_global_id(input.get('event_id'))[1]
+        channel_id = input.get('channel_id')
+        event_url = f"{dotenv.get('FRONTEND_BASE_URL')}/{event_id}"
+        event = Event.objects.get(pk=event_id)
+
+        try:
+            start_date = parse(event.start_date)
+            message = (f"*A new event has been created by <@{event.creator.slack_id}>.*\n"
+                       f"> *Title:* {event.title}\n"
+                       f"> *Description:* {event.description}\n"
+                       f"> *Venue:* {event.venue}\n"
+                       f"> *Date:*  {start_date.strftime('%d %B %Y, %A')} \n"
+                       f"> *Time:*  {start_date.strftime('%H:%M')}")
+            blocks = new_event_message(
+                message, event_url, event_id, event.featured_image)
+
+            notify_channel(
+                blocks, "New upcoming event from Andela socials", channel_id)
+
+        except ValueError as e:
+            raise GraphQLError("An Error occurred. Please try again")
+
+        return ShareEvent(event=event)
+
+
 class EventQuery(object):
     event = relay.Node.Field(EventNode)
     events_list = DjangoFilterConnectionField(EventNode)
     slack_channels_list = graphene.Field(SlackChannelsList)
-
 
     def resolve_event(self, info, **kwargs):
         id = kwargs.get('id')
@@ -395,3 +432,4 @@ class EventMutation(ObjectType):
     send_event_invite = SendEventInvite.Field()
     update_event = UpdateEvent.Field()
     validate_event_invite = ValidateEventInvite.Field()
+    share_event = ShareEvent.Field()

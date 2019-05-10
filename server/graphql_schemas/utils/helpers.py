@@ -1,6 +1,7 @@
 import os
 import datetime
 import pytz
+import dotenv
 import dateutil.parser as parser
 from django.core.exceptions import ValidationError
 from django.core.files.storage import FileSystemStorage
@@ -175,6 +176,5 @@ def upload_image_file(uploaded_file):
         fs = FileSystemStorage()
         safe_filename = _safe_filename(uploaded_file.name)
         filename = fs.save(safe_filename, uploaded_file)
-        url = "http://localhost:8000/static{}".format(
-            fs.url(filename))
+        url = f"{dotenv.get('IMAGE_BASE_URL')}/static{fs.url(filename)}"
         return url
