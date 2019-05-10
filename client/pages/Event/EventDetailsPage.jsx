@@ -34,10 +34,14 @@ class EventDetailsPage extends React.Component {
       events,
       updated: false,
 <<<<<<< HEAD
+<<<<<<< HEAD
       showSlackChannels: false,
 =======
       showSlackChannels: false
 >>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
+=======
+      showSlackChannels: false,
+>>>>>>> fix attend button state (#177)
     };
     this.handleBack = this.handleBack.bind(this);
     this.rsvpEvent = this.rsvpEvent.bind(this);
@@ -56,8 +60,8 @@ class EventDetailsPage extends React.Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (
-      nextProps.events.status &&
-      (nextProps.events !== prevState.events && prevState.updated === false)
+      nextProps.events.status
+      && (nextProps.events !== prevState.events && prevState.updated === false)
     ) {
       return { updated: true };
     }
@@ -83,9 +87,9 @@ class EventDetailsPage extends React.Component {
         description,
         featuredImage,
         attendSet: { edges },
-        newAttendance
+        newAttendance,
       },
-      activeUser: { id }
+      activeUser: { id },
     } = this.props;
 
     const { showSlackChannels } = this.state;
@@ -99,11 +103,15 @@ class EventDetailsPage extends React.Component {
       socialEvent,
       description,
 <<<<<<< HEAD
+<<<<<<< HEAD
       featuredImage,
       slackChannel
 =======
       featuredImage
 >>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
+=======
+      featuredImage,
+>>>>>>> fix attend button state (#177)
     };
     let message;
     const creator = id === googleId;
@@ -112,9 +120,8 @@ class EventDetailsPage extends React.Component {
     const startDateInCurrentTimezone = moment.tz(startDate, currentTimezone);
     const endDateInCurrentTimezone = moment.tz(endDate, currentTimezone);
     const isPastEvent = currentDate.isAfter(endDateInCurrentTimezone);
-    const hasCommenced =
-      endDateInCurrentTimezone.isAfter(startDateInCurrentTimezone) &&
-      startDateInCurrentTimezone.isBefore(currentDate);
+    const hasCommenced = endDateInCurrentTimezone.isAfter(startDateInCurrentTimezone)
+      && startDateInCurrentTimezone.isBefore(currentDate);
 
     const activeUserIsAttending = edges.find(edge => edge.node.user.googleId === id);
 
@@ -123,12 +130,18 @@ class EventDetailsPage extends React.Component {
     } else if (hasCommenced) {
       message = 'This event has already started';
 <<<<<<< HEAD
+<<<<<<< HEAD
     } else if (activeUserIsAttending
       || (newAttendance && newAttendance.status === 'ATTENDING'
         && newAttendance.event.id === event.id)) {
 =======
     } else if (activeUserIsAttending || (newAttendance && newAttendance.status === 'ATTENDING')) {
 >>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
+=======
+    } else if (activeUserIsAttending
+      || (newAttendance && newAttendance.status === 'ATTENDING'
+      && newAttendance.event.id === event.id)) {
+>>>>>>> fix attend button state (#177)
       message = "You're attending this event";
     }
 
@@ -245,10 +258,11 @@ class EventDetailsPage extends React.Component {
         description,
         socialEvent,
         featuredImage,
-        attendSet: { edges }
+        attendSet: { edges },
       },
-      activeUser: { id }
+      activeUser: { id },
     } = this.props;
+<<<<<<< HEAD
 <<<<<<< HEAD
     const users = edges.length > 0
       ? edges.map(object => (object.node.user.googleId === id ? 'You,' : `@${object.node.user.slackId}, `))
@@ -261,6 +275,11 @@ class EventDetailsPage extends React.Component {
           )
         : 'No one';
 >>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
+=======
+    const users = edges.length > 0
+      ? edges.map(object => (object.node.user.googleId === id ? 'You,' : `@${object.node.user.slackId}, `))
+      : 'No one';
+>>>>>>> fix attend button state (#177)
     return (
       <div className="event-details__middle">
         <div className="event-details__section">
@@ -318,6 +337,7 @@ class EventDetailsPage extends React.Component {
   }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   loadSlackChannels() {
     const { getSlackChannelsList } = this.props;
     getSlackChannelsList();
@@ -331,11 +351,12 @@ class EventDetailsPage extends React.Component {
 
 =======
   showSlackChannels = evt => {
+=======
+  showSlackChannels = (evt) => {
+>>>>>>> fix attend button state (#177)
     evt.preventDefault();
     this.setState(
-      {
-        showSlackChannels: true
-      },
+      { showSlackChannels: true },
       () => {
         document.addEventListener('click', this.closeChannelsMenu);
       }
@@ -347,34 +368,41 @@ class EventDetailsPage extends React.Component {
       document.removeEventListener('click', this.closeChannelsMenu);
     });
   };
+<<<<<<< HEAD
 >>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
+=======
+
+>>>>>>> fix attend button state (#177)
   rsvpEvent() {
     const {
       attendEventAction,
-      event: { id }
+      event: { id },
     } = this.props;
     attendEventAction(id);
   }
 
   renderCreateEventButton = eventData => (
     <ModalContextCreator.Consumer>
-      {({ activeModal, openModal }) => {
-        const { categories, uploadImage, updateEvent } = this.props;
+      {({
+        activeModal, openModal,
+      }) => {
+        const {
+          categories, uploadImage, updateEvent,
+        } = this.props;
         if (activeModal) return null;
         return (
           <button
             type="button"
-            onClick={() =>
-              openModal('UPDATE_EVENT', {
-                modalHeadline: 'Update event',
-                formMode: 'update',
-                formId: 'event-form',
-                eventData,
-                categories,
-                createEvent: () => '',
-                updateEvent,
-                uploadImage
-              })
+            onClick={() => openModal('UPDATE_EVENT', {
+              modalHeadline: 'Update event',
+              formMode: 'update',
+              formId: 'event-form',
+              eventData,
+              categories,
+              createEvent: () => '',
+              updateEvent,
+              uploadImage,
+            })
             }
             className="event-details__edit"
           >
@@ -388,24 +416,27 @@ class EventDetailsPage extends React.Component {
 
   renderDeleteEventButton = () => (
     <ModalContextCreator.Consumer>
-      {({ activeModal, openModal }) => {
+      {({
+        activeModal, openModal,
+      }) => {
         const {
-          event: { title, id },
-          deactivateEventAction
+          event: {
+            title, id,
+          },
+          deactivateEventAction,
         } = this.props;
         if (activeModal) return null;
         return (
           <button
             type="button"
-            onClick={() =>
-              openModal('DELETE_EVENT', {
-                modalHeadline: 'Delete event',
-                formText: `Are you sure you want to delete the Event '${title}' ?`,
-                eventId: id,
-                formId: 'delete-event-form',
-                deleteEvent: deactivateEventAction,
-                back: this.handleBack
-              })
+            onClick={() => openModal('DELETE_EVENT', {
+              modalHeadline: 'Delete event',
+              formText: `Are you sure you want to delete the Event '${title}' ?`,
+              eventId: id,
+              formId: 'delete-event-form',
+              deleteEvent: deactivateEventAction,
+              back: this.handleBack,
+            })
             }
             className="event-details__delete"
           >
@@ -455,8 +486,9 @@ EventDetailsPage.propTypes = {
     slackChannel: PropTypes.string,
     socialEvent: PropTypes.shape({ name: PropTypes.string }),
     attendSet: PropTypes.shape({ edges: PropTypes.arrayOf(PropTypes.shape({})) }),
-    categories: PropTypes.arrayOf(PropTypes.shape({}))
+    categories: PropTypes.arrayOf(PropTypes.shape({})),
   }),
+<<<<<<< HEAD
 <<<<<<< HEAD
   activeUser: PropTypes.shape({ id: PropTypes.string }),
   updateEvent: PropTypes.func,
@@ -465,6 +497,9 @@ EventDetailsPage.propTypes = {
 =======
   activeUser: PropTypes.shape({ id: PropTypes.string })
 >>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
+=======
+  activeUser: PropTypes.shape({ id: PropTypes.string }),
+>>>>>>> fix attend button state (#177)
 };
 
 EventDetailsPage.defaultProps = {
@@ -476,6 +511,7 @@ EventDetailsPage.defaultProps = {
   categories: [],
   getEventAction: () => null,
   deactivateEventAction: () => null,
+<<<<<<< HEAD
 <<<<<<< HEAD
   attendEventAction: () => null,
   updateEvent: () => null,
@@ -500,22 +536,29 @@ const mapStateToProps = state => ({
   slackChannels: state.slackChannels.channels
 =======
   attendEventAction: () => null
+=======
+  attendEventAction: () => null,
+>>>>>>> fix attend button state (#177)
 };
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      getEventAction: getEvent,
-      deactivateEventAction: deactivateEvent,
-      attendEventAction: attendEvent
-    },
-    dispatch
-  );
+const mapDispatchToProps = dispatch => bindActionCreators(
+  {
+    getEventAction: getEvent,
+    deactivateEventAction: deactivateEvent,
+    attendEventAction: attendEvent,
+  },
+  dispatch
+);
 
 const mapStateToProps = state => ({
+<<<<<<< HEAD
   event: state.event.event,
   events: state.events
 >>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
+=======
+  event: state.event,
+  events: state.events,
+>>>>>>> fix attend button state (#177)
 });
 export default connect(
   mapStateToProps,
