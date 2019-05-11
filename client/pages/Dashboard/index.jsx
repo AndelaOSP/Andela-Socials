@@ -62,13 +62,16 @@ class Dashboard extends Component {
   componentDidMount() {
     this.setState({ oauthCounter: 1 });
     const {
-      loadActiveUser, getCategoryList,
+      loadActiveUser: loadActiveUserAction,
+      getCategoryList: getCategoryListAction,
     } = this.props;
-    loadActiveUser();
-    getCategoryList({
-      first: 20,
-      last: 20,
-    });
+    if (isLoggedIn()) {
+      loadActiveUserAction();
+      getCategoryListAction({
+        first: 20,
+        last: 20,
+      });
+    }
   }
 
   /**
@@ -139,7 +142,7 @@ class Dashboard extends Component {
 
     if (!localStorage.getItem('token')) {
       const token = Cookies.get('jwt-token');
-      if (token) {
+      if (isLoggedIn() && token) {
         localStorage.setItem('token', token);
       }
     }
