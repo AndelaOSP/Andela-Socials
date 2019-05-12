@@ -1,69 +1,149 @@
 .event-card {
   display: grid;
-  grid-template-columns: rem(321px);
-  grid-template-rows: rem(212px);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.6) 81.49%);
+  grid-template-columns: rem(400px);
+  grid-template-rows: rem(300px);
   position: relative;
-  max-width: rem(321px);
+  max-width: rem(400px);
+  border-radius: 5px;
   transition: all .2s;
   cursor: pointer;
-  &::after {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: rem(321px);
-    height: rem(212px);
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.6) 81.49%);
+
+  &__gradient {
+    position: relative;
+    grid-column: 1/2;
+    grid-row: 1/2;
+    height: 60%;
+    width: 100%;
+    background-color: #000;
+    border-radius: 5px 5px 0 0;
   }
+
   &__picture {
+    object-fit: cover;
+    object-position: center center;
     background-size: cover;
+    background-color: #000;
+    opacity: 0.8;
+    background-position: center;
     grid-column: 1/2;
     grid-row: 1/2;
     width: 100%;
     height: 100%;
   }
+
+  &__label {
+    top: 0;
+    position: absolute;
+    justify-self: right;
+    margin-top: 10px;
+    align-self: right;
+    width: rem(60px);
+    background-color: #FFF;
+    border-radius: 5px 0 0 5px;
+    color: #000;
+    z-index: 100;
+    box-shadow: 0 rem(4px) rem(10px) rgba(0, 0, 0, 0.9);
+    padding-left: 10px;
+  }
+
+  &__action {
+    top: 100;
+    width: 40px;
+    height: 40px;
+    margin-top: 40%;
+    position: absolute;
+    justify-self: right;
+    text-align: center;
+    background-color: #FFF;
+    border-radius: 100%;
+    padding: 10px;
+    margin-right: 7%;
+    z-index: 300;
+    box-shadow: 0 rem(2px) rem(10px) rgba(0, 0, 0, 0.1);
+  }
+
+  &__slack {
+    width: 100%;
+  }
+
   &__caption-group {
+    top: 60%;
+    position: relative;
+    height: 40%;
     grid-column: 1/2;
     grid-row: 1/2;
     display: grid;
-    grid-template-columns: auto;
+    grid-template-columns: 15% 85%;
+    grid-template-rows: auto;
     justify-content: center;
-    align-content: end;
-    grid-row-gap: 0.63px;
-    margin-bottom: rem(10px);
+    background: #FFF;
+    padding-top: rem(20px);
+    padding-bottom: rem(10px);
   }
+
+  &__date {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    text-align: right;
+  }
+
+  &__month {
+    font-size: rem(12px);
+    margin-top: 2px;
+    margin-bottom: 0px;
+  }
+
+  &__day {
+    margin-top: 0px;
+    font-size: rem(18px);
+  }
+
+  &__details {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    text-align: left;
+    margin-left: rem(16px);
+  }
+
   &__caption {
     font-family: inherit;
     width: 100%;
     z-index: 2;
   }
+
   &__caption--title {
-    font-size: rem(19px);
+    font-weight: 500;
+    font-size: rem(18px);
+    line-height: rem(24px);
+    letter-spacing: rem(2px);
     text-transform: capitalize;
-    color: #E8E8E8;
-    text-align: center;
+    color: rgba(0, 0, 0, 0.8);
+    font-family: 'Lato';
+    text-align: left;
   }
+
   &__caption--date {
-    color: #BDBDBD;
+    color: #777;
     line-height: rem(15px);
     height: rem(16px);
     font-size: rem(12px);
-    text-align: center;
+    text-align: left;
   }
+
   &__caption--tags {
-    color: #FFFFFF;
+    color: #777;
     font-size: rem(12px);
     height: rem(16px);
-    text-align: center;
+    text-align: left;
     text-transform: lowercase;
     margin-bottom: rem(8px);
   }
+  
   &:hover {
     box-shadow: 0 rem(4px) rem(10px) rgba(0, 0, 0, 0.679);
     transform: translateY(rem(-5px));
   }
+
   &:active {
     box-shadow: 0 1px 2.5px rgba(0, 0, 0, 0.679);
     transform: translateY(0);
@@ -71,5 +151,9 @@
 }
 
 .event-link {
-  max-width: rem(321px);
+  max-width: rem(400px);
+}
+
+.event-link:hover {
+  text-decoration: none;
 }

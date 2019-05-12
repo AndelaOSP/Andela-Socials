@@ -136,7 +136,7 @@ class EventDetailsPage extends React.Component {
                 className="event-details__slack_button"
               >
                 {' '}
-                Share on Slack {SlackIcon}
+                Share on Slack {<SlackIcon color="white" width="7%"/>}
               </button>
               {this.state.showSlackChannels && (
                 <div className="menu">

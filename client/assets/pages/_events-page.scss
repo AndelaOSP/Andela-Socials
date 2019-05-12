@@ -1,5 +1,6 @@
 @import url(https://fonts.googleapis.com/icon?family=Material+Icons);
 @import url(https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
+
 .event {
   &__container {
     background-color: rgba(244, 248, 249, 1);
@@ -7,6 +8,7 @@
     height: 10rem;
     grid-template-columns: [full-start] rem(30px) [sidebar-start] rem(330px) [sidebar-end] rem(30px) [event-gallery-start] auto [event-gallery-end] rem(36px) [full-end];
     grid-template-rows: auto rem(147.69px);
+
     @include mobile('600px') {
       grid-template-rows: repeat(2, auto) rem(100px);
       grid-template-columns: auto;
@@ -14,21 +16,24 @@
       margin-left: rem(5px);
     }
   }
+
   &__sidebar {
     grid-column: sidebar-start/sidebar-end;
     width: rem(330px);
     vertical-align: middle;
   }
+
   &__gallery {
     grid-column: event-gallery-start/event-gallery-end;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(rem(321px), auto));
+    grid-template-columns: repeat(auto-fit, minmax(rem(400px), auto));
     grid-column-gap: rem(25px);
     grid-row-gap: rem(30px);
     align-content: start;
     justify-content: flex-start;
     padding-bottom: 1rem;
   }
+
   &__footer {
     grid-column: event-gallery-start/event-gallery-end;
     height: 100%;
@@ -41,6 +46,7 @@
       display: none;
     }
   }
+
   &__load-more-button {
     width: 16vw;
     height: rem(52px);
@@ -55,21 +61,26 @@
     border: none;
     transition: all .2s;
     position: relative;
+
     @include mobile('600px') {
       width: 35vw;
     }
+
     &:hover {
       transform: translateY(-3px);
       box-shadow: 0 rem(5px) rem(10px) rgba(black, .2);
+
       &::after {
         transform: scaleX(1.4) scaleY(1.6);
         opacity: 0;
       }
     }
+
     &:active {
       transform: translateY(-1px);
       box-shadow: 0 rem(2px) rem(5px) rgba(black, .2);
     }
+
     &::after {
       content: "";
       display: inline-block;
@@ -102,17 +113,20 @@
     -moz-osx-font-smoothing: grayscale;
     font-feature-settings: 'liga';
   }
+
   &__header {
     display: block;
     width: 100%;
     padding: 1.75em 0;
     border-bottom: 1px solid var(--border-color);
     background: var(--neutral-color);
+
     #logo {
       font-size: 175%;
       text-align: center;
       color: var(--main-color);
       line-height: 1;
+
       .icon {
         padding-right: .25em;
       }
@@ -127,31 +141,38 @@
     flex-wrap: wrap;
     width: 100%;
   }
+
   &__row-middle {
     align-items: center;
   }
+
   &__col {
     flex-grow: 1;
     flex-basis: 0;
     max-width: 100%;
   }
+
   &__col-start {
     justify-content: flex-start;
     text-align: left;
   }
+
   &__col-center {
     justify-content: center;
     text-align: center;
   }
+
   &__col-end {
     justify-content: flex-end;
     text-align: right;
   }
+
   &__circle {
     border-radius: 50%;
     border-style: solid;
     border-width: 1px;
   }
+
   &__header-arrow {
     max-width: 20%;
   }
@@ -184,27 +205,33 @@ main {
   background: var(--neutral-color);
   border-radius: 10px;
   height: rem(373px);
+
   .header {
     text-transform: uppercase;
     font-size: 15px;
     padding: 1em 0;
     color: var(--calender-header-color);
+
     .icon {
       cursor: pointer;
       transition: .15s ease-out;
+
       &:hover {
         transform: scale(1.75);
         transition: .25s ease-out;
         color: var(--main-color);
       }
+
       &:first-of-type {
         margin-left: 1em;
       }
+
       &:last-of-type {
         margin-right: 1em;
       }
     }
   }
+
   .days {
     text-transform: uppercase;
     font-weight: 400;
@@ -213,6 +240,7 @@ main {
     padding: .75em 0;
     border-bottom: 1px solid var(--border-color);
   }
+
   .full {
     .cell {
       position: relative;
@@ -220,6 +248,7 @@ main {
       overflow: hidden;
       cursor: pointer;
       transition: 0.25s ease-out;
+
       &:hover {
         background: var(--calendar-selected-background);
         color: var(--neutral-color);
@@ -227,21 +256,25 @@ main {
         border-radius: 50%;
       }
     }
+
     .selected {
       border-radius: 50%;
       color: var(--neutral-color);
       background: var(--calendar-selected-background);
     }
+
     .row {
       border-bottom: 1px solid var(--border-color);
       &:last-child {
         border-bottom: none;
       }
     }
+
     .cell {
       &:last-child {
         border-right: none;
       }
+
       .number {
         position: absolute;
         font-size: 82.5%;
@@ -251,10 +284,12 @@ main {
         transform: translateX(-50%) translateY(-50%);
       }
     }
+
     .disabled {
       color: var(--text-color-light);
       pointer-events: none;
     }
+
     .cell {
       .bg {
         font-weight: 700;
@@ -268,15 +303,18 @@ main {
         transition: .25s ease-out;
         letter-spacing: -.07em;
       }
+
       &:hover .bg {
         opacity: 0.05;
         transition: .5s ease-in;
       }
     }
+
     .selected .bg {
       opacity: 0.05;
       transition: .5s ease-in;
     }
+
     .col {
       flex-grow: 0;
       flex-basis: calc(100%/7);

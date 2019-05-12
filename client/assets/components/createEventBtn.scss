@@ -8,6 +8,7 @@
   right: rem(20px);
   border-radius: 50%;
   color: $white;
+  z-index: 500;
   &__icon {
     font-size: rem(48px);
     position: absolute;
