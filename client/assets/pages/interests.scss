@@ -16,6 +16,7 @@
 .interests-page {
   padding: 2em 5em 7em;
 <<<<<<< HEAD
+<<<<<<< HEAD
   text-align: center;
   @include tablet {
     padding: 2em 1.5em 7em;
@@ -35,21 +36,37 @@
     @include tablet {
       grid-template-columns: repeat(4,1fr);
 =======
+=======
+  text-align: center;
+>>>>>>> fix (ux-improvements): add headers for contexts (#191)
   @include tablet {
-    padding: 2em 2em 7em;
+    padding: 2em 1.5em 7em;
+  }
+  &__header {
+    margin-bottom: 20px;
+    color: #555;
+  }
+  &__subheader {
+    margin-bottom: 35px;
+    color: gray;
   }
   .interests {
     display: grid;
-    grid-template-columns: repeat(5,1fr);
+    grid-template-columns: repeat(6,1fr);
     justify-items: center;
     @include tablet {
+<<<<<<< HEAD
       grid-template-columns: repeat(3,1fr);
 >>>>>>> feat(interests): create interests page (#186)
+=======
+      grid-template-columns: repeat(4,1fr);
+>>>>>>> fix (ux-improvements): add headers for contexts (#191)
     }
     @include mobile {
       grid-template-columns: repeat(2,1fr);
     }
     &-card {
+<<<<<<< HEAD
 <<<<<<< HEAD
       padding: .7em .7em .7em 1.2em;
       min-width: 10em;
@@ -57,6 +74,10 @@
       padding: 1em 1em 1em 1.5em;
       min-width: 12.5em;
 >>>>>>> feat(interests): create interests page (#186)
+=======
+      padding: .7em .7em .7em 1.2em;
+      min-width: 10em;
+>>>>>>> fix (ux-improvements): add headers for contexts (#191)
       cursor: pointer;
       color: #C4C4C4;
       border: 1px solid #C4C4C4;
@@ -69,6 +90,7 @@
       p {
         text-transform: capitalize;
         margin-right: .4em;
+<<<<<<< HEAD
 <<<<<<< HEAD
         font-size: 18px;
       }
@@ -83,6 +105,14 @@
         width: 2.2em;
         height: 2.2em;
 >>>>>>> feat(interests): create interests page (#186)
+=======
+        font-size: 18px;
+      }
+      &__icon-close {
+        @include centered-flex;
+        width: 2em;
+        height: 2em;
+>>>>>>> fix (ux-improvements): add headers for contexts (#191)
         border-radius: 50%;
         border: 1px solid #C4C4C4;
         margin-left: auto;
@@ -94,6 +124,7 @@
         }
         .interest-icon {
 <<<<<<< HEAD
+<<<<<<< HEAD
           font-size: 12px;
         }
       }
@@ -102,15 +133,21 @@
         margin-left: auto;
 =======
           font-size: 13px;
+=======
+          font-size: 12px;
+>>>>>>> fix (ux-improvements): add headers for contexts (#191)
         }
       }
       &__icon-check {
-        font-size: 22px;
+        font-size: 20px;
         margin-left: auto;
+<<<<<<< HEAD
         .interest-icon {
           font-size: 13px;
         }
 >>>>>>> feat(interests): create interests page (#186)
+=======
+>>>>>>> fix (ux-improvements): add headers for contexts (#191)
       }
       p {
         font-size: 20px;
