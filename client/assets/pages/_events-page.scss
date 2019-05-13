@@ -231,7 +231,12 @@ main {
   width: 100%;
   background: var(--neutral-color);
   border-radius: 10px;
+<<<<<<< HEAD
   min-height: rem(300px);
+=======
+  height: rem(373px);
+
+>>>>>>> feat(redesign): redesign event card (#194)
   .header {
     text-transform: uppercase;
     font-size: 15px;
