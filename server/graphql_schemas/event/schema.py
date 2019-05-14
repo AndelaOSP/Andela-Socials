@@ -1,6 +1,7 @@
 import graphene
 import logging
 import dotenv
+import iso8601
 
 from dateutil.parser import parse
 from django.forms.models import model_to_dict
@@ -20,7 +21,7 @@ from graphql_schemas.utils.helpers import (is_not_admin,
                                            send_calendar_invites,
                                            validate_event_dates,
                                            raise_calendar_error,
-                                           not_valid_timezone)
+                                           not_valid_timezone, send_bulk_update_message)
 from graphql_schemas.scalars import NonEmptyString
 from graphql_schemas.utils.hasher import Hasher
 from api.models import (Event, Category, AndelaUserProfile,
@@ -181,6 +182,11 @@ class UpdateEvent(relay.ClientIDMutation):
             event_instance = Event.objects.get(
                 pk=from_global_id(input.get('event_id'))[1]
             )
+
+            old_venue = event_instance.venue
+            old_start_date = iso8601.parse_date(event_instance.start_date)
+            old_end_date = iso8601.parse_date(event_instance.end_date)
+
             if event_instance.creator != user \
                     and not info.context.user.is_superuser:
                 raise GraphQLError(
@@ -195,6 +201,25 @@ class UpdateEvent(relay.ClientIDMutation):
                     input,
                     exceptions=["category_id", "event_id"]
                 )
+                new_venue = updated_event.venue
+                new_start_date = updated_event.start_date
+                new_end_date = updated_event.end_date
+                message_content = ''
+                if old_venue != new_venue:
+                    message_content += (f"> *Former Venue:* {old_venue}\n"
+                                        f"> *New Venue:*  {new_venue}\n\n")
+
+                if old_start_date != new_start_date or old_end_date != new_end_date:
+                    message_content += (f"> *Former Date:*  {old_start_date.date()} {old_start_date.time()}\n"
+                                        f"> *New Date:*  {new_start_date.date()} {new_start_date.time()}")
+
+                if message_content:
+                    message = f"The following details about the *{event_instance.title}* event has been changed\n"
+                    message += message_content
+
+                    BackgroundTaskWorker.start_work(
+                        send_bulk_update_message, (event_instance, message, "An event you are attending was updated"))
+
                 return cls(
                     action_message="Event Update is successful.",
                     updated_event=updated_event
@@ -223,6 +248,12 @@ class DeactivateEvent(relay.ClientIDMutation):
             raise GraphQLError("You aren't authorised to deactivate the event")
 
         Event.objects.filter(id=db_event_id).update(active=False)
+
+        message = f"The *{event.title}* event has been cancelled\n"
+
+        BackgroundTaskWorker.start_work(
+            send_bulk_update_message, (event, message, "An event you are attending has been cancelled"))
+
         return cls(action_message="Event deactivated")
 
 
@@ -321,6 +352,7 @@ class ValidateEventInvite(relay.ClientIDMutation):
                 isValid=False,
                 message=str(err)
             )
+
 
 class ChannelList(graphene.ObjectType):
     id = graphene.ID()
@@ -423,7 +455,7 @@ class EventQuery(object):
             channel = ChannelList(**filtered_channel)
             channels.append(channel)
         return SlackChannelsList(
-            ok=slack_list.get('ok'),channels=channels,response_metadata=responseMetadata)
+            ok=slack_list.get('ok'), channels=channels, response_metadata=responseMetadata)
 
 
 class EventMutation(ObjectType):

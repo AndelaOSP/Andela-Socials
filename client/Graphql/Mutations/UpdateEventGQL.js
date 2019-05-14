@@ -26,6 +26,7 @@ const UPDATE_EVENT_GQL = (eventId, title, description, featuredImage, venue, sta
             edges {
               node {
                 user {
+                  id
                   slackId
                   googleId
                 }

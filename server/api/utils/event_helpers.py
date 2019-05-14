@@ -21,4 +21,4 @@ def is_not_past_event(event):
 
 def save_user_attendance(event, user_profile, status):
     return Attend.objects.get_or_create(
-        user=user_profile, event=event, status="attending")
+        user=user_profile, event=event, status=status)

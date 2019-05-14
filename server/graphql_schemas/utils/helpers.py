@@ -1,13 +1,16 @@
 import os
 import datetime
+import logging
 import pytz
 import dotenv
 import dateutil.parser as parser
+from time import sleep
 from django.core.exceptions import ValidationError
 from django.core.files.storage import FileSystemStorage
 
+from api.slack import generate_simple_message, notify_user
 from api.utils.oauth_helper import get_auth_url
-from api.models import Interest
+from api.models import Interest, Attend
 from googleapiclient.discovery import build
 from google.cloud import storage
 
@@ -178,3 +181,23 @@ def upload_image_file(uploaded_file):
         filename = fs.save(safe_filename, uploaded_file)
         url = f"{dotenv.get('IMAGE_BASE_URL')}/static{fs.url(filename)}"
         return url
+
+
+async def send_bulk_update_message(event_instance, message, notification_text):
+    attendees = Attend.objects.filter(
+        event=event_instance, status="attending")
+    for attendee in attendees:
+        slack_id = attendee.user.slack_id
+        if slack_id:
+            message = generate_simple_message(message)
+            slack_response = notify_user(
+                message, slack_id, text=notification_text)
+
+            if slack_response["ok"] is False and slack_response["headers"]["Retry-After"]:
+                delay = int(slack_response["headers"]["Retry-After"])
+                logging.info("Rate limited. Retrying in " + str(delay) + " seconds")
+                sleep(delay)
+                notify_user(
+                    message, slack_id, text=notification_text)
+            elif not slack_response['ok']:
+                logging.warning(slack_response)
