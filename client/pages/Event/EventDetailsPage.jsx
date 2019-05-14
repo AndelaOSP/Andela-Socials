@@ -311,6 +311,7 @@ class EventDetailsPage extends React.Component {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   // eslint-disable-next-line react/sort-comp
   handleBack() {
     const { history: { push } } = this.props;
@@ -321,6 +322,9 @@ class EventDetailsPage extends React.Component {
   }
 =======
   renderSlackChannels = () => slackChannels.channels.map(channel => (
+=======
+  renderSlackChannels = () => this.props.slackChannels.map(channel => (
+>>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182) (#195)
             <a
              href
              key={channel.id}>
@@ -343,11 +347,15 @@ class EventDetailsPage extends React.Component {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182) (#195)
   loadSlackChannels() {
     const { getSlackChannelsList } = this.props;
     getSlackChannelsList();
   }
 
+<<<<<<< HEAD
   showSlackChannels = () => {
     this.setState(prevState => ({
       showSlackChannels: !prevState.showSlackChannels
@@ -357,6 +365,8 @@ class EventDetailsPage extends React.Component {
 =======
   showSlackChannels = evt => {
 =======
+=======
+>>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182) (#195)
   showSlackChannels = (evt) => {
 >>>>>>> fix attend button state (#177)
     evt.preventDefault();
@@ -554,7 +564,11 @@ const mapStateToProps = state => ({
 =======
   updateEvent: () => null,
   uploadImage: () => null,
+<<<<<<< HEAD
 >>>>>>> chore(fonts): regularize fonts everywhere (#192)
+=======
+  getSlackChannelsList: () => null
+>>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182) (#195)
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators(
@@ -562,6 +576,7 @@ const mapDispatchToProps = dispatch => bindActionCreators(
     getEventAction: getEvent,
     deactivateEventAction: deactivateEvent,
     attendEventAction: attendEvent,
+    getSlackChannelsList
   },
   dispatch
 );
@@ -578,7 +593,11 @@ const mapStateToProps = state => ({
   event: state.event.event,
 >>>>>>> chore(fonts): regularize fonts everywhere (#192)
   events: state.events,
+<<<<<<< HEAD
 >>>>>>> fix attend button state (#177)
+=======
+  slackChannels: state.slackChannels.channels
+>>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182) (#195)
 });
 export default connect(
   mapStateToProps,

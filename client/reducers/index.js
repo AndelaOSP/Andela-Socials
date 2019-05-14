@@ -30,9 +30,13 @@ const rootReducer = {
   url,
   oauth,
   invite: inviteValidation,
+<<<<<<< HEAD
   slackChannels,
   uiReducers,
   slackToken,
+=======
+  slackChannels
+>>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182) (#195)
 };
 
 export default rootReducer;

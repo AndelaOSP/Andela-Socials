@@ -47,6 +47,9 @@ export const JOINED_CATEGORIES = 'JOINED_CATEGORIES';
 // Constants specific to slack channels
 export const CHANNELS = 'CHANNELS';
 
+// Constants specific to slack channels
+export const CHANNELS = 'CHANNELS';
+
 // Constants OAUTH
 export const OAUTH = 'OAUTH';
 

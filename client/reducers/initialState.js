@@ -16,7 +16,11 @@ export default {
   eventsSearchList: [],
   oauth: '',
   invite: {},
+<<<<<<< HEAD
   slackChannels: {},
   ui: { subNavHidden: false },
   slackToken: true,
+=======
+  slackChannels: {}
+>>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182) (#195)
 };
