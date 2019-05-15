@@ -206,6 +206,7 @@ class Event(BaseInfo):
     featured_image = models.URLField()
     active = models.BooleanField(default=1)
     timezone = models.CharField(max_length=80, blank=True)
+    slack_channel = models.CharField(max_length=80, blank=True)
 
     @property
     def attendees(self):

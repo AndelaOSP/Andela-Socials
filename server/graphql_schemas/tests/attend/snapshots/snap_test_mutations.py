@@ -19,7 +19,7 @@ snapshots['AttendanceTestCase::test_nonexisting_user_cannot_subscribe_to_event 1
                     'line': 3
                 }
             ],
-            'message': "''",
+            'message': 'AndelaUserProfile matching query does not exist.',
             'path': [
                 'attendEvent'
             ]

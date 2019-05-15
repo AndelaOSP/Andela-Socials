@@ -62,6 +62,7 @@ class CreateEvent(relay.ClientIDMutation):
         featured_image = graphene.String(required=True)
         category_id = graphene.ID(required=True)
         timezone = graphene.String(required=False)
+        slack_channel = graphene.String(required=False)
 
     new_event = graphene.Field(EventNode)
 
@@ -166,6 +167,7 @@ class UpdateEvent(relay.ClientIDMutation):
         featured_image = graphene.String()
         timezone = graphene.String()
         category_id = graphene.ID()
+        slack_channel = graphene.String(required=False)
         event_id = graphene.ID(required=True)
 
     updated_event = graphene.Field(EventNode)
