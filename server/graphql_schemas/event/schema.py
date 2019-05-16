@@ -28,18 +28,24 @@ from graphql_schemas.utils.helpers import (is_not_admin,
 from graphql_schemas.scalars import NonEmptyString
 from graphql_schemas.utils.hasher import Hasher
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> feat(graphql): add mutation to share event on slack (#190)
 from api.models import (Event, Category, AndelaUserProfile,
                         Interest, Attend)
 from api.slack import (get_slack_id,
                        notify_user,
                        new_event_message,
                        get_slack_channels_list, notify_channel)
+<<<<<<< HEAD
 =======
 from api.models import Event, Category, AndelaUserProfile, \
     Interest, Attend
 from api.slack import get_slack_id, notify_user, new_event_message, get_slack_channels_list
 
 >>>>>>> feature(channels): Get all slack public channels (#188)
+=======
+>>>>>>> feat(graphql): add mutation to share event on slack (#190)
 from api.utils.backgroundTaskWorker import BackgroundTaskWorker
 
 from api.constants import SLACK_CHANNEL_DATA
@@ -182,11 +188,16 @@ class CreateEvent(relay.ClientIDMutation):
                 if instance.follower.slack_id:
                     slack_response = notify_user(
 <<<<<<< HEAD
+<<<<<<< HEAD
                         blocks, instance.follower.slack_id,
                         text="New upcoming event from Andela socials")
 =======
                         blocks, instance.follower.slack_id, text="New upcoming event from Andela socials")
 >>>>>>> ft(slack-attend-event): User should be able to attend event from slack) (#181)
+=======
+                        blocks, instance.follower.slack_id,
+                        text="New upcoming event from Andela socials")
+>>>>>>> feat(graphql): add mutation to share event on slack (#190)
                     if not slack_response['ok']:
                         logging.warn(slack_response)
                 else:
@@ -444,6 +455,7 @@ class SlackChannelsList(graphene.ObjectType):
     class Meta:
         interfaces = (relay.Node,)
 
+<<<<<<< HEAD
 class ChannelList(graphene.ObjectType):
     id = graphene.ID()
     name = graphene.String()
@@ -473,6 +485,8 @@ class SlackChannelsList(graphene.ObjectType):
     class Meta:
         interfaces = (relay.Node,)
 
+=======
+>>>>>>> feat(graphql): add mutation to share event on slack (#190)
 
 class ShareEvent(relay.ClientIDMutation):
     class Input:
@@ -503,7 +517,10 @@ class ShareEvent(relay.ClientIDMutation):
                 blocks, "New upcoming event from Andela socials", channel_id)
 
         except ValueError as e:
+<<<<<<< HEAD
             logging.warn(e)
+=======
+>>>>>>> feat(graphql): add mutation to share event on slack (#190)
             raise GraphQLError("An Error occurred. Please try again")
 
         return ShareEvent(event=event)
@@ -518,8 +535,11 @@ class EventQuery(object):
     events_list = DjangoFilterConnectionField(EventNode)
     slack_channels_list = graphene.Field(SlackChannelsList)
 
+<<<<<<< HEAD
 >>>>>>> feature(channels): Get all slack public channels (#188)
 
+=======
+>>>>>>> feat(graphql): add mutation to share event on slack (#190)
     def resolve_event(self, info, **kwargs):
         id = kwargs.get('id')
 

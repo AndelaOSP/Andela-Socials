@@ -171,9 +171,12 @@ def get_slack_user_token(code):
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     
 >>>>>>> feature(channels): Get all slack public channels (#188)
+=======
+>>>>>>> feat(graphql): add mutation to share event on slack (#190)
 
 def get_slack_channels_list(limit=100):
     """
