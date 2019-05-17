@@ -13,6 +13,7 @@ import {
   DEACTIVATE_EVENT,
   SIGN_OUT,
   UPLOAD_IMAGE,
+  SHARE_EVENT,
 } from '../actions/constants';
 import initialState from './initialState';
 
@@ -27,7 +28,7 @@ export const events = (state = initialState.events, action) => {
     case GET_EVENTS:
       const { edges, pageInfo } = action.payload;
       return { eventList: edges, pageInfo };
-      
+
     case LOAD_MORE_EVENTS:
       const { eventList } = state;
       const { edges: newEvents, pageInfo: newPageInfo } = action.payload;
@@ -61,6 +62,10 @@ export const events = (state = initialState.events, action) => {
         events: initialState.events,
         event: initialState.event,
       });
+
+    case SHARE_EVENT: {
+      return { ...state, shareEvent: action.payload };
+    }
 
     default:
       return state;

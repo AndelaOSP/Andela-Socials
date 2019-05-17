@@ -7,7 +7,7 @@
   top: rem(159px);
 
   &__top {
-    background-color: #FFF;
+    background-color: #FFFFFF;
     display: flex;
     flex-wrap: wrap;
   }
@@ -17,7 +17,7 @@
     max-height: 100%;
     float: left;
     padding: rem(19px) rem(19px) rem(12px) rem(19px);
-    background-color: #FFF;
+    background-color: #FFFFFF;
 
     @media screen and (max-width: rem(840px)) {
       width: 100%;
@@ -28,7 +28,7 @@
     margin-top: rem(20px);
     width: 95vw;
     min-height: 50vh;
-    background-color: #FFF;
+    background-color: #FFFFFF;
     display: flex;
     flex-wrap: wrap;
     margin-bottom: rem(100px);
@@ -48,7 +48,7 @@
     width: rem(84px);
     height: rem(89px);
     margin-bottom: 0;
-    margin-left:0;
+    margin-left: 0;
     border: 2px solid #000;
   }
 
@@ -60,7 +60,7 @@
   }
 
   &__event_title {
-    font-family: 'Primary-DINPro';
+    font-family: "Primary-DINPro";
     font-weight: bold;
     font-size: rem(40px);
     padding: 0 0 0 rem(26px);
@@ -79,7 +79,7 @@
     border-radius: 5px;
     background-color: #3359DB;
     font-size: 1.35rem;
-    color: #FFF;
+    color: #FFFFFF;
     padding: rem(5px) rem(30px);
 
     &:disabled {
@@ -92,7 +92,7 @@
     border-radius: 5px;
     background-color: #3F0F3F;
     font-size: 1.35rem;
-    color: #FFF;
+    color: #FFFFFF;
     width: rem(180px);
     height: rem(39px);
   }
@@ -109,7 +109,7 @@
       display: block;
       font-size: 1.25rem;
       height: rem(41px);
-      background-color: #FFF;
+      background-color: #FFFFFF;
       padding: 5px 15px;
       cursor: pointer;
 
@@ -125,7 +125,7 @@
   }
 
   [tooltip]::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 50%;
     left: 100%;
@@ -146,7 +146,7 @@
     left: 100%;
     margin-left: 8px;
     transform: translateX(0) translateY(-50%);
-    color: #FFF;
+    color: #FFFFFF;
     padding: 4px 4px;
     font-size: 12px;
     min-width: 120px;
@@ -178,25 +178,25 @@
 
   &__description h5 {
     font-size: 1.55rem;
-    font-family: 'Lato';
+    font-family: "Lato";
     font-style: normal;
     font-weight: 300;
     line-height: rem(7px);
     padding-top: rem(19px);
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
     margin-left: rem(15px);
   }
 
   &__attending h5,
   &__tags h5 {
-    font-family: 'Lato';
+    font-family: "Lato";
     font-weight: 700;
   }
 
   &__description article,
   &__attending p,
   &__tags p {
-    font-family: 'Lato';
+    font-family: "Lato";
     font-style: normal;
     font-size: 1.2rem;
     word-break: break-all;
@@ -208,7 +208,7 @@
 
   &__tags h5 {
     margin-left: rem(15px);
-    font-size: 1.0rem;
+    font-size: 1rem;
     font-weight: 300;
   }
 
@@ -227,7 +227,7 @@
     h5 {
       margin-top: 5px;
       margin-left: rem(15px);
-      font-size: 1.0rem;
+      font-size: 1rem;
       font-weight: 400;
     }
   }

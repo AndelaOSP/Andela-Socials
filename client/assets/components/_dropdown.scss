@@ -1,0 +1,24 @@
+@import '../tools/functions.scss';
+
+.dropdown {
+  overflow: auto;
+
+  &__dp-wrapper {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    background-color: #FFFFFF;
+    font-size: 1.25rem;
+    max-height: rem(120px);
+  
+    &__list {
+      padding: rem(5px) rem(12px);
+    }
+  
+    &__list:hover {
+      background-color: #EEEEEE;
+    }
+  }
+
+}

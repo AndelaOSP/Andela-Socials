@@ -2,6 +2,7 @@ import EVENT_LIST_GQL from '../../Graphql/Queries/EventListGQL';
 import EVENT_GQL from '../../Graphql/Queries/EventGQL';
 import CREATE_EVENT_GQL from '../../Graphql/Mutations/CreateEventGQL';
 import UPDATE_EVENT_GQL from '../../Graphql/Mutations/UpdateEventGQL';
+import SHARE_EVENT_GQL from '../../Graphql/Mutations/ShareEventGQL';
 import DEACTIVATE_EVENT_GQL from '../../Graphql/Mutations/DeactivateEventGQL';
 
 import {
@@ -12,6 +13,7 @@ import {
   LOAD_MORE_EVENTS,
   DEACTIVATE_EVENT,
   SEARCH_EVENTS,
+  SHARE_EVENT,
 } from '../constants';
 
 import { handleError, handleInformation } from '../../utils/errorHandler';
@@ -120,4 +122,17 @@ export const searchEvents = ({
     payload: data.data.eventsList.edges,
     error: false,
   }))
+  .catch(error => handleError(error, dispatch));
+
+export const shareEvent = ({
+  eventId,
+  channelId,
+}) => dispatch => Client.mutate(
+  SHARE_EVENT_GQL(eventId, channelId)
+).then(data => {
+  handleInformation('Successfully shared');
+  dispatch({
+    type: SHARE_EVENT, payload: data.data, error: false,
+  })
+})
   .catch(error => handleError(error, dispatch));

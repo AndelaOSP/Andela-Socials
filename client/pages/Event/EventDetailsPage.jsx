@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment-timezone';
 
-import { getEvent, deactivateEvent } from '../../actions/graphql/eventGQLActions';
+import { getEvent, deactivateEvent, shareEvent } from '../../actions/graphql/eventGQLActions';
 import { attendEvent } from '../../actions/graphql/attendGQLActions';
 import { getSlackChannelsList } from '../../actions/graphql/slackChannelsGQLActions';
 import NotFound from '../../components/common/NotFound';
@@ -15,6 +15,7 @@ import SlackIcon from '../../assets/icons/SlackIcon';
 import '../../assets/pages/_event_details-page.scss';
 
 import { ModalContextCreator } from '../../components/Modals/ModalContext';
+import DropDownList from '../../components/common/DropDownList';
 /**
  * @description Currently contains an event details page layout
  *
@@ -108,7 +109,7 @@ class EventDetailsPage extends React.Component {
       message = 'This event has already started';
     } else if (activeUserIsAttending
       || (newAttendance && newAttendance.status === 'ATTENDING'
-      && newAttendance.event.id === event.id)) {
+        && newAttendance.event.id === event.id)) {
       message = "You're attending this event";
     }
 
@@ -123,32 +124,35 @@ class EventDetailsPage extends React.Component {
               {this.renderDeleteEventButton()}
             </div>
           ) : (
-            <Fragment>
-              <button
-                type="button"
-                onClick={this.rsvpEvent}
-                className="event-details__rsvp_button"
-                tooltip={message}
-                disabled={message ? ' disabled' : null}
-              >
-                {' '}
-                Attend &#10004;
+              <Fragment>
+                <button
+                  type="button"
+                  onClick={this.rsvpEvent}
+                  className="event-details__rsvp_button"
+                  tooltip={message}
+                  disabled={message ? ' disabled' : null}
+                >
+                  {' '}
+                  Attend &#10004;
               </button>
-              <button
-                type="button"
-                onClick={this.showSlackChannels}
-                className="event-details__slack_button"
-              >
-                {' '}
-                Share on Slack {<SlackIcon color="white" width="7%"/>}
-              </button>
-              {showSlackChannels && (
-                <div className="menu">
-                    {this.renderSlackChannels()}
-                </div>
-              )}
-            </Fragment>
-          )}
+                <button
+                  type="button"
+                  onClick={this.showSlackChannels}
+                  className="event-details__slack_button"
+                >
+                  {' '}
+                  Share on Slack {<SlackIcon color="white" width="7%" />}
+                </button>
+                {showSlackChannels && (
+                  <div className="menu">
+                    <DropDownList
+                      lists={this.props.slackChannels}
+                      onClick={this.shareOnChannel}
+                    />
+                  </div>
+                )}
+              </Fragment>
+            )}
         </div>
         <div className="event-details__section">
           <div className="event-details__location_time event-details__section">
@@ -164,6 +168,18 @@ class EventDetailsPage extends React.Component {
       </div>
     );
   };
+
+  shareOnChannel = (event) => {
+    const eventToShare = {
+      eventId: this.props.event.id,
+      channelId: event.target.id,
+    }
+
+    this.props.shareEvent(eventToShare);
+    this.setState(prevState => ({
+      showSlackChannels: !prevState.showSlackChannels
+    }));
+  }
 
   middleSection = () => {
     const {
@@ -207,13 +223,6 @@ class EventDetailsPage extends React.Component {
     );
   };
 
-  renderSlackChannels = () => this.props.slackChannels.map(channel => (
-            <a
-             href
-             key={channel.id}>
-              {channel.name}
-            </a>));
-
   // eslint-disable-next-line react/sort-comp
   handleBack() {
     const { history: { push } } = this.props;
@@ -231,20 +240,10 @@ class EventDetailsPage extends React.Component {
     getSlackChannelsList();
   }
 
-  showSlackChannels = (evt) => {
-    evt.preventDefault();
-    this.setState(
-      { showSlackChannels: true },
-      () => {
-        document.addEventListener('click', this.closeChannelsMenu);
-      }
-    );
-  };
-
-  closeChannelsMenu = () => {
-    this.setState({ showSlackChannels: false }, () => {
-      document.removeEventListener('click', this.closeChannelsMenu);
-    });
+  showSlackChannels = () => {
+    this.setState(prevState => ({
+      showSlackChannels: !prevState.showSlackChannels
+    }));
   };
 
   rsvpEvent() {
@@ -387,13 +386,14 @@ const mapDispatchToProps = dispatch => bindActionCreators(
     getEventAction: getEvent,
     deactivateEventAction: deactivateEvent,
     attendEventAction: attendEvent,
-    getSlackChannelsList
+    getSlackChannelsList,
+    shareEvent
   },
   dispatch
 );
 
 const mapStateToProps = state => ({
-  event: state.event.event,
+  event: state.event,
   events: state.events,
   slackChannels: state.slackChannels.channels
 });

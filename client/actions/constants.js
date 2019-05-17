@@ -47,3 +47,6 @@ export const OAUTH = 'OAUTH';
 
 // Constants Invites
 export const VALIDATE_INVITE = 'VALIDATE_INVITE';
+
+// Constants to sahre events to slack channel
+export const SHARE_EVENT = 'SHARE_EVENT';
