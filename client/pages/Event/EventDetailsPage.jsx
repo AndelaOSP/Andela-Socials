@@ -5,10 +5,14 @@ import PropTypes from 'prop-types';
 import moment from 'moment-timezone';
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { getEvent, deactivateEvent, shareEvent } from '../../actions/graphql/eventGQLActions';
 =======
 import { getEvent, deactivateEvent } from '../../actions/graphql/eventGQLActions';
 >>>>>>> bug(header): fix header style (#179)
+=======
+import { getEvent, deactivateEvent, shareEvent } from '../../actions/graphql/eventGQLActions';
+>>>>>>> feat(event-details): share event on channel (#198)
 import { attendEvent } from '../../actions/graphql/attendGQLActions';
 import { getSlackChannelsList } from '../../actions/graphql/slackChannelsGQLActions';
 import NotFound from '../../components/common/NotFound';
@@ -140,8 +144,12 @@ class EventDetailsPage extends React.Component {
 =======
     } else if (activeUserIsAttending
       || (newAttendance && newAttendance.status === 'ATTENDING'
+<<<<<<< HEAD
       && newAttendance.event.id === event.id)) {
 >>>>>>> fix attend button state (#177)
+=======
+        && newAttendance.event.id === event.id)) {
+>>>>>>> feat(event-details): share event on channel (#198)
       message = "You're attending this event";
     }
 
@@ -158,6 +166,9 @@ class EventDetailsPage extends React.Component {
           ) : (
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> feat(event-details): share event on channel (#198)
               <Fragment>
                 <button
                   type="button"
@@ -168,6 +179,7 @@ class EventDetailsPage extends React.Component {
                 >
                   {' '}
                   Attend &#10004;
+<<<<<<< HEAD
               </button>
                 <button
                   type="button"
@@ -224,6 +236,27 @@ class EventDetailsPage extends React.Component {
 >>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
           )}
 >>>>>>> ft(slack-attend-event): User should be able to attend event from slack) (#181)
+=======
+              </button>
+                <button
+                  type="button"
+                  onClick={this.showSlackChannels}
+                  className="event-details__slack_button"
+                >
+                  {' '}
+                  Share on Slack {<SlackIcon color="white" width="7%" />}
+                </button>
+                {showSlackChannels && (
+                  <div className="menu">
+                    <DropDownList
+                      lists={this.props.slackChannels}
+                      onClick={this.shareOnChannel}
+                    />
+                  </div>
+                )}
+              </Fragment>
+            )}
+>>>>>>> feat(event-details): share event on channel (#198)
         </div>
         <div className="event-details__section">
           <div className="event-details__location_time event-details__section">
@@ -312,6 +345,7 @@ class EventDetailsPage extends React.Component {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   // eslint-disable-next-line react/sort-comp
   handleBack() {
     const { history: { push } } = this.props;
@@ -331,6 +365,8 @@ class EventDetailsPage extends React.Component {
               {channel.name}
             </a>));
 
+=======
+>>>>>>> feat(event-details): share event on channel (#198)
   // eslint-disable-next-line react/sort-comp
 >>>>>>> chore(fonts): regularize fonts everywhere (#192)
   handleBack() {
@@ -356,10 +392,14 @@ class EventDetailsPage extends React.Component {
   }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> feat(event-details): share event on channel (#198)
   showSlackChannels = () => {
     this.setState(prevState => ({
       showSlackChannels: !prevState.showSlackChannels
     }));
+<<<<<<< HEAD
   };
 
 =======
@@ -382,6 +422,8 @@ class EventDetailsPage extends React.Component {
     this.setState({ showSlackChannels: false }, () => {
       document.removeEventListener('click', this.closeChannelsMenu);
     });
+=======
+>>>>>>> feat(event-details): share event on channel (#198)
   };
 <<<<<<< HEAD
 >>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
@@ -576,12 +618,14 @@ const mapDispatchToProps = dispatch => bindActionCreators(
     getEventAction: getEvent,
     deactivateEventAction: deactivateEvent,
     attendEventAction: attendEvent,
-    getSlackChannelsList
+    getSlackChannelsList,
+    shareEvent
   },
   dispatch
 );
 
 const mapStateToProps = state => ({
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
   event: state.event.event,
@@ -592,6 +636,9 @@ const mapStateToProps = state => ({
 =======
   event: state.event.event,
 >>>>>>> chore(fonts): regularize fonts everywhere (#192)
+=======
+  event: state.event,
+>>>>>>> feat(event-details): share event on channel (#198)
   events: state.events,
 <<<<<<< HEAD
 >>>>>>> fix attend button state (#177)

@@ -15,7 +15,10 @@ import {
   DEACTIVATE_EVENT,
   SEARCH_EVENTS,
   SHARE_EVENT,
+<<<<<<< HEAD
   SLACK_TOKEN,
+=======
+>>>>>>> feat(event-details): share event on channel (#198)
 } from '../constants';
 
 import { handleError, handleInformation } from '../../utils/errorHandler';
@@ -153,10 +156,18 @@ export const shareEvent = ({
   channelId,
 }) => dispatch => Client.mutate(
   SHARE_EVENT_GQL(eventId, channelId)
+<<<<<<< HEAD
 ).then((data) => {
   handleInformation('Successfully shared');
   dispatch({
     type: SHARE_EVENT, payload: data.data, error: false,
   });
+=======
+).then(data => {
+  handleInformation('Successfully shared');
+  dispatch({
+    type: SHARE_EVENT, payload: data.data, error: false,
+  })
+>>>>>>> feat(event-details): share event on channel (#198)
 })
   .catch(error => handleError(error, dispatch));

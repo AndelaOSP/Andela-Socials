@@ -16,6 +16,7 @@
   &__top {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     background-color: #FFFFFF;
     display: flex;
     flex-wrap: wrap;
@@ -29,6 +30,9 @@
 >>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
 =======
     background-color: #FFF;
+=======
+    background-color: #FFFFFF;
+>>>>>>> feat(event-details): share event on channel (#198)
     display: flex;
     flex-wrap: wrap;
   }
@@ -41,6 +45,7 @@
     padding: rem(19px) rem(19px) rem(12px) rem(19px);
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     background-color: #FFFFFF;
 
 =======
@@ -48,6 +53,9 @@
 >>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
 =======
     background-color: #FFF;
+=======
+    background-color: #FFFFFF;
+>>>>>>> feat(event-details): share event on channel (#198)
 
 >>>>>>> chore(fonts): regularize fonts everywhere (#192)
     @media screen and (max-width: rem(840px)) {
@@ -61,6 +69,7 @@
     min-height: 50vh;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     background-color: #FFFFFF;
 =======
     background-color: #fff;
@@ -68,6 +77,9 @@
 =======
     background-color: #FFF;
 >>>>>>> chore(fonts): regularize fonts everywhere (#192)
+=======
+    background-color: #FFFFFF;
+>>>>>>> feat(event-details): share event on channel (#198)
     display: flex;
     flex-wrap: wrap;
     margin-bottom: rem(100px);
@@ -112,6 +124,7 @@
     height: rem(89px);
     margin-bottom: 0;
 <<<<<<< HEAD
+<<<<<<< HEAD
     margin-left: 0;
 =======
     margin-left:0;
@@ -124,6 +137,9 @@
 =======
 >>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
 =======
+=======
+    margin-left: 0;
+>>>>>>> feat(event-details): share event on channel (#198)
     border: 2px solid #000;
   }
 
@@ -146,8 +162,12 @@
 =======
 
   &__event_title {
+<<<<<<< HEAD
     font-family: 'Primary-DINPro';
 >>>>>>> chore(fonts): regularize fonts everywhere (#192)
+=======
+    font-family: "Primary-DINPro";
+>>>>>>> feat(event-details): share event on channel (#198)
     font-weight: bold;
     font-size: rem(40px);
     padding: 0 0 0 rem(26px);
@@ -191,7 +211,7 @@
 >>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
     background-color: #3359DB;
     font-size: 1.35rem;
-    color: #FFF;
+    color: #FFFFFF;
     padding: rem(5px) rem(30px);
 <<<<<<< HEAD
 >>>>>>> bug(header): fix header style (#179)
@@ -211,6 +231,7 @@
     background-color: #3F0F3F;
     font-size: 1.35rem;
     color: #FFFFFF;
+<<<<<<< HEAD
     width: rem(180px);
     height: rem(39px);
   }
@@ -246,6 +267,8 @@
     background-color: #3F0F3F;
     font-size: 1.35rem;
     color: #FFF;
+=======
+>>>>>>> feat(event-details): share event on channel (#198)
     width: rem(180px);
     height: rem(39px);
   }
@@ -262,7 +285,7 @@
       display: block;
       font-size: 1.25rem;
       height: rem(41px);
-      background-color: #FFF;
+      background-color: #FFFFFF;
       padding: 5px 15px;
       cursor: pointer;
 
@@ -304,10 +327,14 @@
     margin-left: 8px;
     transform: translateX(0) translateY(-50%);
 <<<<<<< HEAD
+<<<<<<< HEAD
     color: #FFFFFF;
 =======
     color: #FFF;
 >>>>>>> chore(fonts): regularize fonts everywhere (#192)
+=======
+    color: #FFFFFF;
+>>>>>>> feat(event-details): share event on channel (#198)
     padding: 4px 4px;
     font-size: 12px;
     min-width: 120px;
@@ -354,16 +381,21 @@
     font-size: 1.55rem;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     font-family: "Lato";
 =======
 >>>>>>> bug(event details): Fix styling of details section (#189)
 =======
     font-family: 'Lato';
 >>>>>>> chore(fonts): regularize fonts everywhere (#192)
+=======
+    font-family: "Lato";
+>>>>>>> feat(event-details): share event on channel (#198)
     font-style: normal;
     font-weight: 300;
     line-height: rem(7px);
     padding-top: rem(19px);
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     margin-bottom: 0.5rem;
@@ -395,20 +427,27 @@
 >>>>>>> bug(event details): Fix styling of details section (#189)
 =======
     margin-bottom: .5rem;
+=======
+    margin-bottom: 0.5rem;
+>>>>>>> feat(event-details): share event on channel (#198)
     margin-left: rem(15px);
   }
 
   &__attending h5,
   &__tags h5 {
-    font-family: 'Lato';
+    font-family: "Lato";
     font-weight: 700;
   }
 
   &__description article,
   &__attending p,
   &__tags p {
+<<<<<<< HEAD
     font-family: 'Lato';
 >>>>>>> chore(fonts): regularize fonts everywhere (#192)
+=======
+    font-family: "Lato";
+>>>>>>> feat(event-details): share event on channel (#198)
     font-style: normal;
     font-size: 1.2rem;
     word-break: break-all;
@@ -433,7 +472,7 @@
 
   &__tags h5 {
     margin-left: rem(15px);
-    font-size: 1.0rem;
+    font-size: 1rem;
     font-weight: 300;
   }
 
@@ -452,7 +491,7 @@
     h5 {
       margin-top: 5px;
       margin-left: rem(15px);
-      font-size: 1.0rem;
+      font-size: 1rem;
       font-weight: 400;
     }
 >>>>>>> bug(event details): Fix styling of details section (#189)

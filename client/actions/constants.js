@@ -56,6 +56,7 @@ export const OAUTH = 'OAUTH';
 // Constants Invites
 export const VALIDATE_INVITE = 'VALIDATE_INVITE';
 
+<<<<<<< HEAD
 // Constants to share events to slack channel
 export const SHARE_EVENT = 'SHARE_EVENT';
 
@@ -64,3 +65,7 @@ export const SUBNAV_HIDDEN = 'SUBNAV_HIDDEN';
 
 // Constant to display slack modal
 export const SLACK_TOKEN = 'SLACK_TOKEN';
+=======
+// Constants to sahre events to slack channel
+export const SHARE_EVENT = 'SHARE_EVENT';
+>>>>>>> feat(event-details): share event on channel (#198)

@@ -1,6 +1,11 @@
 @import '../tools/functions.scss';
 
 .dropdown {
+<<<<<<< HEAD
+=======
+  overflow: auto;
+
+>>>>>>> feat(event-details): share event on channel (#198)
   &__dp-wrapper {
     list-style-type: none;
     margin: 0;
@@ -9,10 +14,18 @@
     background-color: #FFFFFF;
     font-size: 1.25rem;
     max-height: rem(120px);
+<<<<<<< HEAD
     overflow-y: scroll;
     li {
       padding: 5px 10px;
     }
+=======
+  
+    &__list {
+      padding: rem(5px) rem(12px);
+    }
+  
+>>>>>>> feat(event-details): share event on channel (#198)
     &__list:hover {
       background-color: #EEEEEE;
     }
