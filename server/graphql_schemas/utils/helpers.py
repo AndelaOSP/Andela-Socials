@@ -201,3 +201,17 @@ async def send_bulk_update_message(event_instance, message, notification_text):
                     message, slack_id, text=notification_text)
             elif not slack_response['ok']:
                 logging.warning(slack_response)
+
+
+def add_event_to_calendar(andela_user, event):
+    """
+        Adds an event to a user's calendar
+         :param andela_user:
+         :param event:
+    """
+    attendees = [{"email": attendee.user.user.email}
+                 for attendee in event.attendees]
+    calendar = build('calendar', 'v3', credentials=andela_user.credential)
+    event_details = build_event(event, attendees)
+    return calendar.events().insert(
+            calendarId='primary', body=event_details).execute()

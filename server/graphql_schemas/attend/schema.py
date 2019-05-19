@@ -8,6 +8,7 @@ from graphql import GraphQLError
 
 from api.models import Attend, Event, AndelaUserProfile
 from api.utils.event_helpers import is_not_past_event, save_user_attendance
+from graphql_schemas.utils.helpers import add_event_to_calendar
 
 
 class AttendNode(DjangoObjectType):
@@ -33,7 +34,7 @@ class AttendEvent(relay.ClientIDMutation):
         user = info.context.user
         andela_user_profile = AndelaUserProfile.objects.get(
             user_id=user.id)
-
+        add_event_to_calendar(andela_user_profile, event)
         if is_not_past_event(event):
             user_attendance, created = save_user_attendance(event, andela_user_profile, status)
         else:

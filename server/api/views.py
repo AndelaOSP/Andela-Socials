@@ -18,6 +18,7 @@ from .models import Category, Interest, Event, Attend, AndelaUserProfile
 from .utils.oauth_helper import save_credentials
 
 from .setpagination import LimitOffsetpage
+from graphql_schemas.utils.helpers import add_event_to_calendar
 
 
 class LoginRequiredMixin(object):
@@ -146,6 +147,7 @@ class AttendSocialEventView(APIView):
             event=event
         )
         user_attendance.save()
+        add_event_to_calendar(request.cached_user, event)
 
         serializer = AttendanceSerializer(user_attendance)
         return Response(serializer.data)
@@ -270,12 +272,13 @@ class SlackActionsCallback(APIView):
                     else:
                         message = generate_simple_message(
                             '> You\'ve successfully registered for the event :tada:')
+                        add_event_to_calendar(andela_user_profile, event)
 
                 else:
                     message = generate_simple_message(
                         'Oops! The event you want to attend is a past event')
             except Event.DoesNotExist:
-                    message = generate_simple_message(
+                message = generate_simple_message(
                         'Oops! It seems this event has been removed.')
             except AndelaUserProfile.DoesNotExist:
                 message = generate_simple_message(
