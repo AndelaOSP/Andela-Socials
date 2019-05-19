@@ -4,20 +4,20 @@ import PropTypes from 'prop-types';
 const InterestCard = (props) => {
   const {
     name,
-    index,
+    category,
     active,
     handleClick
   } = props;
-
   return (
-    <div onClick={() => handleClick(index)} className={`interests-card ${active ? 'active' : ''}`}>
+    <div onClick={() => {
+      handleClick(category)}} className={`interests-card ${active ? 'active' : ''}`}>
       <p>{name}</p>
-      {!!active && <span className="interests-card__icon-close"  onClick={
+      {active && <span className="interests-card__icon-close"  onClick={
         (e) => {
           e.stopPropagation();
-          handleClick(index, false)
+          handleClick(category, true)
         }
-      }>
+      }> 
         <div className="interest-icon">close</div>
       </span>}
       {!active && <span className="interests-card__icon-check interest-icon">check</span>}
@@ -27,7 +27,6 @@ const InterestCard = (props) => {
 
 InterestCard.propTypes = {
   name: PropTypes.string.isRequired,
-  index: PropTypes.number.isRequired,
   active: PropTypes.bool.isRequired,
   handleClick: PropTypes.func.isRequired,
 };

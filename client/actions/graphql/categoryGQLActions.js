@@ -30,7 +30,7 @@ export const getCategoryList = ({
     description_Istartswith
   )
 ).then(data => dispatch(getClubs(data.data.categoryList.edges)))
-.catch(error => handleError(error, dispatch));
+  .catch(error => handleError(error, dispatch));
 
 export const getCategory = id => ({
   type: GET_CLUB,
@@ -41,23 +41,23 @@ export const getCategory = id => ({
 export const joinedClubsGQL = () => dispatch => Client.query(
   JOINED_CLUBS_GQL()
 ).then(data => dispatch({
-    type: JOINED_CLUBS,
-    payload: data.data,
-    error: false,
-  })).catch(error => handleError(error, dispatch));
+  type: JOINED_CLUBS,
+  payload: data.data,
+  error: false,
+})).catch(error => handleError(error, dispatch));
 
 export const joinSocialClub = (clubId, clientMutationId = '') => dispatch => Client.mutate(
   JOIN_SOCIAL_CLUB_GQL(clubId, clientMutationId)
 ).then(data => dispatch({
-    type: JOIN_CLUB,
-    payload: data.data,
-    error: false,
-  })).catch(error => handleError(error, dispatch));
+  type: JOIN_CLUB,
+  payload: data.data,
+  error: false,
+})).catch(error => handleError(error, dispatch));
 
 export const unjoinSocialClub = (clubId, clientMutationId = '') => dispatch => Client.mutate(
   UNJOIN_SOCIAL_CLUB_GQL(clubId, clientMutationId)
 ).then(data => dispatch({
-    type: UNJOIN_CLUB,
-    payload: data.data,
-    error: false,
-  })).catch(error => handleError(error, dispatch));
+  type: UNJOIN_CLUB,
+  payload: data.data,
+  error: false,
+})).catch(error => handleError(error, dispatch));

@@ -2,18 +2,8 @@ import gql from 'graphql-tag';
 
 const INTERESTS_LIST_GQL = (before = '', after = '', first = 1, last = 1) => ({
   query: gql`
-    query(
-      $before: String,
-      $after: String,
-      $first: Int,
-      $last: Int
-    ){
-      interestsList(
-        before: $before
-        after: $after
-        first: $first
-        last: $last
-      ){
+    query{
+      interestsList{
         pageInfo{
           hasNextPage
           hasPreviousPage
@@ -26,6 +16,7 @@ const INTERESTS_LIST_GQL = (before = '', after = '', first = 1, last = 1) => ({
             updatedAt
             id
             followerCategory{
+              id
               name
               featuredImage
               description
@@ -34,13 +25,7 @@ const INTERESTS_LIST_GQL = (before = '', after = '', first = 1, last = 1) => ({
           cursor
         }
       }
-    }`,
-  variables: {
-    before,
-    after,
-    first,
-    last,
-  },
+    }`
 });
 
 export default INTERESTS_LIST_GQL;
