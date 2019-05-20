@@ -56,11 +56,17 @@
   }
   .navbar-brand {
     height: rem(70px);
-    width: rem(70px);
+    min-width: rem(70px);
     margin-left: rem(20px);
     @include centered-flex;
     @include mobile(rem(600px)) {
       display: none;
+    }
+    .site-name{
+  margin-left: 16px;
+  white-space: nowrap;
+  font-weight: 400;
+  color: $blue;
     }
   }
   .navbar-brand-mobile {
