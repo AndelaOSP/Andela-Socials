@@ -356,6 +356,7 @@ EventDetailsPage.propTypes = {
     endDate: PropTypes.string,
     venue: PropTypes.string,
     featuredImage: PropTypes.string,
+    slackChannel: PropTypes.string,
     socialEvent: PropTypes.shape({ name: PropTypes.string }),
     attendSet: PropTypes.shape({ edges: PropTypes.arrayOf(PropTypes.shape({})) }),
     categories: PropTypes.arrayOf(PropTypes.shape({})),

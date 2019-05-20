@@ -58,6 +58,7 @@ export const createEvent = ({
   endDate,
   timezone,
   categoryId,
+  slackChannel
 }) => dispatch => Client.mutate(
   CREATE_EVENT_GQL(
     title,
@@ -67,7 +68,8 @@ export const createEvent = ({
     startDate,
     endDate,
     timezone,
-    categoryId
+    categoryId,
+    slackChannel
   )
 ).then(data => dispatch({
   type: CREATE_EVENT, payload: data.data, error: false,
@@ -90,7 +92,7 @@ export const updateEvent = ({
   startDate,
   endDate,
   timezone,
-  categoryId,
+  categoryId
 }) => dispatch => Client.mutate(
   UPDATE_EVENT_GQL(eventId, title, description, featuredImage, venue, startDate, endDate, timezone, categoryId)
 )
