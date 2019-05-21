@@ -22,7 +22,11 @@ def is_not_past_event(event):
 def save_user_attendance(event, user_profile, status):
     return Attend.objects.get_or_create(
 <<<<<<< HEAD
+<<<<<<< HEAD
         user=user_profile, event=event, status=status)
 =======
         user=user_profile, event=event, status="attending")
 >>>>>>> ft(slack-attend-event): User should be able to attend event from slack) (#181)
+=======
+        user=user_profile, event=event, status=status)
+>>>>>>> feat(event-update-notifier): notify attendees on slack when host updates or cancels event (#196)

@@ -10,7 +10,11 @@ from django.core.files.storage import FileSystemStorage
 
 from api.slack import generate_simple_message, notify_user
 from api.utils.oauth_helper import get_auth_url
+<<<<<<< HEAD
 from api.models import Interest, Attend, Event
+=======
+from api.models import Interest, Attend
+>>>>>>> feat(event-update-notifier): notify attendees on slack when host updates or cancels event (#196)
 from googleapiclient.discovery import build
 from google.cloud import storage
 
@@ -196,6 +200,7 @@ async def send_bulk_update_message(event_instance, message, notification_text):
                     message, slack_id, text=notification_text)
             elif not slack_response['ok']:
                 logging.warning(slack_response)
+<<<<<<< HEAD
 
 
 def add_event_to_calendar(andela_user, event):
@@ -246,3 +251,5 @@ def update_event_status_on_calendar(andela_user, event):
             eventId=event_id,
             body=event_in_calendar
         ).execute()
+=======
+>>>>>>> feat(event-update-notifier): notify attendees on slack when host updates or cancels event (#196)

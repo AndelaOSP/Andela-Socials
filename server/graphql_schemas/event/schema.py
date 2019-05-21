@@ -22,9 +22,13 @@ from graphql_schemas.utils.helpers import (is_not_admin,
                                            send_calendar_invites,
                                            validate_event_dates,
                                            raise_calendar_error,
+<<<<<<< HEAD
                                            not_valid_timezone,
                                            send_bulk_update_message,
                                            add_event_to_calendar)
+=======
+                                           not_valid_timezone, send_bulk_update_message)
+>>>>>>> feat(event-update-notifier): notify attendees on slack when host updates or cancels event (#196)
 from graphql_schemas.scalars import NonEmptyString
 from graphql_schemas.utils.hasher import Hasher
 <<<<<<< HEAD
@@ -417,6 +421,7 @@ class ValidateEventInvite(relay.ClientIDMutation):
                 message=str(err)
             )
 
+
 class ChannelList(graphene.ObjectType):
     id = graphene.ID()
     name = graphene.String()
@@ -571,8 +576,12 @@ class EventQuery(object):
             channel = ChannelList(**filtered_channel)
             channels.append(channel)
         return SlackChannelsList(
+<<<<<<< HEAD
             ok=slack_list.get('ok'),channels=channels,response_metadata=responseMetadata)
 >>>>>>> feature(channels): Get all slack public channels (#188)
+=======
+            ok=slack_list.get('ok'), channels=channels, response_metadata=responseMetadata)
+>>>>>>> feat(event-update-notifier): notify attendees on slack when host updates or cancels event (#196)
 
 
 class EventMutation(ObjectType):
