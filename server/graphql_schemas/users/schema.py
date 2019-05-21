@@ -5,6 +5,7 @@ from graphene_django.types import DjangoObjectType
 
 from api.models import AndelaUserProfile
 from api.slack import get_slack_user_token
+from api.utils.oauth_helper import get_auth_url
 
 
 class AndelaUserNode(DjangoObjectType):
@@ -12,12 +13,23 @@ class AndelaUserNode(DjangoObjectType):
         model = AndelaUserProfile
         filter_fields = {}
         interfaces = (relay.Node, )
-        exclude_fields = ('credential', )
+        exclude_fields = ('credential', 'slack_token')
 
+
+class CalendarAuth(graphene.ObjectType):
+    auth_url = graphene.String()
 
 class AndelaUserQuery(object):
     user = relay.Node.Field(AndelaUserNode)
     users_list = DjangoFilterConnectionField(AndelaUserNode)
+    calendar_auth = graphene.Field(CalendarAuth)
+
+    def resolve_calendar_auth(self, info, **kwargs):
+        user = info.context.user
+        andela_user = AndelaUserProfile.objects.get(user_id=user.id)
+        auth_url = get_auth_url(andela_user)
+        return CalendarAuth(auth_url=auth_url)
+
 
 
 class CreateUserAuth(relay.ClientIDMutation):
