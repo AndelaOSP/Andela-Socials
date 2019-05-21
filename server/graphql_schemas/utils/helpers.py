@@ -201,6 +201,9 @@ async def send_bulk_update_message(event_instance, message, notification_text):
             elif not slack_response['ok']:
                 logging.warning(slack_response)
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> feat(calendar): add event to attendee's calendar (#199)
 
 
 def add_event_to_calendar(andela_user, event):
@@ -209,6 +212,7 @@ def add_event_to_calendar(andela_user, event):
          :param andela_user:
          :param event:
     """
+<<<<<<< HEAD
     calendar = build('calendar', 'v3', credentials=andela_user.credential)
     event_details = build_event(event, [])
     created_event = calendar.events().insert(
@@ -253,3 +257,11 @@ def update_event_status_on_calendar(andela_user, event):
         ).execute()
 =======
 >>>>>>> feat(event-update-notifier): notify attendees on slack when host updates or cancels event (#196)
+=======
+    attendees = [{"email": attendee.user.user.email}
+                 for attendee in event.attendees]
+    calendar = build('calendar', 'v3', credentials=andela_user.credential)
+    event_details = build_event(event, attendees)
+    return calendar.events().insert(
+            calendarId='primary', body=event_details).execute()
+>>>>>>> feat(calendar): add event to attendee's calendar (#199)

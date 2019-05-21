@@ -11,10 +11,14 @@ from api.models import Attend, Event, AndelaUserProfile
 from api.slack import invite_to_event_channel
 from api.utils.backgroundTaskWorker import BackgroundTaskWorker
 from api.utils.event_helpers import is_not_past_event, save_user_attendance
+<<<<<<< HEAD
 from graphql_schemas.utils.helpers import update_event_status_on_calendar
 =======
 from api.utils.event_helpers import is_not_past_event, save_user_attendance
 >>>>>>> ft(slack-attend-event): User should be able to attend event from slack) (#181)
+=======
+from graphql_schemas.utils.helpers import add_event_to_calendar
+>>>>>>> feat(calendar): add event to attendee's calendar (#199)
 
 
 class AttendNode(DjangoObjectType):
@@ -41,6 +45,7 @@ class AttendEvent(relay.ClientIDMutation):
         andela_user_profile = AndelaUserProfile.objects.get(
             user_id=user.id)
 <<<<<<< HEAD
+<<<<<<< HEAD
         BackgroundTaskWorker.start_work(update_event_status_on_calendar,
             (andela_user_profile, event))
         if is_not_past_event(event):
@@ -51,6 +56,9 @@ class AttendEvent(relay.ClientIDMutation):
 
 =======
 
+=======
+        add_event_to_calendar(andela_user_profile, event)
+>>>>>>> feat(calendar): add event to attendee's calendar (#199)
         if is_not_past_event(event):
             user_attendance, created = save_user_attendance(event, andela_user_profile, status)
 >>>>>>> ft(slack-attend-event): User should be able to attend event from slack) (#181)

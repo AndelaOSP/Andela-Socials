@@ -23,7 +23,11 @@ from .utils.oauth_helper import save_credentials
 
 from .setpagination import LimitOffsetpage
 from graphql_schemas.utils.helpers import add_event_to_calendar
+<<<<<<< HEAD
 from api.utils.backgroundTaskWorker import BackgroundTaskWorker
+=======
+
+>>>>>>> feat(calendar): add event to attendee's calendar (#199)
 
 class LoginRequiredMixin(object):
 
@@ -282,19 +286,27 @@ class SlackActionsCallback(APIView):
                         message = generate_simple_message(
                             '> You\'ve successfully registered for the event :tada:')
 <<<<<<< HEAD
+<<<<<<< HEAD
                         add_event_to_calendar(andela_user_profile, event)
 =======
 >>>>>>> ft(slack-attend-event): User should be able to attend event from slack) (#181)
+=======
+                        add_event_to_calendar(andela_user_profile, event)
+>>>>>>> feat(calendar): add event to attendee's calendar (#199)
 
                 else:
                     message = generate_simple_message(
                         'Oops! The event you want to attend is a past event')
             except Event.DoesNotExist:
 <<<<<<< HEAD
+<<<<<<< HEAD
                 message = generate_simple_message(
 =======
                     message = generate_simple_message(
 >>>>>>> ft(slack-attend-event): User should be able to attend event from slack) (#181)
+=======
+                message = generate_simple_message(
+>>>>>>> feat(calendar): add event to attendee's calendar (#199)
                         'Oops! It seems this event has been removed.')
             except AndelaUserProfile.DoesNotExist:
                 message = generate_simple_message(
