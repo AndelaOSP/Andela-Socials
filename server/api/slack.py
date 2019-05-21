@@ -2,6 +2,7 @@ import dotenv
 
 from slackclient import SlackClient
 from os import getenv
+
 dotenv.load()
 
 # instantiate Slack & Twilio clients
@@ -164,3 +165,11 @@ def get_slack_channels_list(limit=100):
         # retrieve all slack channels
         return channels_list
     return ''
+
+
+def invite_to_event_channel(user_id, event_channel, channel_creator_token):
+    return SlackClient(channel_creator_token).api_call(
+            "channels.invite",
+            channel=event_channel,
+            user=user_id,
+        )
