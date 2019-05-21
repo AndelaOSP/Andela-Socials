@@ -49,14 +49,12 @@
     height: rem(89px);
     margin-bottom: 0;
     margin-left: 0;
-    border: 2px solid #000;
   }
 
   &__mini-gallery {
     margin-left: rem(28px);
     max-width: 41vw;
     display: inline-flex;
-    background: rgb(230, 18, 18);
   }
 
   &__event_title {
