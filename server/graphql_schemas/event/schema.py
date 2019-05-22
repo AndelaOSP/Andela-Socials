@@ -23,12 +23,18 @@ from graphql_schemas.utils.helpers import (is_not_admin,
                                            validate_event_dates,
                                            raise_calendar_error,
 <<<<<<< HEAD
+<<<<<<< HEAD
                                            not_valid_timezone,
                                            send_bulk_update_message,
                                            add_event_to_calendar)
 =======
                                            not_valid_timezone, send_bulk_update_message)
 >>>>>>> feat(event-update-notifier): notify attendees on slack when host updates or cancels event (#196)
+=======
+                                           not_valid_timezone,
+                                           send_bulk_update_message,
+                                           add_event_to_calendar)
+>>>>>>> feat(calendar): add event to creator's calendar (#207)
 from graphql_schemas.scalars import NonEmptyString
 from graphql_schemas.utils.hasher import Hasher
 <<<<<<< HEAD
@@ -143,8 +149,18 @@ class CreateEvent(relay.ClientIDMutation):
                 category, user_profile, **input)
             BackgroundTaskWorker.start_work(add_event_to_calendar,
                                             (user_profile, new_event))
+<<<<<<< HEAD
             CreateEvent.notify_event_in_slack(category, input, new_event)
             raise_calendar_error(user_profile)
+=======
+            if user_profile.credential and user_profile.credential.valid:
+                # Send calender invite in background
+                BackgroundTaskWorker.start_work(send_calendar_invites,
+                                                (user_profile, new_event))
+            else:
+                CreateEvent.notify_event_in_slack(category, input, new_event)
+                raise_calendar_error(user_profile)
+>>>>>>> feat(calendar): add event to creator's calendar (#207)
 
         except ValueError as e:
             logging.warn(e)
