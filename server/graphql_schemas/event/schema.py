@@ -21,7 +21,9 @@ from graphql_schemas.utils.helpers import (is_not_admin,
                                            send_calendar_invites,
                                            validate_event_dates,
                                            raise_calendar_error,
-                                           not_valid_timezone, send_bulk_update_message)
+                                           not_valid_timezone,
+                                           send_bulk_update_message,
+                                           add_event_to_calendar)
 from graphql_schemas.scalars import NonEmptyString
 from graphql_schemas.utils.hasher import Hasher
 from api.models import (Event, Category, AndelaUserProfile,
@@ -98,6 +100,8 @@ class CreateEvent(relay.ClientIDMutation):
             )
             new_event = CreateEvent.create_event(
                 category, user_profile, **input)
+            BackgroundTaskWorker.start_work(add_event_to_calendar,
+                                            (user_profile, new_event))
             if user_profile.credential and user_profile.credential.valid:
                 # Send calender invite in background
                 BackgroundTaskWorker.start_work(send_calendar_invites,
