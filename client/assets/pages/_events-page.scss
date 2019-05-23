@@ -339,15 +339,6 @@ main {
     font-weight: 300;
     display: inline-block;
     position: relative;
-    &:after {
-      content: "";
-      position: absolute;
-      width: 75%;
-      height: 1px;
-      bottom: 0;
-      left: 1%;
-      border-bottom: 4px solid rgba(51, 89, 219, 1);
-    }
   }
   &__box {
     padding: 5px;

@@ -1,4 +1,5 @@
 import graphene
+from copy import deepcopy
 
 from graphene import relay
 from graphene_django.filter import DjangoFilterConnectionField
@@ -38,7 +39,7 @@ class JoinCategory(relay.ClientIDMutation):
             Interest.objects.bulk_create(joined_category_list)
         except IntegrityError:
             raise GraphQLError(
-                'User has already shown interest in this category'
+                'You have previously added an interest. Please try again'
             )
 
         return JoinCategory(joined_category_list=joined_category_list)
@@ -48,25 +49,26 @@ class UnJoinCategory(relay.ClientIDMutation):
     """Unsubscribe from a category"""
 
     class Input:
-        category_id = graphene.ID(required=True)
+        categories = graphene.List(graphene.ID)
 
-    unjoined_category = graphene.Field(InterestNode)
+    unjoined_categories = graphene.List(InterestNode)
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
-        category = Category.objects.get(
-            pk=from_global_id(input.get('category_id'))[1])
+        categories = input.get('categories')
         user = AndelaUserProfile.objects.get(user=info.context.user)
-        unjoined_category = Interest.objects.filter(
-            follower_category_id=category.id,
+        categories = list(map(lambda category_id: from_global_id(category_id)[1], categories))
+        unjoined_categories_qs = Interest.objects.filter(
+            follower_category_id__in=categories,
             follower_id=user.id
-        ).first()
-        if not unjoined_category:
+        )
+        unjoined_categories = deepcopy(unjoined_categories_qs)
+        if not unjoined_categories:
             raise GraphQLError(
-                "The User {0}, has not joined {1}. ".format(user, category))
+                "Oops. We were not able to find some of the interests you are trying to remove")
 
-        unjoined_category.delete()
-        return UnJoinCategory(unjoined_category=unjoined_category)
+        unjoined_categories_qs.delete()
+        return UnJoinCategory(unjoined_categories=unjoined_categories)
 
 
 class InterestQuery(object):
@@ -75,7 +77,7 @@ class InterestQuery(object):
 
     joined_categories = graphene.List(InterestNode)
 
-    def resolve_joined_clubs(self, info):
+    def resolve_joined_categories(self, info):
         user = info.context.user
         andela_user_profile = AndelaUserProfile.objects.get(user_id=user.id)
         return Interest.objects.filter(
