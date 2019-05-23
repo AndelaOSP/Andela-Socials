@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { ModalContextCreator } from './ModalContext';
 import EventForm from '../Forms/EventForm';
 import DeleteForm from '../Forms/DeleteForm';
+import SlackModal from './SlackModal';
 
 /*
   maps a string to a modal child, used to determine
@@ -16,12 +17,16 @@ const MODAL_COMPONENTS = {
   CREATE_EVENT: EventForm,
   UPDATE_EVENT: EventForm,
   DELETE_EVENT: DeleteForm,
+  SLACK_MODAL: SlackModal,
 };
 
 const ModalContent = (props) => {
-  const { modalProps, closeModal, activeModal } = props;
+  const {
+    modalProps, closeModal, activeModal,
+  } = props;
   const SpecificModal = MODAL_COMPONENTS[activeModal];
-  const submitText = activeModal === 'DELETE_EVENT' ? 'CONFIRM' : 'Submit';
+  const submitText = (activeModal === 'DELETE_EVENT' || activeModal === 'SLACK_MODAL')
+    ? 'CONFIRM' : 'Submit';
   return (
     <div className="modal__content">
       <header className="modal__header">

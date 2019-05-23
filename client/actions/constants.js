@@ -50,3 +50,6 @@ export const VALIDATE_INVITE = 'VALIDATE_INVITE';
 
 // Constants to sahre events to slack channel
 export const SHARE_EVENT = 'SHARE_EVENT';
+
+// Constant to display slack modal
+export const SLACK_TOKEN = 'SLACK_TOKEN';

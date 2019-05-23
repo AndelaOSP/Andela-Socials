@@ -13,6 +13,7 @@ import url from './urlReducers';
 import userReducers from './userReducers';
 import { inviteValidation } from './inviteReducers';
 import oauth from './oauthReducers';
+import slackToken from './slackTokenReducer';
 
 const rootReducer = {
   activeUser: userReducers,
@@ -28,7 +29,8 @@ const rootReducer = {
   url,
   oauth,
   invite: inviteValidation,
-  slackChannels
+  slackChannels,
+  slackToken,
 };
 
 export default rootReducer;

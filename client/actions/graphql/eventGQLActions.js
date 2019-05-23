@@ -14,6 +14,7 @@ import {
   DEACTIVATE_EVENT,
   SEARCH_EVENTS,
   SHARE_EVENT,
+  SLACK_TOKEN,
 } from '../constants';
 
 import { handleError, handleInformation } from '../../utils/errorHandler';
@@ -69,9 +70,14 @@ export const createEvent = ({
     timezone,
     categoryId
   )
-).then(data => dispatch({
-  type: CREATE_EVENT, payload: data.data, error: false,
-}))
+).then((data) => {
+  dispatch({
+    type: SLACK_TOKEN, payload: data.data.createEvent,
+  });
+  dispatch({
+    type: CREATE_EVENT, payload: data.data, error: false,
+  });
+})
   .catch((error) => {
     if (error.toString().includes('Calendar API not authorized')) {
       const authUrl = error.graphQLErrors[0].AuthUrl;
@@ -129,10 +135,10 @@ export const shareEvent = ({
   channelId,
 }) => dispatch => Client.mutate(
   SHARE_EVENT_GQL(eventId, channelId)
-).then(data => {
+).then((data) => {
   handleInformation('Successfully shared');
   dispatch({
     type: SHARE_EVENT, payload: data.data, error: false,
-  })
+  });
 })
   .catch(error => handleError(error, dispatch));

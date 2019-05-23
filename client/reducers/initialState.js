@@ -14,5 +14,6 @@ export default {
   eventsSearchList: [],
   oauth: '',
   invite: {},
-  slackChannels: {}
+  slackChannels: {},
+  slackToken: true,
 };
