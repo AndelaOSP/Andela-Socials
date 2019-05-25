@@ -1,4 +1,5 @@
 import INTERESTS_LIST_GQL from '../../Graphql/Queries/InterestsListGQL';
+import CALENDAR_URL_GQL from '../../Graphql/Queries/CalendarAuthGQL';
 
 import { INTEREST, INTERESTS } from '../constants';
 
@@ -21,4 +22,10 @@ export const getInterest = id => ({
   error: false
 });
 
+export const getCalendarUrl = () => dispatch => Client.query(CALENDAR_URL_GQL())
+  .then(({ data }) => {
+    const { authUrl }= data.calendarAuth;
+    return authUrl
+  })
+  .catch(error => handleError(error, dispatch));
 

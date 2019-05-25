@@ -183,7 +183,7 @@ class Dashboard extends Component {
               render={props => <EventDetailsPage {...props} activeUser={activeUser} categories={categories} updateEvent={updateEvent} uploadImage={uploadImage} />}
             />
             <Route path="/invite/:inviteHash" component={Invite} />
-            <Route path="/events" render={() => <EventsPage />} />
+            <Route path="/events" render={() => <EventsPage createEvent={createEvent} categories={categories} uploadImage={uploadImage} />} />
             <Route path="/dashboard" render={() => <EventsPage createEvent={createEvent} categories={categories} uploadImage={uploadImage} />} />
             <Route path="/interests" render={() => <Interests />} />
             <Route path="*" component={NotFound} />
