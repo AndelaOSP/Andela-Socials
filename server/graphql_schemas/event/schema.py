@@ -70,6 +70,7 @@ class CreateEvent(relay.ClientIDMutation):
         slack_channel = graphene.String(required=False)
 
     new_event = graphene.Field(EventNode)
+    slack_token = graphene.Boolean()
 
     @staticmethod
     def create_event(category, user_profile, **input):
@@ -113,8 +114,16 @@ class CreateEvent(relay.ClientIDMutation):
         except ValueError as e:
             raise GraphQLError("An Error occurred. \n{}".format(e))
 
+        slack_token = False
+        if (user_profile.slack_token):
+            slack_token = True
+        new_event.slack_token = user_profile.slack_token
+
         CreateEvent.notify_event_in_slack(category, input, new_event)
-        return cls(new_event=new_event)
+        return cls(
+            slack_token=slack_token,
+            new_event=new_event
+        )
 
     @staticmethod
     def notify_event_in_slack(category, input, new_event):

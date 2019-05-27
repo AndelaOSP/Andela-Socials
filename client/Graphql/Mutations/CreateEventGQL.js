@@ -29,6 +29,7 @@ const CREATE_EVENT_GQL = (
           }
           active
         }
+        slackToken
         clientMutationId
       }
     }`,
