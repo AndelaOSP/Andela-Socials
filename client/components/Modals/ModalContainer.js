@@ -5,6 +5,7 @@ import { ModalContextCreator } from './ModalContext';
 import EventForm from '../Forms/EventForm';
 import DeleteForm from '../Forms/DeleteForm';
 import SubmitForm from '../Forms/SubmitForm';
+import SlackModal from './SlackModal';
 
 /*
   maps a string to a modal child, used to determine
@@ -18,6 +19,7 @@ const MODAL_COMPONENTS = {
   UPDATE_EVENT: EventForm,
   DELETE_EVENT: DeleteForm,
   SUBMIT_INVITE: SubmitForm,
+  SLACK_MODAL: SlackModal,
 };
 
 const ModalContent = (props) => {
@@ -25,7 +27,8 @@ const ModalContent = (props) => {
 
   const submitButtonLabels = {
     DELETE_EVENT: 'CONFIRM',
-    SUBMIT_INVITE: 'CONFIRM'
+    SUBMIT_INVITE: 'CONFIRM',
+    SLACK_MODAL: 'CONFIRM',
   };
   const submitText = submitButtonLabels[activeModal] || 'Submit';
 

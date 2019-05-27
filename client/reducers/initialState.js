@@ -16,4 +16,5 @@ export default {
   invite: {},
   slackChannels: {},
   ui: { subNavHidden: false },
+  slackToken: true,
 };

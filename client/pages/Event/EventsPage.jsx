@@ -29,6 +29,7 @@ class EventsPage extends React.Component {
       eventStartDate: formatDate(Date.now(), 'YYYY-MM-DD'),
       lastEventItemCursor: '',
       isLoadingEvents: false,
+      slackToken: true,
     };
     this.getFilteredEvents = this.getFilteredEvents.bind(this);
   }
@@ -58,7 +59,7 @@ class EventsPage extends React.Component {
       const {
         events: {
           eventList, pageInfo: { hasNextPage },
-        }, socialClubs,
+        }, socialClubs, slackToken,
       } = props;
       const eventLength = eventList.length;
       const lastEventItemCursor = eventLength ? eventList[eventLength - 1].cursor : '';
@@ -69,6 +70,7 @@ class EventsPage extends React.Component {
         categoryList: socialClubs.socialClubs,
         lastEventItemCursor,
         isLoadingEvents: false,
+        slackToken,
       };
     }
     return null;
@@ -213,6 +215,24 @@ class EventsPage extends React.Component {
     </ModalContextCreator.Consumer>
   );
 
+  openSlackModal = () => (
+    <ModalContextCreator.Consumer>
+      {
+        ({
+          activeModal,
+          openModal,
+        }) => {
+          const { slackToken } = this.state;
+          if (activeModal || slackToken) return null;
+          openModal('SLACK_MODAL', {
+            modalHeadline: 'Connect App to Slack',
+            formId: 'slack-form',
+          });
+        }
+      }
+    </ModalContextCreator.Consumer>
+  );
+
   render() {
     const {
       categoryList,
@@ -234,6 +254,7 @@ class EventsPage extends React.Component {
           </div>
         </div>
         {this.renderEventGallery()}
+        {this.openSlackModal()}
         <div className={`event__footer ${hasNextPage ? '' : 'event__footer--hidden'}`} >
           <button onClick={this.loadMoreEvents} type="button" className="btn-blue event__load-more-button">
             Load more
@@ -253,6 +274,7 @@ const mapStateToProps = state => ({
   events: state.events,
   socialClubs: state.socialClubs,
   subNavHidden: state.uiReducers.subNavHidden,
+  slackToken: state.slackToken,
 });
 
 export default connect(mapStateToProps, {

@@ -5,12 +5,12 @@ import { OAUTH } from './constants';
 /**
  * Callback action
  *
- * @param {string} authUrl
+ * @param {string} url
  * @return {{type: (object}}
  */
-// eslint-disable-next-line
- export const savePermission = (authUrl) => dispatch => apiCall(
-  `/api/v1/oauthcallback${authUrl}`, 'get'
+// eslint-disable-next-line import/prefer-default-export
+export const savePermission = url => dispatch => apiCall(
+  url, 'get'
 )
   .then((res) => {
     handleInformation(res.data.message);

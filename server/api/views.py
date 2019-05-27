@@ -10,7 +10,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.generics import GenericAPIView, ListAPIView, CreateAPIView
 from rest_framework.views import APIView
 
-from api.slack import notify_user, generate_simple_message
+from api.slack import notify_user, generate_simple_message, get_slack_user_token
 from api.utils.event_helpers import is_not_past_event, save_user_attendance
 from .serializers import CategorySerializer, EventSerializer,\
     AttendanceSerializer, EventDetailSerializer, InterestSerializer
@@ -295,9 +295,41 @@ class SlackActionsCallback(APIView):
         return False, None
 
 class LaunchSlackAuthorization(APIView):
+    permission_classes = (AllowAny,)
+    authentication_classes = (AllowAny,)
+
     def get(self, request, *args, **kwargs):
         client_id = os.getenv('SLACK_CLIENT_ID')
-        scope='read'
-        oauth_url = f'https://slack.com/oauth/authorize?client_id={client_id}&scope={scope}'
+        scope = 'channels:write'
+        redirect_uri = os.getenv('SLACK_AUTH_REDIRECT_URI')
+        oauth_url = f'https://slack.com/oauth/authorize?client_id={client_id}&scope={scope}&redirect_uri={redirect_uri}'
 
         return HttpResponseRedirect(oauth_url)
+
+
+class SlackTokenCallback(APIView):
+    permission_classes = (AllowAny,)
+    authentication_classes = (AllowAny,)
+
+    def get(self, request):
+        code = request.query_params.get('code')
+        error = request.query_params.get('error')
+
+        if error == 'access_denied':
+            return Response({'message': 'Slack Authorization not granted'})
+
+        slack_response = get_slack_user_token(code)
+
+        if not slack_response['ok']:
+            return Response({'message': 'Slack Authorization failed'})
+
+        slack_id = slack_response['user_id']
+        try:
+            user_profile = AndelaUserProfile.objects.get(slack_id=slack_id)
+        except AndelaUserProfile.DoesNotExist:
+            return HttpResponseForbidden()
+        else:
+            user_profile.slack_token = slack_response['access_token']
+            user_profile.save()
+
+        return Response({'message': 'Slack Authorization successful'})
