@@ -192,6 +192,9 @@ def get_slack_channels_list(limit=100):
         return channels_list
     return ''
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> ft(channel-invite): user should be added to the event's channel when they perform attend action (#203)
 
 
 def invite_to_event_channel(user_id, event_channel, channel_creator_token):
@@ -200,7 +203,10 @@ def invite_to_event_channel(user_id, event_channel, channel_creator_token):
             channel=event_channel,
             user=user_id,
         )
+<<<<<<< HEAD
 =======
 >>>>>>> ft(slack-attend-event): User should be able to attend event from slack) (#181)
 =======
 >>>>>>> feature(channels): Get all slack public channels (#188)
+=======
+>>>>>>> ft(channel-invite): user should be added to the event's channel when they perform attend action (#203)

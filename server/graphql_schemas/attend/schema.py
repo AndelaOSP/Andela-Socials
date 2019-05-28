@@ -8,6 +8,9 @@ from graphql import GraphQLError
 
 from api.models import Attend, Event, AndelaUserProfile
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> ft(channel-invite): user should be added to the event's channel when they perform attend action (#203)
 from api.slack import invite_to_event_channel
 from api.utils.backgroundTaskWorker import BackgroundTaskWorker
 from api.utils.event_helpers import is_not_past_event, save_user_attendance
@@ -61,7 +64,14 @@ class AttendEvent(relay.ClientIDMutation):
 >>>>>>> feat(calendar): add event to attendee's calendar (#199)
         if is_not_past_event(event):
             user_attendance, created = save_user_attendance(event, andela_user_profile, status)
+<<<<<<< HEAD
 >>>>>>> ft(slack-attend-event): User should be able to attend event from slack) (#181)
+=======
+            if event.slack_channel and andela_user_profile.slack_id and event.creator.slack_token:
+                BackgroundTaskWorker.start_work(invite_to_event_channel,
+                                                (andela_user_profile.slack_id, event.slack_channel, event.creator.slack_token))
+
+>>>>>>> ft(channel-invite): user should be added to the event's channel when they perform attend action (#203)
         else:
             raise GraphQLError(
                 "The event is no longer available")
