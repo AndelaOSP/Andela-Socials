@@ -201,6 +201,9 @@ class Dashboard extends Component {
             imageUrl={activeUser.picture || ''}
           />
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> feature(ui): fix header and sidebar (#211)
           <Switch>
             {this.redirectUser()}
             <Route
@@ -210,6 +213,7 @@ class Dashboard extends Component {
                   location={props.location}
                   oauth={this.props.oauth}
                   counter={oauthCounter}
+<<<<<<< HEAD
                   savePermission={this.handleAuthPermission}
                 />
               )}
@@ -222,6 +226,9 @@ class Dashboard extends Component {
                   oauth={this.props.oauth}
                   counter={oauthCounter}
                   savePermission={this.handleSlackPermission}
+=======
+                  savePermission={this.props.savePermission}
+>>>>>>> feature(ui): fix header and sidebar (#211)
                 />
               )}
             />
@@ -230,11 +237,17 @@ class Dashboard extends Component {
               render={props => <EventDetailsPage {...props} activeUser={activeUser} categories={categories} updateEvent={updateEvent} uploadImage={uploadImage} />}
             />
             <Route path="/invite/:inviteHash" component={Invite} />
+<<<<<<< HEAD
             <Route path="/events" render={() => <EventsPage createEvent={createEvent} categories={categories} uploadImage={uploadImage} />} />
+=======
+            <Route path="/events" render={() => <EventsPage />} />
+            <Route path="/dashboard" render={() => <EventsPage createEvent={createEvent} categories={categories} uploadImage={uploadImage} />} />
+>>>>>>> feature(ui): fix header and sidebar (#211)
             <Route path="/interests" render={() => <Interests />} />
             <Route path="*" component={NotFound} />
           </Switch>
         </div>
+<<<<<<< HEAD
 =======
           <Route path="/invite/:inviteHash" component={Invite} />
           <Route path="/events" render={() => <EventsPage />} />
@@ -243,6 +256,8 @@ class Dashboard extends Component {
           <Route path="*" component={NotFound} />
         </Switch>
 >>>>>>> feat(interests): create interests page (#186)
+=======
+>>>>>>> feature(ui): fix header and sidebar (#211)
         <Modal {...this.props} />
       </ModalContextProvider>
     );

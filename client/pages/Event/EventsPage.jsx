@@ -272,9 +272,15 @@ class EventsPage extends React.Component {
     return (
       <div className="event__container">
         <div className="event__sidebar">
+<<<<<<< HEAD
           <div className={`event__sidebar-fixed ${subNavHidden ? 'event__sidebar-expanded' : ''}`}>
             <EventFilter categoryList={catList} filterSelected={this.getFilteredEvents} />
             <Calendar selectedDate={startDate || Date.now()} dateSelected={this.getFilteredEvents} />
+=======
+          <div className="event__sidebar-fixed">
+            <EventFilter categoryList={catList} filterSelected={this.getFilteredEvents} />
+            <Calendar dateSelected={this.getFilteredEvents} />
+>>>>>>> feature(ui): fix header and sidebar (#211)
           </div>
         </div>
         {this.renderEventGallery()}

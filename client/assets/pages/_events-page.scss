@@ -21,6 +21,7 @@
     grid-column: sidebar-start/sidebar-end;
     width: rem(330px);
     vertical-align: middle;
+<<<<<<< HEAD
     justify-self: center;
     &-fixed {
       position: fixed;
@@ -40,6 +41,16 @@
     &-fixed.event__sidebar-expanded {
       padding-top: 5rem;
     }
+=======
+    &-fixed {
+      position: fixed;
+      width: 20.625rem;
+      top: 5.2rem;
+      @include mobile(600px) {
+        position: initial;
+      }
+    }
+>>>>>>> feature(ui): fix header and sidebar (#211)
   }
 
   &__gallery {
@@ -232,11 +243,15 @@ main {
   background: var(--neutral-color);
   border-radius: 10px;
 <<<<<<< HEAD
+<<<<<<< HEAD
   min-height: rem(300px);
 =======
   height: rem(373px);
 
 >>>>>>> feat(redesign): redesign event card (#194)
+=======
+  min-height: rem(300px);
+>>>>>>> feature(ui): fix header and sidebar (#211)
   .header {
     text-transform: uppercase;
     font-size: 15px;
