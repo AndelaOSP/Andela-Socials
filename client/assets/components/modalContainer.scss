@@ -1,9 +1,7 @@
 .modal {
-  position: absolute;
   top: 0;
   left: 0;
   height: 100vh;
-  // bottom: 0;
   right: 0;
   background-color: rgba(0, 0, 0, 0.64);
   display: flex;
@@ -13,7 +11,7 @@
   z-index: 1040;
 
   .modal__content {
-    background-color: #fff;
+    background-color: #FFF;
     padding: rem(25px);
     width: 90%;
     max-width: rem(768px);
