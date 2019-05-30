@@ -105,54 +105,71 @@
   justify-content: flex-end;
   padding: 0;
   height: rem(70px);
+
   @include mobile(rem(600px)) {
     width: 100%;
   }
+
   &__item {
     padding-left: 3%;
     margin-right: rem(16px);
+
     @include mobile(rem(600px)) {
       display: none;
     }
   }
+
   &__search {
     z-index: 1;
+
     @include mobile(rem(600px)) {
       padding-right: 5%;
     }
   }
+
   .nav-profile {
     min-width: rem(183.5px);
     margin: 0;
     padding-right: 12%;
+
     &__list-menus {
       @include column-flex;
       align-items: center;
       box-shadow: rem(-1px) rem(6px) rem(6px) $grey;
       border: 0;
       border-radius: 0;
-      width: 10.5rem;
-
+      width: 3rem;
+      margin-left: 25px;
+      
       li {
         @include centered-flex;
         height: 2.5rem;
-        width: 70%;
-        margin: 1em 0 1em 0;
+        width: 100%;
+        margin: rem(5px);
+
         a {
-          color: #ccc;
+          color: #CCC;
           font-weight: 300;
-          font-size: rem(24px);
+          font-size: rem(20px);
         }
+
         a:hover {
           background: none;
         }
       }
+
+      li:hover {
+        background-color: $grey;
+      }
+
     }
+
     &__img {
       width: rem(35px);
       height: rem(35px);
       border-radius: 50%;
     }
+
     &__username {
       font-size: rem(21px);
       font-style: normal;
@@ -161,27 +178,33 @@
       margin: 0 rem(5px) 0 rem(5px);
       color: #ccc;
     }
+
     &__dropdown-icon {
-      color: #ccc;
+      color: #CCC;
     }
+
     &__button {
       box-shadow: none;
+
       &:active, &:focus {
         outline: none;
       }
     }
   }
+
   .notification-container {
     &__button {
       margin: 0;
       padding: 0;
       box-shadow: none;
     }
+
     &__button:active,
     &__button:hover {
       box-shadow: none;
       background: transparent;
     }
+
     &__list-notifications {
       @include column-flex;
       position: absolute;
@@ -192,10 +215,12 @@
       box-shadow: rem(-1px) rem(6px) rem(6px) $grey;
       background: $white;
       z-index: 1;
+
       .notifier:last-child {
         border-bottom: 0;
       }
     }
+
     .notifier {
       @include row-flex;
       width: 19.5rem;
@@ -203,28 +228,34 @@
       height: 2.5rem;
       margin-top: 1rem;
       border-bottom: rem(1px) solid $grey;
+
       &__avatar {
         img {
           width: rem(30px);
         }
       }
+
       &__text {
         font-size: 0.75rem;
         width: 100%;
-        color: #ccc;
+        color: #CCC;
       }
+
       &__text--description {
         margin-left: 1em;
       }
+
       &__text--description-strong {
         color: #000;
       }
+
       &__text--time {
         float: right;
         margin-top: .3rem;
       }
     }
   }
+
   .nav-profile__button,
   .notification-container__button {
     @include flex;
@@ -234,11 +265,13 @@
     padding: 0;
     width: 100%;
   }
+
   .nav-profile__button {
     &.active.focus, &.active:focus, &.focus, &:active.focus, &:active:focus, &:focus{
       outline: none;
     }
   }
+
   .search-bar {
     @include flex;
     width: 17.5rem;
@@ -248,21 +281,26 @@
     padding: 0;
     margin: 0;
     justify-content: center;
+
     @include mobile(rem(640px)) {
       width: 14rem;
     }
+
     .form-group {
       @include flex;
       align-items: center;
+
       @include mobile(rem(640px)) {
         width: 100%;
       }
     }
+
     &__input {
       border: 0;
       width: 15rem;
       box-shadow: none;
       background: transparent;
+
       @include mobile(rem(640px)) {
         width: 85%;
       }
