@@ -8,7 +8,7 @@ import EventCard from '../../components/cards/EventCard';
 import formatDate from '../../utils/formatDate';
 import { getEventsList, createEvent } from '../../actions/graphql/eventGQLActions';
 import { getCategoryList } from '../../actions/graphql/categoryGQLActions';
-import EventNotFound from '../../components/EventNotFound';
+import NoEvents from '../../components/NoEvents';
 import mapListToComponent from '../../utils/mapListToComponent';
 import { ModalContextCreator } from '../../components/Modals/ModalContext';
 
@@ -153,7 +153,8 @@ class EventsPage extends React.Component {
         {listOfEventCard}
       </div>);
     }
-    return <EventNotFound statusMessage="404" mainMessage="Events not found" />;
+
+    return <NoEvents />;
   }
 
   /**
