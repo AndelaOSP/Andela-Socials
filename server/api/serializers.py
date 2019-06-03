@@ -24,14 +24,21 @@ class AndelaUserProfileSerializer(serializers.ModelSerializer):
         depth = 1
 
 
+class RecurrenceSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Event
+        fields = ('id', 'frequency', 'date', 'time' )
+
 class EventSerializer(serializers.ModelSerializer):
 
     creator = AndelaUserProfileSerializer(read_only=True)
+    recurrence = RecurrenceSerializer(read_only=True)
 
     class Meta:
         model = Event
         fields = ('id', 'title', 'description', 'venue', 'date', 'time',
-                  'social_event', 'creator', 'featured_image', 'created_at',
+                  'social_event', 'recurrence', 'creator', 'featured_image', 'created_at',
                   'attendees_count'
                   )
 
@@ -50,6 +57,7 @@ class EventDetailSerializer(serializers.ModelSerializer):
 
     attendees = AttendanceSerializer(many=True, read_only=True)
     creator = AndelaUserProfileSerializer(read_only=True)
+
 
     class Meta:
         model = Event

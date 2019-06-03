@@ -191,6 +191,10 @@ class Category(BaseInfo):
     def __str__(self):
         return "Category : {}" .format(self.name)
 
+class RecurrenceEvent(BaseInfo):
+    frequency = models.CharField(max_length=50)
+    start_date = models.CharField(max_length=50)
+    end_date = models.CharField(max_length=50)
 
 class Event(BaseInfo):
     """Message model defined."""
@@ -201,6 +205,12 @@ class Event(BaseInfo):
     venue = models.TextField()
     start_date = models.CharField(max_length=50)
     end_date = models.CharField(max_length=50)
+    recurrence = models.ForeignKey(
+        RecurrenceEvent,
+        on_delete=models.CASCADE,
+        related_name="events",
+        related_query_name="event",
+        null=True)
     creator = models.ForeignKey(AndelaUserProfile, on_delete=models.CASCADE)
     social_event = models.ForeignKey(
         Category, on_delete=models.CASCADE, related_name="events")

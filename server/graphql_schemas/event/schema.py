@@ -24,10 +24,11 @@ from graphql_schemas.utils.helpers import (is_not_admin,
                                            raise_calendar_error,
                                            not_valid_timezone,
                                            send_bulk_update_message,
+                                           generate_recurrent_event,
                                            add_event_to_calendar)
 from graphql_schemas.scalars import NonEmptyString
 from graphql_schemas.utils.hasher import Hasher
-from api.models import (Event, Category, AndelaUserProfile,
+from api.models import (Event, Category, AndelaUserProfile, RecurrenceEvent,
                         Interest, Attend)
 from api.slack import (get_slack_id,
                        notify_user,
@@ -91,26 +92,43 @@ class CreateEvent(relay.ClientIDMutation):
         category_id = graphene.ID(required=True)
         timezone = graphene.String(required=False)
         slack_channel = graphene.String(required=False)
+        frequency = graphene.Int(required=False)
+        recurring = graphene.Boolean(required=False)
+        recurrence_start_date =  graphene.DateTime(required=False)
+        recurrence_end_date = graphene.DateTime(required=False)
 
     new_event = graphene.Field(EventNode)
     slack_token = graphene.Boolean()
+    new_events = graphene.List(EventNode)
 
     @staticmethod
-    def create_event(category, user_profile, **input):
-        is_date_valid = validate_event_dates(input)
+    def create_event(category, user_profile, recurrence_event, **input):
+        is_date_valid = validate_event_dates(input, 'event_date')
+
         if not is_date_valid.get('status'):
             raise GraphQLError(is_date_valid.get('message'))
         if not input.get('timezone'):
             input['timezone'] = user_profile.timezone
         if not_valid_timezone(input.get('timezone')):
             return GraphQLError("Timezone is invalid")
-
-        new_event = Event.objects.create(
+            
+        if input.get('recurring'):
+            recurrent_event = generate_recurrent_event(input, user_profile, category, recurrence_event)
+            new_event = Event.objects.bulk_create(recurrent_event)
+            new_event = new_event[0]
+        else:
+            input.pop('recurring', None)
+            input.pop('frequency', None)
+            
+            new_event = Event.objects.create(
             **input,
             creator=user_profile,
-            social_event=category
-        )
-        new_event.save()
+            social_event=category,
+            recurrence=recurrence_event
+            )
+
+            new_event.save()
+            
         return new_event
 
     @classmethod
@@ -122,8 +140,16 @@ class CreateEvent(relay.ClientIDMutation):
             user_profile = AndelaUserProfile.objects.get(
                 user=info.context.user
             )
+            
+            
+            if input.get('recurring'):
+                recurrence_event = CreateEvent.create_recurrent_event(**input)
+
+            input.pop('recurrence_start_date', None)
+            input.pop('recurrence_end_date', None)
+
             new_event = CreateEvent.create_event(
-                category, user_profile, **input)
+                category, user_profile, recurrence_event=None, **input)
             BackgroundTaskWorker.start_work(add_event_to_calendar,
                                             (user_profile, new_event))
             CreateEvent.notify_event_in_slack(category, input, new_event)
@@ -141,6 +167,26 @@ class CreateEvent(relay.ClientIDMutation):
             slack_token=slack_token,
             new_event=new_event
         )
+        return cls(new_event=new_event)
+    
+    @staticmethod
+    def create_recurrent_event (**input):
+        frequency = input.get('frequency')
+        start_date = input.get('recurrence_start_date')
+        end_date = input.get('recurrence_end_date')
+
+        is_date_valid = validate_event_dates(input,'recurrent_date')
+        if not is_date_valid.get('status'):
+            raise GraphQLError(is_date_valid.get('message'))
+        
+        recurrence_event = RecurrenceEvent.objects.create(
+            frequency=frequency,
+            start_date = start_date,
+            end_date = end_date
+            )
+        recurrence_event.save()
+        return recurrence_event
+
 
     @staticmethod
     def notify_event_in_slack(category, input, new_event):

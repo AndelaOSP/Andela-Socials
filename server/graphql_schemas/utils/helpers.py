@@ -104,16 +104,24 @@ def build_event(event, invitees):
     }
     return event
 
-def validate_event_dates(input):
+
+def validate_event_dates(input, date_to_validate):
     """
         Validate date fields
          :param input:
     """
+
+
+    if date_to_validate == 'recurrent_date' and input.get('recurring'):
+        event_tz = input.get('recurrence_start_date').tzinfo
+        start_date = input.get('recurrence_start_date')
+        end_date = input.get('recurrence_end_date')
+    else:
+        event_tz = input.get('start_date').tzinfo
+        start_date = input.get('start_date')
+        end_date = input.get('end_date')
     
-    event_tz = input.get('start_date').tzinfo
     today_date = datetime.datetime.now(event_tz)
-    start_date = input.get('start_date')
-    end_date = input.get('end_date')
 
     if start_date < today_date or end_date < today_date:
         return {'status': False, 'message': 'Sorry, you cannot enter a past date'}
@@ -246,3 +254,48 @@ def update_event_status_on_calendar(andela_user, event):
             eventId=event_id,
             body=event_in_calendar
         ).execute()
+    
+def generate_time (start_time, end_time):
+    hour = end_time.time().hour - start_time.time().hour
+    hour = hour * 60*60
+    minTime = end_time.time().minute-start_time.time().minute
+    minTime = minTime * 60
+    secTime = end_time.time().second-start_time.time().second
+    totalTime = hour + minTime + secTime
+    return totalTime
+
+
+def generate_recurrent_event(input, creator, social_event, recurrence):
+    generated_time_object = []
+    generated_events = []
+
+    start_date = parser.parse(str(input.get('start_date')), ignoretz=True).isoformat()
+    end_date = parser.parse(str(input.get('end_date')), ignoretz=True).isoformat()
+    
+    start_date = datetime.datetime.strptime(start_date, '%Y-%m-%dT%H:%M:%S.%f')
+    end_date = datetime.datetime.strptime(end_date, '%Y-%m-%dT%H:%M:%S.%f')
+
+    while(start_date < end_date):
+        time_diff = generate_time(start_date, end_date)
+        end_date_time = start_date + datetime.timedelta(seconds=time_diff)
+        generated_time_object.append({
+        "start_date": start_date,
+        "end_date": end_date_time
+        })
+        start_date = start_date + datetime.timedelta(input.get('frequency'))
+
+    input.pop('recurring', None)
+    input.pop('frequency', None)
+
+    for date_range in generated_time_object:
+        event_series = {
+            **input,
+            **date_range,
+            "creator": creator,
+            "social_event": social_event,
+            "recurrence": recurrence
+        }
+
+        generated_events.append(Event(**event_series))
+
+    return generated_events
