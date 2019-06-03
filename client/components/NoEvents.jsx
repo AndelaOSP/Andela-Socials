@@ -6,10 +6,10 @@ const NoEvents = () => (
   <div className="no-events">
     <div className="no-events__container">
       <h1 className="no-events__status-message">
-        There are no upcoming events at the moment
+        There are no new events for today.
       </h1>
       <h3 className="no-events__main-message">
-        Update your <Link to="/interests">interests</Link> so that you are notified when new events come up.
+        You can update your <Link to="/interests">interests</Link> so that you are notified when new events come up.
       </h3>
     </div>
   </div>
