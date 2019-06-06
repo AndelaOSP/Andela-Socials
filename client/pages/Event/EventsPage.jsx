@@ -8,9 +8,13 @@ import EventCard from '../../components/cards/EventCard';
 import formatDate from '../../utils/formatDate';
 import { getEventsList, createEvent } from '../../actions/graphql/eventGQLActions';
 import { getCategoryList } from '../../actions/graphql/categoryGQLActions';
+<<<<<<< HEAD
 import { changeStartDate } from '../../actions/eventActions';
 import NoEvents from '../../components/NoEvents';
 import Spinner from '../../utils/Spinner';
+=======
+import NoEvents from '../../components/NoEvents';
+>>>>>>> #166284452 Update feedback message on Events page  (#216)
 import mapListToComponent from '../../utils/mapListToComponent';
 import { ModalContextCreator } from '../../components/Modals/ModalContext';
 
@@ -189,6 +193,7 @@ class EventsPage extends React.Component {
       </div>);
     }
 
+<<<<<<< HEAD
     if (isLoadingEvents) {
       return (
         <div className="event__loading">
@@ -197,6 +202,8 @@ class EventsPage extends React.Component {
       );
     }
 
+=======
+>>>>>>> #166284452 Update feedback message on Events page  (#216)
     return <NoEvents />;
   }
 
