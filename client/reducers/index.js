@@ -11,6 +11,7 @@ import interests from './interestReducers';
 import slackChannels from './slackChannelsReducers';
 import url from './urlReducers';
 import userReducers from './userReducers';
+import uiReducers from './uiReducers';
 import { inviteValidation } from './inviteReducers';
 import oauth from './oauthReducers';
 
@@ -28,7 +29,8 @@ const rootReducer = {
   url,
   oauth,
   invite: inviteValidation,
-  slackChannels
+  slackChannels,
+  uiReducers,
 };
 
 export default rootReducer;

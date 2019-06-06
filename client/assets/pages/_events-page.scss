@@ -21,13 +21,24 @@
     grid-column: sidebar-start/sidebar-end;
     width: rem(330px);
     vertical-align: middle;
+    justify-self: center;
     &-fixed {
       position: fixed;
       width: 20.625rem;
-      top: 5.2rem;
+      height: 100vh;
+      top: 0;
+      overflow-y: scroll;
+      padding-top: 10rem;
+      transition: padding-top .5s ease-in-out;
+      will-change: padding-top;
       @include mobile(600px) {
         position: initial;
+        height: initial;
+        padding-top: initial;
       }
+    }
+    &-fixed.event__sidebar-expanded {
+      padding-top: 5rem;
     }
   }
 
