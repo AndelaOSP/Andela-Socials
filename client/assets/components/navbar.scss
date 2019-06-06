@@ -113,6 +113,7 @@
   &__item {
     padding-left: 3%;
     margin-right: rem(16px);
+
     @include mobile(rem(600px)) {
       display: none;
     }
@@ -184,6 +185,7 @@
 
     &__button {
       box-shadow: none;
+
       &:active, &:focus {
         outline: none;
       }
@@ -263,11 +265,13 @@
     padding: 0;
     width: 100%;
   }
+
   .nav-profile__button {
     &.active.focus, &.active:focus, &.focus, &:active.focus, &:active:focus, &:focus{
       outline: none;
     }
   }
+
   .search-bar {
     @include flex;
     width: 17.5rem;
