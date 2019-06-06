@@ -5,7 +5,10 @@ import { ModalContextCreator } from './ModalContext';
 import EventForm from '../Forms/EventForm';
 import DeleteForm from '../Forms/DeleteForm';
 import SubmitForm from '../Forms/SubmitForm';
+<<<<<<< HEAD
 import SlackModal from './SlackModal';
+=======
+>>>>>>> feat(interests): add google calendar access (#210)
 
 /*
   maps a string to a modal child, used to determine
@@ -19,7 +22,10 @@ const MODAL_COMPONENTS = {
   UPDATE_EVENT: EventForm,
   DELETE_EVENT: DeleteForm,
   SUBMIT_INVITE: SubmitForm,
+<<<<<<< HEAD
   SLACK_MODAL: SlackModal,
+=======
+>>>>>>> feat(interests): add google calendar access (#210)
 };
 
 const ModalContent = (props) => {
@@ -27,8 +33,12 @@ const ModalContent = (props) => {
 
   const submitButtonLabels = {
     DELETE_EVENT: 'CONFIRM',
+<<<<<<< HEAD
     SUBMIT_INVITE: 'CONFIRM',
     SLACK_MODAL: 'CONFIRM',
+=======
+    SUBMIT_INVITE: 'CONFIRM'
+>>>>>>> feat(interests): add google calendar access (#210)
   };
   const submitText = submitButtonLabels[activeModal] || 'Submit';
 

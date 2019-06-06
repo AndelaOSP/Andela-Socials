@@ -10,8 +10,12 @@ class ModalContext extends Component {
     'CREATE_EVENT',
     'UPDATE_EVENT',
     'DELETE_EVENT',
+<<<<<<< HEAD
     'SUBMIT_INVITE',
     'SLACK_MODAL',
+=======
+    'SUBMIT_INVITE'
+>>>>>>> feat(interests): add google calendar access (#210)
   ];
 
   defaultModalProps = { modalHeadline: 'default modal headline' };

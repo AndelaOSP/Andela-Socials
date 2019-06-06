@@ -238,9 +238,13 @@ class Dashboard extends Component {
             />
             <Route path="/invite/:inviteHash" component={Invite} />
 <<<<<<< HEAD
+<<<<<<< HEAD
             <Route path="/events" render={() => <EventsPage createEvent={createEvent} categories={categories} uploadImage={uploadImage} />} />
 =======
             <Route path="/events" render={() => <EventsPage />} />
+=======
+            <Route path="/events" render={() => <EventsPage createEvent={createEvent} categories={categories} uploadImage={uploadImage} />} />
+>>>>>>> feat(interests): add google calendar access (#210)
             <Route path="/dashboard" render={() => <EventsPage createEvent={createEvent} categories={categories} uploadImage={uploadImage} />} />
 >>>>>>> feature(ui): fix header and sidebar (#211)
             <Route path="/interests" render={() => <Interests />} />

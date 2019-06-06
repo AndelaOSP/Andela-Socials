@@ -16,7 +16,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import InterestCard from '../../components/cards/InterestCard';
 import interests from '../../fixtures/interests';
+<<<<<<< HEAD
 >>>>>>> feat(interests): create interests page (#186)
+=======
+import { withRouter } from 'react-router-dom';
+import { ModalContextCreator } from '../../components/Modals/ModalContext';
+
+//actions
+import { getCalendarUrl } from '../../actions/graphql/interestGQLActions';
+>>>>>>> feat(interests): add google calendar access (#210)
 
 /**
  * @description allows users to select their interests
@@ -26,6 +34,7 @@ import interests from '../../fixtures/interests';
  */
 class Interests extends React.Component {
 <<<<<<< HEAD
+<<<<<<< HEAD
   constructor(props, context) {
     super(props, context);
   }
@@ -34,6 +43,11 @@ class Interests extends React.Component {
     unjoinedInterests: [],
     joinInterests: []
 =======
+=======
+  constructor(props, context){
+    super(props, context);
+  }
+>>>>>>> feat(interests): add google calendar access (#210)
   state = {
     interests,
 >>>>>>> feat(interests): create interests page (#186)
@@ -191,6 +205,46 @@ class Interests extends React.Component {
       interests,
     });
   }
+
+  queryCalendarUrl = () => {
+    this.props.getCalendarUrl()
+     .then(authUrl => {
+       if(authUrl){
+        window.location.href = authUrl
+       }
+      });
+  }
+
+  redirectToHomePage = (closeModal) => {
+    closeModal();
+    this.props.history.push('/dashboard');
+  }
+
+  showAuthenticateModal = () => (
+    <ModalContextCreator.Consumer>
+      {({
+        activeModal, openModal, closeModal
+      }) => {
+        if (activeModal) return null;
+        return (
+          <button
+            type="button"
+            className="interests__btn interests__btn-submit"
+            onClick={() => openModal('SUBMIT_INVITE', {
+              modalHeadline: 'Authenticate Calendar',
+              formText: `Authenticate Andela socials to have access to your Andela calendar`,
+              formId: 'submit-event-form',
+              submitForm: this.queryCalendarUrl,
+              cancel: () => this.redirectToHomePage(closeModal),
+            })
+            }
+          >
+            Submit
+          </button>
+        );
+      }}
+    </ModalContextCreator.Consumer>
+  );
   
   render() {
     const { interests } = this.state;
@@ -220,10 +274,14 @@ class Interests extends React.Component {
             className="interests__btn interests__btn-cancel"
             type="button"
           >Cancel</button>
+<<<<<<< HEAD
           <button
             className="interests__btn interests__btn-submit"
           >Submit</button>
 >>>>>>> feat(interests): create interests page (#186)
+=======
+          {this.showAuthenticateModal()}
+>>>>>>> feat(interests): add google calendar access (#210)
         </footer>
       </div>
     );
@@ -250,5 +308,11 @@ export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Interests
 =======
 });
 
+<<<<<<< HEAD
 export default connect(mapStateToProps, {})(Interests);
 >>>>>>> feat(interests): create interests page (#186)
+=======
+export default connect(mapStateToProps, {
+  getCalendarUrl
+})(withRouter(Interests));
+>>>>>>> feat(interests): add google calendar access (#210)
