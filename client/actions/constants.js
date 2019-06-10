@@ -43,9 +43,12 @@ export const INTEREST = 'INTEREST';
 export const CREATE_INTERESTS = 'CREATE_INTERESTS'
 export const REMOVE_INTERESTS = 'REMOVE_INTERESTS';
 export const JOINED_CATEGORIES = 'JOINED_CATEGORIES';
+<<<<<<< HEAD
 
 // Constants specific to slack channels
 export const CHANNELS = 'CHANNELS';
+=======
+>>>>>>> feat(interests): create interests (#200)
 
 // Constants specific to slack channels
 export const CHANNELS = 'CHANNELS';
