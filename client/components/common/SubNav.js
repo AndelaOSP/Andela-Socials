@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { hideSubNav } from '../../actions/uiActions';
 
 const NavMenu = ({
   to,
@@ -20,7 +22,6 @@ NavMenu.propTypes = {
 class SubNav extends Component {
   state = {
     currentBodyScroll: 0,
-    hideSubNav: false,
   }
   componentDidMount = () => {
     this.scrollableBody = document.querySelector('body');
@@ -31,15 +32,17 @@ class SubNav extends Component {
   }
   onBodyScroll = () => {
     const { scrollTop } = this.scrollableBody;
-    this.setState(({ currentBodyScroll }) => ({
-      hideSubNav: scrollTop > currentBodyScroll ? true : false,
-      currentBodyScroll: scrollTop,
-    }));
+    this.setState(({ currentBodyScroll }) => {
+    this.props.hideSubNav(scrollTop > currentBodyScroll ? true : false);
+    return {
+        currentBodyScroll: scrollTop,
+      };
+    });
   }
   render() {
-    const { hideSubNav } = this.state;
+    const { subNavHidden } = this.props;
     return (
-      <div className={`navbar ${hideSubNav ? 'navbar-hide' : ''}`}>
+      <div className={`navbar ${subNavHidden ? 'navbar-hide' : ''}`}>
         <div className="navbar__bottom-section">
           <NavMenu to="/dashboard">Dashboard</NavMenu>
         </div>
@@ -48,4 +51,7 @@ class SubNav extends Component {
   }
 }
 
-export default SubNav;
+const mapStateToProps = state => ({
+  subNavHidden: state.uiReducers.subNavHidden,
+});
+export default connect(mapStateToProps, { hideSubNav })(SubNav);

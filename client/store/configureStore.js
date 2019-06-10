@@ -6,8 +6,8 @@ import storage from 'redux-persist/es/storage';
 import rootReducer from '../reducers/index';
 import saveTokenMiddleware from '../middleware/auth';
 
-
-const config = { key: 'root', storage };
+// blacklist ui state so they're not persisted
+const config = { key: 'root', storage, blacklist: ['uiReducers'] };
 const reducers = persistCombineReducers(config, rootReducer);
 const middleware = [thunk, saveTokenMiddleware];
 

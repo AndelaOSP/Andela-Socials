@@ -201,6 +201,7 @@ class EventsPage extends React.Component {
       categoryList,
       hasNextPage,
     } = this.state;
+    const { subNavHidden } = this.props;
     const catList = Array.isArray(categoryList) ? categoryList.map(item => ({
       id: item.node.id,
       title: item.node.name,
@@ -210,7 +211,7 @@ class EventsPage extends React.Component {
     return (
       <div className="event__container">
         <div className="event__sidebar">
-          <div className="event__sidebar-fixed">
+          <div className={`event__sidebar-fixed ${subNavHidden ? 'event__sidebar-expanded' : ''}`}>
             <EventFilter categoryList={catList} filterSelected={this.getFilteredEvents} />
             <Calendar dateSelected={this.getFilteredEvents} />
           </div>
@@ -234,6 +235,7 @@ EventsPage.propTypes = { categories: PropTypes.arrayOf(PropTypes.shape({})) };
 const mapStateToProps = state => ({
   events: state.events,
   socialClubs: state.socialClubs,
+  subNavHidden: state.uiReducers.subNavHidden,
 });
 
 export default connect(mapStateToProps, {
