@@ -7,9 +7,13 @@ import rootReducer from '../reducers/index';
 import saveTokenMiddleware from '../middleware/auth';
 
 // blacklist ui state so they're not persisted
+<<<<<<< HEAD
 const config = {
   key: 'root', storage, blacklist: ['uiReducers', ],
 };
+=======
+const config = { key: 'root', storage, blacklist: ['uiReducers'] };
+>>>>>>> fix(sidebar): prevent sidenav hiding behind nav (#218)
 const reducers = persistCombineReducers(config, rootReducer);
 const middleware = [thunk, saveTokenMiddleware];
 

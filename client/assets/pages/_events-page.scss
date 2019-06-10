@@ -22,6 +22,7 @@
     width: rem(330px);
     vertical-align: middle;
 <<<<<<< HEAD
+<<<<<<< HEAD
     justify-self: center;
     &-fixed {
       position: fixed;
@@ -42,15 +43,31 @@
       padding-top: 5rem;
     }
 =======
+=======
+    justify-self: center;
+>>>>>>> fix(sidebar): prevent sidenav hiding behind nav (#218)
     &-fixed {
       position: fixed;
       width: 20.625rem;
-      top: 5.2rem;
+      height: 100vh;
+      top: 0;
+      overflow-y: scroll;
+      padding-top: 10rem;
+      transition: padding-top .5s ease-in-out;
+      will-change: padding-top;
       @include mobile(600px) {
         position: initial;
+        height: initial;
+        padding-top: initial;
       }
     }
+<<<<<<< HEAD
 >>>>>>> feature(ui): fix header and sidebar (#211)
+=======
+    &-fixed.event__sidebar-expanded {
+      padding-top: 5rem;
+    }
+>>>>>>> fix(sidebar): prevent sidenav hiding behind nav (#218)
   }
 
   &__gallery {

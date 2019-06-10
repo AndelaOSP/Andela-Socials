@@ -269,7 +269,11 @@ class EventsPage extends React.Component {
       hasNextPage,
       requestedStartDate,
     } = this.state;
+<<<<<<< HEAD
     const { subNavHidden, events: { startDate } } = this.props;
+=======
+    const { subNavHidden } = this.props;
+>>>>>>> fix(sidebar): prevent sidenav hiding behind nav (#218)
     const catList = Array.isArray(categoryList) ? categoryList.map(item => ({
       id: item.node.id,
       title: item.node.name,
@@ -280,11 +284,15 @@ class EventsPage extends React.Component {
       <div className="event__container">
         <div className="event__sidebar">
 <<<<<<< HEAD
+<<<<<<< HEAD
           <div className={`event__sidebar-fixed ${subNavHidden ? 'event__sidebar-expanded' : ''}`}>
             <EventFilter categoryList={catList} filterSelected={this.getFilteredEvents} />
             <Calendar selectedDate={startDate || Date.now()} dateSelected={this.getFilteredEvents} />
 =======
           <div className="event__sidebar-fixed">
+=======
+          <div className={`event__sidebar-fixed ${subNavHidden ? 'event__sidebar-expanded' : ''}`}>
+>>>>>>> fix(sidebar): prevent sidenav hiding behind nav (#218)
             <EventFilter categoryList={catList} filterSelected={this.getFilteredEvents} />
             <Calendar dateSelected={this.getFilteredEvents} />
 >>>>>>> feature(ui): fix header and sidebar (#211)
@@ -311,7 +319,10 @@ const mapStateToProps = state => ({
   events: state.events,
   socialClubs: state.socialClubs,
   subNavHidden: state.uiReducers.subNavHidden,
+<<<<<<< HEAD
   slackToken: state.slackToken,
+=======
+>>>>>>> fix(sidebar): prevent sidenav hiding behind nav (#218)
 });
 
 export default connect(mapStateToProps, {

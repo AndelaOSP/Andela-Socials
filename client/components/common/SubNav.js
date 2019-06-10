@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> fix(sidebar): prevent sidenav hiding behind nav (#218)
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { hideSubNav } from '../../actions/uiActions';
+<<<<<<< HEAD
 =======
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 >>>>>>> feature(ui): fix header and sidebar (#211)
+=======
+>>>>>>> fix(sidebar): prevent sidenav hiding behind nav (#218)
 
 const NavMenu = ({
   to,
@@ -28,9 +34,12 @@ class SubNav extends Component {
   state = {
     currentBodyScroll: 0,
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     hideSubNav: false,
 >>>>>>> feature(ui): fix header and sidebar (#211)
+=======
+>>>>>>> fix(sidebar): prevent sidenav hiding behind nav (#218)
   }
   componentDidMount = () => {
     this.scrollableBody = document.querySelector('body');
@@ -42,12 +51,16 @@ class SubNav extends Component {
   onBodyScroll = () => {
     const { scrollTop } = this.scrollableBody;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> fix(sidebar): prevent sidenav hiding behind nav (#218)
     this.setState(({ currentBodyScroll }) => {
     this.props.hideSubNav(scrollTop > currentBodyScroll ? true : false);
     return {
         currentBodyScroll: scrollTop,
       };
     });
+<<<<<<< HEAD
   }
   render() {
     const { subNavHidden } = this.props;
@@ -60,11 +73,13 @@ class SubNav extends Component {
       hideSubNav: scrollTop > currentBodyScroll ? true : false,
       currentBodyScroll: scrollTop,
     }));
+=======
+>>>>>>> fix(sidebar): prevent sidenav hiding behind nav (#218)
   }
   render() {
-    const { hideSubNav } = this.state;
+    const { subNavHidden } = this.props;
     return (
-      <div className={`navbar ${hideSubNav ? 'navbar-hide' : ''}`}>
+      <div className={`navbar ${subNavHidden ? 'navbar-hide' : ''}`}>
         <div className="navbar__bottom-section">
           <NavMenu to="/dashboard">Dashboard</NavMenu>
 >>>>>>> feature(ui): fix header and sidebar (#211)
@@ -75,10 +90,16 @@ class SubNav extends Component {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> fix(sidebar): prevent sidenav hiding behind nav (#218)
 const mapStateToProps = state => ({
   subNavHidden: state.uiReducers.subNavHidden,
 });
 export default connect(mapStateToProps, { hideSubNav })(SubNav);
+<<<<<<< HEAD
 =======
 export default SubNav;
 >>>>>>> feature(ui): fix header and sidebar (#211)
+=======
+>>>>>>> fix(sidebar): prevent sidenav hiding behind nav (#218)

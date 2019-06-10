@@ -60,11 +60,15 @@ export const OAUTH = 'OAUTH';
 export const VALIDATE_INVITE = 'VALIDATE_INVITE';
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> fix(sidebar): prevent sidenav hiding behind nav (#218)
 // Constants to share events to slack channel
 export const SHARE_EVENT = 'SHARE_EVENT';
 
 // Constants specific to ui events
 export const SUBNAV_HIDDEN = 'SUBNAV_HIDDEN';
+<<<<<<< HEAD
 
 // Constant to display slack modal
 export const SLACK_TOKEN = 'SLACK_TOKEN';
@@ -72,3 +76,5 @@ export const SLACK_TOKEN = 'SLACK_TOKEN';
 // Constants to sahre events to slack channel
 export const SHARE_EVENT = 'SHARE_EVENT';
 >>>>>>> feat(event-details): share event on channel (#198)
+=======
+>>>>>>> fix(sidebar): prevent sidenav hiding behind nav (#218)
