@@ -33,7 +33,7 @@ const NavBar = (props) => {
               {LogoReplacement}
             </button>
           </div>
-          <Link to="/home" className="navbar-brand">
+          <Link to="/events" className="navbar-brand">
             <img src="./../../../assets/img/andela_logo_blue.png" height="45" alt="Andela Social Logo" />
             <h3 className="site-name">Andela Socials</h3>
           </Link>
