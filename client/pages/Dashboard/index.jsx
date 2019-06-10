@@ -110,7 +110,14 @@ class Dashboard extends Component {
   redirectUser = () => {
     const { location: { pathname } } = this.props;
     if (pathname === '/') {
-      return <Redirect to="/dashboard" />;
+      const isFirstLogin = localStorage.getItem('checkFirstLogin');
+      
+      if (isFirstLogin === 'No') {
+        return (<Redirect to="/events" />);
+      } else {
+        localStorage.setItem('checkFirstLogin', 'No')
+        return <Redirect to="/interests" />;
+      }
     }
   };
 
@@ -150,7 +157,7 @@ class Dashboard extends Component {
     if (isTokenExpired() || !isLoggedIn()) {
       return <Redirect to={{
         pathname: '/login',
-        state: {"previousLocation": window.location.href}
+        state: { "previousLocation": window.location.href }
       }} />;
     }
 
