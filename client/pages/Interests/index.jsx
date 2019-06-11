@@ -106,7 +106,7 @@ class Interests extends React.Component {
 
   redirectToHomePage = (closeModal) => {
     closeModal();
-    this.props.history.push('/dashboard');
+    this.props.history.push('/events');
   }
 
   showAuthenticateModal = () => (

@@ -13,7 +13,7 @@ const External = (props) => {
     savePermission(location.search);
   }
   if (oauth !== '') {
-    return (<Redirect to="/dashboard" />);
+    return (<Redirect to="/events" />);
   }
   return (
     <Spinner />
