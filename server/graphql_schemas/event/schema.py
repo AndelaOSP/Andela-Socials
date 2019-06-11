@@ -34,6 +34,8 @@ from api.slack import (get_slack_id,
                        get_slack_channels_list, notify_channel)
 from api.utils.backgroundTaskWorker import BackgroundTaskWorker
 
+from api.constants import SLACK_CHANNEL_DATA
+
 from ..attend.schema import AttendNode
 
 logging.basicConfig(
@@ -373,17 +375,8 @@ class ChannelList(graphene.ObjectType):
     is_org_shared = graphene.Boolean()
     is_member = graphene.Boolean()
     is_private = graphene.Boolean()
-    unlinked = graphene.String()
-    is_im = graphene.Boolean()
-    is_mpim = graphene.Boolean()
     is_group = graphene.Boolean()
     members = graphene.List(graphene.String)
-    previous_names = graphene.List(graphene.String)
-    num_members = graphene.Int()
-    parent_conversation = graphene.String()
-    is_pending_ext_shared = graphene.Boolean()
-    pending_shared = graphene.List(graphene.Boolean)
-    is_ext_shared = graphene.Boolean()
 
 
 class ResponseMetadata(graphene.ObjectType):
@@ -456,8 +449,8 @@ class EventQuery(object):
         slack_list = get_slack_channels_list()
         responseMetadata = ResponseMetadata(**slack_list.get('response_metadata'))
         for items in slack_list.get('channels'):
-            selection = ['topic', 'purpose', 'shared_team_ids']
-            filtered_channel = dict(filter(lambda x: x[0] not in selection, items.items()))
+            selection = SLACK_CHANNEL_DATA
+            filtered_channel = dict(filter(lambda x: x[0] in selection, items.items()))
             channel = ChannelList(**filtered_channel)
             channels.append(channel)
         return SlackChannelsList(
