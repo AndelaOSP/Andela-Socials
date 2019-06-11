@@ -40,12 +40,9 @@ class EventsPage extends React.Component {
   */
   componentDidMount() {
     const { eventStartDate } = this.state;
-    this.setState({ isLoadingEvents: true });
 
+    this.setState({ isLoadingEvents: true });
     this.getEvents({ startDate: eventStartDate });
-    this.getCategories({
-      first: 20, last: 20,
-    });
   }
 
   /**
@@ -56,21 +53,25 @@ class EventsPage extends React.Component {
    * @static
    */
   static getDerivedStateFromProps(props) {
-    const {
-      events: {
-        eventList, pageInfo: { hasNextPage },
-      }, socialClubs,
-    } = props;
-    const eventLength = eventList.length;
-    const lastEventItemCursor = eventLength ? eventList[eventLength - 1].cursor : '';
+    const { events } = props;
+    if (events && events.eventList) {
+      const {
+        events: {
+          eventList, pageInfo: { hasNextPage },
+        }, socialClubs,
+      } = props;
+      const eventLength = eventList.length;
+      const lastEventItemCursor = eventLength ? eventList[eventLength - 1].cursor : '';
 
-    return {
-      eventList,
-      hasNextPage,
-      categoryList: socialClubs.socialClubs,
-      lastEventItemCursor,
-      isLoadingEvents: false,
-    };
+      return {
+        eventList,
+        hasNextPage,
+        categoryList: socialClubs.socialClubs,
+        lastEventItemCursor,
+        isLoadingEvents: false,
+      };
+    }
+    return null;
   }
 
   getFilteredEvents(filterDate, filterLocation, filterCategory) {
