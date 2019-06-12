@@ -544,6 +544,7 @@ main {
   width: 25px;
   background-color: #eee;
 }
+<<<<<<< HEAD
 
 .slack-channel {
   &:hover input ~ .checkmark {
@@ -561,6 +562,25 @@ main {
 }
 
 .slack-channel {
+=======
+
+.slack-channel {
+  &:hover input ~ .checkmark {
+    background-color: #ccc;
+  }
+  input:checked ~ .checkmark {
+    background-color: #3359DB;
+  }
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.slack-channel {
+>>>>>>> (ft-event-host-add-channel-165998501) Event host should be able to add a discussion/group slack channel to an event (#202)
   input:checked ~ .checkmark:after {
     display: block;
   }

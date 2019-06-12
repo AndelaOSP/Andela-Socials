@@ -82,7 +82,11 @@ class EventForm extends Component {
           title: eventData.title,
           venue: eventData.venue,
           category: eventData.socialEvent.name,
+<<<<<<< HEAD
           slackChannel: eventData.slackChannel,
+=======
+          slackChannel: eventData.slackChannel
+>>>>>>> (ft-event-host-add-channel-165998501) Event host should be able to add a discussion/group slack channel to an event (#202)
         }
       });
     }
@@ -337,6 +341,10 @@ class EventForm extends Component {
   };
 
   render() {
+<<<<<<< HEAD
+=======
+    console.log(this.props, 'state>>>>>')
+>>>>>>> (ft-event-host-add-channel-165998501) Event host should be able to add a discussion/group slack channel to an event (#202)
     const { errors, categoryIsValid, timezoneIsValid, timezone } = this.state;
     const { formId, formData, categories, slackChannels } = this.props;
     const listChannels = slackChannels && slackChannels.map(channel => this.renameKey('name', 'title', channel));
@@ -346,11 +354,15 @@ class EventForm extends Component {
     const categoryClass = categoryIsValid ? 'category-label' : 'category-label category-error';
     const timezoneClass = timezoneIsValid ? 'category-label' : 'category-label category-error';
     const categoryTitle = category || 'Select Category';
+<<<<<<< HEAD
     let eventChannel = 'Select Slack Channel';
      if (slackChannel) {
        const [foundChannel] = slackChannels.filter(channel => channel.id === slackChannel);
        eventChannel = !foundChannel ? eventChannel : foundChannel.name;
      }
+=======
+    const eventChannel = slackChannel || 'Select Slack Channel';
+>>>>>>> (ft-event-host-add-channel-165998501) Event host should be able to add a discussion/group slack channel to an event (#202)
     return (
       <form
         id={formId}
@@ -382,11 +394,19 @@ class EventForm extends Component {
         )}
         {/* // TODO: Specify the exact measures for uploads, let's approximate for now */}
         <span>Note: A 1600 x 800 image is recommended</span>
+<<<<<<< HEAD
           {!this.state.slackChannel &&  <label className="slack-channel">
           Add Slack Channel
             <input type="checkbox" onChange={this.handleCheckboxChange} />
             <span className="checkmark" />
           </label>}
+=======
+          <label className="slack-channel">
+          Add Slack Channel
+            <input type="checkbox" onChange={this.handleCheckboxChange} />
+            <span className="checkmark" />
+          </label>
+>>>>>>> (ft-event-host-add-channel-165998501) Event host should be able to add a discussion/group slack channel to an event (#202)
         {this.state.addChannel === true && (
           <CustomDropDown
             title={eventChannel}

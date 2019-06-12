@@ -49,8 +49,12 @@ const UPDATE_EVENT_GQL = (eventId, title, description, featuredImage, venue, sta
       startDate,
       endDate,
       timezone,
+<<<<<<< HEAD
       categoryId,
       slackChannel
+=======
+      categoryId
+>>>>>>> (ft-event-host-add-channel-165998501) Event host should be able to add a discussion/group slack channel to an event (#202)
     },
   },
 });
