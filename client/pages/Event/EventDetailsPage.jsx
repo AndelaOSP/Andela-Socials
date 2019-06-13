@@ -371,8 +371,12 @@ class EventDetailsPage extends React.Component {
 >>>>>>> chore(fonts): regularize fonts everywhere (#192)
   handleBack() {
     const { history: { push } } = this.props;
+<<<<<<< HEAD
     push('/dashboard');
 >>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
+=======
+    push('/events');
+>>>>>>> ch(dashboard routes): replace all dashboard routes with events (#224)
   }
 
   loadEvent() {

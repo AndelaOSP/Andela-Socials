@@ -244,9 +244,12 @@ class Dashboard extends Component {
             <Route path="/events" render={() => <EventsPage />} />
 =======
             <Route path="/events" render={() => <EventsPage createEvent={createEvent} categories={categories} uploadImage={uploadImage} />} />
+<<<<<<< HEAD
 >>>>>>> feat(interests): add google calendar access (#210)
             <Route path="/dashboard" render={() => <EventsPage createEvent={createEvent} categories={categories} uploadImage={uploadImage} />} />
 >>>>>>> feature(ui): fix header and sidebar (#211)
+=======
+>>>>>>> ch(dashboard routes): replace all dashboard routes with events (#224)
             <Route path="/interests" render={() => <Interests />} />
             <Route path="*" component={NotFound} />
           </Switch>

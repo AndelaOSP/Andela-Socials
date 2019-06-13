@@ -81,8 +81,12 @@ class SubNav extends Component {
     return (
       <div className={`navbar ${subNavHidden ? 'navbar-hide' : ''}`}>
         <div className="navbar__bottom-section">
+<<<<<<< HEAD
           <NavMenu to="/dashboard">Dashboard</NavMenu>
 >>>>>>> feature(ui): fix header and sidebar (#211)
+=======
+          <NavMenu to="/events">Events</NavMenu>
+>>>>>>> ch(dashboard routes): replace all dashboard routes with events (#224)
         </div>
       </div>
     );
