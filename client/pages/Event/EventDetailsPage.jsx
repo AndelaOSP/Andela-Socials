@@ -226,7 +226,7 @@ class EventDetailsPage extends React.Component {
   // eslint-disable-next-line react/sort-comp
   handleBack() {
     const { history: { push } } = this.props;
-    push('/dashboard');
+    push('/events');
   }
 
   loadEvent() {

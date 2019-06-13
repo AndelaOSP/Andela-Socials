@@ -191,7 +191,6 @@ class Dashboard extends Component {
             />
             <Route path="/invite/:inviteHash" component={Invite} />
             <Route path="/events" render={() => <EventsPage createEvent={createEvent} categories={categories} uploadImage={uploadImage} />} />
-            <Route path="/dashboard" render={() => <EventsPage createEvent={createEvent} categories={categories} uploadImage={uploadImage} />} />
             <Route path="/interests" render={() => <Interests />} />
             <Route path="*" component={NotFound} />
           </Switch>
