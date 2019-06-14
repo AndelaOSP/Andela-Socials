@@ -29,7 +29,6 @@ const configureStore = (initialState) => {
     )
   );
   const persistor = persistStore(store);
-  window.persistor = persistor;
 
   return {
     persistor, store,
