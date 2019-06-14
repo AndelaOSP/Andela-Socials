@@ -12,9 +12,12 @@ import { getCategoryList } from '../../actions/graphql/categoryGQLActions';
 import { changeStartDate } from '../../actions/eventActions';
 import NoEvents from '../../components/NoEvents';
 import Spinner from '../../utils/Spinner';
+<<<<<<< HEAD
 =======
 import NoEvents from '../../components/NoEvents';
 >>>>>>> #166284452 Update feedback message on Events page  (#216)
+=======
+>>>>>>> #166502105 Display loader while events are still loading (#223)
 import mapListToComponent from '../../utils/mapListToComponent';
 import { ModalContextCreator } from '../../components/Modals/ModalContext';
 
@@ -33,7 +36,10 @@ class EventsPage extends React.Component {
       selectedCategory: '',
       lastEventItemCursor: '',
       isLoadingEvents: false,
+<<<<<<< HEAD
       slackToken: true,
+=======
+>>>>>>> #166502105 Display loader while events are still loading (#223)
     };
     this.getFilteredEvents = this.getFilteredEvents.bind(this);
   }
@@ -44,6 +50,7 @@ class EventsPage extends React.Component {
    * @returns {null}
   */
   componentDidMount() {
+<<<<<<< HEAD
     const { startDate } = this.props.events;
 
     this.setState({ isLoadingEvents: true });
@@ -101,6 +108,41 @@ class EventsPage extends React.Component {
         return Object.keys(filter).length ? filter : null;
       }
     );
+=======
+    const { eventStartDate } = this.state;
+
+    this.setState({ isLoadingEvents: true });
+    this.getEvents({ startDate: eventStartDate });
+  }
+
+  /**
+   * React Lifecycle hook
+   * @memberof EventsPage
+   * @param {Object} props
+   * @returns state
+   * @static
+   */
+  static getDerivedStateFromProps(props) {
+    const { events } = props;
+    if (events && events.eventList) {
+      const {
+        events: {
+          eventList, pageInfo: { hasNextPage },
+        }, socialClubs,
+      } = props;
+      const eventLength = eventList.length;
+      const lastEventItemCursor = eventLength ? eventList[eventLength - 1].cursor : '';
+
+      return {
+        eventList,
+        hasNextPage,
+        categoryList: socialClubs.socialClubs,
+        lastEventItemCursor,
+        isLoadingEvents: false,
+      };
+    }
+    return null;
+>>>>>>> #166502105 Display loader while events are still loading (#223)
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -182,11 +224,26 @@ class EventsPage extends React.Component {
    */
   renderEventGallery = () => {
     const {
+<<<<<<< HEAD
       eventList, isLoadingEvents, requestedStartDate,
     } = this.state;
     const { startDate } = this.props.events;
 
     if (eventList.length && startDate === requestedStartDate) {
+=======
+      eventList, isLoadingEvents,
+    } = this.state;
+
+    if (isLoadingEvents) {
+      return (
+        <div className="event__loading">
+          <Spinner spinnerHeight={20} spinnerWidth={20} />
+        </div>
+      );
+    }
+
+    if (eventList.length) {
+>>>>>>> #166502105 Display loader while events are still loading (#223)
       const listOfEventCard = mapListToComponent(eventList, EventCard);
       return (<div className="event__gallery">
         {listOfEventCard}

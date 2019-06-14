@@ -1,9 +1,13 @@
 export default {
   activeUser: {},
   event: {},
+<<<<<<< HEAD
   events: {
     getEventsLoading: false,
   },
+=======
+  events: {},
+>>>>>>> #166502105 Display loader while events are still loading (#223)
   subscribedEvents: [],
   redirectUrl: '',
   interest: {},
@@ -16,6 +20,7 @@ export default {
   eventsSearchList: [],
   oauth: '',
   invite: {},
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -34,4 +39,8 @@ export default {
     subNavHidden: false,
   },
 >>>>>>> fix(sidebar): prevent sidenav hiding behind nav (#218)
+=======
+  slackChannels: {},
+  ui: { subNavHidden: false },
+>>>>>>> #166502105 Display loader while events are still loading (#223)
 };
