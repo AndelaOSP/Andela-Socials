@@ -10,6 +10,7 @@
   box-sizing: border-box;
   color: $white;
 <<<<<<< HEAD
+<<<<<<< HEAD
   font-size: rem(20px);
   line-height: rem(20px);
   text-align: center;
@@ -18,6 +19,13 @@
 =======
   z-index: 500;
 >>>>>>> feat(redesign): redesign event card (#194)
+=======
+  font-size: rem(20px);
+  line-height: rem(20px);
+  text-align: center;
+  z-index: 500;
+  transition: box-shadow 0.3s, transform 0.3s;
+>>>>>>> #166603773 Restyle floating action button and add hover effect (#225)
   &__icon {
     display: inline-block;
     font-size: rem(40px);
