@@ -9,12 +9,12 @@ import formatDate from '../../utils/formatDate';
 import { getEventsList, createEvent } from '../../actions/graphql/eventGQLActions';
 import { getCategoryList } from '../../actions/graphql/categoryGQLActions';
 import NoEvents from '../../components/NoEvents';
+import Spinner from '../../utils/Spinner';
 import mapListToComponent from '../../utils/mapListToComponent';
 import { ModalContextCreator } from '../../components/Modals/ModalContext';
 
 /**
  * @description  contains events dashboard page
- *
  * @class EventsPage
  * @extends {React.Component}
  */
@@ -28,38 +28,50 @@ class EventsPage extends React.Component {
       selectedCategory: '',
       eventStartDate: formatDate(Date.now(), 'YYYY-MM-DD'),
       lastEventItemCursor: '',
+      isLoadingEvents: false,
     };
     this.getFilteredEvents = this.getFilteredEvents.bind(this);
   }
 
   /**
- * React Lifecycle hook
- *
- * @memberof EventsPage
- * @returns {null}
- */
+   * React Lifecycle hook
+   * @memberof EventsPage
+   * @returns {null}
+  */
   componentDidMount() {
     const { eventStartDate } = this.state;
+
+    this.setState({ isLoadingEvents: true });
     this.getEvents({ startDate: eventStartDate });
-    this.getCategories({
-      first: 20, last: 20,
-    });
   }
 
-  componentWillReceiveProps(nextProps) {
-    const {
-      events: {
-        eventList, pageInfo: { hasNextPage },
-      }, socialClubs,
-    } = nextProps;
-    const eventLength = eventList.length;
-    const lastEventItemCursor = eventLength ? eventList[eventLength - 1].cursor : '';
-    this.setState({
-      eventList,
-      hasNextPage,
-      categoryList: socialClubs.socialClubs,
-      lastEventItemCursor,
-    });
+  /**
+   * React Lifecycle hook
+   * @memberof EventsPage
+   * @param {Object} props
+   * @returns state
+   * @static
+   */
+  static getDerivedStateFromProps(props) {
+    const { events } = props;
+    if (events && events.eventList) {
+      const {
+        events: {
+          eventList, pageInfo: { hasNextPage },
+        }, socialClubs,
+      } = props;
+      const eventLength = eventList.length;
+      const lastEventItemCursor = eventLength ? eventList[eventLength - 1].cursor : '';
+
+      return {
+        eventList,
+        hasNextPage,
+        categoryList: socialClubs.socialClubs,
+        lastEventItemCursor,
+        isLoadingEvents: false,
+      };
+    }
+    return null;
   }
 
   getFilteredEvents(filterDate, filterLocation, filterCategory) {
@@ -84,10 +96,8 @@ class EventsPage extends React.Component {
   }
 
   /**
-  * @description Gets list of events
-   *
+   * @description Gets list of events
    * @memberof EventsPage
-   *
    * @param {string} startDate
    * @param {string} venue
    * @param {string} category
@@ -105,10 +115,9 @@ class EventsPage extends React.Component {
   }
 
   /**
-  * @description Gets list of categories
-   *
+   * @description Gets list of categories
    * @memberof EventsPage
-   */
+  */
   getCategories = ({
     first,
     last,
@@ -121,10 +130,9 @@ class EventsPage extends React.Component {
   }
 
   /**
-  * @description It loads more list of events
-  *
+   * @description It loads more list of events
    * @memberof EventsPage
-   */
+  */
   loadMoreEvents = () => {
     const {
       eventStartDate,
@@ -141,12 +149,22 @@ class EventsPage extends React.Component {
   }
 
   /**
-  * @description It renders list of event card
-  *
+   * @description It renders list of event card
    * @memberof EventsPage
    */
   renderEventGallery = () => {
-    const { eventList } = this.state;
+    const {
+      eventList, isLoadingEvents,
+    } = this.state;
+
+    if (isLoadingEvents) {
+      return (
+        <div className="event__loading">
+          <Spinner spinnerHeight={20} spinnerWidth={20} />
+        </div>
+      );
+    }
+
     if (eventList.length) {
       const listOfEventCard = mapListToComponent(eventList, EventCard);
       return (<div className="event__gallery">
@@ -158,8 +176,7 @@ class EventsPage extends React.Component {
   }
 
   /**
-  * @description It renders the create event FAB button
-  *
+   * @description It renders the create event FAB button
    * @memberof EventsPage
    */
   renderCreateEventButton = () => (

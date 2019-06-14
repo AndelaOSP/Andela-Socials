@@ -113,6 +113,14 @@
       transition: all .4s;
     }
   }
+
+  &__loading {
+    display: grid;
+    grid-column: event-gallery-start/event-gallery-end;
+    grid-template-rows: 30rem;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .calenders {
