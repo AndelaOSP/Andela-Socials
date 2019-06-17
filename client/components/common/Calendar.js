@@ -4,12 +4,10 @@ import dateFns from 'date-fns';
 class Calendar extends React.Component {
   state = {
     currentMonth: new Date(),
-    selectedDate: new Date(),
   };
 
   onDateClick = (day) => {
-    this.setState({ selectedDate: day });
-    this.props.dateSelected(dateFns.format(day, 'YYYY-MM-DD'));
+    this.props.dateSelected({ startDate: dateFns.format(day, 'YYYY-MM-DD') });
   };
 
   nextMonth = () => {
@@ -37,7 +35,8 @@ class Calendar extends React.Component {
   }
 
   renderCells() {
-    const { currentMonth, selectedDate } = this.state;
+    const { currentMonth } = this.state; 
+    const { selectedDate } = this.props; 
     const monthStart = dateFns.startOfMonth(currentMonth);
     const monthEnd = dateFns.endOfMonth(monthStart);
     const startDate = dateFns.startOfWeek(monthStart);

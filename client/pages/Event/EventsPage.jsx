@@ -8,6 +8,7 @@ import EventCard from '../../components/cards/EventCard';
 import formatDate from '../../utils/formatDate';
 import { getEventsList, createEvent } from '../../actions/graphql/eventGQLActions';
 import { getCategoryList } from '../../actions/graphql/categoryGQLActions';
+import { changeStartDate } from '../../actions/eventActions';
 import NoEvents from '../../components/NoEvents';
 import Spinner from '../../utils/Spinner';
 import mapListToComponent from '../../utils/mapListToComponent';
@@ -26,7 +27,6 @@ class EventsPage extends React.Component {
       categoryList: [],
       selectedVenue: '',
       selectedCategory: '',
-      eventStartDate: formatDate(Date.now(), 'YYYY-MM-DD'),
       lastEventItemCursor: '',
       isLoadingEvents: false,
     };
@@ -39,10 +39,10 @@ class EventsPage extends React.Component {
    * @returns {null}
   */
   componentDidMount() {
-    const { eventStartDate } = this.state;
+    const { startDate } = this.props.events;
 
     this.setState({ isLoadingEvents: true });
-    this.getEvents({ startDate: eventStartDate });
+    this.getEvents({ startDate: startDate || formatDate(Date.now(), 'YYYY-MM-DD') });
   }
 
   /**
@@ -74,25 +74,35 @@ class EventsPage extends React.Component {
     return null;
   }
 
-  getFilteredEvents(filterDate, filterLocation, filterCategory) {
+  getFilteredEvents({ startDate, location, category }) {
+    startDate && this.props.changeStartDate(startDate);
+    this.setState(
+      () => {
+        const filter = {};
+        location && (filter.selectedVenue = location);
+        category && (filter.selectedCategory = category);
+        return Object.keys(filter).length ? filter : null;
+      }
+    );
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { startDate } = this.props.events;
     const {
-      eventStartDate,
       selectedVenue,
       selectedCategory,
     } = this.state;
-    const startDate = filterDate || eventStartDate;
-    const location = filterLocation || selectedVenue;
-    const category = filterCategory || selectedCategory;
-    this.setState({
-      eventStartDate: startDate,
-      selectedVenue: location,
-      selectedCategory: category,
-    });
-    this.getEvents({
-      startDate,
-      venue: location,
-      category,
-    });
+    if (
+      prevProps.events.startDate !== startDate ||
+      prevState.selectedVenue !== selectedVenue ||
+      prevState.selectedCategory !== selectedCategory
+    ) {
+      this.getEvents({
+        startDate,
+        venue: selectedVenue,
+        category: selectedCategory,
+      });
+    }
   }
 
   /**
@@ -135,13 +145,14 @@ class EventsPage extends React.Component {
   */
   loadMoreEvents = () => {
     const {
-      eventStartDate,
       selectedVenue,
       selectedCategory,
       lastEventItemCursor,
     } = this.state;
+    const { startDate } = this.props.events;
+
     this.getEvents({
-      startDate: eventStartDate,
+      startDate,
       venue: selectedVenue,
       category: selectedCategory,
       after: lastEventItemCursor,
@@ -218,7 +229,7 @@ class EventsPage extends React.Component {
       categoryList,
       hasNextPage,
     } = this.state;
-    const { subNavHidden } = this.props;
+    const { subNavHidden, events: { startDate } } = this.props;
     const catList = Array.isArray(categoryList) ? categoryList.map(item => ({
       id: item.node.id,
       title: item.node.name,
@@ -230,7 +241,7 @@ class EventsPage extends React.Component {
         <div className="event__sidebar">
           <div className={`event__sidebar-fixed ${subNavHidden ? 'event__sidebar-expanded' : ''}`}>
             <EventFilter categoryList={catList} filterSelected={this.getFilteredEvents} />
-            <Calendar dateSelected={this.getFilteredEvents} />
+            <Calendar selectedDate={startDate || Date.now()} dateSelected={this.getFilteredEvents} />
           </div>
         </div>
         {this.renderEventGallery()}
@@ -259,4 +270,5 @@ export default connect(mapStateToProps, {
   getEventsList,
   getCategoryList,
   createEvent,
+  changeStartDate,
 })(EventsPage);

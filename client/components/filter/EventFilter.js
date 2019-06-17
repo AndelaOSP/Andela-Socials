@@ -36,7 +36,7 @@ class EventFilter extends React.Component {
       category,
     } = this.state;
     if (filterSelected !== undefined) {
-      filterSelected(null, location, category);
+      filterSelected({ location, category });
     }
   }
 

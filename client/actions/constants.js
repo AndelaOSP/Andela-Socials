@@ -30,6 +30,7 @@ export const SET_REDIRECT_URL = 'SET_REDIRECT_URL';
 export const LOAD_ACTIVE_USER_SUCCESS = 'LOAD_ACTIVE_USER_SUCCESS';
 export const ATTEND_EVENT = 'ATTEND_EVENT';
 export const UNATTEND_EVENT = 'UNATTEND_EVENT';
+export const CHANGE_START_DATE = 'CHANGE_START_DATE';
 
 // Constants specific to attendees
 export const GET_ATTENDEES = 'GET_ATTENDEES';

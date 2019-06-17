@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { GET_EVENT, ATTEND_EVENT, CREATE_EVENT, SUBSCRIBED_EVENTS, UNATTEND_EVENT } from './constants';
+import { GET_EVENT, ATTEND_EVENT, CREATE_EVENT, SUBSCRIBED_EVENTS, UNATTEND_EVENT, CHANGE_START_DATE } from './constants';
 import { handleError } from '../utils/errorHandler';
 
 import { LinkError } from 'apollo-link/lib/linkUtils';
@@ -74,4 +74,8 @@ export const unsubscribeEvent = (event) => {
       })
       .catch(error => handleError(error, dispatch));
   };
+}
+
+export const changeStartDate = (startDate) => {
+  return (dispatch) => dispatch({ type: CHANGE_START_DATE, payload: startDate });
 }
