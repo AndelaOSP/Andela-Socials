@@ -15,10 +15,14 @@ import {
   UPLOAD_IMAGE,
   SHARE_EVENT,
 <<<<<<< HEAD
+<<<<<<< HEAD
   CHANGE_START_DATE,
   GET_EVENTS_LOADING,
 =======
 >>>>>>> feat(event-details): share event on channel (#198)
+=======
+  CHANGE_START_DATE,
+>>>>>>> feature(events-list): persist startDate (#227)
 } from '../actions/constants';
 import initialState from './initialState';
 
@@ -39,8 +43,12 @@ export const events = (state = initialState.events, action) => {
       return { ...state, getEventsLoading: action.payload };
 =======
       const { edges, pageInfo } = action.payload;
+<<<<<<< HEAD
       return { eventList: edges, pageInfo };
 >>>>>>> feat(event-details): share event on channel (#198)
+=======
+      return { ...state, eventList: edges, pageInfo };
+>>>>>>> feature(events-list): persist startDate (#227)
 
     case LOAD_MORE_EVENTS:
       const { eventList } = state;

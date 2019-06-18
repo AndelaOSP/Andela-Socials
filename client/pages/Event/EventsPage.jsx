@@ -9,6 +9,9 @@ import formatDate from '../../utils/formatDate';
 import { getEventsList, createEvent } from '../../actions/graphql/eventGQLActions';
 import { getCategoryList } from '../../actions/graphql/categoryGQLActions';
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> feature(events-list): persist startDate (#227)
 import { changeStartDate } from '../../actions/eventActions';
 import NoEvents from '../../components/NoEvents';
 import Spinner from '../../utils/Spinner';
@@ -50,6 +53,7 @@ class EventsPage extends React.Component {
    * @returns {null}
   */
   componentDidMount() {
+<<<<<<< HEAD
 <<<<<<< HEAD
     const { startDate } = this.props.events;
 
@@ -110,9 +114,12 @@ class EventsPage extends React.Component {
     );
 =======
     const { eventStartDate } = this.state;
+=======
+    const { startDate } = this.props.events;
+>>>>>>> feature(events-list): persist startDate (#227)
 
     this.setState({ isLoadingEvents: true });
-    this.getEvents({ startDate: eventStartDate });
+    this.getEvents({ startDate: startDate || formatDate(Date.now(), 'YYYY-MM-DD') });
   }
 
   /**
@@ -145,6 +152,21 @@ class EventsPage extends React.Component {
 >>>>>>> #166502105 Display loader while events are still loading (#223)
   }
 
+<<<<<<< HEAD
+=======
+  getFilteredEvents({ startDate, location, category }) {
+    startDate && this.props.changeStartDate(startDate);
+    this.setState(
+      () => {
+        const filter = {};
+        location && (filter.selectedVenue = location);
+        category && (filter.selectedCategory = category);
+        return Object.keys(filter).length ? filter : null;
+      }
+    );
+  }
+
+>>>>>>> feature(events-list): persist startDate (#227)
   componentDidUpdate(prevProps, prevState) {
     const { startDate } = this.props.events;
     const {
@@ -157,7 +179,11 @@ class EventsPage extends React.Component {
       prevState.selectedCategory !== selectedCategory
     ) {
       this.getEvents({
+<<<<<<< HEAD
         startDate: startDate || formatDate(Date.now(), 'YYYY-MM-DD'),
+=======
+        startDate,
+>>>>>>> feature(events-list): persist startDate (#227)
         venue: selectedVenue,
         category: selectedCategory,
       });
@@ -211,7 +237,11 @@ class EventsPage extends React.Component {
     const { startDate } = this.props.events;
 
     this.getEvents({
+<<<<<<< HEAD
       startDate: startDate || formatDate(Date.now(), 'YYYY-MM-DD'),
+=======
+      startDate,
+>>>>>>> feature(events-list): persist startDate (#227)
       venue: selectedVenue,
       category: selectedCategory,
       after: lastEventItemCursor,
@@ -327,10 +357,14 @@ class EventsPage extends React.Component {
       requestedStartDate,
     } = this.state;
 <<<<<<< HEAD
+<<<<<<< HEAD
     const { subNavHidden, events: { startDate } } = this.props;
 =======
     const { subNavHidden } = this.props;
 >>>>>>> fix(sidebar): prevent sidenav hiding behind nav (#218)
+=======
+    const { subNavHidden, events: { startDate } } = this.props;
+>>>>>>> feature(events-list): persist startDate (#227)
     const catList = Array.isArray(categoryList) ? categoryList.map(item => ({
       id: item.node.id,
       title: item.node.name,
@@ -351,8 +385,12 @@ class EventsPage extends React.Component {
           <div className={`event__sidebar-fixed ${subNavHidden ? 'event__sidebar-expanded' : ''}`}>
 >>>>>>> fix(sidebar): prevent sidenav hiding behind nav (#218)
             <EventFilter categoryList={catList} filterSelected={this.getFilteredEvents} />
+<<<<<<< HEAD
             <Calendar dateSelected={this.getFilteredEvents} />
 >>>>>>> feature(ui): fix header and sidebar (#211)
+=======
+            <Calendar selectedDate={startDate || Date.now()} dateSelected={this.getFilteredEvents} />
+>>>>>>> feature(events-list): persist startDate (#227)
           </div>
         </div>
         {this.renderEventGallery()}

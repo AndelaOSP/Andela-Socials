@@ -42,7 +42,11 @@ class EventFilter extends React.Component {
       category,
     } = this.state;
     if (filterSelected !== undefined) {
+<<<<<<< HEAD
       filterSelected({ filterLocation: location, filterCategory: category });
+=======
+      filterSelected({ location, category });
+>>>>>>> feature(events-list): persist startDate (#227)
     }
   }
 
