@@ -35,6 +35,7 @@ const rootReducer = {
   slackChannels,
   uiReducers,
   slackToken,
+<<<<<<< HEAD
 =======
   slackChannels
 >>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182) (#195)
@@ -42,6 +43,8 @@ const rootReducer = {
   slackChannels,
   uiReducers,
 >>>>>>> fix(sidebar): prevent sidenav hiding behind nav (#218)
+=======
+>>>>>>> feat(slack-modal): implement slack token callback (#217)
 };
 
 export default rootReducer;

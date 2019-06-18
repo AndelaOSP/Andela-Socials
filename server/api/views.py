@@ -11,10 +11,14 @@ from rest_framework.generics import GenericAPIView, ListAPIView, CreateAPIView
 from rest_framework.views import APIView
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 from api.slack import notify_user, generate_simple_message, get_slack_user_token
 =======
 from api.slack import notify_user, generate_simple_message
 >>>>>>> ft(slack-attend-event): User should be able to attend event from slack) (#181)
+=======
+from api.slack import notify_user, generate_simple_message, get_slack_user_token
+>>>>>>> feat(slack-modal): implement slack token callback (#217)
 from api.utils.event_helpers import is_not_past_event, save_user_attendance
 from .serializers import CategorySerializer, EventSerializer,\
     AttendanceSerializer, EventDetailSerializer, InterestSerializer

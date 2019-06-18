@@ -167,7 +167,11 @@ class CreateEvent(relay.ClientIDMutation):
             raise GraphQLError("An Error occurred. Please try again")
 
         slack_token = False
+<<<<<<< HEAD
         if user_profile.slack_token:
+=======
+        if user_profile.slack_tokena:
+>>>>>>> feat(slack-modal): implement slack token callback (#217)
             slack_token = True
         CreateEvent.notify_event_in_slack(category, input, new_event)
         return cls(

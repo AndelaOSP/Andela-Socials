@@ -214,6 +214,9 @@ class Dashboard extends Component {
                   oauth={this.props.oauth}
                   counter={oauthCounter}
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> feat(slack-modal): implement slack token callback (#217)
                   savePermission={this.handleAuthPermission}
                 />
               )}
@@ -226,9 +229,12 @@ class Dashboard extends Component {
                   oauth={this.props.oauth}
                   counter={oauthCounter}
                   savePermission={this.handleSlackPermission}
+<<<<<<< HEAD
 =======
                   savePermission={this.props.savePermission}
 >>>>>>> feature(ui): fix header and sidebar (#211)
+=======
+>>>>>>> feat(slack-modal): implement slack token callback (#217)
                 />
               )}
             />

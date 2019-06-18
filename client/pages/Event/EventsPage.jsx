@@ -40,9 +40,13 @@ class EventsPage extends React.Component {
       lastEventItemCursor: '',
       isLoadingEvents: false,
 <<<<<<< HEAD
+<<<<<<< HEAD
       slackToken: true,
 =======
 >>>>>>> #166502105 Display loader while events are still loading (#223)
+=======
+      slackToken: true,
+>>>>>>> feat(slack-modal): implement slack token callback (#217)
     };
     this.getFilteredEvents = this.getFilteredEvents.bind(this);
   }
@@ -135,7 +139,7 @@ class EventsPage extends React.Component {
       const {
         events: {
           eventList, pageInfo: { hasNextPage },
-        }, socialClubs,
+        }, socialClubs, slackToken,
       } = props;
       const eventLength = eventList.length;
       const lastEventItemCursor = eventLength ? eventList[eventLength - 1].cursor : '';
@@ -146,6 +150,7 @@ class EventsPage extends React.Component {
         categoryList: socialClubs.socialClubs,
         lastEventItemCursor,
         isLoadingEvents: false,
+        slackToken,
       };
     }
     return null;
@@ -395,7 +400,11 @@ class EventsPage extends React.Component {
         </div>
         {this.renderEventGallery()}
         {this.openSlackModal()}
+<<<<<<< HEAD
         <div className={`event__footer ${hasNextPage && startDate === requestedStartDate ? '' : 'event__footer--hidden'}`} >
+=======
+        <div className={`event__footer ${hasNextPage ? '' : 'event__footer--hidden'}`} >
+>>>>>>> feat(slack-modal): implement slack token callback (#217)
           <button onClick={this.loadMoreEvents} type="button" className="btn-blue event__load-more-button">
             Load more
           </button>
@@ -415,9 +424,13 @@ const mapStateToProps = state => ({
   socialClubs: state.socialClubs,
   subNavHidden: state.uiReducers.subNavHidden,
 <<<<<<< HEAD
+<<<<<<< HEAD
   slackToken: state.slackToken,
 =======
 >>>>>>> fix(sidebar): prevent sidenav hiding behind nav (#218)
+=======
+  slackToken: state.slackToken,
+>>>>>>> feat(slack-modal): implement slack token callback (#217)
 });
 
 export default connect(mapStateToProps, {

@@ -16,9 +16,13 @@ import {
   SEARCH_EVENTS,
   SHARE_EVENT,
 <<<<<<< HEAD
+<<<<<<< HEAD
   SLACK_TOKEN,
 =======
 >>>>>>> feat(event-details): share event on channel (#198)
+=======
+  SLACK_TOKEN,
+>>>>>>> feat(slack-modal): implement slack token callback (#217)
 } from '../constants';
 
 import { handleError, handleInformation } from '../../utils/errorHandler';
@@ -161,6 +165,7 @@ export const shareEvent = ({
 }) => dispatch => Client.mutate(
   SHARE_EVENT_GQL(eventId, channelId)
 <<<<<<< HEAD
+<<<<<<< HEAD
 ).then((data) => {
   handleInformation('Successfully shared');
   dispatch({
@@ -173,5 +178,12 @@ export const shareEvent = ({
     type: SHARE_EVENT, payload: data.data, error: false,
   })
 >>>>>>> feat(event-details): share event on channel (#198)
+=======
+).then((data) => {
+  handleInformation('Successfully shared');
+  dispatch({
+    type: SHARE_EVENT, payload: data.data, error: false,
+  });
+>>>>>>> feat(slack-modal): implement slack token callback (#217)
 })
   .catch(error => handleError(error, dispatch));

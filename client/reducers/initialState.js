@@ -27,6 +27,7 @@ export default {
   slackChannels: {},
   ui: { subNavHidden: false },
   slackToken: true,
+<<<<<<< HEAD
 =======
   slackChannels: {}
 >>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182) (#195)
@@ -43,4 +44,6 @@ export default {
   slackChannels: {},
   ui: { subNavHidden: false },
 >>>>>>> #166502105 Display loader while events are still loading (#223)
+=======
+>>>>>>> feat(slack-modal): implement slack token callback (#217)
 };
