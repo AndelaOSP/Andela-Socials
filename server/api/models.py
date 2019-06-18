@@ -196,6 +196,7 @@ class Event(BaseInfo):
     """Message model defined."""
 
     title = models.CharField(max_length=100)
+    event_id_in_calendar = models.CharField(max_length=150)
     description = models.TextField()
     venue = models.TextField()
     start_date = models.CharField(max_length=50)

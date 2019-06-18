@@ -10,7 +10,7 @@ from api.models import Attend, Event, AndelaUserProfile
 from api.slack import invite_to_event_channel
 from api.utils.backgroundTaskWorker import BackgroundTaskWorker
 from api.utils.event_helpers import is_not_past_event, save_user_attendance
-from graphql_schemas.utils.helpers import add_event_to_calendar
+from graphql_schemas.utils.helpers import update_event_status_on_calendar
 
 
 class AttendNode(DjangoObjectType):
@@ -36,7 +36,8 @@ class AttendEvent(relay.ClientIDMutation):
         user = info.context.user
         andela_user_profile = AndelaUserProfile.objects.get(
             user_id=user.id)
-        add_event_to_calendar(andela_user_profile, event)
+        BackgroundTaskWorker.start_work(update_event_status_on_calendar,
+            (andela_user_profile, event))
         if is_not_past_event(event):
             user_attendance, created = save_user_attendance(event, andela_user_profile, status)
             if event.slack_channel and andela_user_profile.slack_id and event.creator.slack_token:

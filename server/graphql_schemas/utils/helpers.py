@@ -10,7 +10,7 @@ from django.core.files.storage import FileSystemStorage
 
 from api.slack import generate_simple_message, notify_user
 from api.utils.oauth_helper import get_auth_url
-from api.models import Interest, Attend
+from api.models import Interest, Attend, Event
 from googleapiclient.discovery import build
 from google.cloud import storage
 
@@ -213,5 +213,24 @@ def add_event_to_calendar(andela_user, event):
                  for attendee in event.attendees]
     calendar = build('calendar', 'v3', credentials=andela_user.credential)
     event_details = build_event(event, attendees)
-    return calendar.events().insert(
+    created_event = calendar.events().insert(
             calendarId='primary', body=event_details).execute()
+    event.event_id_in_calendar = created_event['id']
+    event.save()
+
+
+def update_event_status_on_calendar(andela_user, event):
+    eventId = event.event_id_in_calendar
+    attendee = andela_user.user.email
+    calendar = build('calendar', 'v3', credentials=andela_user.credential)
+    event_in_calendar = calendar.events().get(calendarId='primary', eventId=eventId).execute()
+    attendees = event_in_calendar['attendees']
+    for attendee in attendees:
+        if attendee['email'] == andela_user.user.email:
+            attendee['responseStatus'] = 'accepted'
+            break
+    return calendar.events().patch(
+        calendarId='primary',
+        eventId=eventId,
+        body=event_in_calendar
+    ).execute()
