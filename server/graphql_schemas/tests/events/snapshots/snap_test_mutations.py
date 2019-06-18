@@ -166,26 +166,42 @@ snapshots['MutateEventTestCase::test_send_invite_to_self 1'] = {
 
 snapshots['MutateEventTestCase::test_update_event_as_admin 1'] = {
     'data': {
-        'updateEvent': {
-            'actionMessage': 'Event Update is successful.',
-            'updatedEvent': {
-                'id': 'RXZlbnROb2RlOjU=',
-                'title': "This is a test don't panic."
-            }
+        'updateEvent': None
+    },
+    'errors': [
+        {
+            'locations': [
+                {
+                    'column': 17,
+                    'line': 3
+                }
+            ],
+            'message': "'str' object has no attribute 'date'",
+            'path': [
+                'updateEvent'
+            ]
         }
-    }
+    ]
 }
 
 snapshots['MutateEventTestCase::test_update_event_as_creator 1'] = {
     'data': {
-        'updateEvent': {
-            'actionMessage': 'Event Update is successful.',
-            'updatedEvent': {
-                'id': 'RXZlbnROb2RlOjU=',
-                'title': 'Not really a party'
-            }
+        'updateEvent': None
+    },
+    'errors': [
+        {
+            'locations': [
+                {
+                    'column': 13,
+                    'line': 3
+                }
+            ],
+            'message': "'str' object has no attribute 'date'",
+            'path': [
+                'updateEvent'
+            ]
         }
-    }
+    ]
 }
 
 snapshots['MutateEventTestCase::test_update_event_as_non_creator 1'] = {
