@@ -57,3 +57,6 @@ export const SHARE_EVENT = 'SHARE_EVENT';
 
 // Constants specific to ui events
 export const SUBNAV_HIDDEN = 'SUBNAV_HIDDEN';
+
+// Constant to display slack modal
+export const SLACK_TOKEN = 'SLACK_TOKEN';

@@ -144,10 +144,11 @@ def get_slack_user_token(code):
         :param code - the code returned by slack after authorization :
     """
     response = slack_client.api_call(
-        "oauth.token",
+        "oauth.access",
         client_id=getenv('SLACK_CLIENT_ID'),
         client_secret=getenv('SLACK_CLIENT_SECRET'),
-        code=code)
+        code=code,
+        redirect_uri=getenv('SLACK_AUTH_REDIRECT_URI'))
 
     return response
 

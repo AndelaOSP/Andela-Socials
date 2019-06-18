@@ -102,6 +102,34 @@ class Dashboard extends Component {
   }
 
   /**
+   * Method to handle oauth permission
+   *
+   * @param url urlparams
+   * @memberof Dashboard
+   * @returns {Function} savePermission
+   */
+
+  handleAuthPermission = (urlParams) => {
+    const { savePermission: saveAuthPermissionReq } = this.props;
+    const url = `/api/v1/oauthcallback${urlParams}`;
+    return saveAuthPermissionReq(url);
+  }
+
+  /**
+   * Method to handle slack permission
+   *
+   * @param url urlparams
+   * @memberof Dashboard
+   * @returns {Function} savePermission
+   */
+
+  handleSlackPermission = (urlParams) => {
+    const { savePermission: saveSlackPermissionReq } = this.props;
+    const url = `/api/v1/slack/code${urlParams}`;
+    return saveSlackPermissionReq(url);
+  }
+
+  /**
    * Method to render user dashboard
    *
    * @memberof Dashboard
@@ -181,7 +209,18 @@ class Dashboard extends Component {
                   location={props.location}
                   oauth={this.props.oauth}
                   counter={oauthCounter}
-                  savePermission={this.props.savePermission}
+                  savePermission={this.handleAuthPermission}
+                />
+              )}
+            />
+            <Route
+              path="/slacktokencallback"
+              render={props => (
+                <External
+                  location={props.location}
+                  oauth={this.props.oauth}
+                  counter={oauthCounter}
+                  savePermission={this.handleSlackPermission}
                 />
               )}
             />
@@ -207,6 +246,7 @@ Dashboard.propTypes = {
   createEvent: PropTypes.func.isRequired,
   uploadImage: PropTypes.func.isRequired,
   getCategoryList: PropTypes.func.isRequired,
+  savePermission: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators(

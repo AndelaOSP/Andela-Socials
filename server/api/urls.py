@@ -56,4 +56,7 @@ urlpatterns = [
         
     url(r'^slack/authorize/?$', views.LaunchSlackAuthorization.as_view(),
         name="authorizeslack"),
+
+    url(r'^slack/code/?$', views.SlackTokenCallback.as_view(),
+        name='add_slack_token')
 ]
