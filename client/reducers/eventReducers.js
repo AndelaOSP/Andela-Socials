@@ -14,6 +14,7 @@ import {
   SIGN_OUT,
   UPLOAD_IMAGE,
   SHARE_EVENT,
+  CHANGE_START_DATE,
 } from '../actions/constants';
 import initialState from './initialState';
 
@@ -27,12 +28,12 @@ export const events = (state = initialState.events, action) => {
   switch (action.type) {
     case GET_EVENTS:
       const { edges, pageInfo } = action.payload;
-      return { eventList: edges, pageInfo };
+      return { ...state, eventList: edges, pageInfo };
 
     case LOAD_MORE_EVENTS:
       const { eventList } = state;
       const { edges: newEvents, pageInfo: newPageInfo } = action.payload;
-      return { eventList: [...eventList, ...newEvents], pageInfo: newPageInfo };
+      return { ...state, eventList: [...eventList, ...newEvents], pageInfo: newPageInfo };
 
     case CREATE_EVENT: {
       const newEvent = { node: action.payload.createEvent.newEvent };
@@ -51,6 +52,9 @@ export const events = (state = initialState.events, action) => {
       });
       return { ...state, eventList: [...updated], status: 'updated' };
     }
+
+    case CHANGE_START_DATE: 
+      return { ...state, startDate: action.payload }
 
     case DEACTIVATE_EVENT: {
       const newEventList = state.eventList.filter(item => item.node.id !== action.payload.id);
