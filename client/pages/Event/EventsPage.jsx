@@ -185,10 +185,14 @@ class EventsPage extends React.Component {
     ) {
       this.getEvents({
 <<<<<<< HEAD
+<<<<<<< HEAD
         startDate: startDate || formatDate(Date.now(), 'YYYY-MM-DD'),
 =======
         startDate,
 >>>>>>> feature(events-list): persist startDate (#227)
+=======
+        startDate: startDate || formatDate(Date.now(), 'YYYY-MM-DD'),
+>>>>>>> bug(event-filter): fix event filter bug (#230)
         venue: selectedVenue,
         category: selectedCategory,
       });
@@ -243,10 +247,14 @@ class EventsPage extends React.Component {
 
     this.getEvents({
 <<<<<<< HEAD
+<<<<<<< HEAD
       startDate: startDate || formatDate(Date.now(), 'YYYY-MM-DD'),
 =======
       startDate,
 >>>>>>> feature(events-list): persist startDate (#227)
+=======
+      startDate: startDate || formatDate(Date.now(), 'YYYY-MM-DD'),
+>>>>>>> bug(event-filter): fix event filter bug (#230)
       venue: selectedVenue,
       category: selectedCategory,
       after: lastEventItemCursor,

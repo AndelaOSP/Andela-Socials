@@ -342,9 +342,12 @@ class EventForm extends Component {
 
   render() {
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     console.log(this.props, 'state>>>>>')
 >>>>>>> (ft-event-host-add-channel-165998501) Event host should be able to add a discussion/group slack channel to an event (#202)
+=======
+>>>>>>> bug(event-filter): fix event filter bug (#230)
     const { errors, categoryIsValid, timezoneIsValid, timezone } = this.state;
     const { formId, formData, categories, slackChannels } = this.props;
     const listChannels = slackChannels && slackChannels.map(channel => this.renameKey('name', 'title', channel));
