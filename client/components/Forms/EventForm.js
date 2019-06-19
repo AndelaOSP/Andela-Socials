@@ -335,7 +335,6 @@ class EventForm extends Component {
   };
 
   render() {
-    console.log(this.props, 'state>>>>>')
     const { errors, categoryIsValid, timezoneIsValid, timezone } = this.state;
     const { formId, formData, categories, slackChannels } = this.props;
     const listChannels = slackChannels && slackChannels.map(channel => this.renameKey('name', 'title', channel));
