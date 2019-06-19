@@ -100,7 +100,7 @@ class EventsPage extends React.Component {
       prevState.selectedCategory !== selectedCategory
     ) {
       this.getEvents({
-        startDate,
+        startDate: startDate || formatDate(Date.now(), 'YYYY-MM-DD'),
         venue: selectedVenue,
         category: selectedCategory,
       });
@@ -154,7 +154,7 @@ class EventsPage extends React.Component {
     const { startDate } = this.props.events;
 
     this.getEvents({
-      startDate,
+      startDate: startDate || formatDate(Date.now(), 'YYYY-MM-DD'),
       venue: selectedVenue,
       category: selectedCategory,
       after: lastEventItemCursor,
