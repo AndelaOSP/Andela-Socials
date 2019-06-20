@@ -28,7 +28,7 @@ class EventFilter extends React.Component {
           selected: false,
           key: 'location',
         },
-      ],
+      ]
     };
     this.onLocationChange = this.onLocationChange.bind(this);
     this.onCategoryChange = this.onCategoryChange.bind(this);
@@ -40,6 +40,7 @@ class EventFilter extends React.Component {
     const {
       location,
       category,
+      creator
     } = this.state;
     if (filterSelected !== undefined) {
       filterSelected({ filterLocation: location, filterCategory: category });
@@ -52,6 +53,10 @@ class EventFilter extends React.Component {
 
   onCategoryChange(category) {
     this.setState({ category });
+  }
+
+  onMyCreatedEventChange() {
+    this.setState({ creator });
   }
 
   render() {
@@ -81,6 +86,14 @@ class EventFilter extends React.Component {
             <CustomDropDown
               title="Select category"
               list={updatedCategoryList}
+              onSelected={this.onCategoryChange}
+            />
+          </div>
+          <div>
+            Created By Me
+            <CustomDropDown
+              title="Select Event created by me"
+              list={this.props.categoryList}
               onSelected={this.onCategoryChange}
             />
           </div>
