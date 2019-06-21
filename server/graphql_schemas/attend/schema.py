@@ -36,7 +36,8 @@ class AttendEvent(relay.ClientIDMutation):
         user = info.context.user
         andela_user_profile = AndelaUserProfile.objects.get(
             user_id=user.id)
-        update_event_status_on_calendar(andela_user_profile, event)
+        BackgroundTaskWorker.start_work(update_event_status_on_calendar,
+            (andela_user_profile, event))
         if is_not_past_event(event):
             user_attendance, created = save_user_attendance(event, andela_user_profile, status)
             if event.slack_channel and andela_user_profile.slack_id and event.creator.slack_token:

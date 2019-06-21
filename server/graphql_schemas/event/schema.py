@@ -117,7 +117,7 @@ class CreateEvent(relay.ClientIDMutation):
             raise GraphQLError("An Error occurred. \n{}".format(e))
 
         slack_token = False
-        if user_profile.slack_tokena:
+        if user_profile.slack_token:
             slack_token = True
         CreateEvent.notify_event_in_slack(category, input, new_event)
         return cls(
