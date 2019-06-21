@@ -114,7 +114,8 @@ class CreateEvent(relay.ClientIDMutation):
                 raise_calendar_error(user_profile)
 
         except ValueError as e:
-            raise GraphQLError("An Error occurred. \n{}".format(e))
+            logging.warn(e)
+            raise GraphQLError("An Error occurred. Please try again")
 
         slack_token = False
         if user_profile.slack_tokena:
@@ -239,9 +240,10 @@ class UpdateEvent(relay.ClientIDMutation):
                     action_message="Event Update is successful.",
                     updated_event=updated_event
                 )
-        except ValueError as e:
+        except Exception as e:
             # return an error if something wrong happens
-            raise GraphQLError("An Error occurred. \n{}".format(e))
+            logging.warn(e)
+            raise GraphQLError("An Error occurred. Please try again")
 
 
 class DeactivateEvent(relay.ClientIDMutation):
@@ -428,6 +430,7 @@ class ShareEvent(relay.ClientIDMutation):
                 blocks, "New upcoming event from Andela socials", channel_id)
 
         except ValueError as e:
+            logging.warn(e)
             raise GraphQLError("An Error occurred. Please try again")
 
         return ShareEvent(event=event)
