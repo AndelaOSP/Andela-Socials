@@ -158,14 +158,25 @@ class EventsPage extends React.Component {
   }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
   getFilteredEvents({ startDate, location, category }) {
+=======
+  getFilteredEvents({ startDate, filterLocation, filterCategory }) {
+    const {
+      selectedVenue,
+      selectedCategory,
+    } = this.state;
+    const location = filterLocation === null ? null : (filterLocation || selectedVenue);
+    const category = filterCategory === null ? null : (filterCategory || selectedCategory);
+
+>>>>>>> fix(filter): add all to filter list (#228)
     startDate && this.props.changeStartDate(startDate);
     this.setState(
       () => {
         const filter = {};
-        location && (filter.selectedVenue = location);
-        category && (filter.selectedCategory = category);
+        filter.selectedVenue = location;
+        filter.selectedCategory = category;
         return Object.keys(filter).length ? filter : null;
       }
     );
