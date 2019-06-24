@@ -9,6 +9,7 @@ import {
   GET_EVENT,
   CREATE_EVENT,
   GET_EVENTS,
+  GET_EVENTS_LOADING,
   UPDATE_EVENT,
   LOAD_MORE_EVENTS,
   DEACTIVATE_EVENT,
@@ -27,13 +28,27 @@ export const getEventsList = ({
   startDate,
   venue,
   category,
-}) => dispatch => Client.query(EVENT_LIST_GQL(after, first, title, startDate, venue, category))
-  .then(data => dispatch({
-    type: after ? LOAD_MORE_EVENTS : GET_EVENTS,
-    payload: data.data.eventsList,
-    error: false,
-  }))
-  .catch(error => handleError(error, dispatch));
+}) => (dispatch) => {
+  dispatch({
+    type: GET_EVENTS_LOADING,
+    payload: true,
+  });
+  Client.query(EVENT_LIST_GQL(after, first, title, startDate, venue, category))
+  .then((data) => {
+    const { eventsList } = data.data;
+    eventsList.requestedStartDate = startDate;
+    dispatch({
+      type: after ? LOAD_MORE_EVENTS : GET_EVENTS,
+      payload: eventsList,
+      error: false,
+    })
+  })
+  .catch(error => handleError(error, dispatch))
+  .finally(dispatch({
+    type: GET_EVENTS_LOADING,
+    payload: false,
+  }));
+};
 
 /**
  * This commented out code below has a use case

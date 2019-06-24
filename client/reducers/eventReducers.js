@@ -15,6 +15,7 @@ import {
   UPLOAD_IMAGE,
   SHARE_EVENT,
   CHANGE_START_DATE,
+  GET_EVENTS_LOADING,
 } from '../actions/constants';
 import initialState from './initialState';
 
@@ -27,8 +28,11 @@ import initialState from './initialState';
 export const events = (state = initialState.events, action) => {
   switch (action.type) {
     case GET_EVENTS:
-      const { edges, pageInfo } = action.payload;
-      return { ...state, eventList: edges, pageInfo };
+      const { edges, pageInfo, requestedStartDate } = action.payload;
+      return { ...state, eventList: edges, pageInfo, requestedStartDate, };
+
+    case GET_EVENTS_LOADING:
+      return { ...state, getEventsLoading: action.payload };
 
     case LOAD_MORE_EVENTS:
       const { eventList } = state;
