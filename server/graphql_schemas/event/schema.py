@@ -45,6 +45,27 @@ logging.basicConfig(
     datefmt='%m/%d/%Y %I:%M:%S %p')
 
 
+class EventFilter(FilterSet):
+    creator = CharFilter(method='user_profile')
+
+    def user_profile(self, queryset, name, value):
+        try:
+            user_profile = AndelaUserProfile.objects.get(
+                google_id=value
+            )
+        except AndelaUserProfile.DoesNotExist:
+            raise GraphQLError(
+                "AndelaUserProfile does not exist")
+
+        return queryset.filter(creator=user_profile)
+
+    class Meta:
+        model = Event
+        fields = {'start_date': ['exact', 'istartswith'],
+                  'social_event': ['exact'], 'venue': ['exact'],
+                  'title': ['exact', 'istartswith'], 'creator': ['exact']}
+
+
 class EventNode(DjangoObjectType):
     attendSet = AttendNode()
 
@@ -55,7 +76,7 @@ class EventNode(DjangoObjectType):
         model = Event
         filter_fields = {'start_date': ['exact', 'istartswith'],
                          'social_event': ['exact'], 'venue': ['exact'],
-                         'title': ['exact', 'istartswith']}
+                         'title': ['exact', 'istartswith'], 'creator': ['exact']}
         interfaces = (relay.Node,)
 
 
@@ -435,7 +456,7 @@ class ShareEvent(relay.ClientIDMutation):
 
 class EventQuery(object):
     event = relay.Node.Field(EventNode)
-    events_list = DjangoFilterConnectionField(EventNode)
+    events_list = DjangoFilterConnectionField(EventNode, filterset_class=EventFilter)
     slack_channels_list = graphene.Field(SlackChannelsList)
 
     def resolve_event(self, info, **kwargs):
