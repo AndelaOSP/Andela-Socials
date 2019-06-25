@@ -69,6 +69,7 @@ class EventDetailsPage extends React.Component {
         endDate,
         venue,
         timezone,
+        slackChannel,
         socialEvent,
         creator: { googleId },
         description,
@@ -90,6 +91,7 @@ class EventDetailsPage extends React.Component {
       socialEvent,
       description,
       featuredImage,
+      slackChannel
     };
     let message;
     const creator = id === googleId;
@@ -202,7 +204,7 @@ class EventDetailsPage extends React.Component {
             <article>{description}</article>
           </div>
           <div className="event-details__attending">
-            <h5>Attending:</h5>
+            <h5>ATTENDING:</h5>
             <p>{users}</p>
           </div>
           <div className="event-details__tags">
