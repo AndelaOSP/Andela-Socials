@@ -17,7 +17,7 @@ const config = { key: 'root', storage, blacklist: ['uiReducers'] };
 >>>>>>> fix(sidebar): prevent sidenav hiding behind nav (#218)
 =======
 const config = {
-  key: 'root', storage, blacklist: ['uiReducers', 'events'],
+  key: 'root', storage, blacklist: ['uiReducers', ],
 };
 >>>>>>> #166502105 Display loader while events are still loading (#223)
 const reducers = persistCombineReducers(config, rootReducer);

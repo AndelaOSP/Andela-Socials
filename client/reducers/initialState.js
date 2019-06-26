@@ -2,12 +2,18 @@ export default {
   activeUser: {},
   event: {},
 <<<<<<< HEAD
+<<<<<<< HEAD
   events: {
     getEventsLoading: false,
   },
 =======
   events: {},
 >>>>>>> #166502105 Display loader while events are still loading (#223)
+=======
+  events: {
+    getEventsLoading: false,
+  },
+>>>>>>> fix(events): remove events from blacklist (#233)
   subscribedEvents: [],
   redirectUrl: '',
   interest: {},

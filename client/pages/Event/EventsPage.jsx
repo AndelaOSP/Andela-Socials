@@ -81,6 +81,7 @@ class EventsPage extends React.Component {
           pageInfo: { hasNextPage },
           getEventsLoading,
           requestedStartDate,
+<<<<<<< HEAD
         }, socialClubs, slackToken,
       } = props;
       const eventLength = eventList.length;
@@ -139,6 +140,8 @@ class EventsPage extends React.Component {
       const {
         events: {
           eventList, pageInfo: { hasNextPage },
+=======
+>>>>>>> fix(events): remove events from blacklist (#233)
         }, socialClubs, slackToken,
       } = props;
       const eventLength = eventList.length;
@@ -149,7 +152,8 @@ class EventsPage extends React.Component {
         hasNextPage,
         categoryList: socialClubs.socialClubs,
         lastEventItemCursor,
-        isLoadingEvents: false,
+        isLoadingEvents: getEventsLoading,
+        requestedStartDate,
         slackToken,
       };
     }
@@ -279,6 +283,7 @@ class EventsPage extends React.Component {
   renderEventGallery = () => {
     const {
 <<<<<<< HEAD
+<<<<<<< HEAD
       eventList, isLoadingEvents, requestedStartDate,
     } = this.state;
     const { startDate } = this.props.events;
@@ -286,7 +291,18 @@ class EventsPage extends React.Component {
     if (eventList.length && startDate === requestedStartDate) {
 =======
       eventList, isLoadingEvents,
+=======
+      eventList, isLoadingEvents, requestedStartDate,
+>>>>>>> fix(events): remove events from blacklist (#233)
     } = this.state;
+    const { startDate } = this.props.events;
+
+    if (eventList.length && startDate === requestedStartDate) {
+      const listOfEventCard = mapListToComponent(eventList, EventCard);
+      return (<div className="event__gallery">
+        {listOfEventCard}
+      </div>);
+    }
 
     if (isLoadingEvents) {
       return (
@@ -296,6 +312,7 @@ class EventsPage extends React.Component {
       );
     }
 
+<<<<<<< HEAD
     if (eventList.length) {
 >>>>>>> #166502105 Display loader while events are still loading (#223)
       const listOfEventCard = mapListToComponent(eventList, EventCard);
@@ -315,6 +332,8 @@ class EventsPage extends React.Component {
 
 =======
 >>>>>>> #166284452 Update feedback message on Events page  (#216)
+=======
+>>>>>>> fix(events): remove events from blacklist (#233)
     return <NoEvents />;
   }
 
@@ -420,10 +439,14 @@ class EventsPage extends React.Component {
         {this.renderEventGallery()}
         {this.openSlackModal()}
 <<<<<<< HEAD
+<<<<<<< HEAD
         <div className={`event__footer ${hasNextPage && startDate === requestedStartDate ? '' : 'event__footer--hidden'}`} >
 =======
         <div className={`event__footer ${hasNextPage ? '' : 'event__footer--hidden'}`} >
 >>>>>>> feat(slack-modal): implement slack token callback (#217)
+=======
+        <div className={`event__footer ${hasNextPage && startDate === requestedStartDate ? '' : 'event__footer--hidden'}`} >
+>>>>>>> fix(events): remove events from blacklist (#233)
           <button onClick={this.loadMoreEvents} type="button" className="btn-blue event__load-more-button">
             Load more
           </button>
