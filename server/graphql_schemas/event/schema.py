@@ -549,10 +549,14 @@ class ShareEvent(relay.ClientIDMutation):
 class EventQuery(object):
     event = relay.Node.Field(EventNode)
 <<<<<<< HEAD
+<<<<<<< HEAD
     events_list = DjangoFilterConnectionField(EventNode, filterset_class=EventFilter)
     slack_channels_list = graphene.Field(SlackChannelsList)
 =======
     events_list = DjangoFilterConnectionField(EventNode)
+=======
+    events_list = DjangoFilterConnectionField(EventNode, filterset_class=EventFilter)
+>>>>>>> feat(event query): filter events by event creator (#236)
     slack_channels_list = graphene.Field(SlackChannelsList)
 
 <<<<<<< HEAD
