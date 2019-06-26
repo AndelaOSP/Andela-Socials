@@ -19,6 +19,14 @@ class CustomDropDown extends Component {
     this.selectedItem = this.selectedItem.bind(this);
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.title !== this.props.title) {
+      this.setState({
+        headerTitle: this.props.title
+      })
+    }
+  }
+
   handleClickOutside() {
     this.setState({ listOpen: false });
   }
@@ -45,28 +53,28 @@ class CustomDropDown extends Component {
 
     return (
       <div className="cd-wrapper">
-      <div className="cd-header" onClick={() => this.toggleList()}>
-        <div className="cd-title">
-          <span className="cd-header-title">{headerTitle}</span>
-        </div>
-        <div className="cd-icon">
-        {listOpen
-          ? <FontAwesome name="angle-up" size="2x"/>
-          : <FontAwesome name="angle-down" size="2x"/>
-        }
-        </div>
+        <div className="cd-header" onClick={() => this.toggleList()}>
+          <div className="cd-title">
+            <span className="cd-header-title">{headerTitle}</span>
+          </div>
+          <div className="cd-icon">
+            {listOpen
+              ? <FontAwesome name="angle-up" size="2x" />
+              : <FontAwesome name="angle-down" size="2x" />
+            }
+          </div>
 
-      </div>
-       {listOpen && <ul className="cd-list">
-         {list.map(item => (
-           <li
-            className="cd-list__item"
-            onClick={(event) => this.selectedItem(event, item)}
-            key={item.id}
+        </div>
+        {listOpen && <ul className="cd-list">
+          {list.map(item => (
+            <li
+              className="cd-list__item"
+              onClick={(event) => this.selectedItem(event, item)}
+              key={item.id}
             >
               {item.title}
             </li>
-         ))}
+          ))}
         </ul>}
       </div>
     );
