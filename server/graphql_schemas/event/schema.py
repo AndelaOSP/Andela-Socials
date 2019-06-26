@@ -534,9 +534,13 @@ class ShareEvent(relay.ClientIDMutation):
 
         except ValueError as e:
 <<<<<<< HEAD
+<<<<<<< HEAD
             logging.warn(e)
 =======
 >>>>>>> feat(graphql): add mutation to share event on slack (#190)
+=======
+            logging.warn(e)
+>>>>>>> fix(graphql): make error messages user friendly (#231)
             raise GraphQLError("An Error occurred. Please try again")
 
         return ShareEvent(event=event)
