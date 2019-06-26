@@ -119,3 +119,26 @@ class AttendanceTestCase(BaseEventTestCase):
         self.request.user = self.andela_user.user
         result = self.client.execute(query, context_value=self.request)
         self.assertMatchSnapshot(result)
+
+    def test_can_fetch_events_user_is_attending(self):
+        query = '''
+            query{
+                attendingList{
+                    edges{
+                        node{
+                            id
+                            user{
+                                id
+                            }
+                            event{
+                                id
+                                title
+                            }
+                        }
+                    }
+                }
+            }
+        '''
+        self.request.user = self.andela_user.user
+        result = self.client.execute(query, context_value=self.request)
+        self.assertMatchSnapshot(result)
