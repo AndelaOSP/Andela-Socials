@@ -1,7 +1,9 @@
 export default {
   activeUser: {},
   event: {},
-  events: {},
+  events: {
+    getEventsLoading: false,
+  },
   subscribedEvents: [],
   redirectUrl: '',
   interest: {},

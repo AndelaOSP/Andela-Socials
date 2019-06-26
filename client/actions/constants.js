@@ -10,6 +10,7 @@ export const JOINED_CLUBS = 'JOINED_CLUBS';
 // Constants specific to events
 export const GET_EVENT = 'GET_EVENT';
 export const GET_EVENTS = 'GET_EVENTS';
+export const GET_EVENTS_LOADING = 'GET_EVENTS_LOADING';
 export const LOAD_MORE_EVENTS = 'LOAD_MORE_EVENTS';
 export const SEARCH_EVENTS = 'SEARCH_EVENTS';
 

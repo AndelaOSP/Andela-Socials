@@ -58,7 +58,10 @@ class EventsPage extends React.Component {
     if (events && events.eventList) {
       const {
         events: {
-          eventList, pageInfo: { hasNextPage },
+          eventList,
+          pageInfo: { hasNextPage },
+          getEventsLoading,
+          requestedStartDate,
         }, socialClubs, slackToken,
       } = props;
       const eventLength = eventList.length;
@@ -69,7 +72,8 @@ class EventsPage extends React.Component {
         hasNextPage,
         categoryList: socialClubs.socialClubs,
         lastEventItemCursor,
-        isLoadingEvents: false,
+        isLoadingEvents: getEventsLoading,
+        requestedStartDate,
         slackToken,
       };
     }
@@ -174,8 +178,16 @@ class EventsPage extends React.Component {
    */
   renderEventGallery = () => {
     const {
-      eventList, isLoadingEvents,
+      eventList, isLoadingEvents, requestedStartDate,
     } = this.state;
+    const { startDate } = this.props.events;
+
+    if (eventList.length && startDate === requestedStartDate) {
+      const listOfEventCard = mapListToComponent(eventList, EventCard);
+      return (<div className="event__gallery">
+        {listOfEventCard}
+      </div>);
+    }
 
     if (isLoadingEvents) {
       return (
@@ -183,13 +195,6 @@ class EventsPage extends React.Component {
           <Spinner spinnerHeight={20} spinnerWidth={20} />
         </div>
       );
-    }
-
-    if (eventList.length) {
-      const listOfEventCard = mapListToComponent(eventList, EventCard);
-      return (<div className="event__gallery">
-        {listOfEventCard}
-      </div>);
     }
 
     return <NoEvents />;
@@ -255,6 +260,7 @@ class EventsPage extends React.Component {
     const {
       categoryList,
       hasNextPage,
+      requestedStartDate,
     } = this.state;
     const { subNavHidden, events: { startDate } } = this.props;
     const catList = Array.isArray(categoryList) ? categoryList.map(item => ({
@@ -273,7 +279,7 @@ class EventsPage extends React.Component {
         </div>
         {this.renderEventGallery()}
         {this.openSlackModal()}
-        <div className={`event__footer ${hasNextPage ? '' : 'event__footer--hidden'}`} >
+        <div className={`event__footer ${hasNextPage && startDate === requestedStartDate ? '' : 'event__footer--hidden'}`} >
           <button onClick={this.loadMoreEvents} type="button" className="btn-blue event__load-more-button">
             Load more
           </button>

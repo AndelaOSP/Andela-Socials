@@ -8,7 +8,7 @@ import saveTokenMiddleware from '../middleware/auth';
 
 // blacklist ui state so they're not persisted
 const config = {
-  key: 'root', storage, blacklist: ['uiReducers', 'events'],
+  key: 'root', storage, blacklist: ['uiReducers', ],
 };
 const reducers = persistCombineReducers(config, rootReducer);
 const middleware = [thunk, saveTokenMiddleware];
