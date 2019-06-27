@@ -64,6 +64,8 @@ class EventForm extends Component {
       this.setState({
         timezone: eventData.timezone,
         category: eventData.socialEvent.id,
+        slackChannel: eventData.slackChannel,
+        addChannel: true,
         formData: {
           description: eventData.description,
           end: {
@@ -80,7 +82,7 @@ class EventForm extends Component {
           title: eventData.title,
           venue: eventData.venue,
           category: eventData.socialEvent.name,
-          slackChannel: eventData.slackChannel
+          slackChannel: eventData.slackChannel,
         }
       });
     }
@@ -344,7 +346,11 @@ class EventForm extends Component {
     const categoryClass = categoryIsValid ? 'category-label' : 'category-label category-error';
     const timezoneClass = timezoneIsValid ? 'category-label' : 'category-label category-error';
     const categoryTitle = category || 'Select Category';
-    const eventChannel = slackChannel || 'Select Slack Channel';
+    let eventChannel = 'Select Slack Channel';
+     if (slackChannel) {
+       const [foundChannel] = slackChannels.filter(channel => channel.id === slackChannel);
+       eventChannel = !foundChannel ? eventChannel : foundChannel.name;
+     }
     return (
       <form
         id={formId}
@@ -376,11 +382,11 @@ class EventForm extends Component {
         )}
         {/* // TODO: Specify the exact measures for uploads, let's approximate for now */}
         <span>Note: A 1600 x 800 image is recommended</span>
-          <label className="slack-channel">
+          {!this.state.slackChannel &&  <label className="slack-channel">
           Add Slack Channel
             <input type="checkbox" onChange={this.handleCheckboxChange} />
             <span className="checkmark" />
-          </label>
+          </label>}
         {this.state.addChannel === true && (
           <CustomDropDown
             title={eventChannel}
@@ -415,6 +421,7 @@ EventForm.defaultProps = {
   formData: {
     title: '',
     description: '',
+    slackChannel: '',
     venue: '',
     featuredImage: '',
     start: {

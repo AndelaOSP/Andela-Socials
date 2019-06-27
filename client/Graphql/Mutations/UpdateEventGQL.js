@@ -14,6 +14,7 @@ const UPDATE_EVENT_GQL = (eventId, title, description, featuredImage, venue, sta
           venue
           featuredImage
           timezone
+          slackChannel
           creator {
             id
             googleId
@@ -48,7 +49,8 @@ const UPDATE_EVENT_GQL = (eventId, title, description, featuredImage, venue, sta
       startDate,
       endDate,
       timezone,
-      categoryId
+      categoryId,
+      slackChannel
     },
   },
 });

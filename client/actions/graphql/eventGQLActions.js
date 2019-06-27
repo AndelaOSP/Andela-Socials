@@ -113,9 +113,10 @@ export const updateEvent = ({
   startDate,
   endDate,
   timezone,
-  categoryId
+  categoryId,
+  slackChannel
 }) => dispatch => Client.mutate(
-  UPDATE_EVENT_GQL(eventId, title, description, featuredImage, venue, startDate, endDate, timezone, categoryId)
+  UPDATE_EVENT_GQL(eventId, title, description, featuredImage, venue, startDate, endDate, timezone, categoryId, slackChannel)
 )
   .then((data) => {
     handleInformation(data.data.updateEvent.actionMessage);
