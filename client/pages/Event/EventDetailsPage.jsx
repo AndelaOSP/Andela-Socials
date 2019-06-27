@@ -115,7 +115,11 @@ class EventDetailsPage extends React.Component {
 >>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
 =======
       featuredImage,
+<<<<<<< HEAD
 >>>>>>> fix attend button state (#177)
+=======
+      slackChannel
+>>>>>>>   (ft-add-change-slack-channel-166607535): User should be able to add/change slack channel for an existing event (#235)
     };
     let message;
     const creator = id === googleId;
