@@ -9,7 +9,7 @@ import { handleError } from '../utils/errorHandler';
 
 export const signOut = () => (dispatch) => {
   localStorage.removeItem('token');
-  window.location = '/login';
+  location = '/login';
   return dispatch({ type: SIGN_OUT });
 };
 

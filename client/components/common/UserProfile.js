@@ -11,26 +11,26 @@ const UserProfile = ({
   imageUrl,
   signOut,
 }) => (
-    <DropDown className="dropdown-toggle nav-profile">
-      <button type="button" className="btn nav-profile__button">
-        <img
-          className="nav-profile__img"
-          src={!imageUrl ? profileImage : imageUrl}
-          alt="User Profile"
-        />
-        <span className="nav-profile__username">{`${firstName} ${lastName}`}</span>
-        <span className="caret nav-profile__dropdown-icon" />
-      </button>
-      <ul className="dropdown-menu nav-profile__list-menus">
-        <li>
-          <Link to="/interests">My Interests</Link>
-        </li>
-        <li>
-          <Link to="/login" onClick={signOut}>Logout</Link>
-        </li>
-      </ul>
-    </DropDown>
-  );
+  <DropDown className="dropdown-toggle nav-profile">
+    <button type="button" className="btn nav-profile__button">
+      <img
+        className="nav-profile__img"
+        src={!imageUrl ? profileImage : imageUrl}
+        alt="User Profile"
+      />
+      <span className="nav-profile__username">{`${firstName} ${lastName}`}</span>
+      <span className="caret nav-profile__dropdown-icon" />
+    </button>
+    <ul className="dropdown-menu nav-profile__list-menus">
+      <li>
+        <Link to="/settings">Settings</Link>
+      </li>
+      <li>
+        <Link to="/login" onClick={signOut}>Logout</Link>
+      </li>
+    </ul>
+  </DropDown>
+);
 
 UserProfile.propTypes = {
   firstName: PropTypes.string.isRequired,

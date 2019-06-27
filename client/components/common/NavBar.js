@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 // components
 import SearchBar from './SearchBar';
+import NotificationCenter from './NotificationCenter';
 import UserProfile from './UserProfile';
-import SubNav from './SubNav';
 import SideNav from './SideNav';
 import LogoReplacement from '../../assets/icons/LogoReplacement';
 
@@ -17,6 +17,21 @@ const openNav = () => {
   document.getElementById('mySidenav').style.width = '15.6rem';
 };
 
+const NavMenu = ({
+  to,
+  children,
+}) => (
+    <div className="link__container">
+      <NavLink to={to} activeClassName="link__container--active">
+        <span>{children}</span>
+      </NavLink>
+    </div>);
+
+NavMenu.propTypes = {
+  to: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
+};
+
 const NavBar = (props) => {
   const {
     onSearchInputChange, events,
@@ -25,7 +40,7 @@ const NavBar = (props) => {
     imageUrl,
   } = props;
   return (
-    <div className="navbar-container">
+    <Fragment>
       <nav className="top-navbar">
         <div className="navbar-header">
           <div>
@@ -33,9 +48,8 @@ const NavBar = (props) => {
               {LogoReplacement}
             </button>
           </div>
-          <Link to="/events" className="navbar-brand">
-            <img src="./../../../assets/img/andela_logo_blue.png" height="45" alt="Andela Social Logo" />
-            <h3 className="site-name">Andela Socials</h3>
+          <Link to="/home" className="navbar-brand">
+            {LogoReplacement}
           </Link>
         </div>
         <SideNav
@@ -50,6 +64,9 @@ const NavBar = (props) => {
             />
           </div>
           <div className="top-navbar__right-container__item">
+            <NotificationCenter />
+          </div>
+          <div className="top-navbar__right-container__item">
             <UserProfile
               firstName={firstName}
               lastName={lastName}
@@ -59,8 +76,13 @@ const NavBar = (props) => {
           </div>
         </div>
       </nav>
-      <SubNav />
-    </div>
+      <div className="navbar">
+        <div className="navbar__bottom-section">
+          <NavMenu to="/dashboard">Dashboard</NavMenu>
+          <NavMenu to="/groups">Groups</NavMenu>
+        </div>
+      </div>
+    </Fragment>
   );
 };
 

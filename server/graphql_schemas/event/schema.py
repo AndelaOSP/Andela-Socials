@@ -1,7 +1,5 @@
 import graphene
 import logging
-import dotenv
-import iso8601
 
 from dateutil.parser import parse
 from django.forms.models import model_to_dict
@@ -10,9 +8,8 @@ from django.core.mail import EmailMessage
 from django.core.exceptions import ObjectDoesNotExist
 from django.template.loader import get_template
 from django.utils import timezone
-from django_filters import FilterSet, CharFilter
 from graphene import relay, ObjectType
-from graphql_relay import from_global_id, to_global_id
+from graphql_relay import from_global_id
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
 from graphql import GraphQLError
@@ -20,22 +17,14 @@ from graphql import GraphQLError
 from graphql_schemas.utils.helpers import (is_not_admin,
                                            update_instance,
                                            send_calendar_invites,
-                                           validate_event_dates,
                                            raise_calendar_error,
-                                           not_valid_timezone,
-                                           send_bulk_update_message,
-                                           add_event_to_calendar)
-from graphql_schemas.scalars import NonEmptyString
+                                           not_valid_timezone)
 from graphql_schemas.utils.hasher import Hasher
-from api.models import (Event, Category, AndelaUserProfile,
-                        Interest, Attend)
-from api.slack import (get_slack_id,
-                       notify_user,
-                       new_event_message,
-                       get_slack_channels_list, notify_channel)
-from api.utils.backgroundTaskWorker import BackgroundTaskWorker
+from api.models import Event, Category, AndelaUserProfile, \
+    Interest, Attend
+from api.slack import get_slack_id, notify_user
 
-from api.constants import SLACK_CHANNEL_DATA
+from api.utils.backgroundTaskWorker import BackgroundTaskWorker
 
 from ..attend.schema import AttendNode
 
@@ -45,26 +34,6 @@ logging.basicConfig(
     format='%(asctime)s %(message)s',
     datefmt='%m/%d/%Y %I:%M:%S %p')
 
-
-class EventFilter(FilterSet):
-    creator = CharFilter(method='user_profile')
-
-    def user_profile(self, queryset, name, value):
-        try:
-            user_profile = AndelaUserProfile.objects.get(
-                google_id=value
-            )
-        except AndelaUserProfile.DoesNotExist:
-            raise GraphQLError(
-                "AndelaUserProfile does not exist")
-
-        return queryset.filter(creator=user_profile)
-
-    class Meta:
-        model = Event
-        fields = {'start_date': ['exact', 'istartswith'],
-                  'social_event': ['exact'], 'venue': ['exact'],
-                  'title': ['exact', 'istartswith'], 'creator': ['exact']}
 
 class EventNode(DjangoObjectType):
     attendSet = AttendNode()
@@ -76,30 +45,25 @@ class EventNode(DjangoObjectType):
         model = Event
         filter_fields = {'start_date': ['exact', 'istartswith'],
                          'social_event': ['exact'], 'venue': ['exact'],
-                         'title': ['exact', 'istartswith'], 'creator': ['exact']}
+                         'title': ['exact', 'istartswith']}
         interfaces = (relay.Node,)
 
 
 class CreateEvent(relay.ClientIDMutation):
     class Input:
-        title = NonEmptyString(required=True)
-        description = NonEmptyString(required=True)
-        venue = NonEmptyString(required=True)
+        title = graphene.String(required=True)
+        description = graphene.String(required=True)
+        venue = graphene.String(required=True)
         start_date = graphene.DateTime(required=True)
         end_date = graphene.DateTime(required=True)
         featured_image = graphene.String(required=True)
         category_id = graphene.ID(required=True)
         timezone = graphene.String(required=False)
-        slack_channel = graphene.String(required=False)
 
     new_event = graphene.Field(EventNode)
-    slack_token = graphene.Boolean()
 
     @staticmethod
     def create_event(category, user_profile, **input):
-        is_date_valid = validate_event_dates(input)
-        if not is_date_valid.get('status'):
-            raise GraphQLError(is_date_valid.get('message'))
         if not input.get('timezone'):
             input['timezone'] = user_profile.timezone
         if not_valid_timezone(input.get('timezone')):
@@ -122,46 +86,35 @@ class CreateEvent(relay.ClientIDMutation):
             user_profile = AndelaUserProfile.objects.get(
                 user=info.context.user
             )
-            new_event = CreateEvent.create_event(
-                category, user_profile, **input)
-            BackgroundTaskWorker.start_work(add_event_to_calendar,
-                                            (user_profile, new_event))
             if user_profile.credential and user_profile.credential.valid:
+                new_event = CreateEvent.create_event(
+                    category, user_profile, **input)
                 # Send calender invite in background
                 BackgroundTaskWorker.start_work(send_calendar_invites,
                                                 (user_profile, new_event))
             else:
+                new_event = CreateEvent.create_event(
+                    category, user_profile, **input)
                 CreateEvent.notify_event_in_slack(category, input, new_event)
                 raise_calendar_error(user_profile)
 
         except ValueError as e:
-            logging.warn(e)
-            raise GraphQLError("An Error occurred. Please try again")
+            raise GraphQLError("An Error occurred. \n{}".format(e))
 
-        slack_token = False
-        if user_profile.slack_tokena:
-            slack_token = True
         CreateEvent.notify_event_in_slack(category, input, new_event)
-        return cls(
-            slack_token=slack_token,
-            new_event=new_event
-        )
+        return cls(new_event=new_event)
 
     @staticmethod
     def notify_event_in_slack(category, input, new_event):
         try:
             category_followers = Interest.objects.filter(
                 follower_category_id=category.id)
-            event_id = to_global_id(EventNode._meta.name, new_event.id)
-            event_url = f"{dotenv.get('FRONTEND_BASE_URL')}/{event_id}"
-            message = (f"*A new event has been created in `{category.name}` group*\n"
-                       f"> *Title:* {input.get('title')}\n"
-                       f"> *Description:* {input.get('description')}\n"
-                       f"> *Venue:* {input.get('venue')}\n"
-                       f"> *Date:*  {input.get('start_date').date()}\n"
-                       f"> *Time:*  {input.get('start_date').time()}")
-            blocks = new_event_message(
-                message, event_url, str(new_event.id), input.get('featured_image'))
+            message = (f"A new event has been created in {category.name} "
+                       f"group \n Title: {input.get('title')} \n"
+                       f"Description: {input.get('description')} \n "
+                       f"Venue: {input.get('venue')} \n"
+                       f"Date: {input.get('date')} \n"
+                       f"Time: {input.get('time')}")
             slack_id_not_in_db = []
             all_users_attendance = []
             for instance in category_followers:
@@ -170,8 +123,7 @@ class CreateEvent(relay.ClientIDMutation):
                 all_users_attendance.append(new_attendance)
                 if instance.follower.slack_id:
                     slack_response = notify_user(
-                        blocks, instance.follower.slack_id,
-                        text="New upcoming event from Andela socials")
+                        message, instance.follower.slack_id)
                     if not slack_response['ok']:
                         logging.warn(slack_response)
                 else:
@@ -186,7 +138,7 @@ class CreateEvent(relay.ClientIDMutation):
                         instance.follower.slack_id = retrieved_slack_id
                         instance.follower.save()
                         slack_response = notify_user(
-                            blocks, retrieved_slack_id)
+                            message, retrieved_slack_id)
                         if not slack_response['ok']:
                             logging.warn(slack_response)
                     else:
@@ -206,7 +158,6 @@ class UpdateEvent(relay.ClientIDMutation):
         featured_image = graphene.String()
         timezone = graphene.String()
         category_id = graphene.ID()
-        slack_channel = graphene.String(required=False)
         event_id = graphene.ID(required=True)
 
     updated_event = graphene.Field(EventNode)
@@ -219,11 +170,6 @@ class UpdateEvent(relay.ClientIDMutation):
             event_instance = Event.objects.get(
                 pk=from_global_id(input.get('event_id'))[1]
             )
-
-            old_venue = event_instance.venue
-            old_start_date = iso8601.parse_date(event_instance.start_date)
-            old_end_date = iso8601.parse_date(event_instance.end_date)
-
             if event_instance.creator != user \
                     and not info.context.user.is_superuser:
                 raise GraphQLError(
@@ -238,33 +184,13 @@ class UpdateEvent(relay.ClientIDMutation):
                     input,
                     exceptions=["category_id", "event_id"]
                 )
-                new_venue = updated_event.venue
-                new_start_date = updated_event.start_date
-                new_end_date = updated_event.end_date
-                message_content = ''
-                if old_venue != new_venue:
-                    message_content += (f"> *Former Venue:* {old_venue}\n"
-                                        f"> *New Venue:*  {new_venue}\n\n")
-
-                if old_start_date != new_start_date or old_end_date != new_end_date:
-                    message_content += (f"> *Former Date:*  {old_start_date.date()} {old_start_date.time()}\n"
-                                        f"> *New Date:*  {new_start_date.date()} {new_start_date.time()}")
-
-                if message_content:
-                    message = f"The following details about the *{event_instance.title}* event has been changed\n"
-                    message += message_content
-
-                    BackgroundTaskWorker.start_work(
-                        send_bulk_update_message, (event_instance, message, "An event you are attending was updated"))
-
                 return cls(
                     action_message="Event Update is successful.",
                     updated_event=updated_event
                 )
-        except Exception as e:
+        except ValueError as e:
             # return an error if something wrong happens
-            logging.warn(e)
-            raise GraphQLError("An Error occurred. Please try again")
+            raise GraphQLError("An Error occurred. \n{}".format(e))
 
 
 class DeactivateEvent(relay.ClientIDMutation):
@@ -286,12 +212,6 @@ class DeactivateEvent(relay.ClientIDMutation):
             raise GraphQLError("You aren't authorised to deactivate the event")
 
         Event.objects.filter(id=db_event_id).update(active=False)
-
-        message = f"The *{event.title}* event has been cancelled\n"
-
-        BackgroundTaskWorker.start_work(
-            send_bulk_update_message, (event, message, "An event you are attending has been cancelled"))
-
         return cls(action_message="Event deactivated")
 
 
@@ -392,75 +312,9 @@ class ValidateEventInvite(relay.ClientIDMutation):
             )
 
 
-class ChannelList(graphene.ObjectType):
-    id = graphene.ID()
-    name = graphene.String()
-    is_channel = graphene.String()
-    created = graphene.Int()
-    creator = graphene.String()
-    is_archived = graphene.Boolean()
-    is_general = graphene.Boolean()
-    name_normalized = graphene.String()
-    is_shared = graphene.Boolean()
-    is_org_shared = graphene.Boolean()
-    is_member = graphene.Boolean()
-    is_private = graphene.Boolean()
-    is_group = graphene.Boolean()
-    members = graphene.List(graphene.String)
-
-
-class ResponseMetadata(graphene.ObjectType):
-    next_cursor = graphene.String()
-
-
-class SlackChannelsList(graphene.ObjectType):
-    ok = graphene.Boolean()
-    channels = graphene.List(ChannelList)
-    response_metadata = graphene.Field(ResponseMetadata)
-
-    class Meta:
-        interfaces = (relay.Node,)
-
-
-class ShareEvent(relay.ClientIDMutation):
-    class Input:
-        event_id = graphene.ID()
-        channel_id = graphene.String()
-
-    event = graphene.Field(EventNode)
-
-    @classmethod
-    def mutate_and_get_payload(cls, root, info, **input):
-        event_id = from_global_id(input.get('event_id'))[1]
-        channel_id = input.get('channel_id')
-        event_url = f"{dotenv.get('FRONTEND_BASE_URL')}/{event_id}"
-        event = Event.objects.get(pk=event_id)
-
-        try:
-            start_date = parse(event.start_date)
-            message = (f"*A new event has been created by <@{event.creator.slack_id}>.*\n"
-                       f"> *Title:* {event.title}\n"
-                       f"> *Description:* {event.description}\n"
-                       f"> *Venue:* {event.venue}\n"
-                       f"> *Date:*  {start_date.strftime('%d %B %Y, %A')} \n"
-                       f"> *Time:*  {start_date.strftime('%H:%M')}")
-            blocks = new_event_message(
-                message, event_url, event_id, event.featured_image)
-
-            notify_channel(
-                blocks, "New upcoming event from Andela socials", channel_id)
-
-        except ValueError as e:
-            logging.warn(e)
-            raise GraphQLError("An Error occurred. Please try again")
-
-        return ShareEvent(event=event)
-
-
 class EventQuery(object):
     event = relay.Node.Field(EventNode)
-    events_list = DjangoFilterConnectionField(EventNode, filterset_class=EventFilter)
-    slack_channels_list = graphene.Field(SlackChannelsList)
+    events_list = DjangoFilterConnectionField(EventNode)
 
     def resolve_event(self, info, **kwargs):
         id = kwargs.get('id')
@@ -475,18 +329,6 @@ class EventQuery(object):
     def resolve_events_list(self, info, **kwargs):
         return Event.objects.exclude(active=False)
 
-    def resolve_slack_channels_list(self, info, **kwargs):
-        channels = []
-        slack_list = get_slack_channels_list()
-        responseMetadata = ResponseMetadata(**slack_list.get('response_metadata'))
-        for items in slack_list.get('channels'):
-            selection = SLACK_CHANNEL_DATA
-            filtered_channel = dict(filter(lambda x: x[0] in selection, items.items()))
-            channel = ChannelList(**filtered_channel)
-            channels.append(channel)
-        return SlackChannelsList(
-            ok=slack_list.get('ok'), channels=channels, response_metadata=responseMetadata)
-
 
 class EventMutation(ObjectType):
     create_event = CreateEvent.Field()
@@ -494,4 +336,3 @@ class EventMutation(ObjectType):
     send_event_invite = SendEventInvite.Field()
     update_event = UpdateEvent.Field()
     validate_event_invite = ValidateEventInvite.Field()
-    share_event = ShareEvent.Field()

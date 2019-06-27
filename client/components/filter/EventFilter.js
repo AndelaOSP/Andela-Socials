@@ -9,13 +9,7 @@ class EventFilter extends React.Component {
     this.state = {
       location: '',
       category: '',
-      locationList: [ // todo: remove, just for test
-        {
-          id: null,
-          title: 'All',
-          selected: false,
-          key: 'location',
-        },
+      list: [ // todo: remove, just for test
         {
           id: 'Lagos',
           title: 'Lagos',
@@ -42,7 +36,7 @@ class EventFilter extends React.Component {
       category,
     } = this.state;
     if (filterSelected !== undefined) {
-      filterSelected({ filterLocation: location, filterCategory: category });
+      filterSelected(null, location, category);
     }
   }
 
@@ -55,24 +49,15 @@ class EventFilter extends React.Component {
   }
 
   render() {
-    const updatedCategoryList = [
-        {
-          id: null,
-          title: 'All',
-          selected: false,
-          key: 'category',
-        },
-        ...this.props.categoryList
-      ]
     return (
       <div className="filter__container" >
-        <div className="filter__title">Filter Events</div>
+        <div className="filter__title">Filter Events </div>
         <div className="filter__box">
           <div>
             Location
             <CustomDropDown
               title="Select location"
-              list={this.state.locationList}
+              list={this.state.list}
               onSelected={this.onLocationChange}
             />
           </div>
@@ -80,7 +65,7 @@ class EventFilter extends React.Component {
             Category
             <CustomDropDown
               title="Select category"
-              list={updatedCategoryList}
+              list={this.props.categoryList}
               onSelected={this.onCategoryChange}
             />
           </div>

@@ -14,7 +14,7 @@ const oauth = (state = initialState.oauth, action) => {
       return action.payload;
 
     default:
-      return state || null;
+      return state;
   }
 };
 

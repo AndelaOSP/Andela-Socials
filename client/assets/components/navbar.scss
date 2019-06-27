@@ -2,26 +2,10 @@
 @import '../colors.scss';
 .navbar {
   overflow: hidden;
-  box-shadow: 0 0.3rem 0.2rem 0 rgba(0,0,0,0.15);
+  box-shadow: 0rem 0.5rem 1rem 0rem rgba(0, 0, 0, 0.2);
   background: $white;
   border: none;
-  transition: all .4s ease-in-out;
-  height: 100%;
-  min-height: 0;
-  margin: 0;
-  max-height: 300px;
-  overflow-y: hidden;
-  &-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-  }
-  &-hide {
-    opacity: .9;
-    max-height: 0;
-  }
+
   a {
     @include centered-flex;
     font-size: rem(20px);
@@ -35,6 +19,9 @@
   &__bottom-section {
     @include centered-flex;
     height: rem(70px);
+    border-top-style: solid;
+    border-width: thin;
+    border-color: map-get($colors, bonjour);
 
     .link__container{
       @include centered-flex;
@@ -63,23 +50,16 @@
   border-radius: 0;
   background-color: $white;
   margin: 0;
-  border-bottom: thin solid map-get($colors, bonjour);
+  border: 0;
   @include mobile(rem(766px)) {
     display: flex;
   }
   .navbar-brand {
     height: rem(70px);
-    min-width: rem(70px);
-    margin-left: rem(20px);
+    width: rem(70px);
     @include centered-flex;
     @include mobile(rem(600px)) {
       display: none;
-    }
-    .site-name{
-  margin-left: 16px;
-  white-space: nowrap;
-  font-weight: 400;
-  color: $blue;
     }
   }
   .navbar-brand-mobile {
@@ -105,71 +85,60 @@
   justify-content: flex-end;
   padding: 0;
   height: rem(70px);
-
   @include mobile(rem(600px)) {
     width: 100%;
   }
-
   &__item {
     padding-left: 3%;
-    margin-right: rem(16px);
-
     @include mobile(rem(600px)) {
       display: none;
     }
   }
-
   &__search {
     z-index: 1;
-
     @include mobile(rem(600px)) {
       padding-right: 5%;
     }
   }
-
   .nav-profile {
     min-width: rem(183.5px);
     margin: 0;
     padding-right: 12%;
-
     &__list-menus {
       @include column-flex;
       align-items: center;
       box-shadow: rem(-1px) rem(6px) rem(6px) $grey;
       border: 0;
       border-radius: 0;
-      width: 3rem;
-      margin-left: 25px;
-      
+      height: 9.125rem;
+      width: 10rem;
       li {
         @include centered-flex;
         height: 2.5rem;
-        width: 100%;
-        margin: rem(5px);
-
-        a {
-          color: #CCC;
-          font-weight: 300;
-          font-size: rem(20px);
+        width: 70%;
+        margin: 1em 0 1em 0;
+        &:first-child:after {
+          content: '';
+          position: absolute;
+          bottom: 50%;
+          width: 80%;
+          border-bottom: rem(1px) solid $grey;
         }
-
+        a {
+          color: #ccc;
+          font-weight: 300;
+          font-size: rem(24px);
+        }
         a:hover {
           background: none;
         }
       }
-
-      li:hover {
-        background-color: $grey;
-      }
-
     }
-
     &__img {
       width: rem(35px);
       height: rem(35px);
       border-radius: 50%;
     }
-
     &__username {
       font-size: rem(21px);
       font-style: normal;
@@ -178,33 +147,24 @@
       margin: 0 rem(5px) 0 rem(5px);
       color: #ccc;
     }
-
     &__dropdown-icon {
-      color: #CCC;
+      color: #ccc;
     }
-
     &__button {
       box-shadow: none;
-
-      &:active, &:focus {
-        outline: none;
-      }
     }
   }
-
   .notification-container {
     &__button {
       margin: 0;
       padding: 0;
       box-shadow: none;
     }
-
     &__button:active,
     &__button:hover {
       box-shadow: none;
       background: transparent;
     }
-
     &__list-notifications {
       @include column-flex;
       position: absolute;
@@ -215,12 +175,10 @@
       box-shadow: rem(-1px) rem(6px) rem(6px) $grey;
       background: $white;
       z-index: 1;
-
       .notifier:last-child {
         border-bottom: 0;
       }
     }
-
     .notifier {
       @include row-flex;
       width: 19.5rem;
@@ -228,34 +186,28 @@
       height: 2.5rem;
       margin-top: 1rem;
       border-bottom: rem(1px) solid $grey;
-
       &__avatar {
         img {
           width: rem(30px);
         }
       }
-
       &__text {
         font-size: 0.75rem;
         width: 100%;
-        color: #CCC;
+        color: #ccc;
       }
-
       &__text--description {
         margin-left: 1em;
       }
-
       &__text--description-strong {
         color: #000;
       }
-
       &__text--time {
         float: right;
         margin-top: .3rem;
       }
     }
   }
-
   .nav-profile__button,
   .notification-container__button {
     @include flex;
@@ -265,13 +217,6 @@
     padding: 0;
     width: 100%;
   }
-
-  .nav-profile__button {
-    &.active.focus, &.active:focus, &.focus, &:active.focus, &:active:focus, &:focus{
-      outline: none;
-    }
-  }
-
   .search-bar {
     @include flex;
     width: 17.5rem;
@@ -281,26 +226,21 @@
     padding: 0;
     margin: 0;
     justify-content: center;
-
     @include mobile(rem(640px)) {
       width: 14rem;
     }
-
     .form-group {
       @include flex;
       align-items: center;
-
       @include mobile(rem(640px)) {
         width: 100%;
       }
     }
-
     &__input {
       border: 0;
       width: 15rem;
       box-shadow: none;
       background: transparent;
-
       @include mobile(rem(640px)) {
         width: 85%;
       }

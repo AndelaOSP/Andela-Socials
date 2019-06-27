@@ -1,26 +1,17 @@
 .create-event-btn {
-  display: block;
   position: fixed;
-  width: rem(68px);
-  height: rem(68px);
+  width: rem(85px);
+  height: rem(85px);
+  display: block;
   background-color: $blue;
   bottom: rem(20px);
   right: rem(20px);
   border-radius: 50%;
-  box-sizing: border-box;
   color: $white;
-  font-size: rem(20px);
-  line-height: rem(20px);
-  text-align: center;
-  z-index: 500;
-  transition: box-shadow 0.3s, transform 0.3s;
   &__icon {
-    display: inline-block;
-    font-size: rem(40px);
-    vertical-align: baseline;
-  }
-  &:hover {
-    box-shadow: 0 rem(3px) rem(6px) rgba($blue, 0.5);
-    transform: translateY(rem(-5px));
-  }
+    font-size: rem(48px);
+    position: absolute;
+    top: rem(2px);
+    left: rem(29px);
+  } 
 }

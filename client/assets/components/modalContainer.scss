@@ -1,7 +1,9 @@
 .modal {
+  position: absolute;
   top: 0;
   left: 0;
   height: 100vh;
+  // bottom: 0;
   right: 0;
   background-color: rgba(0, 0, 0, 0.64);
   display: flex;
@@ -11,7 +13,7 @@
   z-index: 1040;
 
   .modal__content {
-    background-color: #FFF;
+    background-color: #fff;
     padding: rem(25px);
     width: 90%;
     max-width: rem(768px);
@@ -44,14 +46,11 @@
     }
   }
 
-  .modal__form-text {
-    font-size: rem(20px);
-  }
-
   .modal__body {
     margin-top: rem(20px);
     margin-bottom: rem(30px);
   }
+
 
   .modal__btns {
     display: flex;
@@ -68,7 +67,7 @@
       max-width: rem(130px);
       text-transform: uppercase;
       letter-spacing: 0.019rem;
-      line-height: rem(15px);
+      line-height:rem(15px);
 
       &.modal__btn-cancel {
         color: $blue;
@@ -77,7 +76,7 @@
 
       &.modal__btn-submit {
         background-color: $blue;
-        color: #FFF;
+        color: #fff;
       }
     }
   }

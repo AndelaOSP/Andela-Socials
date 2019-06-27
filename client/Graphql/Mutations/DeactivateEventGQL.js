@@ -17,4 +17,3 @@ const DEACTIVATE_EVENT_GQL = (eventId, clientMutationId = '') => ({
 });
 
 export default DEACTIVATE_EVENT_GQL;
-

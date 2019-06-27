@@ -1,38 +1,24 @@
-@import "../colors.scss";
-
 .no-events {
   grid-column: event-gallery-start/event-gallery-end;
   &__container {
+    height: 100%;
+    width: 100%;
     display: grid;
     justify-content: center;
     align-content: center;
     grid-template-columns: auto;
     grid-template-rows: repeat(3, auto);
-    grid-gap: 25px;
-    height: 30rem;
-    width: 70%;
-    margin: 0 auto;
     text-align: center;
     color: #365edb;
     font-family: inherit;
   }
   &__status-message {
-    font-size: rem(40px);
+    font-size: rem(100px);
     font-weight: 200;
-    line-height: 3rem;
-    text-transform: capitalize;
   }
   &__main-message {
-    font-size: 1rem;
+    font-size: rem(25px);
     font-weight: 200;
-    letter-spacing: 0.015rem;
-    line-height: 2rem;
     text-transform: uppercase;
-    a {
-      color: inherit;
-      &:hover {
-        color: map-get($colors, yellow);
-      }
-    }
   }
 }

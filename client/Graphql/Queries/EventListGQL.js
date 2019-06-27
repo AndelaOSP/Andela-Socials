@@ -36,10 +36,6 @@ const EVENT_LIST_GQL = (after = '', first = 1, title, startDate, venue,
           }
           cursor
         }
-        pageInfo {
-          hasNextPage
-          hasPreviousPage
-        }
       }
     }`,
   variables: {

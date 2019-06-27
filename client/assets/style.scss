@@ -3,7 +3,9 @@
 @import "pages/index";
 @import "components/index";
 @import "./toastr.scss";
+
 @import url('fonts.scss');
+
 
 .andela {
   width: 8vw;
@@ -17,7 +19,7 @@
 }
 
 .welcome-text {
-  color: #FFF;
+  color: #fff;
   margin: 1rem;
 
   p {
@@ -35,7 +37,7 @@
   background-color: #01149A;
   box-shadow: 0 7px 6px 0 rgba(0, 26, 113, 0.5);
   outline: 0;
-  color: #FFF;
+  color: #fff;
   width: 15vw;
   height: 6vh;
   font-size: 2.2rem;
@@ -46,7 +48,7 @@
 
 .auth-page {
   height: 100vh;
-  background: linear-gradient(180deg, #01149A 50%, #FFF 50%);
+  background: linear-gradient(180deg, #01149a 50%, #fff 50%);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -58,76 +60,65 @@
   width: 100vw;
   height: 300px;
 }
-
 .black-cover {
   width: 100vw;
   height: 300px;
-  background: #000000;
+  background: black;
   opacity: 0.5;
 }
-
 .club-title {
   z-index: 999;
   position: absolute;
   top: 31%;
   left: 8%;
 }
-
 .club-title > h1 {
-  color: #FFFFFF;
+  color: white;
   font-size: 48px;
 }
-
 .club-title > button {
   width: 150px;
   height: 50px;
-  background-color: #6D9EE1;
-  color: #FFFFFF;
+  background-color: #6d9ee1;
+  color: white;
   border: 0;
   font-size: 20px;
 }
-
 .event-list-header {
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid #DDD;
+  border-bottom: 1px solid #ddd;
   margin-bottom: 50px;
   font-size: 20px;
   margin-left: -20px;
   margin-right: -20px;
   padding: 20px;
 }
-
 .event-list-header > button {
-  background-color: #6D9EE1;
-  color: #FFFFFF;
+  background-color: #6d9ee1;
+  color: white;
   border: 0;
 }
-
 .event {
-  border: 1px solid #DDD;
+  border: 1px solid #ddd;
   display: flex;
   margin-bottom: 20px;
 }
-
 .event-image {
   margin-right: 20px;
 }
-
 .event-details {
   padding-top: 10px;
 }
-
 .event-actions {
   display: flex;
   justify-content: space-around;
 }
-
 .event-actions button {
   width: 100px;
   height: 40px;
-  background-color: #6D9EE1;
-  color: #FFFFFF;
+  background-color: #6d9ee1;
+  color: white;
   border: 0;
   font-size: 14px;
   text-transform: uppercase;
@@ -146,6 +137,6 @@
 }
 
 .club-link a {
-  color: #FFFFFF;
+  color: #ffffff;
   text-decoration: none;
 }

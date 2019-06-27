@@ -1,24 +1,22 @@
-import os
 import json
-
-from django.http import Http404, HttpResponseForbidden, HttpResponseRedirect
+import dotenv
+from django.http import Http404, HttpResponseForbidden
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+
+from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework.generics import GenericAPIView, ListAPIView, CreateAPIView
 from rest_framework.views import APIView
 
-from api.slack import notify_user, generate_simple_message, get_slack_user_token
-from api.utils.event_helpers import is_not_past_event, save_user_attendance
 from .serializers import CategorySerializer, EventSerializer,\
     AttendanceSerializer, EventDetailSerializer, InterestSerializer
 from .models import Category, Interest, Event, Attend, AndelaUserProfile
 from .utils.oauth_helper import save_credentials
 
 from .setpagination import LimitOffsetpage
-from graphql_schemas.utils.helpers import add_event_to_calendar
 
 
 class LoginRequiredMixin(object):
@@ -147,7 +145,6 @@ class AttendSocialEventView(APIView):
             event=event
         )
         user_attendance.save()
-        add_event_to_calendar(request.cached_user, event)
 
         serializer = AttendanceSerializer(user_attendance)
         return Response(serializer.data)
@@ -245,91 +242,3 @@ class OauthCallback(APIView):
             return HttpResponseForbidden()
         else:
             return Response({'message': 'Authorization was a success'})
-
-
-class SlackActionsCallback(APIView):
-    authentication_classes = ()
-    permission_classes = (AllowAny,)
-
-    def post(self, request,):
-        data = request.data
-        payload = json.loads(data['payload'])
-        actions = payload.get('actions')
-
-        attend_action, action = self.check_action_type(actions, 'attend_event')
-        if attend_action:
-            event_id = int(action['value'])
-            user_slack_id = payload.get('user').get('id')
-
-            try:
-                event = Event.objects.get(id=event_id)
-                if is_not_past_event(event):
-                    andela_user_profile = AndelaUserProfile.objects.get(slack_id=user_slack_id)
-
-                    user_attendance, created = save_user_attendance(event, andela_user_profile, 'attending')
-                    if not created:
-                        message = generate_simple_message('> You are already an attendee for the event :see_no_evil:')
-                    else:
-                        message = generate_simple_message(
-                            '> You\'ve successfully registered for the event :tada:')
-                        add_event_to_calendar(andela_user_profile, event)
-
-                else:
-                    message = generate_simple_message(
-                        'Oops! The event you want to attend is a past event')
-            except Event.DoesNotExist:
-                message = generate_simple_message(
-                        'Oops! It seems this event has been removed.')
-            except AndelaUserProfile.DoesNotExist:
-                message = generate_simple_message(
-                    'Oops! It seems you no longer have an account on the platform')
-
-            notify_user(message, user_slack_id)
-        return Response()
-
-    @staticmethod
-    def check_action_type(actions, action_type):
-        for action in actions:
-            if action.get('action_id') == action_type:
-                return True, action
-        return False, None
-
-class LaunchSlackAuthorization(APIView):
-    permission_classes = (AllowAny,)
-    authentication_classes = (AllowAny,)
-
-    def get(self, request, *args, **kwargs):
-        client_id = os.getenv('SLACK_CLIENT_ID')
-        scope = 'channels:write'
-        redirect_uri = os.getenv('SLACK_AUTH_REDIRECT_URI')
-        oauth_url = f'https://slack.com/oauth/authorize?client_id={client_id}&scope={scope}&redirect_uri={redirect_uri}'
-
-        return HttpResponseRedirect(oauth_url)
-
-
-class SlackTokenCallback(APIView):
-    permission_classes = (AllowAny,)
-    authentication_classes = (AllowAny,)
-
-    def get(self, request):
-        code = request.query_params.get('code')
-        error = request.query_params.get('error')
-
-        if error == 'access_denied':
-            return Response({'message': 'Slack Authorization not granted'})
-
-        slack_response = get_slack_user_token(code)
-
-        if not slack_response['ok']:
-            return Response({'message': 'Slack Authorization failed'})
-
-        slack_id = slack_response['user_id']
-        try:
-            user_profile = AndelaUserProfile.objects.get(slack_id=slack_id)
-        except AndelaUserProfile.DoesNotExist:
-            return HttpResponseForbidden()
-        else:
-            user_profile.slack_token = slack_response['access_token']
-            user_profile.save()
-
-        return Response({'message': 'Slack Authorization successful'})

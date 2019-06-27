@@ -1,250 +1,117 @@
 @import '../tools/functions.scss';
-
-.event-details {
+.event-details{
   position: absolute;
   left: 2.5vw;
   width: 95vw;
-  top: rem(159px);
+  top: rem(150px);
 
-  &__top {
-    background-color: #FFFFFF;
+  &__top{
+    background-color: #FFF;
     display: flex;
     flex-wrap: wrap;
   }
-
-  &__section {
+  &__section{
     width: 50%;
     max-height: 100%;
     float: left;
     padding: rem(19px) rem(19px) rem(12px) rem(19px);
-    background-color: #FFFFFF;
-
+    background-color: #FFF;
     @media screen and (max-width: rem(840px)) {
       width: 100%;
     }
   }
-
-  &__middle {
+  
+  &__middle{
     margin-top: rem(20px);
     width: 95vw;
     min-height: 50vh;
-    background-color: #FFFFFF;
+    background-color: #FFF;
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: rem(100px);
   }
-
-  &__img-container {
+  &__img-container{
     overflow: hidden;
   }
-
-  &__picture {
+  &__picture{
     width: 90%;
-    margin: rem(15px) rem(35px) rem(30px) rem(28px);
-    overflow: hidden;
+    margin: rem(28px) rem(35px) rem(48px) rem(28px);
   }
-
-  &__gallery-picture {
+  &__gallery-picture{
     width: rem(84px);
     height: rem(89px);
-    margin-bottom: 0;
-    margin-left: 0;
+    margin-bottom: rem(39px);
+    margin-left: rem(20px);
   }
-
-  &__mini-gallery {
+  &__mini-gallery{
     margin-left: rem(28px);
     max-width: 41vw;
     display: inline-flex;
   }
-
-  &__event_title {
-    font-family: "Primary-DINPro";
+  &__event_title{
+    font-family: DIN Pro;
     font-weight: bold;
     font-size: rem(40px);
     padding: 0 0 0 rem(26px);
   }
-
-  &__social_event {
+  &__social_event{
     font-size: rem(20px);
     font-style: normal;
     font-weight: lighter;
-    margin: 0 0 0 rem(26px);
+    padding: 0 0 0 rem(26px);
+    margin-top: rem(-15px);
     color: #797979;
   }
-
-  &__rsvp_button {
-    margin: rem(14px) 0 0 rem(26px);
-    border-radius: 5px;
+  &__rsvp_button{
+    margin: 0 0 0 rem(26px);
     background-color: #3359DB;
-    font-size: 1.35rem;
-    color: #FFFFFF;
-    padding: rem(5px) rem(30px);
-
-    &:disabled {
-      background-color: #CCC;
-      cursor: not-allowed;
-    }
+    font-size: 1.25em;
+    color: white;
+    width: rem(147px);
+    height: rem(41px);
   }
-
-  &__slack_button {
-    border-radius: 5px;
-    background-color: #3F0F3F;
-    font-size: 1.35rem;
-    color: #FFFFFF;
-    width: rem(180px);
-    height: rem(39px);
-  }
-
-  .menu {
-    position: absolute;
-    width: rem(180px);
-    margin: 0 0 0 rem(188px);
-    top: 180px;
-    box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.1);
-
-    a {
-      text-decoration: none;
-      display: block;
-      font-size: 1.25rem;
-      height: rem(41px);
-      background-color: #FFFFFF;
-      padding: 5px 15px;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #EEE;
-      }
-    }
-  }
-
-  [tooltip] {
-    margin: 20px;
-    position: relative;
-  }
-
-  [tooltip]::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 100%;
-    margin-left: 2px;
-    transform: translateY(-50%) rotate(90deg);
-    border-color: rgba(0, 0, 0, 0.7) transparent transparent transparent;
-    border-style: solid;
-    z-index: 100;
-    opacity: 0;
-  }
-
-  [tooltip]::after {
-    content: attr(tooltip);
-    text-align: center;
-    background: rgba(0, 0, 0, 0.7);
-    position: absolute;
-    top: 50%;
-    left: 100%;
-    margin-left: 8px;
-    transform: translateX(0) translateY(-50%);
-    color: #FFFFFF;
-    padding: 4px 4px;
-    font-size: 12px;
-    min-width: 120px;
-    border-radius: 5px;
-    pointer-events: none;
-    z-index: 99;
-    opacity: 0;
-  }
-
-  [tooltip]:hover::after,
-  [tooltip]:hover::before {
-    opacity: 1;
-  }
-
   &__location_time h5 {
     font-size: 1.25rem;
     font-style: normal;
-    font-weight: 350;
+    font-weight: lighter;
+    text-decoration: underline;
     line-height: rem(10px);
+  
   }
-
   &__location_time p {
     font-size: 1.25rem;
     font-style: normal;
     font-weight: lighter;
     overflow-wrap: break-word;
-    margin-bottom: rem(-20px);
   }
-
   &__description h5 {
-    font-size: 1.55rem;
-    font-family: "Lato";
+    font-size: 1.25rem;
     font-style: normal;
-    font-weight: 300;
+    font-weight: bolder;
     line-height: rem(7px);
     padding-top: rem(19px);
-    margin-bottom: 0.5rem;
-    margin-left: rem(15px);
+    margin-bottom: .5rem; 
   }
-
-  &__attending h5,
-  &__tags h5 {
-    font-family: "Lato";
-    font-weight: 700;
-  }
-
-  &__description article,
-  &__attending p,
-  &__tags p {
-    font-family: "Lato";
+  &__description article, &__attending p, &__tags p{
     font-style: normal;
     font-size: 1.2rem;
     word-break: break-all;
     font-weight: lighter;
     padding: rem(19px) 0 rem(20px) 0;
-    margin-left: rem(15px);
-    color: #858383;
   }
-
-  &__tags h5 {
-    margin-left: rem(15px);
-    font-size: 1rem;
-    font-weight: 300;
-  }
-
-  &__attending {
-    display: flex;
-    margin-bottom: rem(18px);
-
-    p {
-      margin-left: rem(10px);
-      font-weight: lighter;
-      font-size: 1rem;
-      padding-top: 1px;
-      color: #858383;
-    }
-
-    h5 {
-      margin-top: 5px;
-      margin-left: rem(15px);
-      font-size: 1rem;
-      font-weight: 400;
-    }
-  }
-
   &__edit {
-    color: #365EDB;
-    border-color: #365EDB;
+    color: #365edb;
+    border-color: #365edb;
     font-size: large;
     width: rem(49px);
     height: rem(42px);
-    margin: 0 0 0 rem(26px);
+    margin: 0 0 0 rem(26px);    
   }
-
   &__delete {
     color: #DB4437;
     border-color: #DB4437;
     font-size: large;
     width: rem(49px);
     height: rem(42px);
-    margin: 0 0 0 rem(26px);
-  }
+    margin: 0 0 0 rem(26px);    
+  }  
 }

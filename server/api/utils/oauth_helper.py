@@ -27,10 +27,9 @@ def get_auth_url(andela_user):
             :param andela_user:
     """
     user_email = andela_user.user.email
-    auth_url, state = \
-        FLOW.authorization_url(prompt='consent', included_granted_scopes='true', login_hint=user_email,
-            access_type='offline') if andela_user.credential is None \
-                else FLOW.authorization_url(included_granted_scopes='true', login_hint=user_email, access_type='offline')
+    auth_url, state = FLOW.authorization_url(prompt='consent',
+                                             included_granted_scopes='true',
+                                             login_hint=user_email)
 
     andela_user.state = state
     andela_user.save()

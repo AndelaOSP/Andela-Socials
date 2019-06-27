@@ -3,8 +3,6 @@ import {
   INTEREST,
   INTERESTS,
   SIGN_OUT,
-  CREATE_INTERESTS,
-  JOINED_CATEGORIES,
 } from '../actions/constants';
 
 /**
@@ -15,8 +13,6 @@ import {
  */
 const interests = (state = initialState.interests, action) => {
   switch (action.type) {
-
-    case JOINED_CATEGORIES:
     case INTERESTS:
       return Object.assign({}, state, { interests: action.payload });
 
@@ -29,9 +25,6 @@ const interests = (state = initialState.interests, action) => {
             .filter(item => item.node.id === action.payload.id),
         }
       );
-
-    case CREATE_INTERESTS:
-      return Object.assign({}, state, { interests: action.payload });
 
     case SIGN_OUT:
       return Object.assign({}, state, {

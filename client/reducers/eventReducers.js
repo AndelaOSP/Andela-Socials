@@ -13,9 +13,6 @@ import {
   DEACTIVATE_EVENT,
   SIGN_OUT,
   UPLOAD_IMAGE,
-  SHARE_EVENT,
-  CHANGE_START_DATE,
-  GET_EVENTS_LOADING,
 } from '../actions/constants';
 import initialState from './initialState';
 
@@ -28,25 +25,18 @@ import initialState from './initialState';
 export const events = (state = initialState.events, action) => {
   switch (action.type) {
     case GET_EVENTS:
-      const { edges, pageInfo, requestedStartDate } = action.payload;
-      return { ...state, eventList: edges, pageInfo, requestedStartDate, };
-
-    case GET_EVENTS_LOADING:
-      return { ...state, getEventsLoading: action.payload };
-
+      return [...action.payload];
     case LOAD_MORE_EVENTS:
-      const { eventList } = state;
-      const { edges: newEvents, pageInfo: newPageInfo } = action.payload;
-      return { ...state, eventList: [...eventList, ...newEvents], pageInfo: newPageInfo };
+      return [...state, ...action.payload];
 
     case CREATE_EVENT: {
-      const newEvent = { node: action.payload.createEvent.newEvent };
-      return { ...state, eventList: [...(state.eventList), newEvent] };
+      const newEvents = { node: action.payload.createEvent.newEvent };
+      return [...state, newEvents];
     }
 
     case UPDATE_EVENT: {
-      const stateFormat = state.eventList || state;
-      const updated = (stateFormat).map((item) => {
+      const stateFormat = state.events || state;
+      const updated = stateFormat.map((item) => {
         let newItem = {};
         if (item.node.id === action.payload.updateEvent.updatedEvent.id) {
           newItem = { node: action.payload.updateEvent.updatedEvent };
@@ -54,15 +44,14 @@ export const events = (state = initialState.events, action) => {
         }
         return item;
       });
-      return { ...state, eventList: [...updated], status: 'updated' };
+      return {
+        events: updated,
+        status: 'updated',
+      };
     }
 
-    case CHANGE_START_DATE: 
-      return { ...state, startDate: action.payload }
-
     case DEACTIVATE_EVENT: {
-      const newEventList = state.eventList.filter(item => item.node.id !== action.payload.id);
-      return { ...state, eventList: [...newEventList] };
+      return state.filter(item => item.node.id !== action.payload.id);
     }
 
     case SIGN_OUT:
@@ -70,10 +59,6 @@ export const events = (state = initialState.events, action) => {
         events: initialState.events,
         event: initialState.event,
       });
-
-    case SHARE_EVENT: {
-      return { ...state, shareEvent: action.payload };
-    }
 
     default:
       return state;
@@ -110,20 +95,7 @@ export const eventReducer = (state = initialState.event, action) => {
   switch (action.type) {
     case GET_EVENT: {
       const { event } = action.payload.data;
-      return {
-        ...state, ...event,
-      };
-    }
-    case ATTEND_EVENT: {
-      const { attendEvent: { newAttendance } } = action.payload;
-      return {
-        ...state, newAttendance,
-      };
-    }
-    case UNATTEND_EVENT: {
-      return {
-        ...state, newAttendance: undefined,
-      };
+      return event || {};
     }
     default:
       return state;
@@ -140,6 +112,27 @@ export const subscribedEvents = (state = initialState.subscribedEvents, action) 
   switch (action.type) {
     case SUBSCRIBED_EVENTS:
       return Object.assign({}, state, { subscribedEvents: action.payload.subscribedEvents });
+
+    case ATTEND_EVENT:
+      if (state.subscribedEvents !== undefined) {
+        const { subscribedEvents } = state;
+        const { payload } = action;
+        const eventCount =  subscribedEvents.filter(event => (event.id === payload.attendEvent.newAttendance.id)).length;
+        if (eventCount < 1) {
+          subscribedEvents.push(action.payload.attendEvent.newAttendance);
+          return { ...state, subscribedEvents };
+        }
+        return state;
+      }
+      return { ...state, subscribedEvents: [action.payload.attendEvent.newAttendance] };
+      
+
+    case UNATTEND_EVENT:
+      return Object.assign({}, state, {
+        subscribedEvents: state.subscribedEvents.filter(
+          item => item.event.id !== action.payload.unattendEvent.unsubscribedEvent.event.id
+        ),
+      });
 
     case SIGN_OUT:
       return Object.assign({}, state, { subscribedEvents: initialState.subscribedEvents });

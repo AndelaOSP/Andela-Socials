@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import onClickOutside from 'react-onclickoutside';
 
 /**
 * DropDown Component takes two children elements
@@ -16,26 +15,20 @@ class DropDown extends Component {
     this.setState({ showDropDown: !showDropDown });
   };
 
-  handleClickOutside = () => {
-    this.setState({
-      showDropDown: false
-    });
-  }
-
   render() {
     const { showDropDown } = this.state;
     const {
       children,
       className,
     } = this.props;
-    const classNames = `dropdown ${className}`;
+    const classNames = `dropdown ${className && className}`;
 
     return (
       <div className={classNames}>
         {React.cloneElement(children[0], { onClick: this.toggleDropDown })}
+        {showDropDown && children[1]}
         {showDropDown && React.cloneElement(children[1],
-          { onClick: this.toggleDropDown }
-          )}
+          { onMouseLeave: this.toggleDropDown })}
       </div>
     );
   }
@@ -51,4 +44,4 @@ DropDown.propTypes = {
 
 DropDown.defaultProps = { className: '' };
 
-export default onClickOutside(DropDown);
+export default DropDown;

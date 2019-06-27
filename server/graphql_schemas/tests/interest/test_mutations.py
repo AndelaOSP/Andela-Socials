@@ -14,9 +14,9 @@ class InterestTestCase(BaseEventTestCase):
         query = f'''
         mutation{{
             joinCategory(input:{{
-                categories:"{[to_global_id("CategoryNode", self.category2.id)]}",
+                categoryId:"{to_global_id("CategoryNode", self.category2.id)}",
             }}){{
-                joinedCategoryList{{
+                joinedCategory{{
                 id
                 followerCategory{{
                     id
@@ -58,9 +58,9 @@ class InterestTestCase(BaseEventTestCase):
         query = f'''
         mutation{{
             joinCategory(input:{{
-                categories:"{[to_global_id("CategoryNode", self.category2.id)]}",
+                categoryId:"{to_global_id("CategoryNode", self.category2.id)}",
             }}){{
-                joinedCategoryList{{
+                joinedCategory{{
                 id
                 followerCategory{{
                     id

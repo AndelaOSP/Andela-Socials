@@ -22,9 +22,6 @@ staticfiles/
 .DS_Store
 static/
 venv/
-Pipfile
-Pipfile.lock
-.python-version
 # Cypress
 cypress.env.json
 cypress.json

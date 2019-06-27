@@ -13,7 +13,6 @@ const EVENT_GQL = (id = '') => ({
         venue
         featuredImage
         timezone
-        slackChannel
         creator {
           id
           googleId

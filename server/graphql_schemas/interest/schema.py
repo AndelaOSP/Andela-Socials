@@ -1,5 +1,4 @@
 import graphene
-from copy import deepcopy
 
 from graphene import relay
 from graphene_django.filter import DjangoFilterConnectionField
@@ -21,54 +20,52 @@ class InterestNode(DjangoObjectType):
 class JoinCategory(relay.ClientIDMutation):
     """Join a category"""
     class Input:
-        categories = graphene.List(graphene.ID)
+        category_id = graphene.ID(required=True)
 
-    joined_category_list = graphene.List(InterestNode)
+    joined_category = graphene.Field(InterestNode)
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
-        category_id_list = [category for category in input.pop('categories')]
+        category_id = input.get('category_id')
         user = AndelaUserProfile.objects.get(user=info.context.user)
-        user_category_list = [Category.objects.get(pk=from_global_id(category_id)[1])
-            for category_id in category_id_list]
+        user_category = Category.objects.get(pk=from_global_id(category_id)[1])
         try:
-            joined_category_list = []
-            for user_category in user_category_list:
-                joined_category  = Interest(follower=user, follower_category=user_category)
-                joined_category_list.append(joined_category)
-            Interest.objects.bulk_create(joined_category_list)
+            joined_category = Interest(
+                follower=user,
+                follower_category=user_category
+            )
+            joined_category.save()
         except IntegrityError:
             raise GraphQLError(
-                'You have previously added an interest. Please try again'
+                'User has already shown interest in this category'
             )
 
-        return JoinCategory(joined_category_list=joined_category_list)
+        return JoinCategory(joined_category=joined_category)
 
 
 class UnJoinCategory(relay.ClientIDMutation):
     """Unsubscribe from a category"""
 
     class Input:
-        categories = graphene.List(graphene.ID)
+        category_id = graphene.ID(required=True)
 
-    unjoined_categories = graphene.List(InterestNode)
+    unjoined_category = graphene.Field(InterestNode)
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
-        categories = input.get('categories')
+        category = Category.objects.get(
+            pk=from_global_id(input.get('category_id'))[1])
         user = AndelaUserProfile.objects.get(user=info.context.user)
-        categories = list(map(lambda category_id: from_global_id(category_id)[1], categories))
-        unjoined_categories_qs = Interest.objects.filter(
-            follower_category_id__in=categories,
+        unjoined_category = Interest.objects.filter(
+            follower_category_id=category.id,
             follower_id=user.id
-        )
-        unjoined_categories = deepcopy(unjoined_categories_qs)
-        if not unjoined_categories:
+        ).first()
+        if not unjoined_category:
             raise GraphQLError(
-                "Oops. We were not able to find some of the interests you are trying to remove")
+                "The User {0}, has not joined {1}. ".format(user, category))
 
-        unjoined_categories_qs.delete()
-        return UnJoinCategory(unjoined_categories=unjoined_categories)
+        unjoined_category.delete()
+        return UnJoinCategory(unjoined_category=unjoined_category)
 
 
 class InterestQuery(object):
@@ -77,7 +74,7 @@ class InterestQuery(object):
 
     joined_categories = graphene.List(InterestNode)
 
-    def resolve_joined_categories(self, info):
+    def resolve_joined_clubs(self, info):
         user = info.context.user
         andela_user_profile = AndelaUserProfile.objects.get(user_id=user.id)
         return Interest.objects.filter(

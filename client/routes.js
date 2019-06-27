@@ -21,7 +21,7 @@ const Dashboard = LoadComponent(import('./pages/Dashboard'));
 const Routes = () => (
   <Switch>
     <Route exact path="/login" component={Login} />
-    <Route exact path="/TestActions" component={TestActions} />
+    <Route exact path="/TestActions" component={TestActions}/>
     <Route path="/" component={Dashboard} />
     <Route path="*" component={NotFound} />
   </Switch>

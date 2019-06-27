@@ -11,10 +11,10 @@ snapshots['AttendanceTestCase::test_can_fetch_single_attendance 1'] = {
     'data': {
         'eventAttendance': {
             'event': {
-                'id': 'RXZlbnROb2RlOjEw',
+                'id': 'RXZlbnROb2RlOjE2',
                 'title': 'Test Event 2'
             },
-            'id': 'QXR0ZW5kTm9kZTo1',
+            'id': 'QXR0ZW5kTm9kZTo3',
             'status': 'PENDING'
         }
     }
@@ -42,10 +42,20 @@ snapshots['AttendanceTestCase::test_user_attend_model_is_populated_with_new_even
                 {
                     'node': {
                         'event': {
-                            'id': 'RXZlbnROb2RlOjE2',
+                            'id': 'RXZlbnROb2RlOjIz',
+                            'title': 'test title'
+                        },
+                        'id': 'QXR0ZW5kTm9kZToxMw==',
+                        'status': 'PENDING'
+                    }
+                },
+                {
+                    'node': {
+                        'event': {
+                            'id': 'RXZlbnROb2RlOjIy',
                             'title': 'Test Event 2'
                         },
-                        'id': 'QXR0ZW5kTm9kZTo4',
+                        'id': 'QXR0ZW5kTm9kZToxMA==',
                         'status': 'PENDING'
                     }
                 }
@@ -88,10 +98,10 @@ snapshots['AttendanceTestCase::test_can_fetch_user_event 1'] = {
         'subscribedEvents': [
             {
                 'event': {
-                    'id': 'RXZlbnROb2RlOjEy',
+                    'id': 'RXZlbnROb2RlOjE4',
                     'title': 'Test Event 2'
                 },
-                'id': 'QXR0ZW5kTm9kZTo2',
+                'id': 'QXR0ZW5kTm9kZTo4',
                 'status': 'PENDING'
             }
         ]

@@ -1,9 +1,7 @@
 export default {
   activeUser: {},
   event: {},
-  events: {
-    getEventsLoading: false,
-  },
+  events: [],
   subscribedEvents: [],
   redirectUrl: '',
   interest: {},
@@ -16,7 +14,4 @@ export default {
   eventsSearchList: [],
   oauth: '',
   invite: {},
-  slackChannels: {},
-  ui: { subNavHidden: false },
-  slackToken: true,
 };
