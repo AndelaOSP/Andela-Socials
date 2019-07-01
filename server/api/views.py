@@ -19,7 +19,7 @@ from .utils.oauth_helper import save_credentials
 
 from .setpagination import LimitOffsetpage
 from graphql_schemas.utils.helpers import add_event_to_calendar
-
+from api.utils.backgroundTaskWorker import BackgroundTaskWorker
 
 class LoginRequiredMixin(object):
 
@@ -240,9 +240,14 @@ class OauthCallback(APIView):
 
         try:
             user_object = AndelaUserProfile.objects.get(state=state)
-            save_credentials(code, user_object)
+            if not user_object.credential or not user_object.credential.valid:
+                save_credentials(code, user_object)
+                event_object = Event.objects.filter(creator=user_object.id).latest('created_at')
+                BackgroundTaskWorker.start_work(add_event_to_calendar, (user_object, event_object))
         except AndelaUserProfile.DoesNotExist:
             return HttpResponseForbidden()
+        except Event.DoesNotExist:
+            return Response({'message': ''})
         else:
             return Response({'message': 'Authorization was a success'})
 

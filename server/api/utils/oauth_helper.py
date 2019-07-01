@@ -34,7 +34,6 @@ def get_auth_url(andela_user):
 
     andela_user.state = state
     andela_user.save()
-
     return auth_url
 
 
