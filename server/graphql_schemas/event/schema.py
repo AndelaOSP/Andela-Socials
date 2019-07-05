@@ -126,20 +126,15 @@ class CreateEvent(relay.ClientIDMutation):
                 category, user_profile, **input)
             BackgroundTaskWorker.start_work(add_event_to_calendar,
                                             (user_profile, new_event))
-            if user_profile.credential and user_profile.credential.valid:
-                # Send calender invite in background
-                BackgroundTaskWorker.start_work(send_calendar_invites,
-                                                (user_profile, new_event))
-            else:
-                CreateEvent.notify_event_in_slack(category, input, new_event)
-                raise_calendar_error(user_profile)
+            CreateEvent.notify_event_in_slack(category, input, new_event)
+            raise_calendar_error(user_profile)
 
         except ValueError as e:
             logging.warn(e)
             raise GraphQLError("An Error occurred. Please try again")
 
         slack_token = False
-        if user_profile.slack_tokena:
+        if user_profile.slack_token:
             slack_token = True
         CreateEvent.notify_event_in_slack(category, input, new_event)
         return cls(
