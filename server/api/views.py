@@ -28,10 +28,14 @@ from .utils.oauth_helper import save_credentials
 from .setpagination import LimitOffsetpage
 from graphql_schemas.utils.helpers import add_event_to_calendar
 <<<<<<< HEAD
+<<<<<<< HEAD
 from api.utils.backgroundTaskWorker import BackgroundTaskWorker
 =======
 
 >>>>>>> feat(calendar): add event to attendee's calendar (#199)
+=======
+from api.utils.backgroundTaskWorker import BackgroundTaskWorker
+>>>>>>> fix(events): add event to calendar when token is refreshed (#242)
 
 class LoginRequiredMixin(object):
 
