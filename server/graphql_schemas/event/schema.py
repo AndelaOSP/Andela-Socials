@@ -150,6 +150,7 @@ class CreateEvent(relay.ClientIDMutation):
             BackgroundTaskWorker.start_work(add_event_to_calendar,
                                             (user_profile, new_event))
 <<<<<<< HEAD
+<<<<<<< HEAD
             CreateEvent.notify_event_in_slack(category, input, new_event)
             raise_calendar_error(user_profile)
 =======
@@ -161,6 +162,10 @@ class CreateEvent(relay.ClientIDMutation):
                 CreateEvent.notify_event_in_slack(category, input, new_event)
                 raise_calendar_error(user_profile)
 >>>>>>> feat(calendar): add event to creator's calendar (#207)
+=======
+            CreateEvent.notify_event_in_slack(category, input, new_event)
+            raise_calendar_error(user_profile)
+>>>>>>> bug(calendar-invite): fix calendar invite flow (#229)
 
         except ValueError as e:
             logging.warn(e)
@@ -168,10 +173,14 @@ class CreateEvent(relay.ClientIDMutation):
 
         slack_token = False
 <<<<<<< HEAD
+<<<<<<< HEAD
         if user_profile.slack_token:
 =======
         if user_profile.slack_tokena:
 >>>>>>> feat(slack-modal): implement slack token callback (#217)
+=======
+        if user_profile.slack_token:
+>>>>>>> bug(calendar-invite): fix calendar invite flow (#229)
             slack_token = True
         CreateEvent.notify_event_in_slack(category, input, new_event)
         return cls(
