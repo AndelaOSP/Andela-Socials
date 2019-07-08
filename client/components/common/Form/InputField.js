@@ -6,7 +6,13 @@ import {
   basePropTypes,
 } from './propsDefs';
 
-
+/**
+ * This function renders the input field
+ *
+ * @param {Object} props
+ *
+ * @return JSX
+ */
 const InputField = ({
   id,
   name,

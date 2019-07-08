@@ -46,6 +46,25 @@ class EventsPage extends React.Component {
     this.getEvents({ startDate: startDate || formatDate(Date.now(), 'YYYY-MM-DD') });
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    const { startDate } = this.props.events;
+    const {
+      selectedVenue,
+      selectedCategory,
+    } = this.state;
+    if (
+      prevProps.events.startDate !== startDate ||
+      prevState.selectedVenue !== selectedVenue ||
+      prevState.selectedCategory !== selectedCategory
+    ) {
+      this.getEvents({
+        startDate: startDate || formatDate(Date.now(), 'YYYY-MM-DD'),
+        venue: selectedVenue,
+        category: selectedCategory,
+      });
+    }
+  }
+
   /**
    * React Lifecycle hook
    * @memberof EventsPage
@@ -97,25 +116,6 @@ class EventsPage extends React.Component {
         return Object.keys(filter).length ? filter : null;
       }
     );
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    const { startDate } = this.props.events;
-    const {
-      selectedVenue,
-      selectedCategory,
-    } = this.state;
-    if (
-      prevProps.events.startDate !== startDate ||
-      prevState.selectedVenue !== selectedVenue ||
-      prevState.selectedCategory !== selectedCategory
-    ) {
-      this.getEvents({
-        startDate: startDate || formatDate(Date.now(), 'YYYY-MM-DD'),
-        venue: selectedVenue,
-        category: selectedCategory,
-      });
-    }
   }
 
   /**

@@ -4,7 +4,13 @@ import { VALIDATE_INVITE } from '../constants';
 import { handleError } from '../../utils/errorHandler';
 import Client from '../../client';
 
-
+/**
+ * Action creator to validate and event invite
+ *
+ * @param {String} hashString
+ *
+ * @returns {Object}
+ */
 export const validateEventInvite = hashString => dispatch => Client.mutate(
   VALIDATE_EVENT_INVITE_GQL(hashString)
 ).then(data => dispatch({

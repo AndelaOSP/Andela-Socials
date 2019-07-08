@@ -2,11 +2,23 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class DeleteForm extends Component {
+  /**
+   * method to handle the form submition
+   *
+   * @param {Object} e as event
+   *
+   * @return {void}
+   */
   formSubmitHandler = (e) => {
     e.preventDefault();
     this.handleDelete();
   }
   
+  /**
+   * method to handle the delete action
+   *
+   * @return {void}
+   */
   handleDelete() {
     // To be implemented in next PR
     const { eventId } = this.props;

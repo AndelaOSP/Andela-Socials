@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import InputField from './Form/InputField'
+import InputField from './Form/InputField';
 
 
 const INCREMENT_VALUE = "INCREMENT_VALUE"
@@ -13,6 +13,14 @@ const DECREMENT_VALUE = "DECREMENT_VALUE"
  **/
 
 export default class IncrementalSelect extends Component {
+
+  /**
+   * This method handles the onChange of the input
+   *
+   * @param {Object} event
+   *
+   * @return {void}
+   */
   onChange = (event, actionFilter) => {
     event.preventDefault()
     const { options, type, onChange, name } = this.props;

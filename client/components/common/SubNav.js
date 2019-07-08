@@ -20,25 +20,32 @@ NavMenu.propTypes = {
 };
 
 class SubNav extends Component {
-  state = {
-    currentBodyScroll: 0,
-  }
+  state = { currentBodyScroll: 0 }
+
   componentDidMount = () => {
     this.scrollableBody = document.querySelector('body');
     this.scrollableBody.addEventListener('scroll', this.onBodyScroll);
   }
+
   componentWillUnmount = () => {
     this.scrollableBody.removeEventListener('scroll');
   }
+
+  /**
+   * This method handles the scrolling of the body of the sub nav
+   *
+   * @param {Object} props
+   *
+   * @return JSX
+   */
   onBodyScroll = () => {
     const { scrollTop } = this.scrollableBody;
     this.setState(({ currentBodyScroll }) => {
-    this.props.hideSubNav(scrollTop > currentBodyScroll ? true : false);
-    return {
-        currentBodyScroll: scrollTop,
-      };
+      this.props.hideSubNav(scrollTop > currentBodyScroll ? true : false);
+      return { currentBodyScroll: scrollTop };
     });
   }
+
   render() {
     const { subNavHidden } = this.props;
     return (

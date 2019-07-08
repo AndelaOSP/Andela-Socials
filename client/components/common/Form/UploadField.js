@@ -27,6 +27,13 @@ class UploadField extends Component {
     return null;
   }
 
+  /**
+   * This handles the image change event
+   *
+   * @param {Object} e for the event
+   *
+   * @return {void}
+   */
   handleImageChange = (e) => {
     e.preventDefault();
 
@@ -57,6 +64,11 @@ class UploadField extends Component {
     }
   };
 
+  /**
+   * method to remove the image displayed during upload
+   *
+   * @return {void}
+   */
   removeUploaded = () => {
     this.setState({ imagePreviewUrl: null });
   };

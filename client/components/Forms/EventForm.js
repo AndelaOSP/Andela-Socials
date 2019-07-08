@@ -52,7 +52,7 @@ class EventForm extends Component {
     timezone: moment.tz.guess(),
     timezoneIsValid: true,
     addChannel: false,
-    slackChannel: ''
+    slackChannel: '',
   };
 
   componentDidMount() {
@@ -95,6 +95,218 @@ class EventForm extends Component {
     }
   }
 
+  /**
+   * method to get time values
+   *
+   * @param {String} type
+   *
+   * @return {String}
+   */
+  getTimeValues = (type) => {
+    const { formData } = this.state;
+    const {
+      hour, minute,
+    } = formData[type];
+    return `${hour}:${minute}`;
+  };
+
+  /**
+   * method to handle the time scheduling
+   *
+   * @param {Object} object
+   *
+   * @return {object} formData
+   */
+  getFormData = object => Object.keys(object).reduce((formData, key) => {
+    formData.append(key, object[key]);
+    return formData;
+  }, new FormData());
+
+  /**
+   * method to handle the time scheduling
+   *
+   * @param {string} type
+   * @param {string} name
+   * @param {number} value
+   *
+   * @return {void}
+   */
+  timeSelectHandler = (type, name, value) => {
+    const { formData } = this.state;
+    const dateTime = { ...formData[type] };
+    const formDataCopy = { ...formData };
+    dateTime[name] = value;
+    formDataCopy[type] = dateTime;
+    this.setState({ formData: formDataCopy });
+  };
+
+  /**
+   * method to handle the form input
+   *
+   * @param {Object} e as event
+   *
+   * @return {void}
+   */
+  handleFormInput = (e) => {
+    const {
+      validity, files, name, value,
+    } = e.target;
+    const { formData } = this.state;
+    const newFormData = Object.assign({}, formData);
+
+    if (validity.valid) {
+      if (files) {
+        newFormData[name] = files[0];
+      } else {
+        newFormData[name] = value;
+      }
+    }
+
+    this.setState({ formData: newFormData });
+  };
+
+  /**
+   * method to handle the submission of the form
+   *
+   * @param {Object} e as event
+   *
+   * @return {void}
+   */
+  formSubmitHandler = (e) => {
+    const { formMode } = this.props;
+    const { formData } = this.state;
+
+    e.preventDefault();
+    const { isValid, errors, categoryIsValid, timezoneIsValid } = this.validateFormData(formData);
+
+    this.setState({
+      errors,
+      categoryIsValid,
+      timezoneIsValid,
+    });
+
+    if (isValid) {
+      const { uploadImage } = this.props;
+      if (formMode === 'create') {
+        // Upload event feature image and ensure it's uploaded
+        uploadImage({ featuredImage: formData.featuredImage });
+      } else if (formMode === 'update') {
+        const {
+          eventData,
+          dismiss,
+          eventData: { id }
+        } = this.props;
+        const { category, timezone, slackChannel } = this.state;
+        const startDate = this.formatDate(formData.start);
+        const endDate = this.formatDate(formData.end);
+        if (formData.featuredImage !== eventData.featuredImage) {
+          uploadImage({ featuredImage: formData.featuredImage });
+        } else {
+          const { updateEvent } = this.props;
+          updateEvent({
+            eventId: id,
+            title: formData.title,
+            description: formData.description,
+            venue: formData.venue,
+            featuredImage: formData.featuredImage,
+            startDate: dateFns.format(startDate, 'YYYY-MM-DDTHH:mm:ss.SSSZ'),
+            endDate: dateFns.format(endDate, 'YYYY-MM-DDTHH:mm:ss.SSSZ'),
+            categoryId: category,
+            timezone,
+            slackChannel,
+          });
+          dismiss();
+        }
+      }
+    }
+  };
+
+  /**
+   * method to validate the data in the form
+   *
+   * @param {Object} formData
+   *
+   * @return {Object}
+   */
+  validateFormData = (formData) => {
+    const {
+      category, timezone,
+    } = this.state;
+    const errors = JSON.parse(JSON.stringify(this.state.errors));
+    const errorFields = Object.keys(errors);
+
+    errorFields.forEach((field) => {
+      if (typeof formData[field] === 'string' && !formData[field].trim().length) {
+        errors[field].hasError = true;
+      } else {
+        errors[field].hasError = false;
+      }
+    });
+
+    let isValid = errorFields.every(field => errors[field].hasError === false);
+    const categoryIsValid = this.validateField(category);
+    const timezoneIsValid = this.validateField(timezone);
+    isValid = timezoneIsValid && categoryIsValid ? isValid : false;
+
+    return {
+      isValid,
+      errors,
+      categoryIsValid,
+      timezoneIsValid,
+    };
+  };
+
+  /**
+   * method to validate a field
+   *
+   * @param {String} field
+   *
+   * @return {void}
+   */
+  validateField = field => field !== '';
+
+  renameKey = (oldKey, newKey, {
+    [oldKey]: old, ...others
+  }) => ({
+    [newKey]: old,
+    ...others,
+  });
+
+  /**
+   * method to handle the selection of a time zone
+   *
+   * @param {String} timezone
+   *
+   * @return {void}
+   */
+  handleTimezone = (timezone) => {
+    this.setState({ timezone });
+  };
+
+  /**
+   * method to handle the selection of a category
+   *
+   * @param {String} category
+   *
+   * @return {void}
+   */
+  handleCategory = (category) => {
+    this.setState({ category });
+  };
+
+  /**
+   * method to handle the selection of a slack channel
+   *
+   * @param {String} slackChannel
+   *
+   * @return {void}
+   */
+  handleSlackChannel = (slackChannel) => {
+    this.setState({ slackChannel });
+  };
+
+  formatDate = formData => `${formData.date} ${formData.hour}:${formData.minute}:00`;
+
   commonProps = (id, type, label, formData, error) => ({
     id: `event-${id}`,
     name: id,
@@ -102,9 +314,112 @@ class EventForm extends Component {
     placeholder: label,
     defaultValue: formData[id],
     error,
-    type
+    type,
   });
 
+  /**
+   * method to handle tyhe change event on the check box
+   *
+   * @return {void}
+   */
+  handleCheckboxChange = () => {
+    this.state.addChannel
+      ? this.setState({ addChannel: false })
+      : this.setState({ addChannel: true });
+  };
+
+  /**
+   * method to save the event
+   *
+   * @param {Object} imageNode
+   *
+   * @return {void}
+   */
+  saveEvent = (imageNode) => {
+    const {
+      formData, category, timezone, slackChannel,
+    } = this.state;
+    const startDate = this.formatDate(formData.start);
+    const endDate = this.formatDate(formData.end);
+    const {
+      createEvent, updateEvent, eventData, formMode, dismiss,
+    } = this.props;
+    const eventToBeSaved = {
+      title: formData.title,
+      description: formData.description,
+      venue: formData.venue,
+      featuredImage: imageNode.imageUrl,
+      startDate: dateFns.format(startDate, 'YYYY-MM-DDTHH:mm:ss.SSSZ'),
+      endDate: dateFns.format(endDate, 'YYYY-MM-DDTHH:mm:ss.SSSZ'),
+      categoryId: category,
+      timezone,
+      slackChannel,
+    };
+    if (formMode === 'create') {
+      createEvent(eventToBeSaved);
+    } else {
+      eventToBeSaved.eventId = eventData.id;
+      updateEvent(eventToBeSaved);
+    }
+    dismiss();
+  };
+
+  /**
+   * method to handle the image upload
+   *
+   * @param {Object} imageUploaded
+   *
+   * @return JSX
+   */
+  handleUploadedImages = (imageUploaded) => {
+    const {
+      error, node,
+    } = imageUploaded[imageUploaded.length - 1];
+    // After the upload is successful, create the actual event
+    if (!error && node.responseMessage) {
+      this.saveEvent(node);
+    }
+  };
+
+  /**
+   * method to load the slack channels
+   *
+   * @return {void}
+   */
+  loadSlackChannels() {
+    const { getSlackChannelsList } = this.props;
+    getSlackChannelsList();
+  }
+
+  /**
+   * method to render the time picker
+   *
+   * @param {String} type
+   *
+   * @return JSX
+   */
+  renderTimePicker = type => (
+    <TimePicker
+      type={type}
+      onChange={this.timeSelectHandler}
+      errors={this.state.errors.time}
+      values={this.state.formData[type]}
+    />
+  );
+
+  /**
+   * method to render the fields
+   *
+   * @param {String} fieldType
+   * @param {String} type
+   * @param {String} id
+   * @param {String} label
+   * @param {Object} formData
+   * @param {Object} error
+   * @param {String} value
+   *
+   * @return JSX
+   */
   renderField = (fieldType, type, id, label, formData, error, value) => {
     switch (fieldType) {
       case 'input':
@@ -143,196 +458,6 @@ class EventForm extends Component {
             onChange={this.handleFormInput}
           />
         );
-    }
-  };
-
-  renderTimePicker = type => (
-    <TimePicker
-      type={type}
-      onChange={this.timeSelectHandler}
-      errors={this.state.errors.time}
-      values={this.state.formData[type]}
-    />
-  );
-
-  formatDate = formData => `${formData.date} ${formData.hour}:${formData.minute}:00`;
-
-  handleCategory = category => {
-    this.setState({ category });
-  };
-
-  handleSlackChannel = slackChannel => {
-    this.setState({ slackChannel });
-  };
-
-  loadSlackChannels() {
-    const { getSlackChannelsList } = this.props;
-    getSlackChannelsList();
-  }
-
-  renameKey = (oldKey, newKey, { [oldKey]: old, ...others }) => {
-    return {
-      [newKey]: old,
-      ...others
-    };
-  };
-
-  handleTimezone = timezone => {
-    this.setState({ timezone });
-  };
-
-  validateField = field => field !== '';
-
-  validateFormData = formData => {
-    const { category, timezone } = this.state;
-    const errors = JSON.parse(JSON.stringify(this.state.errors));
-    const errorFields = Object.keys(errors);
-
-    errorFields.forEach(field => {
-      if (typeof formData[field] === 'string' && !formData[field].trim().length) {
-        errors[field].hasError = true;
-      } else {
-        errors[field].hasError = false;
-      }
-    });
-
-    let isValid = errorFields.every(field => errors[field].hasError === false);
-    const categoryIsValid = this.validateField(category);
-    const timezoneIsValid = this.validateField(timezone);
-    isValid = timezoneIsValid && categoryIsValid ? isValid : false;
-
-    return {
-      isValid,
-      errors,
-      categoryIsValid,
-      timezoneIsValid
-    };
-  };
-
-  formSubmitHandler = e => {
-    const { formMode } = this.props;
-    const { formData } = this.state;
-
-    e.preventDefault();
-    const { isValid, errors, categoryIsValid, timezoneIsValid } = this.validateFormData(formData);
-
-    this.setState({
-      errors,
-      categoryIsValid,
-      timezoneIsValid
-    });
-
-    if (isValid) {
-      const { uploadImage } = this.props;
-      if (formMode === 'create') {
-        // Upload event feature image and ensure it's uploaded
-        uploadImage({ featuredImage: formData.featuredImage });
-      } else if (formMode === 'update') {
-        const {
-          eventData,
-          dismiss,
-          eventData: { id }
-        } = this.props;
-        const { category, timezone, slackChannel } = this.state;
-        const startDate = this.formatDate(formData.start);
-        const endDate = this.formatDate(formData.end);
-        if (formData.featuredImage !== eventData.featuredImage) {
-          uploadImage({ featuredImage: formData.featuredImage });
-        } else {
-          const { updateEvent } = this.props;
-          updateEvent({
-            eventId: id,
-            title: formData.title,
-            description: formData.description,
-            venue: formData.venue,
-            featuredImage: formData.featuredImage,
-            startDate: dateFns.format(startDate, 'YYYY-MM-DDTHH:mm:ss.SSSZ'),
-            endDate: dateFns.format(endDate, 'YYYY-MM-DDTHH:mm:ss.SSSZ'),
-            categoryId: category,
-            timezone,
-            slackChannel
-          });
-          dismiss();
-        }
-      }
-    }
-  };
-
-  getFormData = object =>
-    Object.keys(object).reduce((formData, key) => {
-      formData.append(key, object[key]);
-      return formData;
-    }, new FormData());
-
-  handleFormInput = e => {
-    const { validity, files, name, value } = e.target;
-
-    const { formData } = this.state;
-
-    const newFormData = Object.assign({}, formData);
-
-    if (validity.valid) {
-      if (files) {
-        newFormData[name] = files[0];
-      } else {
-        newFormData[name] = value;
-      }
-    }
-
-    this.setState({ formData: newFormData });
-  };
-
-  timeSelectHandler = (type, name, value) => {
-    const { formData } = this.state;
-    const dateTime = { ...formData[type] };
-    const formDataCopy = { ...formData };
-    dateTime[name] = value;
-    formDataCopy[type] = dateTime;
-    this.setState({ formData: formDataCopy });
-  };
-
-  getTimeValues = type => {
-    const { formData } = this.state;
-    const { hour, minute } = formData[type];
-    return `${hour}:${minute}`;
-  };
-
-  handleCheckboxChange = () => {
-    this.state.addChannel
-      ? this.setState({ addChannel: false })
-      : this.setState({ addChannel: true });
-  };
-
-  saveEvent = imageNode => {
-    const { formData, category, timezone, slackChannel } = this.state;
-    const startDate = this.formatDate(formData.start);
-    const endDate = this.formatDate(formData.end);
-    const { createEvent, updateEvent, eventData, formMode, dismiss } = this.props;
-    const eventToBeSaved = {
-      title: formData.title,
-      description: formData.description,
-      venue: formData.venue,
-      featuredImage: imageNode.imageUrl,
-      startDate: dateFns.format(startDate, 'YYYY-MM-DDTHH:mm:ss.SSSZ'),
-      endDate: dateFns.format(endDate, 'YYYY-MM-DDTHH:mm:ss.SSSZ'),
-      categoryId: category,
-      timezone,
-      slackChannel
-    };
-    if (formMode === 'create') {
-      createEvent(eventToBeSaved);
-    } else {
-      eventToBeSaved.eventId = eventData.id;
-      updateEvent(eventToBeSaved);
-    }
-    dismiss();
-  };
-
-  handleUploadedImages = imageUploaded => {
-    const { error, node } = imageUploaded[imageUploaded.length - 1];
-    // After the upload is successful, create the actual event
-    if (!error && node.responseMessage) {
-      this.saveEvent(node);
     }
   };
 

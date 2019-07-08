@@ -27,14 +27,33 @@ class CustomDropDown extends Component {
     }
   }
 
+  /**
+   * This method handles the click outside the dropdown
+   * closes the dropdown
+   *
+   * @return {void}
+   */
   handleClickOutside() {
     this.setState({ listOpen: false });
   }
 
+  /**
+   * This method toggles the display of the list
+   *
+   * @return {void}
+   */
   toggleList() {
     this.setState(prevState => ({ listOpen: !prevState.listOpen }));
   }
 
+  /**
+   * This method gets and updates the selected item from the list
+   *
+   * @param {Object} event
+   * @param {Object} item
+   *
+   * @return {void}
+   */
   selectedItem(event, item) {
     event.preventDefault();
     this.setState({

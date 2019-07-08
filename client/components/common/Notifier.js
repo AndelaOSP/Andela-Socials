@@ -1,6 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+   * This function renders the Notifier component
+   *
+   * @param {Object} props
+   *
+   * @return JSX
+   */
 const Notifer = (props) => {
   const { notification } = props;
   return (
