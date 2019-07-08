@@ -287,7 +287,7 @@ class EventForm extends Component {
     const dateTime = { ...formData[type] };
     const formDataCopy = { ...formData };
     dateTime[name] = value;
-    formDataCopy[type] = dateTime;
+    formDataCopy[type].date = dateTime.date.startDate;
     this.setState({ formData: formDataCopy });
   };
 
