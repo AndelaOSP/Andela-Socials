@@ -10,15 +10,7 @@ from django.core.files.storage import FileSystemStorage
 
 from api.slack import generate_simple_message, notify_user
 from api.utils.oauth_helper import get_auth_url
-<<<<<<< HEAD
-<<<<<<< HEAD
 from api.models import Interest, Attend, Event
-=======
-from api.models import Interest, Attend
->>>>>>> feat(event-update-notifier): notify attendees on slack when host updates or cancels event (#196)
-=======
-from api.models import Interest, Attend, Event
->>>>>>> bug(calendar-invite): fix calendar invite flow (#229)
 from googleapiclient.discovery import build
 from google.cloud import storage
 
@@ -204,10 +196,6 @@ async def send_bulk_update_message(event_instance, message, notification_text):
                     message, slack_id, text=notification_text)
             elif not slack_response['ok']:
                 logging.warning(slack_response)
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> feat(calendar): add event to attendee's calendar (#199)
 
 
 def add_event_to_calendar(andela_user, event):
@@ -216,8 +204,6 @@ def add_event_to_calendar(andela_user, event):
          :param andela_user:
          :param event:
     """
-<<<<<<< HEAD
-<<<<<<< HEAD
     calendar = build('calendar', 'v3', credentials=andela_user.credential)
     event_details = build_event(event, [])
     created_event = calendar.events().insert(
@@ -260,56 +246,3 @@ def update_event_status_on_calendar(andela_user, event):
             eventId=event_id,
             body=event_in_calendar
         ).execute()
-=======
->>>>>>> feat(event-update-notifier): notify attendees on slack when host updates or cancels event (#196)
-=======
-    attendees = [{"email": attendee.user.user.email}
-                 for attendee in event.attendees]
-=======
->>>>>>> bug(calendar-invite): fix calendar invite flow (#229)
-    calendar = build('calendar', 'v3', credentials=andela_user.credential)
-    event_details = build_event(event, [])
-    created_event = calendar.events().insert(
-            calendarId='primary', body=event_details).execute()
-<<<<<<< HEAD
->>>>>>> feat(calendar): add event to attendee's calendar (#199)
-=======
-    event.event_id_in_calendar = created_event['id']
-    event.save()
-
-
-def update_event_status_on_calendar(andela_user, event):
-    try:
-        event_id = event.event_id_in_calendar
-        host_calendar = build('calendar', 'v3', credentials=event.creator.credential)
-        attendee_calendar = build('calendar', 'v3', credentials=andela_user.credential)
-        event_in_calendar = host_calendar.events().get(calendarId='primary', eventId=event_id).execute()
-        attendees = event_in_calendar['attendees']
-        attendees.append({'email': andela_user.user.email})
-        host_calendar.events().patch(
-            calendarId='primary',
-            eventId=event_id,
-            body=event_in_calendar
-        ).execute()
-        last_attendee = event_in_calendar['attendees'][-1]
-        last_attendee['responseStatus'] = 'accepted'
-        attendee_calendar.events().patch(
-            calendarId='primary',
-            eventId=event_id,
-            body=event_in_calendar
-        ).execute()
-    except KeyError:
-        event_in_calendar['attendees'] = [{'email': andela_user.user.email}]
-        host_calendar.events().patch(
-            calendarId='primary',
-            eventId=event_id,
-            body=event_in_calendar
-        ).execute()
-        last_attendee = event_in_calendar['attendees'][-1]
-        last_attendee['responseStatus'] = 'accepted'
-        attendee_calendar.events().patch(
-            calendarId='primary',
-            eventId=event_id,
-            body=event_in_calendar
-        ).execute()
->>>>>>> bug(calendar-invite): fix calendar invite flow (#229)

@@ -75,15 +75,7 @@ def get_slack_user_timezone(email):
     return ''
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 def new_event_message(message, event_url, event_id, image_url):
-=======
-def new_event_message(message, event_url, event_id):
->>>>>>> ft(slack-attend-event): User should be able to attend event from slack) (#181)
-=======
-def new_event_message(message, event_url, event_id, image_url):
->>>>>>> chore(slack): add featured image in slack message (#187)
     """
     Return slack message to send when new event is created
     """
@@ -94,10 +86,6 @@ def new_event_message(message, event_url, event_id, image_url):
             "text": message
         }
     }, {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> chore(slack): add featured image in slack message (#187)
         "type": "image",
         "title": {
             "type": "plain_text",
@@ -107,11 +95,6 @@ def new_event_message(message, event_url, event_id, image_url):
         "image_url": image_url,
         "alt_text": "Featured Image"
     }, {
-<<<<<<< HEAD
-=======
->>>>>>> ft(slack-attend-event): User should be able to attend event from slack) (#181)
-=======
->>>>>>> chore(slack): add featured image in slack message (#187)
         "type": "actions",
         "block_id": "event_actions",
         "elements": [
@@ -169,14 +152,6 @@ def get_slack_user_token(code):
 
     return response
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-    
->>>>>>> feature(channels): Get all slack public channels (#188)
-=======
->>>>>>> feat(graphql): add mutation to share event on slack (#190)
 
 def get_slack_channels_list(limit=100):
     """
@@ -191,10 +166,6 @@ def get_slack_channels_list(limit=100):
         # retrieve all slack channels
         return channels_list
     return ''
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> ft(channel-invite): user should be added to the event's channel when they perform attend action (#203)
 
 
 def invite_to_event_channel(user_id, event_channel, channel_creator_token):
@@ -203,10 +174,3 @@ def invite_to_event_channel(user_id, event_channel, channel_creator_token):
             channel=event_channel,
             user=user_id,
         )
-<<<<<<< HEAD
-=======
->>>>>>> ft(slack-attend-event): User should be able to attend event from slack) (#181)
-=======
->>>>>>> feature(channels): Get all slack public channels (#188)
-=======
->>>>>>> ft(channel-invite): user should be added to the event's channel when they perform attend action (#203)

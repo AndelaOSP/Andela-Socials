@@ -1,14 +1,6 @@
 @import '../tools/functions.scss';
 
 .dropdown {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-  overflow: auto;
-
->>>>>>> feat(event-details): share event on channel (#198)
-=======
->>>>>>> fix(profile): fix profile dropdown not showing (#212)
   &__dp-wrapper {
     list-style-type: none;
     margin: 0;
@@ -17,27 +9,10 @@
     background-color: #FFFFFF;
     font-size: 1.25rem;
     max-height: rem(120px);
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> bug(event-filter): fix event filter bug (#230)
     overflow-y: scroll;
     li {
       padding: 5px 10px;
     }
-<<<<<<< HEAD
-=======
-  
-<<<<<<< HEAD
-    &__list {
-      padding: rem(5px) rem(12px);
-    }
-  
->>>>>>> feat(event-details): share event on channel (#198)
-=======
->>>>>>> fix(profile): fix profile dropdown not showing (#212)
-=======
->>>>>>> bug(event-filter): fix event filter bug (#230)
     &__list:hover {
       background-color: #EEEEEE;
     }

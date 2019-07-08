@@ -27,23 +27,10 @@ def get_auth_url(andela_user):
             :param andela_user:
     """
     user_email = andela_user.user.email
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> feat(calendar-auth): disable consent popup screen (#221)
     auth_url, state = \
         FLOW.authorization_url(prompt='consent', included_granted_scopes='true', login_hint=user_email,
             access_type='offline') if andela_user.credential is None \
                 else FLOW.authorization_url(included_granted_scopes='true', login_hint=user_email, access_type='offline')
-<<<<<<< HEAD
-=======
-    auth_url, state = FLOW.authorization_url(prompt='consent',
-                                             included_granted_scopes='true',
-                                             login_hint=user_email,
-                                             access_type='offline')
->>>>>>> feat(oauth): implement endpoint for querying google oauth url (#204)
-=======
->>>>>>> feat(calendar-auth): disable consent popup screen (#221)
 
     andela_user.state = state
     andela_user.save()

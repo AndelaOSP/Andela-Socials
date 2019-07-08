@@ -1,12 +1,5 @@
 @import '../tools/functions.scss';
-<<<<<<< HEAD
-<<<<<<< HEAD
 
-=======
->>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
-=======
-
->>>>>>> chore(fonts): regularize fonts everywhere (#192)
 .event-details {
   position: absolute;
   left: 2.5vw;
@@ -14,50 +7,18 @@
   top: rem(159px);
 
   &__top {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     background-color: #FFFFFF;
     display: flex;
     flex-wrap: wrap;
   }
 
-=======
-    background-color: #fff;
-    display: flex;
-    flex-wrap: wrap;
-  }
->>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
-=======
-    background-color: #FFF;
-=======
-    background-color: #FFFFFF;
->>>>>>> feat(event-details): share event on channel (#198)
-    display: flex;
-    flex-wrap: wrap;
-  }
-
->>>>>>> chore(fonts): regularize fonts everywhere (#192)
   &__section {
     width: 50%;
     max-height: 100%;
     float: left;
     padding: rem(19px) rem(19px) rem(12px) rem(19px);
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     background-color: #FFFFFF;
 
-=======
-    background-color: #fff;
->>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
-=======
-    background-color: #FFF;
-=======
-    background-color: #FFFFFF;
->>>>>>> feat(event-details): share event on channel (#198)
-
->>>>>>> chore(fonts): regularize fonts everywhere (#192)
     @media screen and (max-width: rem(840px)) {
       width: 100%;
     }
@@ -67,121 +28,42 @@
     margin-top: rem(20px);
     width: 95vw;
     min-height: 50vh;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     background-color: #FFFFFF;
-=======
-    background-color: #fff;
->>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
-=======
-    background-color: #FFF;
->>>>>>> chore(fonts): regularize fonts everywhere (#192)
-=======
-    background-color: #FFFFFF;
->>>>>>> feat(event-details): share event on channel (#198)
     display: flex;
     flex-wrap: wrap;
     margin-bottom: rem(100px);
-<<<<<<< HEAD
   }
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-  &__img-container {
-    overflow: hidden;
-=======
->>>>>>> bug(event details): Fix styling of details section (#189)
-  }
-
-=======
-  &__img-container {
-    overflow: hidden;
-  }
->>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
-=======
 
   &__img-container {
     overflow: hidden;
   }
 
->>>>>>> chore(fonts): regularize fonts everywhere (#192)
   &__picture {
     width: 90%;
     margin: rem(15px) rem(35px) rem(30px) rem(28px);
     overflow: hidden;
   }
-<<<<<<< HEAD
-<<<<<<< HEAD
 
-=======
->>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
-=======
-
->>>>>>> chore(fonts): regularize fonts everywhere (#192)
   &__gallery-picture {
     width: rem(84px);
     height: rem(89px);
     margin-bottom: 0;
-<<<<<<< HEAD
-<<<<<<< HEAD
     margin-left: 0;
-=======
-    margin-left:0;
-<<<<<<< HEAD
-    border: 2px solid black;
->>>>>>> bug(event details): Fix styling of details section (#189)
-  }
-<<<<<<< HEAD
-
-=======
->>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
-=======
-=======
-    margin-left: 0;
-<<<<<<< HEAD
->>>>>>> feat(event-details): share event on channel (#198)
-    border: 2px solid #000;
-=======
->>>>>>> fix(event-details): fix event detail gallery image (#205)
   }
 
->>>>>>> chore(fonts): regularize fonts everywhere (#192)
   &__mini-gallery {
     margin-left: rem(28px);
     max-width: 41vw;
     display: inline-flex;
   }
-<<<<<<< HEAD
-<<<<<<< HEAD
 
   &__event_title {
     font-family: "Primary-DINPro";
-=======
-  &__event_title {
-    font-family: DIN Pro;
->>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
-=======
-
-  &__event_title {
-<<<<<<< HEAD
-    font-family: 'Primary-DINPro';
->>>>>>> chore(fonts): regularize fonts everywhere (#192)
-=======
-    font-family: "Primary-DINPro";
->>>>>>> feat(event-details): share event on channel (#198)
     font-weight: bold;
     font-size: rem(40px);
     padding: 0 0 0 rem(26px);
   }
-<<<<<<< HEAD
-<<<<<<< HEAD
 
-=======
->>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
-=======
-
->>>>>>> chore(fonts): regularize fonts everywhere (#192)
   &__social_event {
     font-size: rem(20px);
     font-style: normal;
@@ -189,51 +71,26 @@
     margin: 0 0 0 rem(26px);
     color: #797979;
   }
-<<<<<<< HEAD
-<<<<<<< HEAD
 
   &__rsvp_button {
     margin: rem(14px) 0 0 rem(26px);
-<<<<<<< HEAD
     border-radius: 5px;
     background-color: #3359DB;
     font-size: 1.35rem;
     color: #FFFFFF;
     padding: rem(5px) rem(30px);
 
-=======
-    border-radius: 8%;
-=======
-=======
-
->>>>>>> chore(fonts): regularize fonts everywhere (#192)
-  &__rsvp_button {
-    margin: rem(14px) 0 0 rem(26px);
-    border-radius: 5px;
->>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
-    background-color: #3359DB;
-    font-size: 1.35rem;
-    color: #FFFFFF;
-    padding: rem(5px) rem(30px);
-<<<<<<< HEAD
->>>>>>> bug(header): fix header style (#179)
-=======
-
->>>>>>> chore(fonts): regularize fonts everywhere (#192)
     &:disabled {
       background-color: #CCC;
       cursor: not-allowed;
     }
   }
-<<<<<<< HEAD
-<<<<<<< HEAD
 
   &__slack_button {
     border-radius: 5px;
     background-color: #3F0F3F;
     font-size: 1.35rem;
     color: #FFFFFF;
-<<<<<<< HEAD
     width: rem(180px);
     height: rem(39px);
   }
@@ -260,47 +117,6 @@
     }
   }
 
-=======
-=======
-
->>>>>>> chore(fonts): regularize fonts everywhere (#192)
-  &__slack_button {
-    border-radius: 5px;
-    background-color: #3F0F3F;
-    font-size: 1.35rem;
-    color: #FFF;
-=======
->>>>>>> feat(event-details): share event on channel (#198)
-    width: rem(180px);
-    height: rem(39px);
-  }
-
-  .menu {
-    position: absolute;
-    width: rem(180px);
-    margin: 0 0 0 rem(188px);
-    top: 180px;
-    box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.1);
-
-    a {
-      text-decoration: none;
-      display: block;
-      font-size: 1.25rem;
-      height: rem(41px);
-      background-color: #FFFFFF;
-      padding: 5px 15px;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #EEE;
-      }
-    }
-  }
-<<<<<<< HEAD
->>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
-=======
-
->>>>>>> chore(fonts): regularize fonts everywhere (#192)
   [tooltip] {
     margin: 20px;
     position: relative;
@@ -328,15 +144,7 @@
     left: 100%;
     margin-left: 8px;
     transform: translateX(0) translateY(-50%);
-<<<<<<< HEAD
-<<<<<<< HEAD
     color: #FFFFFF;
-=======
-    color: #FFF;
->>>>>>> chore(fonts): regularize fonts everywhere (#192)
-=======
-    color: #FFFFFF;
->>>>>>> feat(event-details): share event on channel (#198)
     padding: 4px 4px;
     font-size: 12px;
     min-width: 120px;
@@ -344,7 +152,6 @@
     pointer-events: none;
     z-index: 99;
     opacity: 0;
-<<<<<<< HEAD
   }
 
   [tooltip]:hover::after,
@@ -352,18 +159,6 @@
     opacity: 1;
   }
 
-=======
-  }
-
-  [tooltip]:hover::after,
-  [tooltip]:hover::before {
-    opacity: 1;
-  }
-<<<<<<< HEAD
->>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
-=======
-
->>>>>>> chore(fonts): regularize fonts everywhere (#192)
   &__location_time h5 {
     font-size: 1.25rem;
     font-style: normal;
@@ -381,27 +176,12 @@
 
   &__description h5 {
     font-size: 1.55rem;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     font-family: "Lato";
-=======
->>>>>>> bug(event details): Fix styling of details section (#189)
-=======
-    font-family: 'Lato';
->>>>>>> chore(fonts): regularize fonts everywhere (#192)
-=======
-    font-family: "Lato";
->>>>>>> feat(event-details): share event on channel (#198)
     font-style: normal;
     font-weight: 300;
     line-height: rem(7px);
     padding-top: rem(19px);
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     margin-bottom: 0.5rem;
-<<<<<<< HEAD
     margin-left: rem(15px);
   }
 
@@ -415,61 +195,13 @@
   &__attending p,
   &__tags p {
     font-family: "Lato";
-=======
-  }
-  &__description article,
-  &__attending p,
-  &__tags p {
->>>>>>> ft(share-event-165718129) User should be able to share event to specified Slack channel (#182)
-=======
-    margin-bottom: .5rem; 
-    margin-left: rem(15px);
-  }
-  &__description article, &__tags p{
->>>>>>> bug(event details): Fix styling of details section (#189)
-=======
-    margin-bottom: .5rem;
-=======
-    margin-bottom: 0.5rem;
->>>>>>> feat(event-details): share event on channel (#198)
-    margin-left: rem(15px);
-  }
-
-  &__attending h5,
-  &__tags h5 {
-    font-family: "Lato";
-    font-weight: 700;
-  }
-
-  &__description article,
-  &__attending p,
-  &__tags p {
-<<<<<<< HEAD
-    font-family: 'Lato';
->>>>>>> chore(fonts): regularize fonts everywhere (#192)
-=======
-    font-family: "Lato";
->>>>>>> feat(event-details): share event on channel (#198)
     font-style: normal;
     font-size: 1.2rem;
     word-break: break-all;
     font-weight: lighter;
     padding: rem(19px) 0 rem(20px) 0;
     margin-left: rem(15px);
-<<<<<<< HEAD
-<<<<<<< HEAD
     color: #858383;
-  }
-
-  &__tags h5 {
-    margin-left: rem(15px);
-    font-size: 1rem;
-    font-weight: 300;
-=======
-    color:  #858383;
-=======
-    color: #858383;
->>>>>>> chore(fonts): regularize fonts everywhere (#192)
   }
 
   &__tags h5 {
@@ -496,32 +228,8 @@
       font-size: 1rem;
       font-weight: 400;
     }
->>>>>>> bug(event details): Fix styling of details section (#189)
   }
 
-<<<<<<< HEAD
-  &__attending {
-    display: flex;
-    margin-bottom: rem(18px);
-
-    p {
-      margin-left: rem(10px);
-      font-weight: lighter;
-      font-size: 1rem;
-      padding-top: 1px;
-      color: #858383;
-    }
-
-    h5 {
-      margin-top: 5px;
-      margin-left: rem(15px);
-      font-size: 1rem;
-      font-weight: 400;
-    }
-  }
-
-=======
->>>>>>> chore(fonts): regularize fonts everywhere (#192)
   &__edit {
     color: #365EDB;
     border-color: #365EDB;

@@ -1,17 +1,8 @@
 import INTERESTS_LIST_GQL from '../../Graphql/Queries/InterestsListGQL';
 import CALENDAR_URL_GQL from '../../Graphql/Queries/CalendarAuthGQL';
-<<<<<<< HEAD
-<<<<<<< HEAD
 import CREATE_INTEREST_GQL from '../../Graphql/Mutations/CreateInterestGQL';
 import REMOVE_INTEREST_GQL from '../../Graphql/Mutations/RemoveInterestGQL';
 import JOINED_CATEGORIES_GQL from '../../Graphql/Queries/JoinedCategoriesGQL';
-=======
->>>>>>> feat(interests): add google calendar access (#210)
-=======
-import CREATE_INTEREST_GQL from '../../Graphql/Mutations/CreateInterestGQL';
-import REMOVE_INTEREST_GQL from '../../Graphql/Mutations/RemoveInterestGQL';
-import JOINED_CATEGORIES_GQL from '../../Graphql/Queries/JoinedCategoriesGQL';
->>>>>>> feat(interests): create interests (#200)
 
 import { INTEREST, INTERESTS, CREATE_INTERESTS, REMOVE_INTERESTS, JOINED_CATEGORIES } from '../constants';
 import { handleError, handleInformation } from '../../utils/errorHandler';
@@ -42,10 +33,6 @@ export const getCalendarUrl = () => dispatch => Client.query(CALENDAR_URL_GQL())
     return authUrl
   })
   .catch(error => handleError(error, dispatch));
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> feat(interests): create interests (#200)
 export const getUserInterests = () => dispatch => Client.query(
   JOINED_CATEGORIES_GQL()
 ).then(data => {
@@ -77,11 +64,6 @@ export const removeInterests = (interestsId, clientMutationId = '') => dispatch 
       error: false,
     });
     handleInformation('Successfully Removed Interests');
-<<<<<<< HEAD
-=======
->>>>>>> feat(interests): add google calendar access (#210)
-=======
->>>>>>> feat(interests): create interests (#200)
 
   })
   .catch(error => handleError(error, dispatch));

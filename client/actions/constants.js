@@ -43,12 +43,6 @@ export const INTEREST = 'INTEREST';
 export const CREATE_INTERESTS = 'CREATE_INTERESTS'
 export const REMOVE_INTERESTS = 'REMOVE_INTERESTS';
 export const JOINED_CATEGORIES = 'JOINED_CATEGORIES';
-<<<<<<< HEAD
-
-// Constants specific to slack channels
-export const CHANNELS = 'CHANNELS';
-=======
->>>>>>> feat(interests): create interests (#200)
 
 // Constants specific to slack channels
 export const CHANNELS = 'CHANNELS';
@@ -59,28 +53,11 @@ export const OAUTH = 'OAUTH';
 // Constants Invites
 export const VALIDATE_INVITE = 'VALIDATE_INVITE';
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> fix(sidebar): prevent sidenav hiding behind nav (#218)
 // Constants to share events to slack channel
 export const SHARE_EVENT = 'SHARE_EVENT';
 
 // Constants specific to ui events
 export const SUBNAV_HIDDEN = 'SUBNAV_HIDDEN';
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 // Constant to display slack modal
 export const SLACK_TOKEN = 'SLACK_TOKEN';
-=======
-// Constants to sahre events to slack channel
-export const SHARE_EVENT = 'SHARE_EVENT';
->>>>>>> feat(event-details): share event on channel (#198)
-=======
->>>>>>> fix(sidebar): prevent sidenav hiding behind nav (#218)
-=======
-
-// Constant to display slack modal
-export const SLACK_TOKEN = 'SLACK_TOKEN';
->>>>>>> feat(slack-modal): implement slack token callback (#217)

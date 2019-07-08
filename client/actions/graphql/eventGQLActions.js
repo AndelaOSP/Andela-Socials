@@ -15,14 +15,7 @@ import {
   DEACTIVATE_EVENT,
   SEARCH_EVENTS,
   SHARE_EVENT,
-<<<<<<< HEAD
-<<<<<<< HEAD
   SLACK_TOKEN,
-=======
->>>>>>> feat(event-details): share event on channel (#198)
-=======
-  SLACK_TOKEN,
->>>>>>> feat(slack-modal): implement slack token callback (#217)
 } from '../constants';
 
 import { handleError, handleInformation } from '../../utils/errorHandler';
@@ -120,17 +113,8 @@ export const updateEvent = ({
   startDate,
   endDate,
   timezone,
-<<<<<<< HEAD
-<<<<<<< HEAD
   categoryId,
   slackChannel
-=======
-  categoryId
->>>>>>> (ft-event-host-add-channel-165998501) Event host should be able to add a discussion/group slack channel to an event (#202)
-=======
-  categoryId,
-  slackChannel
->>>>>>>   (ft-add-change-slack-channel-166607535): User should be able to add/change slack channel for an existing event (#235)
 }) => dispatch => Client.mutate(
   UPDATE_EVENT_GQL(eventId, title, description, featuredImage, venue, startDate, endDate, timezone, categoryId, slackChannel)
 )
@@ -169,26 +153,10 @@ export const shareEvent = ({
   channelId,
 }) => dispatch => Client.mutate(
   SHARE_EVENT_GQL(eventId, channelId)
-<<<<<<< HEAD
-<<<<<<< HEAD
 ).then((data) => {
   handleInformation('Successfully shared');
   dispatch({
     type: SHARE_EVENT, payload: data.data, error: false,
   });
-=======
-).then(data => {
-  handleInformation('Successfully shared');
-  dispatch({
-    type: SHARE_EVENT, payload: data.data, error: false,
-  })
->>>>>>> feat(event-details): share event on channel (#198)
-=======
-).then((data) => {
-  handleInformation('Successfully shared');
-  dispatch({
-    type: SHARE_EVENT, payload: data.data, error: false,
-  });
->>>>>>> feat(slack-modal): implement slack token callback (#217)
 })
   .catch(error => handleError(error, dispatch));

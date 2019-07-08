@@ -22,40 +22,17 @@ from graphql_schemas.utils.helpers import (is_not_admin,
                                            send_calendar_invites,
                                            validate_event_dates,
                                            raise_calendar_error,
-<<<<<<< HEAD
-<<<<<<< HEAD
                                            not_valid_timezone,
                                            send_bulk_update_message,
                                            add_event_to_calendar)
-=======
-                                           not_valid_timezone, send_bulk_update_message)
->>>>>>> feat(event-update-notifier): notify attendees on slack when host updates or cancels event (#196)
-=======
-                                           not_valid_timezone,
-                                           send_bulk_update_message,
-                                           add_event_to_calendar)
->>>>>>> feat(calendar): add event to creator's calendar (#207)
 from graphql_schemas.scalars import NonEmptyString
 from graphql_schemas.utils.hasher import Hasher
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> feat(graphql): add mutation to share event on slack (#190)
 from api.models import (Event, Category, AndelaUserProfile,
                         Interest, Attend)
 from api.slack import (get_slack_id,
                        notify_user,
                        new_event_message,
                        get_slack_channels_list, notify_channel)
-<<<<<<< HEAD
-=======
-from api.models import Event, Category, AndelaUserProfile, \
-    Interest, Attend
-from api.slack import get_slack_id, notify_user, new_event_message, get_slack_channels_list
-
->>>>>>> feature(channels): Get all slack public channels (#188)
-=======
->>>>>>> feat(graphql): add mutation to share event on slack (#190)
 from api.utils.backgroundTaskWorker import BackgroundTaskWorker
 
 from api.constants import SLACK_CHANNEL_DATA
@@ -149,38 +126,15 @@ class CreateEvent(relay.ClientIDMutation):
                 category, user_profile, **input)
             BackgroundTaskWorker.start_work(add_event_to_calendar,
                                             (user_profile, new_event))
-<<<<<<< HEAD
-<<<<<<< HEAD
             CreateEvent.notify_event_in_slack(category, input, new_event)
             raise_calendar_error(user_profile)
-=======
-            if user_profile.credential and user_profile.credential.valid:
-                # Send calender invite in background
-                BackgroundTaskWorker.start_work(send_calendar_invites,
-                                                (user_profile, new_event))
-            else:
-                CreateEvent.notify_event_in_slack(category, input, new_event)
-                raise_calendar_error(user_profile)
->>>>>>> feat(calendar): add event to creator's calendar (#207)
-=======
-            CreateEvent.notify_event_in_slack(category, input, new_event)
-            raise_calendar_error(user_profile)
->>>>>>> bug(calendar-invite): fix calendar invite flow (#229)
 
         except ValueError as e:
             logging.warn(e)
             raise GraphQLError("An Error occurred. Please try again")
 
         slack_token = False
-<<<<<<< HEAD
-<<<<<<< HEAD
         if user_profile.slack_token:
-=======
-        if user_profile.slack_tokena:
->>>>>>> feat(slack-modal): implement slack token callback (#217)
-=======
-        if user_profile.slack_token:
->>>>>>> bug(calendar-invite): fix calendar invite flow (#229)
             slack_token = True
         CreateEvent.notify_event_in_slack(category, input, new_event)
         return cls(
@@ -201,17 +155,8 @@ class CreateEvent(relay.ClientIDMutation):
                        f"> *Venue:* {input.get('venue')}\n"
                        f"> *Date:*  {input.get('start_date').date()}\n"
                        f"> *Time:*  {input.get('start_date').time()}")
-<<<<<<< HEAD
-<<<<<<< HEAD
             blocks = new_event_message(
                 message, event_url, str(new_event.id), input.get('featured_image'))
-=======
-            blocks = new_event_message(message, event_url, str(new_event.id))
->>>>>>> ft(slack-attend-event): User should be able to attend event from slack) (#181)
-=======
-            blocks = new_event_message(
-                message, event_url, str(new_event.id), input.get('featured_image'))
->>>>>>> chore(slack): add featured image in slack message (#187)
             slack_id_not_in_db = []
             all_users_attendance = []
             for instance in category_followers:
@@ -220,17 +165,8 @@ class CreateEvent(relay.ClientIDMutation):
                 all_users_attendance.append(new_attendance)
                 if instance.follower.slack_id:
                     slack_response = notify_user(
-<<<<<<< HEAD
-<<<<<<< HEAD
                         blocks, instance.follower.slack_id,
                         text="New upcoming event from Andela socials")
-=======
-                        blocks, instance.follower.slack_id, text="New upcoming event from Andela socials")
->>>>>>> ft(slack-attend-event): User should be able to attend event from slack) (#181)
-=======
-                        blocks, instance.follower.slack_id,
-                        text="New upcoming event from Andela socials")
->>>>>>> feat(graphql): add mutation to share event on slack (#190)
                     if not slack_response['ok']:
                         logging.warn(slack_response)
                 else:
@@ -480,38 +416,6 @@ class SlackChannelsList(graphene.ObjectType):
     class Meta:
         interfaces = (relay.Node,)
 
-<<<<<<< HEAD
-class ChannelList(graphene.ObjectType):
-    id = graphene.ID()
-    name = graphene.String()
-    is_channel = graphene.String()
-    created = graphene.Int()
-    creator = graphene.String()
-    is_archived = graphene.Boolean()
-    is_general = graphene.Boolean()
-    name_normalized = graphene.String()
-    is_shared = graphene.Boolean()
-    is_org_shared = graphene.Boolean()
-    is_member = graphene.Boolean()
-    is_private = graphene.Boolean()
-    is_group = graphene.Boolean()
-    members = graphene.List(graphene.String)
-
-
-class ResponseMetadata(graphene.ObjectType):
-    next_cursor = graphene.String()
-
-
-class SlackChannelsList(graphene.ObjectType):
-    ok = graphene.Boolean()
-    channels = graphene.List(ChannelList)
-    response_metadata = graphene.Field(ResponseMetadata)
-
-    class Meta:
-        interfaces = (relay.Node,)
-
-=======
->>>>>>> feat(graphql): add mutation to share event on slack (#190)
 
 class ShareEvent(relay.ClientIDMutation):
     class Input:
@@ -542,14 +446,7 @@ class ShareEvent(relay.ClientIDMutation):
                 blocks, "New upcoming event from Andela socials", channel_id)
 
         except ValueError as e:
-<<<<<<< HEAD
-<<<<<<< HEAD
             logging.warn(e)
-=======
->>>>>>> feat(graphql): add mutation to share event on slack (#190)
-=======
-            logging.warn(e)
->>>>>>> fix(graphql): make error messages user friendly (#231)
             raise GraphQLError("An Error occurred. Please try again")
 
         return ShareEvent(event=event)
@@ -557,22 +454,9 @@ class ShareEvent(relay.ClientIDMutation):
 
 class EventQuery(object):
     event = relay.Node.Field(EventNode)
-<<<<<<< HEAD
-<<<<<<< HEAD
     events_list = DjangoFilterConnectionField(EventNode, filterset_class=EventFilter)
     slack_channels_list = graphene.Field(SlackChannelsList)
-=======
-    events_list = DjangoFilterConnectionField(EventNode)
-=======
-    events_list = DjangoFilterConnectionField(EventNode, filterset_class=EventFilter)
->>>>>>> feat(event query): filter events by event creator (#236)
-    slack_channels_list = graphene.Field(SlackChannelsList)
 
-<<<<<<< HEAD
->>>>>>> feature(channels): Get all slack public channels (#188)
-
-=======
->>>>>>> feat(graphql): add mutation to share event on slack (#190)
     def resolve_event(self, info, **kwargs):
         id = kwargs.get('id')
 
@@ -591,30 +475,12 @@ class EventQuery(object):
         slack_list = get_slack_channels_list()
         responseMetadata = ResponseMetadata(**slack_list.get('response_metadata'))
         for items in slack_list.get('channels'):
-<<<<<<< HEAD
-<<<<<<< HEAD
             selection = SLACK_CHANNEL_DATA
             filtered_channel = dict(filter(lambda x: x[0] in selection, items.items()))
             channel = ChannelList(**filtered_channel)
             channels.append(channel)
         return SlackChannelsList(
             ok=slack_list.get('ok'), channels=channels, response_metadata=responseMetadata)
-=======
-            selection = ['topic', 'purpose', 'shared_team_ids']
-            filtered_channel = dict(filter(lambda x: x[0] not in selection, items.items()))
-=======
-            selection = SLACK_CHANNEL_DATA
-            filtered_channel = dict(filter(lambda x: x[0] in selection, items.items()))
->>>>>>> bug(channel-list): fix channel list error (#222)
-            channel = ChannelList(**filtered_channel)
-            channels.append(channel)
-        return SlackChannelsList(
-<<<<<<< HEAD
-            ok=slack_list.get('ok'),channels=channels,response_metadata=responseMetadata)
->>>>>>> feature(channels): Get all slack public channels (#188)
-=======
-            ok=slack_list.get('ok'), channels=channels, response_metadata=responseMetadata)
->>>>>>> feat(event-update-notifier): notify attendees on slack when host updates or cancels event (#196)
 
 
 class EventMutation(ObjectType):

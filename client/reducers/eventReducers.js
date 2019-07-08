@@ -14,18 +14,8 @@ import {
   SIGN_OUT,
   UPLOAD_IMAGE,
   SHARE_EVENT,
-<<<<<<< HEAD
-<<<<<<< HEAD
   CHANGE_START_DATE,
   GET_EVENTS_LOADING,
-<<<<<<< HEAD
-=======
->>>>>>> feat(event-details): share event on channel (#198)
-=======
-  CHANGE_START_DATE,
->>>>>>> feature(events-list): persist startDate (#227)
-=======
->>>>>>> fix(events): remove events from blacklist (#233)
 } from '../actions/constants';
 import initialState from './initialState';
 
@@ -38,26 +28,11 @@ import initialState from './initialState';
 export const events = (state = initialState.events, action) => {
   switch (action.type) {
     case GET_EVENTS:
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> fix(events): remove events from blacklist (#233)
       const { edges, pageInfo, requestedStartDate } = action.payload;
       return { ...state, eventList: edges, pageInfo, requestedStartDate, };
 
     case GET_EVENTS_LOADING:
       return { ...state, getEventsLoading: action.payload };
-<<<<<<< HEAD
-=======
-      const { edges, pageInfo } = action.payload;
-<<<<<<< HEAD
-      return { eventList: edges, pageInfo };
->>>>>>> feat(event-details): share event on channel (#198)
-=======
-      return { ...state, eventList: edges, pageInfo };
->>>>>>> feature(events-list): persist startDate (#227)
-=======
->>>>>>> fix(events): remove events from blacklist (#233)
 
     case LOAD_MORE_EVENTS:
       const { eventList } = state;

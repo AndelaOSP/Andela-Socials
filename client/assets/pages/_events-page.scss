@@ -21,8 +21,6 @@
     grid-column: sidebar-start/sidebar-end;
     width: rem(330px);
     vertical-align: middle;
-<<<<<<< HEAD
-<<<<<<< HEAD
     justify-self: center;
     &-fixed {
       position: fixed;
@@ -42,32 +40,6 @@
     &-fixed.event__sidebar-expanded {
       padding-top: 5rem;
     }
-=======
-=======
-    justify-self: center;
->>>>>>> fix(sidebar): prevent sidenav hiding behind nav (#218)
-    &-fixed {
-      position: fixed;
-      width: 20.625rem;
-      height: 100vh;
-      top: 0;
-      overflow-y: scroll;
-      padding-top: 10rem;
-      transition: padding-top .5s ease-in-out;
-      will-change: padding-top;
-      @include mobile(600px) {
-        position: initial;
-        height: initial;
-        padding-top: initial;
-      }
-    }
-<<<<<<< HEAD
->>>>>>> feature(ui): fix header and sidebar (#211)
-=======
-    &-fixed.event__sidebar-expanded {
-      padding-top: 5rem;
-    }
->>>>>>> fix(sidebar): prevent sidenav hiding behind nav (#218)
   }
 
   &__gallery {
@@ -259,16 +231,7 @@ main {
   width: 100%;
   background: var(--neutral-color);
   border-radius: 10px;
-<<<<<<< HEAD
-<<<<<<< HEAD
   min-height: rem(300px);
-=======
-  height: rem(373px);
-
->>>>>>> feat(redesign): redesign event card (#194)
-=======
-  min-height: rem(300px);
->>>>>>> feature(ui): fix header and sidebar (#211)
   .header {
     text-transform: uppercase;
     font-size: 15px;
@@ -544,7 +507,6 @@ main {
   width: 25px;
   background-color: #eee;
 }
-<<<<<<< HEAD
 
 .slack-channel {
   &:hover input ~ .checkmark {
@@ -562,25 +524,6 @@ main {
 }
 
 .slack-channel {
-=======
-
-.slack-channel {
-  &:hover input ~ .checkmark {
-    background-color: #ccc;
-  }
-  input:checked ~ .checkmark {
-    background-color: #3359DB;
-  }
-}
-
-.checkmark:after {
-  content: "";
-  position: absolute;
-  display: none;
-}
-
-.slack-channel {
->>>>>>> (ft-event-host-add-channel-165998501) Event host should be able to add a discussion/group slack channel to an event (#202)
   input:checked ~ .checkmark:after {
     display: block;
   }

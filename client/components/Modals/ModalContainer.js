@@ -5,14 +5,7 @@ import { ModalContextCreator } from './ModalContext';
 import EventForm from '../Forms/EventForm';
 import DeleteForm from '../Forms/DeleteForm';
 import SubmitForm from '../Forms/SubmitForm';
-<<<<<<< HEAD
-<<<<<<< HEAD
 import SlackModal from './SlackModal';
-=======
->>>>>>> feat(interests): add google calendar access (#210)
-=======
-import SlackModal from './SlackModal';
->>>>>>> feat(slack-modal): implement slack token callback (#217)
 
 /*
   maps a string to a modal child, used to determine
@@ -26,14 +19,7 @@ const MODAL_COMPONENTS = {
   UPDATE_EVENT: EventForm,
   DELETE_EVENT: DeleteForm,
   SUBMIT_INVITE: SubmitForm,
-<<<<<<< HEAD
-<<<<<<< HEAD
   SLACK_MODAL: SlackModal,
-=======
->>>>>>> feat(interests): add google calendar access (#210)
-=======
-  SLACK_MODAL: SlackModal,
->>>>>>> feat(slack-modal): implement slack token callback (#217)
 };
 
 const ModalContent = (props) => {
@@ -41,17 +27,8 @@ const ModalContent = (props) => {
 
   const submitButtonLabels = {
     DELETE_EVENT: 'CONFIRM',
-<<<<<<< HEAD
-<<<<<<< HEAD
     SUBMIT_INVITE: 'CONFIRM',
     SLACK_MODAL: 'CONFIRM',
-=======
-    SUBMIT_INVITE: 'CONFIRM'
->>>>>>> feat(interests): add google calendar access (#210)
-=======
-    SUBMIT_INVITE: 'CONFIRM',
-    SLACK_MODAL: 'CONFIRM',
->>>>>>> feat(slack-modal): implement slack token callback (#217)
   };
   const submitText = submitButtonLabels[activeModal] || 'Submit';
 

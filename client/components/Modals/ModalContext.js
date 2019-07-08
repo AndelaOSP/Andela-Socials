@@ -10,17 +10,8 @@ class ModalContext extends Component {
     'CREATE_EVENT',
     'UPDATE_EVENT',
     'DELETE_EVENT',
-<<<<<<< HEAD
-<<<<<<< HEAD
     'SUBMIT_INVITE',
     'SLACK_MODAL',
-=======
-    'SUBMIT_INVITE'
->>>>>>> feat(interests): add google calendar access (#210)
-=======
-    'SUBMIT_INVITE',
-    'SLACK_MODAL',
->>>>>>> feat(slack-modal): implement slack token callback (#217)
   ];
 
   defaultModalProps = { modalHeadline: 'default modal headline' };
