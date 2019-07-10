@@ -246,3 +246,16 @@ def update_event_status_on_calendar(andela_user, event):
             eventId=event_id,
             body=event_in_calendar
         ).execute()
+
+
+def remove_event_from_all_calendars(andela_user, event):
+    """
+    Remove an event from all calendars
+    Args:
+        andela_user(list): The user data of the person removing the event
+        event(list): The event to be removed from the calendar
+    Returns: None
+    """
+    eventId = event.event_id_in_calendar
+    calendar = build('calendar', 'v3', credentials=andela_user.credential)
+    calendar.events().delete(calendarId='primary', eventId=eventId).execute()

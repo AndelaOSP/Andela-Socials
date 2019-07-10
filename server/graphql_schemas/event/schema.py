@@ -24,7 +24,8 @@ from graphql_schemas.utils.helpers import (is_not_admin,
                                            raise_calendar_error,
                                            not_valid_timezone,
                                            send_bulk_update_message,
-                                           add_event_to_calendar)
+                                           add_event_to_calendar,
+                                           remove_event_from_all_calendars)
 from graphql_schemas.scalars import NonEmptyString
 from graphql_schemas.utils.hasher import Hasher
 from api.models import (Event, Category, AndelaUserProfile,
@@ -283,6 +284,10 @@ class DeactivateEvent(relay.ClientIDMutation):
         Event.objects.filter(id=db_event_id).update(active=False)
 
         message = f"The *{event.title}* event has been cancelled\n"
+        andela_user = AndelaUserProfile.objects.get(
+            user_id=user.id)
+        BackgroundTaskWorker.start_work(
+            remove_event_from_all_calendars, (andela_user, event))
 
         BackgroundTaskWorker.start_work(
             send_bulk_update_message, (event, message, "An event you are attending has been cancelled"))
