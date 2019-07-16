@@ -165,11 +165,14 @@ class CreateEvent(relay.ClientIDMutation):
                     user=instance.follower, event=new_event)
                 all_users_attendance.append(new_attendance)
                 if instance.follower.slack_id:
-                    slack_response = notify_user(
-                        blocks, instance.follower.slack_id,
-                        text="New upcoming event from Andela socials")
-                    if not slack_response['ok']:
-                        logging.warn(slack_response)
+                    text = "New upcoming event from Andela socials"
+                    BackgroundTaskWorker.start_work(
+                        notify_user, (
+                            blocks,
+                            instance.follower.slack_id,
+                            text
+                        )
+                    )
                 else:
                     slack_id_not_in_db.append(instance)
             Attend.objects.bulk_create(all_users_attendance)
@@ -181,10 +184,9 @@ class CreateEvent(relay.ClientIDMutation):
                     if retrieved_slack_id != '':
                         instance.follower.slack_id = retrieved_slack_id
                         instance.follower.save()
-                        slack_response = notify_user(
-                            blocks, retrieved_slack_id)
-                        if not slack_response['ok']:
-                            logging.warn(slack_response)
+                        text = "New upcoming event from Andela socials"
+                        BackgroundTaskWorker.start_work(
+                            notify_user, (blocks, retrieved_slack_id, text))
                     else:
                         continue
         except BaseException as e:

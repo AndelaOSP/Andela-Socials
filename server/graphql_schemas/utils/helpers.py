@@ -193,7 +193,7 @@ async def send_bulk_update_message(event_instance, message, notification_text):
                 logging.info("Rate limited. Retrying in " + str(delay) + " seconds")
                 sleep(delay)
                 notify_user(
-                    message, slack_id, text=notification_text)
+                    message, slack_id, notification_text)
             elif not slack_response['ok']:
                 logging.warning(slack_response)
 
