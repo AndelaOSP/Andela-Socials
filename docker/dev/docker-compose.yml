@@ -4,6 +4,7 @@ volumes:
   postgres_data: {}
   postgres_backup: {}
   a_socials_node_modules:
+  a_social_logs: {}
 
 services:
   database:
@@ -31,6 +32,8 @@ services:
       - database
     ports:
       - "8000:8000"
+    volumes:
+      - a_social_logs:/var/lib/docker/containers 
 
   client:
     container_name: dev_andela_social_client

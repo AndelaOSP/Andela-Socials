@@ -29,6 +29,9 @@ WORKDIR /andela_social
 # Copy server files to work directory
 COPY . /andela_social
 
+COPY ./log_settings/daemon.json /etc/docker/
+COPY ./log_settings/docker  /etc/logrotate.d/
+
 # Copy setup scripts to folder
 COPY start-server.sh /start-server.sh
 COPY wait_for_database.sh /wait_for_database.sh
