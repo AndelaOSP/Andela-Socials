@@ -177,7 +177,7 @@ class Dashboard extends Component {
 
     if (!localStorage.getItem('token')) {
       const token = Cookies.get('jwt-token');
-      if (isLoggedIn() && token) {
+      if (token) {
         localStorage.setItem('token', token);
       }
     }
@@ -185,7 +185,7 @@ class Dashboard extends Component {
     if (isTokenExpired() || !isLoggedIn()) {
       return <Redirect to={{
         pathname: '/login',
-        state: { "previousLocation": window.location.href }
+        state: { previousLocation: window.location.href },
       }} />;
     }
 
