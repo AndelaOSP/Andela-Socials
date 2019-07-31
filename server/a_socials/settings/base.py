@@ -222,3 +222,11 @@ GOOGLE_OAUTH2_STORAGE_MODEL = {
 }
 
 FRONTEND_BASE_URL = dotenv.get('FRONTEND_BASE_URL')
+
+
+# load log settings
+try:
+    from .logger_settings import *
+except Exception as e:
+    print(f'log settings not loaded {str(e)}')
+    pass

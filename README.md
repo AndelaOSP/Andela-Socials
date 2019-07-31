@@ -1,37 +1,35 @@
 # ANDELA SOCIALS
 
-[![CircleCI](https://circleci.com/gh/AndelaOSP/Andela-Socials.svg?style=shield&circle-token=f63d8e7f6a1e65078cd1988847cbb29e6382bba1)](https://circleci.com/gh/AndelaOSP/Andela-Socials)
+[![CircleCI](https://circleci.com/gh/AndelaOSP/Andela-Socials.svg?style=shield&circle-token=f63d8e7f6a1e65078cd1988847cbb29e6382bba1)](https://circleci.com/gh/AndelaOSP/Andela-Socials) [![Maintainability](https://api.codeclimate.com/v1/badges/0da1c9a1fec63a855e21/maintainability)](https://codeclimate.com/github/AndelaOSP/Andela-Socials/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/0da1c9a1fec63a855e21/test_coverage)](https://codeclimate.com/github/AndelaOSP/Andela-Socials/test_coverage)
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/0da1c9a1fec63a855e21/maintainability)](https://codeclimate.com/github/AndelaOSP/Andela-Socials/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/0da1c9a1fec63a855e21/test_coverage)](https://codeclimate.com/github/AndelaOSP/Andela-Socials/test_coverage)
+Andela Social was born from the desire to keep Andelans sociable within the organization.
+It is a platform for events aggregation, to get Andelans from different departments, cohorts and centers to mingle and have fun together over a cup of coffee, a game of soccer, at a swimming pool or at a friends dinner party.
+With this platform, events organized within the fellowship are properly tracked and managed for all to see and for all to relate with irrespective of their centers.
+This will improve socialization among Andelans both inside and outside the organisation.
 
-Andela Social was born out of the desire to keep Andelans very sociable within the organization.
-It is a platform for events aggregation, to get Andelans from different departments to mingle and have fun together over a cup of coffee, a game of soccer, at a swimming pool or at a friends dinner party.
-It is a platform to get events organized within the fellowship properly tracked and managed for all to see and for all to relate with irrespective of their centers.
-These will improve socialization between Andelans inside and outside the company.
+## PROJECT REQUIREMENTS
+- Node.js 8.4.0
+- PostgreSQL 10.4
+- virtualenv 16.0.0
+- Django 1.11.5
+- python 3.6
+- graphene-django 2.1
+- psycopg2 2.7.3
+- Docker
 
-## INSTALLATION
+## PROJECT SETUP
 
-Clone from git using
+### DB CREATION (Ignore if you have the database created already)
 
-```sh
-git clone git@github.com:AndelaOSP/Andela-Socials.git
-```
+Use the createdb.sh script to setup your database for the application.
 
-Create a `.env` file in the root directory with the content of the `.env.sample` and edit with your personal details.
-
-For the proper `.env` details reach out to the Team Lead when in doubt. :)
-
-## DB CREATION (Ignore if you have the database created already)
-
-Use the createdb.sh script to setup your database for the application
-
-Your .env variables should contain the values listed below, you can reference the file to see how it is used.
+Your `.env` variables should contain the values listed below, you can reference the file to see how it is used.
 
 ```sh
-    DB_USER=a_socials
-    DB_PASS=a_socials
-    DB_PORT=5432
-    DB_NAME=a_socials
+   DB_USER=a_socials
+   DB_PASS=a_socials
+   DB_PORT=5432
+   DB_NAME=a_socials
 ```
 
 ### Node Installation
@@ -40,7 +38,18 @@ It is advisable to use node version 8 for this project. Check your node version 
 
 You would then run `nvm install v8.0` to install node version 8 and `nvm use v8` to use that specific node version, but this will only work with that running bash session. To make version 8 the default node version for your system you would use `nvm alias default 8.0`
 
-### Project Setup
+Clone from git using
+
+```sh
+git clone git@github.com:AndelaOSP/Andela-Socials.git
+```
+
+Create a `.env` file in the root directory. Use the content of the `.env.sample` and edit with the appropriate details.
+
+Reach out to the Team Lead for the appropriate `.env` details when in doubt. :)
+
+
+### SETUP WITH VIRTUAL ENVIRONMENT
 
 Navigate into the root directory of the project and run the script `setup.sh` with the command:
 
@@ -74,7 +83,7 @@ To STOP the application run the command:
 scripts/stop.sh
 ```
 
-### TEST
+### TEST(Virtual Environment Setup)
 
 To run server side test run the command below:
 
@@ -108,18 +117,20 @@ yarn test
 
 ### SETTING UP WITH DOCKER
 
-Before booting up the environment (`make build`) ensure that you have [docker](https://docs.docker.com/docker-for-mac/install/) **installed** and **running** on your machine.
+Before booting up the environment (`make build`) ensure that you have [docker](https://docs.docker.com/) **installed** and **running** on your machine.
 If you are using mac this [install](https://docs.docker.com/docker-for-mac/install/) should get you started.
 
 The resources will be configured via docker-compose services. This will ensure that the application will be developed and deployed under similar environments.
-To setup development environment, create a dev.env file in the `docker/dev` directory and populate it with environment variables using `.env.sample` as a model
+
+To setup development environment, create a `dev.env` file in the `docker/dev` directory and populate it with environment variables using `.env.sample` file in the root directory as a model.
+
 To start the build, run:
 
 ```sh
 make build
 ```
 
-After the build is complete, spin up the containers with:
+After the build is complete, spin up the docker containers with:
 
 ```bash
 make start
@@ -133,10 +144,12 @@ To stop the application, you can pull down the containers with:
 make stop
 ```
 
-To setup production environment, create a prod.env file in the `docker/prod` directory and populate it with environment variables using `.env.sample` as a model
-To run any make command successfully for the production application, variable `env` must be set to `production` in the makefile.
+To setup production environment, create a `prod.env` file in the `docker/prod` directory and populate it with environment variables using `.env.sample` file in the root directory as a model.
+To run any make command successfully for the production application, ensure the variable `env` is set to `production` in the makefile in the root directory.
+
+To achieve this;
 If on a bash terminal, you can do `export env=production` before running any make command.
-Alternatively, you can set the variable as part of the make command.
+Alternatively, you can set the variable as part of the make command before execution.
 
 ```bash
 make build env=production
@@ -148,14 +161,21 @@ For the production application, [Nginx](https://www.nginx.com/resources/glossary
 
 Please note that you only need to build the dockerized application once. Subsequently, run `make start` to start the application.
 
+### TEST(Docker Setup)
 
+To run tests, in the terminal, run the command `docker ps` to view the available docker containers. Use the command `docker exec -it [dev_server_id] bash`
+To run the server side tests, execute the command `coverage run manage.py test -v 2 --snapshot-update api/tests/ graphql_schemas/tests/` in the bash terminal.
+
+To run the client side tests, follow the above steps and replace `docker exec -it [dev_server_id] bash` with `docker exec -it [dev_client_id] bash`. Execute the command `yarn test` in that container's terminal.
+
+You can click `ctrl+d` to exit the bash terminal.
 ### Ngrok
 
 This service only runs when using docker in production mode locally **NB**: **Configured to use frontend only**.
 ```
 Reference:
-	https://ngrok.com/product
-	https://ngrok.com/docs
+    https://ngrok.com/product
+    https://ngrok.com/docs
 ```
 Once you have docker running locally for prod, navigate to Ngrok dashboard
 ```
@@ -194,6 +214,6 @@ To make any deployments to GCP, the application has to go through the workflow s
 
 To test whether the backend or frontend are working correctly within a docker container, run `make build_backend` or `make build_frontend` which will create images for both. If they exit successfully, you can then move to the next stage which will be to tag and publish which are done using the `make tag` and `make publish` commands respectively.
 
-### CONTRIBUTORS
+## CONTRIBUTORS
 
 View the list of [contributors](https://github.com/AndelaOSP/Andela-Socials/contributors) who participate in this project.

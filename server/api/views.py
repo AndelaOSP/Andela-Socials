@@ -288,8 +288,8 @@ class SlackActionsCallback(APIView):
             except AndelaUserProfile.DoesNotExist:
                 message = generate_simple_message(
                     'Oops! It seems you no longer have an account on the platform')
-
-            notify_user(message, user_slack_id)
+            text = "Attending Event"
+            notify_user(message, user_slack_id, text)
         return Response()
 
     @staticmethod

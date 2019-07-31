@@ -26,5 +26,8 @@ def check_and_notify_members():
         )
         if new_users:
             message = new_users + ' joined ' + str(category.name) + ' today.'
-            [notify_user(message, user.follower.slack_id)
-             for user in users_in_category]
+            [notify_user(
+                message,
+                user.follower.slack_id,
+                'New member joined Andela Socials'
+                ) for user in users_in_category]

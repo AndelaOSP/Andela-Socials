@@ -13,6 +13,13 @@ RUN pip wheel --wheel-dir=/wheelhouse -r requirements.txt
 # Install pip packages from wheel archives
 RUN pip install --no-index -f /wheelhouse -r requirements.txt
 
+# Create directory for logs
+RUN mkdir -p /tmp/log/andela_socials/
+RUN mkdir /var/log/andela_socials/
+
+ #Install vim editor for debuging
+RUN apt-get update && apt-get install vim -y
+
 # OUTPUT: Build artefacts (Wheels)
 VOLUME /wheelhouse
 

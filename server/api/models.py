@@ -192,6 +192,12 @@ class Category(BaseInfo):
         return "Category : {}" .format(self.name)
 
 
+class RecurrenceEvent(BaseInfo):
+    frequency = models.CharField(max_length=50)
+    start_date = models.CharField(max_length=50)
+    end_date = models.CharField(max_length=50)
+
+
 class Event(BaseInfo):
     """Message model defined."""
 
@@ -204,6 +210,12 @@ class Event(BaseInfo):
     creator = models.ForeignKey(AndelaUserProfile, on_delete=models.CASCADE)
     social_event = models.ForeignKey(
         Category, on_delete=models.CASCADE, related_name="events")
+    recurrence = models.ForeignKey(
+        RecurrenceEvent,
+        on_delete=models.CASCADE,
+        related_name="events",
+        related_query_name="event",
+        null=True)
     featured_image = models.URLField()
     active = models.BooleanField(default=1)
     timezone = models.CharField(max_length=80, blank=True)

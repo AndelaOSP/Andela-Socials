@@ -47,20 +47,25 @@ def notify_channel(message, text, channel_id=dotenv.get('DEFAULT_CHANNEL_ID')):
     )
 
 
-def notify_user(message, slack_id, **kwargs):
+def notify_user(message, slack_id, text, **kwargs):
     """
     Notify the user with the given id with the message
         :param message:
         :param slack_id - The slack id of the user:
     """
-    return slack_client.api_call(
+    slack_response = slack_client.api_call(
         "chat.postMessage",
         channel=slack_id,
         blocks=message,
         as_user=True,
         reply_broadcast=True,
+        text=text,
         **kwargs,
     )
+    if slack_response['ok']:
+        return slack_response
+    else:
+        logging.warn(slack_response)
 
 
 def get_slack_user_timezone(email):
