@@ -160,27 +160,7 @@ def normalize_dates(end_date, start_date, today_date):
     else:
         return {'status': True, 'message': 'Validation successful'}
 
-def validate_event_dates(input):
-    """
-        Validate event dates
-        Args:
-            input(date): all input
-        Returns
-            (dict): success or failure message
-    """
-    
-    event_tz = input.get('start_date').tzinfo
-    today_date = datetime.datetime.now(event_tz)
-    start_date = input.get('start_date')
-    end_date = input.get('end_date')
 
-    if start_date < today_date or end_date < today_date:
-        return {'status': False, 'message': 'Sorry, you cannot enter a past date'}
-    elif end_date < start_date:
-        return {'status': False, 'message': 'Sorry, end date must be after start date'}
-    else:
-        return {'status': True, 'message': 'Validation successful'}
-    
 def not_valid_timezone(timezone):
     """
         validate timezone

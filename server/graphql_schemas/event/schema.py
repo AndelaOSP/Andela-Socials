@@ -116,6 +116,7 @@ class CreateEvent(relay.ClientIDMutation):
         frequency = Frequency()
         recurring = graphene.Boolean(required=False)
         recurrence_end_date = graphene.DateTime(required=False)
+        add_to_calendar = graphene.Boolean(required=False)
 
     new_event = graphene.Field(EventNode)
     slack_token = graphene.Boolean()
@@ -141,6 +142,7 @@ class CreateEvent(relay.ClientIDMutation):
 
         input.pop('recurring', None)
         input.pop('frequency', None)
+        input.pop('add_to_calendar', None)
         new_event = Event.objects.create(
             **input,
             creator=user_profile,
@@ -163,6 +165,7 @@ class CreateEvent(relay.ClientIDMutation):
         """
         category_id = from_global_id(input.pop('category_id'))[1]
         recurrence_event = None
+        add_to_calendar = input.get('add_to_calendar')
         try:
             category = Category.objects.get(
                 pk=category_id)
@@ -180,7 +183,10 @@ class CreateEvent(relay.ClientIDMutation):
                 "recurrence_event": recurrence_event,
                 "user_profile": user_profile
             }
-            cls.start_background_task(**args_dict)
+            if add_to_calendar is None:
+                add_to_calendar = True
+            if add_to_calendar:
+                cls.start_background_task(**args_dict)
             CreateEvent.notify_event_in_slack(category, input, new_event)
 
         except ValueError as e:
