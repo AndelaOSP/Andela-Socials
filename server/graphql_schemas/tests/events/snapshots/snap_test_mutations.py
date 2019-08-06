@@ -83,13 +83,36 @@ snapshots['MutateEventTestCase::test_deactivate_event_as_non_creator 1'] = {
     ]
 }
 
+snapshots['MutateEventTestCase::test_event_with_an_existing_location 1'] = {
+    'data': {
+        'eventsList': {
+            'edges': [
+                {
+                    'node': {
+                        'id': 'RXZlbnROb2RlOjU='
+                    }
+                }
+            ]
+        }
+    }
+}
+
+snapshots['MutateEventTestCase::test_event_with_non_exixting_location 1'] = {
+    'data': {
+        'eventsList': {
+            'edges': [
+            ]
+        }
+    }
+}
+
 snapshots['MutateEventTestCase::test_query_updated_event 1'] = {
     'data': {
         'event': {
             'description': 'test description default',
             'id': 'RXZlbnROb2RlOjU=',
             'socialEvent': {
-                'id': 'Q2F0ZWdvcnlOb2RlOjQz'
+                'id': 'Q2F0ZWdvcnlOb2RlOjQ1'
             },
             'title': 'test title default'
         }
@@ -234,6 +257,16 @@ snapshots['MutateEventTestCase::test_validate_invite_link 1'] = {
     }
 }
 
+snapshots['MutateEventTestCase::test_validate_invite_link_expired_event 1'] = {
+    'data': {
+        'validateEventInvite': {
+            'event': None,
+            'isValid': False,
+            'message': 'Expired Invite: Event has ended'
+        }
+    }
+}
+
 snapshots['MutateEventTestCase::test_validate_invite_link_invalid_event 1'] = {
     'data': {
         'validateEventInvite': {
@@ -270,16 +303,6 @@ snapshots['MutateEventTestCase::test_validate_invite_link_unauthorized_user 1'] 
             'event': None,
             'isValid': False,
             'message': 'Forbidden: Unauthorized access'
-        }
-    }
-}
-
-snapshots['MutateEventTestCase::test_validate_invite_link_expired_event 1'] = {
-    'data': {
-        'validateEventInvite': {
-            'event': None,
-            'isValid': False,
-            'message': 'Expired Invite: Event has ended'
         }
     }
 }

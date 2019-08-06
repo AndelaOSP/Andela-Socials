@@ -200,6 +200,21 @@ class RecurrenceEvent(BaseInfo):
 
 class Event(BaseInfo):
     """Message model defined."""
+    EG = 'Egypt'
+    NG = 'Nigeria'
+    UG = 'Uganda'
+    KE = 'Kenya'
+    SF = 'San-Fransisco'
+    KG = 'Kigali'
+
+    EVENTS_LOCATION = (
+        (EG, 'Egypt'),
+        (NG, 'Nigeria'),
+        (UG, 'Uganda'),
+        (KE, 'Kenya'),
+        (SF, 'San-Fransisco'),
+        (KG, 'Kigali'),
+    )
 
     title = models.CharField(max_length=100)
     event_id_in_calendar = models.CharField(max_length=150, default='')
@@ -220,6 +235,8 @@ class Event(BaseInfo):
     active = models.BooleanField(default=1)
     timezone = models.CharField(max_length=80, blank=True)
     slack_channel = models.CharField(max_length=80, blank=True)
+    location = models.CharField(max_length=50,
+                                choices=EVENTS_LOCATION, default=SF)
 
     @property
     def attendees(self):
@@ -234,7 +251,23 @@ class Event(BaseInfo):
     attendees_count = property(get_count)
 
     def __str__(self):
-        return "Event: {}" .format(self.title)
+        return "Event: {}{}" .format(self.title, self.location)
+
+    def save(self, *args, **kwargs):
+        """This method is modified to check if event value is
+        valid before a user event is created.
+
+        :param args: Tuple of arguments
+        :param kwargs: key word arguments
+        :return: None
+        """
+
+        if self.location not in (self.EG, self.NG, self.UG,
+                                 self.KE, self.SF, self.KG):
+            raise ValidationError(
+                f'{self.location} is not a valid location'
+            )
+        super(Event, self).save(*args, **kwargs)
 
 
 class Interest(BaseInfo):

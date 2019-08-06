@@ -77,7 +77,9 @@ class EventFilter(FilterSet):
         model = Event
         fields = {'start_date': ['exact', 'istartswith'],
                   'social_event': ['exact'], 'venue': ['exact'],
-                  'title': ['exact', 'istartswith'], 'creator': ['exact']}
+                  'title': ['exact', 'istartswith'], 'creator': ['exact'],
+                  'location': ['icontains'], }
+
 
 class EventNode(DjangoObjectType):
     attendSet = AttendNode()
@@ -89,7 +91,8 @@ class EventNode(DjangoObjectType):
         model = Event
         filter_fields = {'start_date': ['exact', 'istartswith'],
                          'social_event': ['exact'], 'venue': ['exact'],
-                         'title': ['exact', 'istartswith'], 'creator': ['exact']}
+                         'title': ['exact', 'istartswith'], 'creator': ['exact'],
+                         'location': ['icontains'], }
         interfaces = (relay.Node,)
 
 
@@ -117,6 +120,7 @@ class CreateEvent(relay.ClientIDMutation):
         recurring = graphene.Boolean(required=False)
         recurrence_end_date = graphene.DateTime(required=False)
         add_to_calendar = graphene.Boolean(required=False)
+        location = graphene.String(required=False)
 
     new_event = graphene.Field(EventNode)
     slack_token = graphene.Boolean()
@@ -240,7 +244,7 @@ class CreateEvent(relay.ClientIDMutation):
             frequency=frequency,
             start_date=start_date,
             end_date=end_date
-            )
+        )
         return recurrence_event
 
     @staticmethod
@@ -383,7 +387,7 @@ class UpdateEvent(relay.ClientIDMutation):
                     updated_event=updated_event
                 )
         except Exception as e:
-            # return an error if something wrong happens
+            """ return an error if something wrong happens """
             logging.warn(e)
             raise GraphQLError("An Error occurred. Please try again")
 
@@ -424,7 +428,8 @@ class DeactivateEvent(relay.ClientIDMutation):
             remove_event_from_all_calendars, (andela_user, event))
 
         BackgroundTaskWorker.start_work(
-            send_bulk_update_message, (event, message, "An event you are attending has been cancelled"))
+            send_bulk_update_message,
+            (event, message, "An event you are attending has been cancelled"))
 
         return cls(action_message="Event deactivated")
 
