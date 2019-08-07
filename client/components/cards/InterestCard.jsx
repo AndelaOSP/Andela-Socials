@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * This function creates an interest card
+ *
+ * @param {Object} props
+ *
+ * @return JSX
+ */
 const InterestCard = (props) => {
   const {
     name,

@@ -35,6 +35,11 @@ class EventFilter extends React.Component {
     this.onApply = this.onApply.bind(this);
   }
 
+  /**
+   * method to apply the filter
+   *
+   * @return {void}
+   */
   onApply() {
     const { filterSelected } = this.props;
     const {
@@ -42,28 +47,44 @@ class EventFilter extends React.Component {
       category,
     } = this.state;
     if (filterSelected !== undefined) {
-      filterSelected({ filterLocation: location, filterCategory: category });
+      filterSelected({
+        filterLocation: location, filterCategory: category,
+      });
     }
   }
 
+  /**
+   * method to handle the location change
+   *
+   * @param {String} location
+   *
+   * @return {void}
+   */
   onLocationChange(location) {
     this.setState({ location });
   }
 
+  /**
+   * method to handle the category change
+   *
+   * @param {String} location
+   *
+   * @return {void}
+   */
   onCategoryChange(category) {
     this.setState({ category });
   }
 
   render() {
     const updatedCategoryList = [
-        {
-          id: null,
-          title: 'All',
-          selected: false,
-          key: 'category',
-        },
-        ...this.props.categoryList
-      ]
+      {
+        id: null,
+        title: 'All',
+        selected: false,
+        key: 'category',
+      },
+      ...this.props.categoryList
+    ];
     return (
       <div className="filter__container" >
         <div className="filter__title">Filter Events</div>

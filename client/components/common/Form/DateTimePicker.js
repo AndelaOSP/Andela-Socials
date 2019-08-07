@@ -39,16 +39,35 @@ export default class DateTimePicker extends Component {
     document.removeEventListener('click', this.toggleClick, false);
   }
 
+  /**
+   * This method handles the date selection ont he picker
+   *
+   * @param {number} value
+   *
+   * @return {void}
+   */
   onDateSelect = (value) => {
     this.props.dateSelected(this.props.type, "date", value) 
   }
 
+  /**
+   * This method gets the date and time
+   *
+   * @return {String} dateTime
+   */
   getDateTime = () => {
-    const { dateValue, timeValue } = this.props;
-    const dateTime = `${dateValue}      ${timeValue}`
-    return dateTime
+    const {
+      dateValue, timeValue,
+    } = this.props;
+    const dateTime = `${dateValue}      ${timeValue}`;
+    return dateTime;
   }
 
+  /**
+   * This method toggles the picker with the icon
+   *
+   * @return JSX
+   */
   togglePickerIcon = () => {
     const { showPicker } = this.state;
     if (showPicker) {
@@ -61,6 +80,13 @@ export default class DateTimePicker extends Component {
     );
   }
 
+  /**
+   * This method toggles the click
+   *
+   * @param {Object} event
+   *
+   * @return JSX
+   */
   toggleClick = (event) => {
     const { showPicker } = this.state;
     const { id } = event.target;

@@ -2,22 +2,42 @@ import React from 'react';
 import dateFns from 'date-fns';
 
 class Calendar extends React.Component {
-  state = {
-    currentMonth: new Date(),
-  };
+  state = { currentMonth: new Date() };
 
   onDateClick = (day) => {
     this.props.dateSelected({ startDate: dateFns.format(day, 'YYYY-MM-DD') });
   };
 
+  /**
+   * This method changes the current month to the next month
+   *
+   * @return {void}
+   */
   nextMonth = () => {
     this.setState({ currentMonth: dateFns.addMonths(this.state.currentMonth, 1) });
   };
 
+  /**
+   * This method changes the current month to the previous month
+   *
+   * @return {void}
+   */
   prevMonth = () => {
-    this.setState({ currentMonth: dateFns.subMonths(this.state.currentMonth, 1) });
+    const { currentMonth } = this.state;
+    this.setState({ currentMonth: dateFns.subMonths(currentMonth, 1) });
   };
 
+  /**
+   * This method pushes the days into the rendered cells
+   *
+   * @param {String} day
+   * @param {String} selectedDate
+   * @param {String} monthStart
+   * @param {String} cloneDay
+   * @param {String} formattedDate
+   *
+   * @return JSX
+   */
   pushDays(day, selectedDate, monthStart, cloneDay, formattedDate) {
     return (
       <div
@@ -25,7 +45,7 @@ class Calendar extends React.Component {
           !dateFns.isSameMonth(day, monthStart)
             ? "disabled"
             : dateFns.isSameDay(day, selectedDate) ? "selected" : ""
-        }`}
+         }`}
         key={day}
         onClick={() => this.onDateClick(dateFns.parse(cloneDay))}
       >
@@ -34,9 +54,14 @@ class Calendar extends React.Component {
     );
   }
 
+  /**
+   * This method renders the cells of the calendar
+   *
+   * @return JSX
+   */
   renderCells() {
-    const { currentMonth } = this.state; 
-    const { selectedDate } = this.props; 
+    const { currentMonth } = this.state;
+    const { selectedDate } = this.props;
     const monthStart = dateFns.startOfMonth(currentMonth);
     const monthEnd = dateFns.endOfMonth(monthStart);
     const startDate = dateFns.startOfWeek(monthStart);
@@ -60,6 +85,11 @@ class Calendar extends React.Component {
     return <div className="full">{rows}</div>;
   }
 
+  /**
+   * This method renders the days of the calendar
+   *
+   * @return JSX
+   */
   renderDays() {
     const dateFormat = 'dddd';
     const days = [];
@@ -84,7 +114,7 @@ class Calendar extends React.Component {
       <div className="header calenders__row flex-middle">
         <div className="calenders__col calenders__col-start calenders__header-arrow">
           <div className="calenders__icon icon calenders__circle" onClick={this.prevMonth}>
-          arrow_back
+            arrow_back
           </div>
         </div>
         <div className="calenders__col calenders__col-center">

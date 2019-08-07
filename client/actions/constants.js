@@ -40,7 +40,7 @@ export const GET_EVENT_ATTENDENCE = 'GET_EVENT_ATTENDENCE';
 // Constants specific to interests
 export const INTERESTS = 'INTERESTS';
 export const INTEREST = 'INTEREST';
-export const CREATE_INTERESTS = 'CREATE_INTERESTS'
+export const CREATE_INTERESTS = 'CREATE_INTERESTS';
 export const REMOVE_INTERESTS = 'REMOVE_INTERESTS';
 export const JOINED_CATEGORIES = 'JOINED_CATEGORIES';
 

@@ -21,6 +21,18 @@ import {
 import { handleError, handleInformation } from '../../utils/errorHandler';
 import Client from '../../client';
 
+/**
+ * Action creator to get a list of events
+ *
+ * @param {String} after
+ * @param {Number} first
+ * @param {String} title
+ * @param {String} startDate
+ * @param {String} venue
+ * @param {String} category
+ *
+ * @returns {Object}
+ */
 export const getEventsList = ({
   after = '',
   first = 9,
@@ -34,20 +46,20 @@ export const getEventsList = ({
     payload: true,
   });
   Client.query(EVENT_LIST_GQL(after, first, title, startDate, venue, category))
-  .then((data) => {
-    const { eventsList } = data.data;
-    eventsList.requestedStartDate = startDate;
-    dispatch({
-      type: after ? LOAD_MORE_EVENTS : GET_EVENTS,
-      payload: eventsList,
-      error: false,
+    .then((data) => {
+      const { eventsList } = data.data;
+      eventsList.requestedStartDate = startDate;
+      dispatch({
+        type: after ? LOAD_MORE_EVENTS : GET_EVENTS,
+        payload: eventsList,
+        error: false,
+      });
     })
-  })
-  .catch(error => handleError(error, dispatch))
-  .finally(dispatch({
-    type: GET_EVENTS_LOADING,
-    payload: false,
-  }));
+    .catch(error => handleError(error, dispatch))
+    .finally(dispatch({
+      type: GET_EVENTS_LOADING,
+      payload: false,
+    }));
 };
 
 /**
@@ -57,6 +69,13 @@ export const getEventsList = ({
  * to get the id of the event
  */
 
+/**
+ * Action creator to get a particular event
+ *
+ * @param {String} id
+ *
+ * @returns {Object}
+ */
 export const getEvent = id => dispatch => Client.query(EVENT_GQL(id))
   .then(data => dispatch({
     type: GET_EVENT,
@@ -65,6 +84,21 @@ export const getEvent = id => dispatch => Client.query(EVENT_GQL(id))
   }))
   .catch(error => handleError(error, dispatch));
 
+/**
+ * Action creator to create a new event
+ *
+ * @param {String} title
+ * @param {Number} description
+ * @param {String} featuredImage
+ * @param {String} venue
+ * @param {String} startDate
+ * @param {String} endDate
+ * @param {String} timezone
+ * @param {String} categoryId
+ * @param {String} slackChannel
+ *
+ * @returns {Object}
+ */
 export const createEvent = ({
   title,
   description,
@@ -74,7 +108,7 @@ export const createEvent = ({
   endDate,
   timezone,
   categoryId,
-  slackChannel
+  slackChannel,
 }) => dispatch => Client.mutate(
   CREATE_EVENT_GQL(
     title,
@@ -104,6 +138,22 @@ export const createEvent = ({
     }
   });
 
+/**
+ * Action creator to update an event
+ *
+ * @param {String} eventId
+ * @param {String} title
+ * @param {Number} description
+ * @param {String} featuredImage
+ * @param {String} venue
+ * @param {String} startDate
+ * @param {String} endDate
+ * @param {String} timezone
+ * @param {String} categoryId
+ * @param {String} slackChannel
+ *
+ * @returns {Object}
+ */
 export const updateEvent = ({
   eventId,
   title,
@@ -114,9 +164,20 @@ export const updateEvent = ({
   endDate,
   timezone,
   categoryId,
-  slackChannel
+  slackChannel,
 }) => dispatch => Client.mutate(
-  UPDATE_EVENT_GQL(eventId, title, description, featuredImage, venue, startDate, endDate, timezone, categoryId, slackChannel)
+  UPDATE_EVENT_GQL(
+    eventId,
+    title,
+    description,
+    featuredImage,
+    venue,
+    startDate,
+    endDate,
+    timezone,
+    categoryId,
+    slackChannel
+  )
 )
   .then((data) => {
     handleInformation(data.data.updateEvent.actionMessage);
@@ -128,6 +189,14 @@ export const updateEvent = ({
   })
   .catch(error => handleError(error, dispatch));
 
+/**
+ * Action creator to deactivate an event
+ *
+ * @param {String} eventId
+ * @param {String} clientMutationId
+ *
+ * @returns {Object}
+ */
 export const deactivateEvent = (eventId, clientMutationId = '') => dispatch => Client.mutate(DEACTIVATE_EVENT_GQL(eventId, clientMutationId))
   .then((data) => {
     handleInformation(data.data.deactivateEvent.actionMessage);
@@ -138,6 +207,15 @@ export const deactivateEvent = (eventId, clientMutationId = '') => dispatch => C
   })
   .catch(error => handleError(error, dispatch));
 
+/**
+ * Action creator to search for events
+ *
+ * @param {String} after
+ * @param {Number} first
+ * @param {String} title
+ *
+ * @returns {Object}
+ */
 export const searchEvents = ({
   after = '', first = 9, title,
 }) => dispatch => Client.query(EVENT_LIST_GQL(after, first, title))
@@ -148,6 +226,14 @@ export const searchEvents = ({
   }))
   .catch(error => handleError(error, dispatch));
 
+/**
+ * Action creator to share an event to a slack channel
+ *
+ * @param {String} eventId
+ * @param {String} channelId
+ *
+ * @returns {Object}
+ */
 export const shareEvent = ({
   eventId,
   channelId,

@@ -5,7 +5,13 @@ import { UPLOAD_IMAGE } from '../constants';
 import { handleError } from '../../utils/errorHandler';
 import Client from '../../client';
 
-
+/**
+ * Action creator to create new user interests
+ *
+ * @param {String} featuredImage
+ *
+ * @returns {Object}
+ */
 const uploadImage = ({ featuredImage }) => dispatch => Client.mutate(
   UPLOAD_IMAGE_GQL(featuredImage)
 ).then(response => dispatch({

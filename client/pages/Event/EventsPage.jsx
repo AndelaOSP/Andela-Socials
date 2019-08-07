@@ -46,6 +46,25 @@ class EventsPage extends React.Component {
     this.getEvents({ startDate: startDate || formatDate(Date.now(), 'YYYY-MM-DD') });
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    const { startDate } = this.props.events;
+    const {
+      selectedVenue,
+      selectedCategory,
+    } = this.state;
+    if (
+      prevProps.events.startDate !== startDate ||
+      prevState.selectedVenue !== selectedVenue ||
+      prevState.selectedCategory !== selectedCategory
+    ) {
+      this.getEvents({
+        startDate: startDate || formatDate(Date.now(), 'YYYY-MM-DD'),
+        venue: selectedVenue,
+        category: selectedCategory,
+      });
+    }
+  }
+
   /**
    * React Lifecycle hook
    * @memberof EventsPage
@@ -80,7 +99,16 @@ class EventsPage extends React.Component {
     return null;
   }
 
-  getFilteredEvents({ startDate, filterLocation, filterCategory }) {
+  /**
+   * @description Get filtered list of events
+   * @memberof EventsPage
+   * @param {string} startDate
+   * @param {string} venue
+   * @param {string} filterCategory
+   */
+  getFilteredEvents({
+    startDate, filterLocation, filterCategory,
+  }) {
     const {
       selectedVenue,
       selectedCategory,
@@ -97,25 +125,6 @@ class EventsPage extends React.Component {
         return Object.keys(filter).length ? filter : null;
       }
     );
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    const { startDate } = this.props.events;
-    const {
-      selectedVenue,
-      selectedCategory,
-    } = this.state;
-    if (
-      prevProps.events.startDate !== startDate ||
-      prevState.selectedVenue !== selectedVenue ||
-      prevState.selectedCategory !== selectedCategory
-    ) {
-      this.getEvents({
-        startDate: startDate || formatDate(Date.now(), 'YYYY-MM-DD'),
-        venue: selectedVenue,
-        category: selectedCategory,
-      });
-    }
   }
 
   /**

@@ -15,11 +15,25 @@ class Header extends Component {
     this.state = { searchText: '' };
   }
 
+  /**
+   * This method handles the sign out functionality
+   *
+   * @param {Object} event
+   *
+   * @return {void}
+   */
   onSignOut = (event) => {
     event.preventDefault();
     this.props.signOut();
   }
 
+  /**
+   * This method handles the input change of the search textbox in the nav bar
+   *
+   * @param {Object} event
+   *
+   * @return {void}
+   */
   onSearchInputChange = (event) => {
     const { searchEvents } = this.props;
     if (event.target.value.length >= 3) {
