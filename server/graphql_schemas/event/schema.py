@@ -48,9 +48,21 @@ logging.basicConfig(
 
 
 class EventFilter(FilterSet):
+    """
+        Handles the filtering of events
+    """
     creator = CharFilter(method='user_profile')
 
     def user_profile(self, queryset, name, value):
+        """
+        Gets the events created by a user
+        Params:
+            queryset(dict): the queryset to filter
+            name(dict): the name of the user
+            value(dict): the google id
+        Returns:
+            filter the event  based on the user
+        """
         try:
             user_profile = AndelaUserProfile.objects.get(
                 google_id=value
@@ -88,6 +100,9 @@ class Frequency(graphene.Enum):
 
 
 class CreateEvent(relay.ClientIDMutation):
+    """
+        Handles the creation of events
+    """
     class Input:
         title = NonEmptyString(required=True)
         description = NonEmptyString(required=True)
@@ -107,6 +122,15 @@ class CreateEvent(relay.ClientIDMutation):
 
     @staticmethod
     def create_event(category, user_profile, recurrence_event, **input):
+        """
+        create an event
+        Params:
+            category(str): the category of the event
+            user_profile(dict): the profile of the user
+            recurrence_event(bool): to indicate if event is reoccuring
+        Returns:
+            create the new event
+        """
         is_date_valid = validate_event_dates(input, 'event_date')
         if not is_date_valid.get('status'):
             raise GraphQLError(is_date_valid.get('message'))
@@ -128,6 +152,15 @@ class CreateEvent(relay.ClientIDMutation):
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
+        """
+        calls the create event mutations
+        Params:
+            root(dict): root query field data
+            info(dict): authentication and user information
+            input(dict): the request input sent by the user
+        Returns:
+            returns the event created
+        """
         category_id = from_global_id(input.pop('category_id'))[1]
         recurrence_event = None
         try:
@@ -165,6 +198,15 @@ class CreateEvent(relay.ClientIDMutation):
 
     @classmethod
     def start_background_task(cls, new_event, recurrence_event, user_profile):
+        """
+        start background task to add event to calendar
+        Params:
+            new_event(dict): the new event to be created
+            recurrence_event(bool): reoccuring event
+            user_profile(dict): user profile
+        Returns:
+            run the addevent function as background task
+        """
         if recurrence_event:
             BackgroundTaskWorker.start_work(add_event_to_calendar,
                                             (user_profile, new_event, True))
@@ -174,6 +216,13 @@ class CreateEvent(relay.ClientIDMutation):
 
     @staticmethod
     def create_recurrent_event(**input):
+        """
+        creates the recurrent event
+        Params:
+            input(dict): the input
+        Returns:
+            create the re-occuring event
+        """
         frequency = input.get('frequency')
         start_date = input.get('start_date')
         end_date = input.get('recurrence_end_date')
@@ -190,6 +239,15 @@ class CreateEvent(relay.ClientIDMutation):
 
     @staticmethod
     def notify_event_in_slack(category, input, new_event):
+        """
+        notify user on new event
+        Params:
+            category(dict): the category of the event
+            input(dict): the inputs
+            new_event(dict): the new event
+        Returns:
+            notify the users on new event
+        """
         try:
             category_followers = Interest.objects.filter(
                 follower_category_id=category.id)
@@ -239,8 +297,13 @@ class CreateEvent(relay.ClientIDMutation):
 
 
 class UpdateEvent(relay.ClientIDMutation):
-
+    """
+        Handle updating events
+    """
     class Input:
+        """
+         inputs send by the user
+        """
         title = graphene.String()
         description = graphene.String()
         venue = graphene.String()
@@ -257,6 +320,15 @@ class UpdateEvent(relay.ClientIDMutation):
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
+        """
+        Update an event
+        Params:
+            root(dict): root query field data
+            info(dict): authentication and user information
+            input(dict): the request input sent by the user
+        Returns:
+            returns the updated event
+        """
         try:
             user = AndelaUserProfile.objects.get(user=info.context.user)
             event_instance = Event.objects.get(
@@ -318,6 +390,15 @@ class DeactivateEvent(relay.ClientIDMutation):
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
+        """
+        Deactivates an event
+        Params:
+            root(dict): root query field data
+            info(dict): authentication and user information
+            input(dict): the request input sent by the user
+        Returns:
+            returns deactivation message
+        """
         user = info.context.user
         event_id = input.get('event_id')
         db_event_id = from_global_id(event_id)[1]
@@ -351,6 +432,15 @@ class SendEventInvite(relay.ClientIDMutation):
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
+        """
+        sends event invites to user
+        Params:
+            root(dict): root query field data
+            info(dict): authentication and user information
+            input(dict): the request input sent by the user
+        Returns:
+            event message
+        """
         event_id = input.get('event_id')
         sender = AndelaUserProfile.objects.get(
             user_id=info.context.user.id)
@@ -398,6 +488,9 @@ class SendEventInvite(relay.ClientIDMutation):
 
 
 class ValidateEventInvite(relay.ClientIDMutation):
+    """
+    validate the event invites
+    """
     isValid = graphene.Boolean()
     event = graphene.Field(EventNode)
     message = graphene.String()
@@ -407,6 +500,15 @@ class ValidateEventInvite(relay.ClientIDMutation):
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
+        """
+        checks if event is valid
+        Params:
+            root(dict): root query field data
+            info(dict): authentication and user information
+            input(dict): the request input sent by the user
+        Returns:
+            return the necessary message if event is valid or not
+        """
         hash_string = input.get('hash_string')
         user_id = info.context.user.id
         try:
@@ -440,6 +542,9 @@ class ValidateEventInvite(relay.ClientIDMutation):
 
 
 class ChannelList(graphene.ObjectType):
+    """
+    Slack group channel list data
+    """
     id = graphene.ID()
     name = graphene.String()
     is_channel = graphene.String()
@@ -457,10 +562,16 @@ class ChannelList(graphene.ObjectType):
 
 
 class ResponseMetadata(graphene.ObjectType):
+    """
+    response meta data
+    """
     next_cursor = graphene.String()
 
 
 class SlackChannelsList(graphene.ObjectType):
+    """
+    handles slack channel list
+    """
     ok = graphene.Boolean()
     channels = graphene.List(ChannelList)
     response_metadata = graphene.Field(ResponseMetadata)
@@ -470,6 +581,9 @@ class SlackChannelsList(graphene.ObjectType):
 
 
 class ShareEvent(relay.ClientIDMutation):
+    """
+    Handles event sharing on the channel
+    """
     class Input:
         event_id = graphene.ID()
         channel_id = graphene.String()
@@ -478,6 +592,15 @@ class ShareEvent(relay.ClientIDMutation):
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
+        """
+        share event on the channel
+        Params:
+            root(dict): root query field data
+            info(dict): authentication and user information
+            input(dict): the request input sent by the user
+        Returns:
+            post event on the necessary channel
+        """
         event_id = from_global_id(input.get('event_id'))[1]
         channel_id = input.get('channel_id')
         event_url = f"{dotenv.get('FRONTEND_BASE_URL')}/{event_id}"
@@ -510,6 +633,14 @@ class EventQuery(object):
     slack_channels_list = graphene.Field(SlackChannelsList)
 
     def resolve_event(self, info, **kwargs):
+        """
+        resolve event and return event that is gotten with the event id
+        Params:
+            info(dict): authentication and user information
+            input(dict): the request input sent by the user
+        Returns:
+            returns the event or none if no event
+        """
         id = kwargs.get('id')
 
         if id is not None:
@@ -520,9 +651,25 @@ class EventQuery(object):
         return None
 
     def resolve_events_list(self, info, **kwargs):
+        """
+        resolve all event and return all event
+        Params:
+            info(dict): authentication and user information
+            input(dict): the request input sent by the user
+        Returns:
+            returns all event
+        """
         return Event.objects.exclude(active=False)
 
     def resolve_slack_channels_list(self, info, **kwargs):
+        """
+        resolve slack channel
+        Params:
+            info(dict): authentication and user information
+            input(dict): the request input sent by the user
+        Returns:
+            returns all channels
+        """
         channels = []
         slack_list = get_slack_channels_list()
         responseMetadata = ResponseMetadata(**slack_list.get('response_metadata'))
@@ -536,6 +683,9 @@ class EventQuery(object):
 
 
 class EventMutation(ObjectType):
+    """
+    Handles event mutations
+    """
     create_event = CreateEvent.Field()
     deactivate_event = DeactivateEvent.Field()
     send_event_invite = SendEventInvite.Field()

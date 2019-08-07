@@ -7,6 +7,9 @@ from graphql_schemas.utils.helpers import upload_image_file
 
 
 class UploadImage(relay.ClientIDMutation):
+    """
+    Handles image upload
+    """
     class Input:
         # Use Upload to make graphene understand multipart/form-data
         featured_image = Upload(required=True)
@@ -15,6 +18,14 @@ class UploadImage(relay.ClientIDMutation):
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
+        """
+        calls the image upload method
+        Args:
+            info(dict): authentication and user information
+            input(dict): the request input sent by the user
+        Returns:
+            returns the image upload method withe the necessary parameters
+        """
         image_file = input['featured_image']
         image_url = upload_image_file(image_file)
         return cls(response_message=True,

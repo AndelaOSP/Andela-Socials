@@ -25,6 +25,9 @@ class AndelaUserProfileSerializer(serializers.ModelSerializer):
 
 
 class EventSerializer(serializers.ModelSerializer):
+    """
+    serializes the event
+    """
 
     creator = AndelaUserProfileSerializer(read_only=True)
 
@@ -47,6 +50,7 @@ class AttendanceSerializer(serializers.ModelSerializer):
 
 
 class EventDetailSerializer(serializers.ModelSerializer):
+    """event details serializer class """
 
     attendees = AttendanceSerializer(many=True, read_only=True)
     creator = AndelaUserProfileSerializer(read_only=True)
@@ -72,6 +76,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class InterestSerializer(serializers.ModelSerializer):
+    """interest model serializer class """
 
     class Meta:
         model = Interest

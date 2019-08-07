@@ -31,9 +31,12 @@ def update_instance(instance, args, exceptions=['id']):
         updatingobjects. Typically the input from the graphql endpoint comes
         with unwanted extras such as uniqueids that are not required or will
         cause an error when updating an object hence the exceptionparameter.
-            :param instance:
-            :param args:
-            :param exceptions=['id']:
+        Args:
+            instace(dict): the instances to be saved
+            args: the args
+            exceptions(list)
+        Returns
+            instance(dict): the instance that was saved
     """
     if instance:
         [setattr(instance, key, value)
@@ -56,7 +59,10 @@ class UnauthorizedCalendarError(Exception):
 def raise_calendar_error(user_profile):
     """
         Raise calendar error for Users with no access tokens
-            :param user_profile:
+        Args:
+            user_profile(dict): the profile of the user accessing the calendar
+        Returns
+            instance(dict): Unauthorized error
     """
     auth_url = get_auth_url(user_profile)
     raise UnauthorizedCalendarError(message="Calendar API not authorized",
@@ -66,8 +72,11 @@ def raise_calendar_error(user_profile):
 async def send_calendar_invites(andela_user, event):
     """
         Send calendar invites asynchronously
-         :param andela_user:
-         :param event:
+        Args:
+            andela_user(dict): the user to be invited
+            event(dict): the event to invite user for
+        Returns
+            instance(func): send invite use user
     """
     invitees = Interest.objects.filter(follower_category=event.social_event)
     invitee_list = [{'email': invitee.follower.user.email}
@@ -83,8 +92,11 @@ async def send_calendar_invites(andela_user, event):
 def build_event(event, invitees, recurring=False):
     """
         Build event payload
-         :param event:
-         :param invitees:
+        Args:
+            invitees(dict): the user to be invited
+            recurring(dict): the event to invite user for
+        Returns
+            calendar_event(list): the callendar event
     """
     start_date = parser.parse(str(event.start_date)).isoformat()
     end_date = parser.parse(str(event.end_date)).isoformat()
@@ -114,8 +126,12 @@ def build_event(event, invitees, recurring=False):
 
 def validate_event_dates(input, date_to_validate):
     """
-        Validate date fields
-         :param input:
+        Validate event dates
+        Args:
+            input(dict): the input to get the details
+            date_to_validate(dict): the date to be validated
+        Returns
+            normalize_dates(tuple): the validated dates
     """
     event_tz = input.get('start_date').tzinfo
     start_date = input.get('start_date')
@@ -128,6 +144,15 @@ def validate_event_dates(input, date_to_validate):
 
 
 def normalize_dates(end_date, start_date, today_date):
+    """
+        Validate the dates relatively to each other
+        Args:
+            end_date(date): the end date
+            start_date(date): the start date
+            today_date(date): the date for today
+        Returns
+            (dict): success or failure message
+    """
     if start_date < today_date or end_date < today_date:
         return {'status': False, 'message': 'Sorry, you cannot enter a past date'}
     elif end_date < start_date:
@@ -137,8 +162,11 @@ def normalize_dates(end_date, start_date, today_date):
 
 def validate_event_dates(input):
     """
-        Validate date fields
-         :param input:
+        Validate event dates
+        Args:
+            input(date): all input
+        Returns
+            (dict): success or failure message
     """
     
     event_tz = input.get('start_date').tzinfo
@@ -154,13 +182,23 @@ def validate_event_dates(input):
         return {'status': True, 'message': 'Validation successful'}
     
 def not_valid_timezone(timezone):
+    """
+        validate timezone
+        Args:
+            timezone(date): the timezone to be validated
+        Returns
+            (bool): false if timezone not in all timezone
+    """
     return timezone not in pytz.all_timezones
 
 def _safe_filename(filename):
     """
     Generates a safe filename that is unlikely to collide with existing objects
     in Google Cloud Storage.
-    ``filename.ext`` is transformed into ``filename-YYYY-MM-DD-HHMMSS.ext``
+    Args:
+        filename(dict): the file to be changed
+    Returns
+        (file): is transformed into ``filename-YYYY-MM-DD-HHMMSS.ext``
     """
     date = datetime.datetime.utcnow().strftime("%Y-%m-%d-%H%M%S")
     basename, extension = filename.rsplit('.', 1)
@@ -168,6 +206,13 @@ def _safe_filename(filename):
 
 
 def validate_image(file_obj):
+    """
+    Validate the image.
+    Args:
+        file_obj(dict): the file data
+    Returns
+        (error): error if not valid image
+    """
     filesize = file_obj.size
     megabyte_limit = 2.0
     extensions = {".jpg", ".png", ".gif", ".jpeg"}
@@ -178,6 +223,14 @@ def validate_image(file_obj):
 
 
 def upload_image_file(uploaded_file):
+
+    """
+    upload image file
+    Args:
+        uploaded_file(dict): file to be uploaded
+    Returns
+        (url): url of the image uploaded
+    """
     if settings.ENVIRONMENT == "production":
         """
         Uploads a file to a given Cloud Storage bucket and
@@ -210,6 +263,16 @@ def upload_image_file(uploaded_file):
 
 
 async def send_bulk_update_message(event_instance, message, notification_text):
+
+    """
+    send bulk messages to the users on slack
+    Args:
+        event_instance(dict): the instance of the event
+        message(dict): message to be sent to users on slack
+        notification_text(str): the notification text to display
+    Returns
+        (none): send the slack message
+    """
     attendees = Attend.objects.filter(
         event=event_instance, status="attending")
     for attendee in attendees:
@@ -231,9 +294,13 @@ async def send_bulk_update_message(event_instance, message, notification_text):
 
 def add_event_to_calendar(andela_user, event, recurring=False):
     """
-        Adds an event to a user's calendar
-         :param andela_user:
-         :param event:
+    Adds an event to a user's calendar
+    Args:
+        andela_user(dict): the user to have the event in calendar
+        event(dict): the event to be saved in the calendar
+        recurring(bool): bool to re-occur
+    Returns
+        save event on user's calendar
     """
     calendar = build('calendar', 'v3', credentials=andela_user.credential)
     event_details = build_event(event, [], recurring)
@@ -244,6 +311,14 @@ def add_event_to_calendar(andela_user, event, recurring=False):
 
 
 def update_event_status_on_calendar(andela_user, event):
+    """
+    Adds an event to a user's calendar
+    Args:
+        andela_user(dict): the user to update the event in calendar
+        event(dict): the event to be updated in the calendar
+    Returns
+        update event on user's calendar
+    """
     try:
         event_id = event.event_id_in_calendar
         host_calendar = build('calendar', 'v3', credentials=event.creator.credential)

@@ -27,6 +27,15 @@ class JoinCategory(relay.ClientIDMutation):
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
+        """
+        create bulk category and add category for user
+        Args:
+            root(dict): root query field data
+            info(dict): authentication and user information
+            input(dict): the request input sent by the user
+        Returns:
+            return bulk category created
+        """
         category_id_list = [category for category in input.pop('categories')]
         user = AndelaUserProfile.objects.get(user=info.context.user)
         user_category_list = [Category.objects.get(pk=from_global_id(category_id)[1])
@@ -55,6 +64,14 @@ class UnJoinCategory(relay.ClientIDMutation):
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
+        """
+        remove user category/intrest
+        Args:
+            root(dict): root query field data
+            info(dict): authentication and user information
+            input(dict): the request input sent by the user
+        Returns: UnJoinCategory method
+        """
         categories = input.get('categories')
         user = AndelaUserProfile.objects.get(user=info.context.user)
         categories = list(map(lambda category_id: from_global_id(category_id)[1], categories))
@@ -72,18 +89,30 @@ class UnJoinCategory(relay.ClientIDMutation):
 
 
 class InterestQuery(object):
+    """
+    Handle interest queries
+    """
     interest = relay.Node.Field(InterestNode)
     interests_list = DjangoFilterConnectionField(InterestNode)
 
     joined_categories = graphene.List(InterestNode)
 
     def resolve_joined_categories(self, info):
-        user = info.context.user
+        """
+        resolve user interest/categories
+        Args:
+            info(dict): authentication and user information
+            root(dict): root query field data
+            input(dict): the request input sent by the user
+        Returns: return user interests
+        """
         andela_user_profile = AndelaUserProfile.objects.get(user_id=user.id)
+        user = info.context.user
         return Interest.objects.filter(
             follower_id=andela_user_profile.id).all()
 
 
 class InterestMutation(graphene.ObjectType):
+    """ Handles user mutation"""
     join_category = JoinCategory.Field()
     unjoin_category = UnJoinCategory.Field()

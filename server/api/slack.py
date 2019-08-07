@@ -161,6 +161,8 @@ def get_slack_user_token(code):
 def get_slack_channels_list(limit=100):
     """
     Helper Function to get list of all slcak conversations
+    Params:
+        limit(int): the limit of slack list to return
     """
     channels_list = slack_client.api_call(
         "conversations.list",
@@ -174,8 +176,17 @@ def get_slack_channels_list(limit=100):
 
 
 def invite_to_event_channel(user_id, event_channel, channel_creator_token):
+    """
+    invite a user to the event channel
+    Params:
+        user_id(dict): the user id of the user to be added
+        event_channel(dict): the channel to add the user
+        channel_creator_token(dict): the token of the channel creator
+    Returns:
+        invite user to the channel
+    """
     return SlackClient(channel_creator_token).api_call(
-            "channels.invite",
-            channel=event_channel,
-            user=user_id,
-        )
+        "channels.invite",
+        channel=event_channel,
+        user=user_id,
+    )

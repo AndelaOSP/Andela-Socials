@@ -20,5 +20,14 @@ def is_not_past_event(event):
 
 
 def save_user_attendance(event, user_profile, status):
+    """
+    validates if the user is authenticated
+    Params:
+        event (dict): the event to be attended by the user
+        user_profile (dict): the profile of the attendee
+        status (dict): the status the attendee choose
+    Returns:
+         (func): save the attendee and the data
+    """
     return Attend.objects.get_or_create(
         user=user_profile, event=event, status=status)

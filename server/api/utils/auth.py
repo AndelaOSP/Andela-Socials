@@ -18,6 +18,14 @@ class TokenAuth(authentication.BaseAuthentication):
     """
 
     def decodeJWT(self, token, andela_public_key):
+        """
+        decode jwt token and check if user is authenticated
+        Params:
+            token (string): the request sent by the user
+            andela_public_key (string): the andela public key
+        Returns:
+            user_payload (func): the user payload if authenticated
+        """
         try:
             user_payload = jwt.decode(
                 token,

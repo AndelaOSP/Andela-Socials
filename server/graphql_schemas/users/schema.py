@@ -20,11 +20,22 @@ class CalendarAuth(graphene.ObjectType):
     auth_url = graphene.String()
 
 class AndelaUserQuery(object):
+    """
+    Handles the user calendar authentication
+    """
     user = relay.Node.Field(AndelaUserNode)
     users_list = DjangoFilterConnectionField(AndelaUserNode)
     calendar_auth = graphene.Field(CalendarAuth)
 
     def resolve_calendar_auth(self, info, **kwargs):
+        """
+        get calendar authentication of the user
+        Args:
+            info(dict): authentication and user information
+            kwargs(dict): the kwargs needed
+        Returns:
+            the authenticated calendar
+        """
         user = info.context.user
         andela_user = AndelaUserProfile.objects.get(user_id=user.id)
         auth_url = get_auth_url(andela_user)
@@ -39,6 +50,14 @@ class CreateUserAuth(relay.ClientIDMutation):
         code = graphene.String()
 
     def mutate_and_get_payload(root, info, **input):
+        """
+        creates user authentication
+        Args:
+            info(dict): authentication and user information
+            kwargs(dict): the kwargs needed
+        Returns:
+            user auth
+        """
         user = info.context.user
         code = input.get('code')
 
@@ -55,4 +74,7 @@ class CreateUserAuth(relay.ClientIDMutation):
 
 
 class AndelaUserMutation(graphene.AbstractType):
+    """
+        Handles user mutation
+    """
     create_user_auth = CreateUserAuth.Field()
