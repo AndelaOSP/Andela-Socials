@@ -2,21 +2,19 @@ import mock
 from contextlib import suppress
 from graphql import GraphQLError
 from django.core import mail
-from unittest import skip
+from unittest.mock import patch, Mock
 from graphql_relay import to_global_id
 from graphql_schemas.utils.helpers import UnauthorizedCalendarError
 from graphql_schemas.utils.hasher import Hasher
-
 from .base import BaseEventTestCase, create_user, past_date
-
 
 class MutateEventTestCase(BaseEventTestCase):
     """
     Tests the events api queries and mutations
     """
 
-    @skip('fails with db session still connected')
-    def test_deactivate_event_as_creator(self):
+    @patch('api.utils.backgroundTaskWorker.BackgroundTaskWorker.start_work')
+    def test_deactivate_event_as_creator(self, mock_background_task):
         query = f"""
             mutation {{
                 deactivateEvent(input: {{
@@ -31,6 +29,7 @@ class MutateEventTestCase(BaseEventTestCase):
         request.user = self.event_creator.user
         self.assertMatchSnapshot(client.execute(query,
                                                 context_value=request))
+        self.assertEqual(mock_background_task.call_count, 2)
 
     def test_deactivate_event_as_non_creator(self):
         with suppress(GraphQLError):
@@ -49,8 +48,8 @@ class MutateEventTestCase(BaseEventTestCase):
             self.assertMatchSnapshot(client.execute(query,
                                                     context_value=request))
 
-    @skip('fails with db session still connected')
-    def test_deactivate_event_as_admin(self):
+    @patch('api.utils.backgroundTaskWorker.BackgroundTaskWorker.start_work')
+    def test_deactivate_event_as_admin(self, mock_background_task):
         query = f"""
         mutation {{
             deactivateEvent(input: {{
@@ -65,6 +64,7 @@ class MutateEventTestCase(BaseEventTestCase):
         request.user = self.admin.user
         self.assertMatchSnapshot(client.execute(query,
                                                 context_value=request))
+        self.assertEqual(mock_background_task.call_count, 2)
 
     def test_update_event_as_creator(self):
         query = """
