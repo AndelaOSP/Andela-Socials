@@ -17,7 +17,7 @@ snapshots['CategoryTestCase::test_can_fetch_all_interests 1'] = {
                             'id': 'Q2F0ZWdvcnlOb2RlOjE=',
                             'name': 'Gaming Meetup'
                         },
-                        'id': 'SW50ZXJlc3ROb2RlOjM5'
+                        'id': 'SW50ZXJlc3ROb2RlOjQy'
                     }
                 },
                 {
@@ -26,7 +26,7 @@ snapshots['CategoryTestCase::test_can_fetch_all_interests 1'] = {
                             'id': 'Q2F0ZWdvcnlOb2RlOjI=',
                             'name': 'Python Meetup'
                         },
-                        'id': 'SW50ZXJlc3ROb2RlOjM4'
+                        'id': 'SW50ZXJlc3ROb2RlOjQx'
                     }
                 },
                 {
@@ -35,7 +35,7 @@ snapshots['CategoryTestCase::test_can_fetch_all_interests 1'] = {
                             'id': 'Q2F0ZWdvcnlOb2RlOjE=',
                             'name': 'Gaming Meetup'
                         },
-                        'id': 'SW50ZXJlc3ROb2RlOjM3'
+                        'id': 'SW50ZXJlc3ROb2RlOjQw'
                     }
                 }
             ]

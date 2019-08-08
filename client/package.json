@@ -8,17 +8,23 @@
     "start": "webpack --config config/webpack.config.prod.js && node server.js",
     "build": "webpack --config config/webpack.config.prod.js",
     "precommit": "lint-staged",
-    "stylelint-staged": "stylelint \"client/**/*.scss\" --syntax scss",
+    "stylelint-staged": "stylelint \"*/**/*.scss\" --syntax scss",
     "test:visual": "cypress run",
-    "test": "jest",
+    "test": "jest --coverage",
     "test:watch": "jest --watch",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "lint": "eslint '*/**/*.{js,jsx}' -c ../.eslintrc.json"
   },
   "lint-staged": {
-    "client/**/*.{js,jsx,json,scss,css}": [
+    "*/**/*.{js,jsx,json,scss,css}": [
       "prettier --write"
     ],
-    "client/**/*.scss": "npm run stylelint-staged --"
+    "*/**/*.scss": "npm run stylelint-staged --"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "author": "",
   "license": "MIT",

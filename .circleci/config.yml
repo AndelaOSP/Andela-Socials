@@ -1,6 +1,39 @@
 version: 2
+defaults: &defaults
+  docker:
+    - image: circleci/node:9.8.0
+      environment:
+        - TERM: xterm-256color
+        - CC_TEST_REPORTER_ID: $CC_TEST_REPORTER_ID
+  working_directory: ~/andela-socials
+  
+install_yarn_packages: &install_yarn_packages
+    run:
+      name: install dependencies
+      command: |
+        yarn --cwd client/package.json install
+
+attach_workspace: &attach_workspace
+  attach_workspace:
+    at: ~/andela-socials/tmp
+
 jobs:
-    test:
+    build:
+        <<: *defaults
+        # working_directory: ~/andela-socials
+        steps:
+            - run:
+                name:  Install codeclimate test-reporter
+                command: |
+                    mkdir -p tmp/
+                    curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./tmp/cc-test-reporter
+                    chmod +x ./tmp/cc-test-reporter
+            - persist_to_workspace:
+                root: tmp
+                paths:
+                  - cc-test-reporter
+
+    backend_test:
         docker:
             - image: circleci/python:3.6.1
             - image: circleci/postgres:9.4
@@ -9,11 +42,11 @@ jobs:
                   - POSTGRES_USER: circleci
                   - POSTGRES_DB: circlecidb
                   - POSTGRES_PASSWORD: $DB_PASSWORD
-        working_directory: ~/andela-socials-backend
-
+        working_directory: ~/andela-socials
         steps:
             - checkout
             - setup_remote_docker
+            - *attach_workspace
             - run:
                   name: install dependencies
                   command: |
@@ -25,11 +58,65 @@ jobs:
                   command: |
                       . venv/bin/activate
                       export DJANGO_SETTINGS_MODULE=a_socials.settings.dev
-                      python server/manage.py test --snapshot-update server/api/tests/ server/graphql_schemas/tests/
-
+                      coverage run server/manage.py test -v 2 server/api/tests/ server/graphql_schemas/tests/
+                      coverage xml
+                      ./tmp/cc-test-reporter format-coverage -t coverage.py -o tmp/codeclimate.backend.json coverage.xml
+            - persist_to_workspace:
+                root: tmp
+                paths: 
+                    - codeclimate.backend.json
             - store_artifacts:
                   path: test-reports
                   destination: test-reports
+
+    check_vulnerabilities:
+        <<: *defaults
+        steps:
+          - checkout
+          - *install_yarn_packages
+          - run:
+              name: Verify and Check Yarn packages for vulnerabilities
+              command: |
+                yarn --cwd client/package.json check --integrity
+
+    # If lint check is required uncomment the block of code below
+    # lint:
+    #     <<: *defaults
+    #     steps:
+    #         - checkout
+    #         - *install_yarn_packages
+    #         - run:
+    #             name: Run lint
+    #             command: |
+    #                 yarn --cwd client/package.json lint
+
+    frontend_test:
+        <<: *defaults
+        steps:
+          - checkout
+          - setup_remote_docker
+          - *attach_workspace
+          - *install_yarn_packages
+          - run:
+              name: Run frontend test
+              command: |
+                yarn --cwd client/package.json test
+                ls ./client/
+                ./tmp/cc-test-reporter format-coverage -t lcov -o tmp/codeclimate.frontend.json ./client/coverage/lcov.info
+          - persist_to_workspace:
+              root: tmp
+              paths: 
+                - codeclimate.frontend.json
+
+    upload_coverage:
+        <<: *defaults
+        steps:
+            - *attach_workspace
+            - run:
+                name: Upload coverage results to Code Climate
+                command: |
+                    ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 2 -o tmp/codeclimate.total.json
+                    ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.total.json
 
     upgrade-database:
         docker:
@@ -45,11 +132,8 @@ jobs:
                   command: |
                       bash scripts/upgrade.sh
 
-    deployBackend:
-        docker:
-            - image: circleci/python:3.6.1
-              environment:
-                  TERM: xterm-256color
+    deploy_backend:
+        <<: *defaults
         working_directory: ~/andela-socials-backend
         steps:
             - checkout
@@ -59,12 +143,9 @@ jobs:
                   command: |
                       bash scripts/deployBackend.sh
 
-    deployFrontend:
-        docker:
-            - image: circleci/node:9.8.0
-              environment:
-                  - TERM: xterm-256color
-        working_directory: ~/andela-socials-frontend
+    deploy_frontend:
+        <<: *defaults
+        # working_directory: ~/andela-socials-frontend
         steps:
             - checkout
             - setup_remote_docker
@@ -77,10 +158,22 @@ workflows:
     version: 2
     test_and_deploy:
         jobs:
-            - test
-            - deployBackend:
+            - check_vulnerabilities
+            # - lint
+            - build
+            - backend_test:
+                requires: 
+                  - build
+            - frontend_test:
+                requires: 
+                  - build
+            - upload_coverage:
                 requires:
-                    - test
+                  - backend_test
+                  - frontend_test
+            - deploy_backend:
+                requires:
+                    - backend_test
                 filters:
                     branches:
                         only:
@@ -88,9 +181,9 @@ workflows:
                             - /release\/v[0-9].[0-9].[0-9]/
                             - staging
 
-            - deployFrontend:
+            - deploy_frontend:
                 requires:
-                    - test
+                    - frontend_test
                 filters:
                     branches:
                         only:

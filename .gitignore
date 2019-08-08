@@ -34,8 +34,10 @@ cypress.json
 **/cypress/support
 yarn-error.log
 .coverage
+/client/coverage
 .tox
 warning.log
 client/dist
 andela_creds.json
 artifacts/
+htmlcov/

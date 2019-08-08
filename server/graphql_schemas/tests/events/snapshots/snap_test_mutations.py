@@ -89,7 +89,7 @@ snapshots['MutateEventTestCase::test_query_updated_event 1'] = {
             'description': 'test description default',
             'id': 'RXZlbnROb2RlOjU=',
             'socialEvent': {
-                'id': 'Q2F0ZWdvcnlOb2RlOjQy'
+                'id': 'Q2F0ZWdvcnlOb2RlOjQz'
             },
             'title': 'test title default'
         }
@@ -176,7 +176,7 @@ snapshots['MutateEventTestCase::test_update_event_as_admin 1'] = {
                     'line': 3
                 }
             ],
-            'message': "'str' object has no attribute 'date'",
+            'message': 'An Error occurred. Please try again',
             'path': [
                 'updateEvent'
             ]
@@ -196,7 +196,7 @@ snapshots['MutateEventTestCase::test_update_event_as_creator 1'] = {
                     'line': 3
                 }
             ],
-            'message': "'str' object has no attribute 'date'",
+            'message': 'An Error occurred. Please try again',
             'path': [
                 'updateEvent'
             ]
@@ -216,7 +216,7 @@ snapshots['MutateEventTestCase::test_update_event_as_non_creator 1'] = {
                     'line': 3
                 }
             ],
-            'message': 'You are not authorized to edit this event.',
+            'message': 'An Error occurred. Please try again',
             'path': [
                 'updateEvent'
             ]

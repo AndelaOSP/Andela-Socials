@@ -21,174 +21,56 @@ ShallowWrapper {
   Symbol(enzyme.__node__): Object {
     "instance": null,
     "key": undefined,
-    "nodeType": "host",
+    "nodeType": "class",
     "props": Object {
       "children": <div
         className="event-card"
       >
-        <img
-          alt=""
-          className="event-card__picture"
-          src="/assets/img/img_group_selfie.jpg"
-        />
         <div
-          className="event-card__caption-group"
-        >
-          <p
-            className="event-card__caption event-card__caption--title"
-          >
-            Swimming Meetup
-          </p>
-          <p
-            className="event-card__caption event-card__caption--date"
-          >
-            Invalid Date
-          </p>
-          <p
-            className="event-card__caption event-card__caption--tags"
-          >
-            #undefined
-          </p>
-        </div>
-      </div>,
-      "className": "event-link",
-      "href": "/events/",
-    },
-    "ref": null,
-    "rendered": Object {
-      "instance": null,
-      "key": undefined,
-      "nodeType": "host",
-      "props": Object {
-        "children": Array [
-          <img
-            alt=""
-            className="event-card__picture"
-            src="/assets/img/img_group_selfie.jpg"
-          />,
-          <div
-            className="event-card__caption-group"
-          >
-            <p
-              className="event-card__caption event-card__caption--title"
-            >
-              Swimming Meetup
-            </p>
-            <p
-              className="event-card__caption event-card__caption--date"
-            >
-              Invalid Date
-            </p>
-            <p
-              className="event-card__caption event-card__caption--tags"
-            >
-              #undefined
-            </p>
-          </div>,
-        ],
-        "className": "event-card",
-      },
-      "ref": null,
-      "rendered": Array [
-        Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "host",
-          "props": Object {
-            "alt": "",
-            "className": "event-card__picture",
-            "src": "/assets/img/img_group_selfie.jpg",
-          },
-          "ref": null,
-          "rendered": null,
-          "type": "img",
-        },
-        Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "host",
-          "props": Object {
-            "children": Array [
-              <p
-                className="event-card__caption event-card__caption--title"
-              >
-                Swimming Meetup
-              </p>,
-              <p
-                className="event-card__caption event-card__caption--date"
-              >
-                Invalid Date
-              </p>,
-              <p
-                className="event-card__caption event-card__caption--tags"
-              >
-                #undefined
-              </p>,
-            ],
-            "className": "event-card__caption-group",
-          },
-          "ref": null,
-          "rendered": Array [
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "host",
-              "props": Object {
-                "children": "Swimming Meetup",
-                "className": "event-card__caption event-card__caption--title",
-              },
-              "ref": null,
-              "rendered": "Swimming Meetup",
-              "type": "p",
-            },
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "host",
-              "props": Object {
-                "children": "Invalid Date",
-                "className": "event-card__caption event-card__caption--date",
-              },
-              "ref": null,
-              "rendered": "Invalid Date",
-              "type": "p",
-            },
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "host",
-              "props": Object {
-                "children": "#undefined",
-                "className": "event-card__caption event-card__caption--tags",
-              },
-              "ref": null,
-              "rendered": "#undefined",
-              "type": "p",
-            },
-          ],
-          "type": "div",
-        },
-      ],
-      "type": "div",
-    },
-    "type": "a",
-  },
-  Symbol(enzyme.__nodes__): Array [
-    Object {
-      "instance": null,
-      "key": undefined,
-      "nodeType": "host",
-      "props": Object {
-        "children": <div
-          className="event-card"
+          className="event-card__gradient"
         >
           <img
             alt=""
             className="event-card__picture"
             src="/assets/img/img_group_selfie.jpg"
           />
+        </div>
+        <div
+          className="event-card__label"
+        >
+          <p>
+            Lagos
+          </p>
+        </div>
+        <div
+          className="event-card__action"
+        >
+          <p
+            className="event-card__slack"
+          >
+            <SlackIcon
+              color="black"
+              width="100%"
+            />
+          </p>
+        </div>
+        <div
+          className="event-card__caption-group"
+        >
           <div
-            className="event-card__caption-group"
+            className="event-card__date"
+          >
+            <p
+              className="event-card__month"
+            />
+            <p
+              className="event-card__day"
+            >
+              NaN
+            </p>
+          </div>
+          <div
+            className="event-card__details"
           >
             <p
               className="event-card__caption event-card__caption--title"
@@ -206,24 +88,64 @@ ShallowWrapper {
               #undefined
             </p>
           </div>
-        </div>,
-        "className": "event-link",
-        "href": "/events/",
-      },
-      "ref": null,
-      "rendered": Object {
-        "instance": null,
-        "key": undefined,
-        "nodeType": "host",
-        "props": Object {
-          "children": Array [
+        </div>
+      </div>,
+      "className": "event-link",
+      "replace": false,
+      "to": "/events/",
+    },
+    "ref": null,
+    "rendered": Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <div
+            className="event-card__gradient"
+          >
             <img
               alt=""
               className="event-card__picture"
               src="/assets/img/img_group_selfie.jpg"
-            />,
+            />
+          </div>,
+          <div
+            className="event-card__label"
+          >
+            <p>
+              Lagos
+            </p>
+          </div>,
+          <div
+            className="event-card__action"
+          >
+            <p
+              className="event-card__slack"
+            >
+              <SlackIcon
+                color="black"
+                width="100%"
+              />
+            </p>
+          </div>,
+          <div
+            className="event-card__caption-group"
+          >
             <div
-              className="event-card__caption-group"
+              className="event-card__date"
+            >
+              <p
+                className="event-card__month"
+              />
+              <p
+                className="event-card__day"
+              >
+                NaN
+              </p>
+            </div>
+            <div
+              className="event-card__details"
             >
               <p
                 className="event-card__caption event-card__caption--title"
@@ -240,13 +162,27 @@ ShallowWrapper {
               >
                 #undefined
               </p>
-            </div>,
-          ],
-          "className": "event-card",
-        },
-        "ref": null,
-        "rendered": Array [
-          Object {
+            </div>
+          </div>,
+        ],
+        "className": "event-card",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": <img
+              alt=""
+              className="event-card__picture"
+              src="/assets/img/img_group_selfie.jpg"
+            />,
+            "className": "event-card__gradient",
+          },
+          "ref": null,
+          "rendered": Object {
             "instance": null,
             "key": undefined,
             "nodeType": "host",
@@ -259,27 +195,522 @@ ShallowWrapper {
             "rendered": null,
             "type": "img",
           },
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": <p>
+              Lagos
+            </p>,
+            "className": "event-card__label",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": "Lagos",
+            },
+            "ref": null,
+            "rendered": "Lagos",
+            "type": "p",
+          },
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": <p
+              className="event-card__slack"
+            >
+              <SlackIcon
+                color="black"
+                width="100%"
+              />
+            </p>,
+            "className": "event-card__action",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <SlackIcon
+                color="black"
+                width="100%"
+              />,
+              "className": "event-card__slack",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "color": "black",
+                "width": "100%",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            "type": "p",
+          },
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <div
+                className="event-card__date"
+              >
+                <p
+                  className="event-card__month"
+                />
+                <p
+                  className="event-card__day"
+                >
+                  NaN
+                </p>
+              </div>,
+              <div
+                className="event-card__details"
+              >
+                <p
+                  className="event-card__caption event-card__caption--title"
+                >
+                  Swimming Meetup
+                </p>
+                <p
+                  className="event-card__caption event-card__caption--date"
+                >
+                  Invalid Date
+                </p>
+                <p
+                  className="event-card__caption event-card__caption--tags"
+                >
+                  #undefined
+                </p>
+              </div>,
+            ],
+            "className": "event-card__caption-group",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <p
+                    className="event-card__month"
+                  />,
+                  <p
+                    className="event-card__day"
+                  >
+                    NaN
+                  </p>,
+                ],
+                "className": "event-card__date",
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": undefined,
+                    "className": "event-card__month",
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": "p",
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": NaN,
+                    "className": "event-card__day",
+                  },
+                  "ref": null,
+                  "rendered": NaN,
+                  "type": "p",
+                },
+              ],
+              "type": "div",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <p
+                    className="event-card__caption event-card__caption--title"
+                  >
+                    Swimming Meetup
+                  </p>,
+                  <p
+                    className="event-card__caption event-card__caption--date"
+                  >
+                    Invalid Date
+                  </p>,
+                  <p
+                    className="event-card__caption event-card__caption--tags"
+                  >
+                    #undefined
+                  </p>,
+                ],
+                "className": "event-card__details",
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "Swimming Meetup",
+                    "className": "event-card__caption event-card__caption--title",
+                  },
+                  "ref": null,
+                  "rendered": "Swimming Meetup",
+                  "type": "p",
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "Invalid Date",
+                    "className": "event-card__caption event-card__caption--date",
+                  },
+                  "ref": null,
+                  "rendered": "Invalid Date",
+                  "type": "p",
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": "#undefined",
+                    "className": "event-card__caption event-card__caption--tags",
+                  },
+                  "ref": null,
+                  "rendered": "#undefined",
+                  "type": "p",
+                },
+              ],
+              "type": "div",
+            },
+          ],
+          "type": "div",
+        },
+      ],
+      "type": "div",
+    },
+    "type": [Function],
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "class",
+      "props": Object {
+        "children": <div
+          className="event-card"
+        >
+          <div
+            className="event-card__gradient"
+          >
+            <img
+              alt=""
+              className="event-card__picture"
+              src="/assets/img/img_group_selfie.jpg"
+            />
+          </div>
+          <div
+            className="event-card__label"
+          >
+            <p>
+              Lagos
+            </p>
+          </div>
+          <div
+            className="event-card__action"
+          >
+            <p
+              className="event-card__slack"
+            >
+              <SlackIcon
+                color="black"
+                width="100%"
+              />
+            </p>
+          </div>
+          <div
+            className="event-card__caption-group"
+          >
+            <div
+              className="event-card__date"
+            >
+              <p
+                className="event-card__month"
+              />
+              <p
+                className="event-card__day"
+              >
+                NaN
+              </p>
+            </div>
+            <div
+              className="event-card__details"
+            >
+              <p
+                className="event-card__caption event-card__caption--title"
+              >
+                Swimming Meetup
+              </p>
+              <p
+                className="event-card__caption event-card__caption--date"
+              >
+                Invalid Date
+              </p>
+              <p
+                className="event-card__caption event-card__caption--tags"
+              >
+                #undefined
+              </p>
+            </div>
+          </div>
+        </div>,
+        "className": "event-link",
+        "replace": false,
+        "to": "/events/",
+      },
+      "ref": null,
+      "rendered": Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <div
+              className="event-card__gradient"
+            >
+              <img
+                alt=""
+                className="event-card__picture"
+                src="/assets/img/img_group_selfie.jpg"
+              />
+            </div>,
+            <div
+              className="event-card__label"
+            >
+              <p>
+                Lagos
+              </p>
+            </div>,
+            <div
+              className="event-card__action"
+            >
+              <p
+                className="event-card__slack"
+              >
+                <SlackIcon
+                  color="black"
+                  width="100%"
+                />
+              </p>
+            </div>,
+            <div
+              className="event-card__caption-group"
+            >
+              <div
+                className="event-card__date"
+              >
+                <p
+                  className="event-card__month"
+                />
+                <p
+                  className="event-card__day"
+                >
+                  NaN
+                </p>
+              </div>
+              <div
+                className="event-card__details"
+              >
+                <p
+                  className="event-card__caption event-card__caption--title"
+                >
+                  Swimming Meetup
+                </p>
+                <p
+                  className="event-card__caption event-card__caption--date"
+                >
+                  Invalid Date
+                </p>
+                <p
+                  className="event-card__caption event-card__caption--tags"
+                >
+                  #undefined
+                </p>
+              </div>
+            </div>,
+          ],
+          "className": "event-card",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <img
+                alt=""
+                className="event-card__picture"
+                src="/assets/img/img_group_selfie.jpg"
+              />,
+              "className": "event-card__gradient",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "alt": "",
+                "className": "event-card__picture",
+                "src": "/assets/img/img_group_selfie.jpg",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": "img",
+            },
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <p>
+                Lagos
+              </p>,
+              "className": "event-card__label",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "Lagos",
+              },
+              "ref": null,
+              "rendered": "Lagos",
+              "type": "p",
+            },
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <p
+                className="event-card__slack"
+              >
+                <SlackIcon
+                  color="black"
+                  width="100%"
+                />
+              </p>,
+              "className": "event-card__action",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": <SlackIcon
+                  color="black"
+                  width="100%"
+                />,
+                "className": "event-card__slack",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "color": "black",
+                  "width": "100%",
+                },
+                "ref": null,
+                "rendered": null,
+                "type": [Function],
+              },
+              "type": "p",
+            },
+            "type": "div",
+          },
           Object {
             "instance": null,
             "key": undefined,
             "nodeType": "host",
             "props": Object {
               "children": Array [
-                <p
-                  className="event-card__caption event-card__caption--title"
+                <div
+                  className="event-card__date"
                 >
-                  Swimming Meetup
-                </p>,
-                <p
-                  className="event-card__caption event-card__caption--date"
+                  <p
+                    className="event-card__month"
+                  />
+                  <p
+                    className="event-card__day"
+                  >
+                    NaN
+                  </p>
+                </div>,
+                <div
+                  className="event-card__details"
                 >
-                  Invalid Date
-                </p>,
-                <p
-                  className="event-card__caption event-card__caption--tags"
-                >
-                  #undefined
-                </p>,
+                  <p
+                    className="event-card__caption event-card__caption--title"
+                  >
+                    Swimming Meetup
+                  </p>
+                  <p
+                    className="event-card__caption event-card__caption--date"
+                  >
+                    Invalid Date
+                  </p>
+                  <p
+                    className="event-card__caption event-card__caption--tags"
+                  >
+                    #undefined
+                  </p>
+                </div>,
               ],
               "className": "event-card__caption-group",
             },
@@ -290,36 +721,111 @@ ShallowWrapper {
                 "key": undefined,
                 "nodeType": "host",
                 "props": Object {
-                  "children": "Swimming Meetup",
-                  "className": "event-card__caption event-card__caption--title",
+                  "children": Array [
+                    <p
+                      className="event-card__month"
+                    />,
+                    <p
+                      className="event-card__day"
+                    >
+                      NaN
+                    </p>,
+                  ],
+                  "className": "event-card__date",
                 },
                 "ref": null,
-                "rendered": "Swimming Meetup",
-                "type": "p",
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": undefined,
+                      "className": "event-card__month",
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": "p",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": NaN,
+                      "className": "event-card__day",
+                    },
+                    "ref": null,
+                    "rendered": NaN,
+                    "type": "p",
+                  },
+                ],
+                "type": "div",
               },
               Object {
                 "instance": null,
                 "key": undefined,
                 "nodeType": "host",
                 "props": Object {
-                  "children": "Invalid Date",
-                  "className": "event-card__caption event-card__caption--date",
+                  "children": Array [
+                    <p
+                      className="event-card__caption event-card__caption--title"
+                    >
+                      Swimming Meetup
+                    </p>,
+                    <p
+                      className="event-card__caption event-card__caption--date"
+                    >
+                      Invalid Date
+                    </p>,
+                    <p
+                      className="event-card__caption event-card__caption--tags"
+                    >
+                      #undefined
+                    </p>,
+                  ],
+                  "className": "event-card__details",
                 },
                 "ref": null,
-                "rendered": "Invalid Date",
-                "type": "p",
-              },
-              Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "children": "#undefined",
-                  "className": "event-card__caption event-card__caption--tags",
-                },
-                "ref": null,
-                "rendered": "#undefined",
-                "type": "p",
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "Swimming Meetup",
+                      "className": "event-card__caption event-card__caption--title",
+                    },
+                    "ref": null,
+                    "rendered": "Swimming Meetup",
+                    "type": "p",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "Invalid Date",
+                      "className": "event-card__caption event-card__caption--date",
+                    },
+                    "ref": null,
+                    "rendered": "Invalid Date",
+                    "type": "p",
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": "#undefined",
+                      "className": "event-card__caption event-card__caption--tags",
+                    },
+                    "ref": null,
+                    "rendered": "#undefined",
+                    "type": "p",
+                  },
+                ],
+                "type": "div",
               },
             ],
             "type": "div",
@@ -327,7 +833,7 @@ ShallowWrapper {
         ],
         "type": "div",
       },
-      "type": "a",
+      "type": [Function],
     },
   ],
   Symbol(enzyme.__options__): Object {

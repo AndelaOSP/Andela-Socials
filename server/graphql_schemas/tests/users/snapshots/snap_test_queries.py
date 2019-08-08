@@ -11,7 +11,7 @@ snapshots['QueryAndelaUserTestCase::test_query_users_by_id 1'] = {
     'data': {
         'user': {
             'googleId': '344445',
-            'id': 'QW5kZWxhVXNlck5vZGU6MTE5',
+            'id': 'QW5kZWxhVXNlck5vZGU6MTIy',
             'userPicture': 'https://lh5.googleusercontent.com'
         }
     }
@@ -24,14 +24,14 @@ snapshots['QueryAndelaUserTestCase::test_query_users_list 1'] = {
                 {
                     'node': {
                         'googleId': '123233',
-                        'id': 'QW5kZWxhVXNlck5vZGU6MTIw',
+                        'id': 'QW5kZWxhVXNlck5vZGU6MTIz',
                         'userPicture': 'https://lh5.googleusercontent.com'
                     }
                 },
                 {
                     'node': {
                         'googleId': '344445',
-                        'id': 'QW5kZWxhVXNlck5vZGU6MTIx',
+                        'id': 'QW5kZWxhVXNlck5vZGU6MTI0',
                         'userPicture': 'https://lh5.googleusercontent.com'
                     }
                 }
