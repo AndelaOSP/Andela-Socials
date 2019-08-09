@@ -19,45 +19,22 @@ This will improve socialization among Andelans both inside and outside the organ
 
 ## PROJECT SETUP
 
-### DB CREATION (Ignore if you have the database created already)
-
-Use the createdb.sh script to setup your database for the application.
-
 Your `.env` variables should contain the values listed below, you can reference the file to see how it is used.
 
 ```sh
    DB_USER=a_socials
-   DB_PASS=a_socials
+   DB_PASSWORD=a_socials
    DB_PORT=5432
    DB_NAME=a_socials
 ```
-
-### Node Installation
-
-It is advisable to use node version 8 for this project. Check your node version using `node --version`. To help manage the node versions you can install and run on your system you can use nvm. Follow this [guide](https://gist.github.com/d2s/372b5943bce17b964a79#install-nvm-for-managing-nodejs-versions) to help install nvm.
-
-You would then run `nvm install v8.0` to install node version 8 and `nvm use v8` to use that specific node version, but this will only work with that running bash session. To make version 8 the default node version for your system you would use `nvm alias default 8.0`
-
-Clone from git using
-
-```sh
-git clone git@github.com:AndelaOSP/Andela-Socials.git
-```
-
-Create a `.env` file in the root directory. Use the content of the `.env.sample` and edit with the appropriate details.
-
-Reach out to the Team Lead for the appropriate `.env` details when in doubt. :)
-
-
-### SETUP WITH VIRTUAL ENVIRONMENT
-
 Navigate into the root directory of the project and run the script `setup.sh` with the command:
 
 ```sh
 scripts/setup.sh
 ```
+This scripts automatically sets up the project locally on your machine.
 
-This scripts automatically sets up the project.
+**NOTE:** When the setup prompts you to enter 1, 2, 3 or 4, enter 1 and continue.
 
 ### STARTING THE APP
 
@@ -82,6 +59,23 @@ To STOP the application run the command:
 ```sh
 scripts/stop.sh
 ```
+
+### Node Installation
+
+It is advisable to use node version 8 for this project. Check your node version using `node --version`. To help manage the node versions you can install and run on your system you can use nvm. Follow this [guide](https://gist.github.com/d2s/372b5943bce17b964a79#install-nvm-for-managing-nodejs-versions) to help install nvm.
+
+You would then run `nvm install v8.0` to install node version 8 and `nvm use v8` to use that specific node version, but this will only work with that running bash session. To make version 8 the default node version for your system you would use `nvm alias default 8.0`
+
+Clone from git using
+
+```sh
+git clone git@github.com:AndelaOSP/Andela-Socials.git
+```
+
+Create a `.env` file in the root directory. Use the content of the `.env.sample` and edit with the appropriate details.
+
+Reach out to the Team Lead for the appropriate `.env` details when in doubt. :)
+
 
 ### TEST(Virtual Environment Setup)
 

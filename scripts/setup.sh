@@ -30,20 +30,16 @@ function setup_client() {
 }
 
 function create_db(){
-	if psql -lqtA | cut -d\| -f1 | grep -qxF "a_socials"; then
-		echo "You already have a database named a_socials."
+    echo "Creating user a_socials"
+    PGPASSWORD=postgres dropuser -U postgres -w -e --if-exists $DB_USER
+    PGPASSWORD=postgres psql -U postgres -w -c "CREATE USER $DB_USER WITH PASSWORD '$DB_PASSWORD' CREATEDB;"
+	echo "Successfully created user $DB_USER"
+    if PGPASSWORD=$DB_PASSWORD psql -U $DB_USER -w -lqtA | cut -d\| -f1 | grep -qxF $DB_NAME; then
+		echo "You already have a database named $DB_NAME."
 	else
-		echo "You need to create a database."
-		echo -e "\n\n\033[31mPlease provide a single argument for the username/dbname\033[0m\n"
-		read dbname
-		DBNAME=$dbname
-		echo -e "\n\n\033[31mPlease provide just one argument as the username\033[0m\n"
-		read dbuser
-		USERNAME_DBNAME=$dbuser
-		if ! psql -lqtA | grep  $USERNAME_DBNAME; then
-			createuser -P -s -e $DBNAME
-		fi
-		createdb --username=$USERNAME_DBNAME --owner=$USERNAME_DBNAME -W $DBNAME
+		echo -e "\n\n\033[31mCreating database $DB_NAME for the user a_socials\033[0m\n"
+		PGPASSWORD=$DB_PASSWORD createdb -U a_socials -O a_socials -w $DB_NAME
+        echo -e "successfully created $DB_NAME"
 	fi
 }
 
@@ -54,4 +50,5 @@ create_virtualenv
 create_db
 setup_server
 setup_client
+echo "local environment setup successfully, run scripts/start.sh to start the application locally"
 exit 0

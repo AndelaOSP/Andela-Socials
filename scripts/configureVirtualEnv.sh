@@ -7,7 +7,7 @@ function create_virtualenv() {
 	read -p 'Enter 1 , 2 , 3 or 4: ' response
 
 	if [ $response == "1" ]; then
-		pip install virtualenv
+		pip3 install virtualenv
 		virtualenv --python=python3 venv
 	  source venv/bin/activate
 	elif [ $response == "2" ]; then

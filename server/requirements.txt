@@ -14,7 +14,7 @@ click==6.7
 coverage==4.5.1
 cryptography==2.2.2
 dj-database-url==0.4.2
-Django==1.11.5
+Django==1.11.17
 django-cors-headers==2.1.0
 django-crontab==0.7.1
 django-dynamic-fixtures==0.2.1

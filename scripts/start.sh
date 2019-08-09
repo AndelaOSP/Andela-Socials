@@ -10,12 +10,12 @@ function start_client() {
 
 function start_server() {
   cd ..
+  source venv/bin/activate
   python server/manage.py runserver 0.0.0.0:8000
 }
 
 source scripts/configureVirtualEnv.sh
 load_env_vars
-setup_virtualenv
 
 chmod u+x scripts/checkEnv.sh
 scripts/checkEnv.sh
