@@ -9,6 +9,7 @@ ShallowWrapper {
     socialEvent={Object {}}
     startDate=""
     title=""
+    venue=""
   />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
@@ -39,7 +40,7 @@ ShallowWrapper {
           className="event-card__label"
         >
           <p>
-            Lagos
+            
           </p>
         </div>
         <div
@@ -114,7 +115,7 @@ ShallowWrapper {
             className="event-card__label"
           >
             <p>
-              Lagos
+              
             </p>
           </div>,
           <div
@@ -203,7 +204,7 @@ ShallowWrapper {
           "nodeType": "host",
           "props": Object {
             "children": <p>
-              Lagos
+              
             </p>,
             "className": "event-card__label",
           },
@@ -213,10 +214,10 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "host",
             "props": Object {
-              "children": "Lagos",
+              "children": "",
             },
             "ref": null,
-            "rendered": "Lagos",
+            "rendered": "",
             "type": "p",
           },
           "type": "div",
@@ -448,7 +449,7 @@ ShallowWrapper {
             className="event-card__label"
           >
             <p>
-              Lagos
+              
             </p>
           </div>
           <div
@@ -523,7 +524,7 @@ ShallowWrapper {
               className="event-card__label"
             >
               <p>
-                Lagos
+                
               </p>
             </div>,
             <div
@@ -612,7 +613,7 @@ ShallowWrapper {
             "nodeType": "host",
             "props": Object {
               "children": <p>
-                Lagos
+                
               </p>,
               "className": "event-card__label",
             },
@@ -622,10 +623,10 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "host",
               "props": Object {
-                "children": "Lagos",
+                "children": "",
               },
               "ref": null,
-              "rendered": "Lagos",
+              "rendered": "",
               "type": "p",
             },
             "type": "div",
