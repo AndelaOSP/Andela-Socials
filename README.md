@@ -26,6 +26,7 @@ Your `.env` variables should contain the values listed below, you can reference 
    DB_PASSWORD=a_socials
    DB_PORT=5432
    DB_NAME=a_socials
+   LOG_DIR=/tmp/log/andela_socials/a_social.log
 ```
 Navigate into the root directory of the project and run the script `setup.sh` with the command:
 

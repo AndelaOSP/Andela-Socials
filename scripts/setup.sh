@@ -30,15 +30,15 @@ function setup_client() {
 }
 
 function create_db(){
-    echo "Creating user a_socials"
+    echo "Creating user $DB_USER"
     PGPASSWORD=postgres dropuser -U postgres -w -e --if-exists $DB_USER
     PGPASSWORD=postgres psql -U postgres -w -c "CREATE USER $DB_USER WITH PASSWORD '$DB_PASSWORD' CREATEDB;"
 	echo "Successfully created user $DB_USER"
     if PGPASSWORD=$DB_PASSWORD psql -U $DB_USER -w -lqtA | cut -d\| -f1 | grep -qxF $DB_NAME; then
 		echo "You already have a database named $DB_NAME."
 	else
-		echo -e "\n\n\033[31mCreating database $DB_NAME for the user a_socials\033[0m\n"
-		PGPASSWORD=$DB_PASSWORD createdb -U a_socials -O a_socials -w $DB_NAME
+		echo -e "\n\n\033[31mCreating database $DB_NAME for the user $DB_USER\033[0m\n"
+		PGPASSWORD=$DB_PASSWORD createdb -U $DB_USER -O $DB_USER -w $DB_NAME
         echo -e "successfully created $DB_NAME"
 	fi
 }
