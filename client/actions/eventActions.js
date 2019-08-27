@@ -44,7 +44,7 @@ export const createEvent = (eventData) => {
           error: false
         })
       })
-      .catch(error => handleError(error, dispatch));
+      .catch(error => handleError(error.message.split(":")[1], dispatch));
   };
 }
 

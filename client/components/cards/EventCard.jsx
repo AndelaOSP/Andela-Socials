@@ -8,9 +8,9 @@ import SlackIcon from '../../assets/icons/SlackIcon';
 const EventCard = (props) => {
   document.title = 'Events page';
   const {
-    id, title, startDate, socialEvent, featuredImage,
+    id, title, startDate, venue, socialEvent, featuredImage,
   } = props;
-  
+
   const date = new Date(startDate);
   const shortMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const shortMonth = shortMonths[date.getMonth()];
@@ -22,10 +22,10 @@ const EventCard = (props) => {
           <img src={featuredImage || '/assets/img/img_group_selfie.jpg'} alt={title} className="event-card__picture" />
         </div>
         <div className="event-card__label">
-            <p>Lagos</p>
+          <p>{venue}</p>
         </div>
         <div className="event-card__action">
-            <p className="event-card__slack">{<SlackIcon width="100%" color="black" />}</p>
+          <p className="event-card__slack">{<SlackIcon width="100%" color="black" />}</p>
         </div>
         <div className="event-card__caption-group">
           <div className="event-card__date">
@@ -46,6 +46,7 @@ const EventCard = (props) => {
 EventCard.propTypes = {
   id: PropTypes.string,
   title: PropTypes.string,
+  venue: PropTypes.string,
   startDate: PropTypes.string,
   featuredImage: PropTypes.string,
   socialEvent: PropTypes.objectOf(PropTypes.any),
@@ -54,6 +55,7 @@ EventCard.propTypes = {
 EventCard.defaultProps = {
   id: '',
   title: '',
+  venue: '',
   startDate: '',
   socialEvent: {},
   featuredImage: '',
