@@ -41,3 +41,6 @@ client/dist
 andela_creds.json
 artifacts/
 htmlcov/
+
+revampedClient/coverage
+revampedClient/**/**/__snapshots__/*.test.js.snap
