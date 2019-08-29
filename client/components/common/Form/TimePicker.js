@@ -1,7 +1,14 @@
 import React from 'react';
-import IncrementalSelect from '../IncrementalSelect';
 import PropTypes from 'prop-types';
+import IncrementalSelect from '../IncrementalSelect';
 
+/**
+ * This function determines the number of options available
+ *
+ * @param {number} count
+ *
+ * @return JSX
+ */
 const options = (count) => {
   const options = [];
   for (let i=0; i < count; i++) {
@@ -12,18 +19,26 @@ const options = (count) => {
 
 const timeProps = {
   hour: {
-    name: "hour",
+    name: 'hour',
     options: options(24) 
   },
   minute: {
-    name: "minute",
+    name: 'minute',
     options: options(60) 
-  }
+  },
 };
 
+/**
+ * This function determines the common props
+ *
+ * @param {String} type
+ * @param {onChange} fucntion
+ *
+ * @return {Object}
+ */
 const commonProps = (type, onChange) => ({
   type,
-  onChange
+  onChange,
 });
 
 const renderIncrementalSelect = (
@@ -32,21 +47,29 @@ const renderIncrementalSelect = (
   style,
   name,
   values,
-  errors) => (
+  errors
+) => (
   <IncrementalSelect 
-    {...timeProps[name]} 
+    {...timeProps[name]}
     {...commonProps(type, onChange)}
     value={values[name]}
     error={errors[name]}
     style={style}
   />
-)
+);
 
+/**
+ * This function renders the time picker
+ *
+ * @param {Object} props
+ *
+ * @return JSX
+ */
 const TimePicker = ({
   onChange,
   errors,
   values,
-  type
+  type,
 }) => {
   return (
     <div className="liner">
@@ -61,5 +84,5 @@ TimePicker.propTypes = {
   onChange: PropTypes.func,
   errors: PropTypes.object,
   values: PropTypes.object,
-  type: PropTypes.string
-}
+  type: PropTypes.string,
+};

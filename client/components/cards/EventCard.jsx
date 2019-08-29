@@ -5,6 +5,13 @@ import { Link } from 'react-router-dom';
 import formatDate from '../../utils/formatDate';
 import SlackIcon from '../../assets/icons/SlackIcon';
 
+/**
+ * This function creates an event card
+ *
+ * @param {Object} props
+ *
+ * @return JSX
+ */
 const EventCard = (props) => {
   document.title = 'Events page';
   const {

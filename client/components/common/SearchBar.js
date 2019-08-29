@@ -4,7 +4,13 @@ import PropTypes from 'prop-types';
 import SearchIcon from '../../assets/icons/SearchIcon';
 import SearchModal from '../Modals/SearchModal';
 
-
+/**
+   * This function renders the Search bar component
+   *
+   * @param {Object} props
+   *
+   * @return JSX
+   */
 const SearchBar = (props) => {
   const {
     onSearchInputChange, events, searchText,

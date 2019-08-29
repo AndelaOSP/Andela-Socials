@@ -12,7 +12,11 @@ import LogoReplacement from '../../assets/icons/LogoReplacement';
 // assets
 import '../../assets/components/navbar.scss';
 
-
+/**
+   * This method handles opening the nav bar
+   *
+   * @return {void}
+   */
 const openNav = () => {
   document.getElementById('mySidenav').style.width = '15.6rem';
 };

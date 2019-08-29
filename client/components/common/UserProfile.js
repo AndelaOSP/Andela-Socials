@@ -5,6 +5,13 @@ import { Link } from 'react-router-dom';
 import DropDown from './DropDown';
 import profileImage from '../../assets/img/profile_picture.jpg';
 
+/**
+   * This function renders the User profile component
+   *
+   * @param {Object} props
+   *
+   * @return JSX
+   */
 const UserProfile = ({
   firstName,
   lastName,
@@ -30,7 +37,7 @@ const UserProfile = ({
         </li>
       </ul>
     </DropDown>
-  );
+);
 
 UserProfile.propTypes = {
   firstName: PropTypes.string.isRequired,

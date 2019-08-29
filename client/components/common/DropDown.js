@@ -11,15 +11,24 @@ import onClickOutside from 'react-onclickoutside';
 class DropDown extends Component {
   state = { showDropDown: false };
 
+  /**
+   * This method toggles the drop down
+   *
+   * @return {void}
+   */
   toggleDropDown = () => {
     const { showDropDown } = this.state;
     this.setState({ showDropDown: !showDropDown });
   };
 
+  /**
+   * This method handles the click outside the dropdown
+   * closes the dropdown
+   *
+   * @return {void}
+   */
   handleClickOutside = () => {
-    this.setState({
-      showDropDown: false
-    });
+    this.setState({ showDropDown: false });
   }
 
   render() {
@@ -34,8 +43,7 @@ class DropDown extends Component {
       <div className={classNames}>
         {React.cloneElement(children[0], { onClick: this.toggleDropDown })}
         {showDropDown && React.cloneElement(children[1],
-          { onClick: this.toggleDropDown }
-          )}
+          { onClick: this.toggleDropDown })}
       </div>
     );
   }

@@ -1,10 +1,15 @@
 import { SUBNAV_HIDDEN } from './constants';
 
-export const hideSubNav = (payload) => {
-  return (dispatch) => {
-    dispatch({
-      type: SUBNAV_HIDDEN,
-      payload,
-    });
-  };
-}
+/**
+ * Callback action
+ *
+ * @param {Object} payload
+ * @return {{type: (object}}
+ */
+// eslint-disable-next-line import/prefer-default-export
+export const hideSubNav = payload => (dispatch) => {
+  dispatch({
+    type: SUBNAV_HIDDEN,
+    payload,
+  });
+};

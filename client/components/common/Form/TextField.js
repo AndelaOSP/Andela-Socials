@@ -6,6 +6,13 @@ import {
   basePropTypes,
 } from './propsDefs';
 
+/**
+ * This function renders the text field
+ *
+ * @param {Object} props
+ *
+ * @return JSX
+ */
 const TextField = ({
   id,
   name,
