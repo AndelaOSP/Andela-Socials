@@ -8,6 +8,7 @@ from graphql_schemas.utils.helpers import UnauthorizedCalendarError
 from graphql_schemas.utils.hasher import Hasher
 from .base import BaseEventTestCase, create_user, past_date
 
+
 class MutateEventTestCase(BaseEventTestCase):
     """
     Tests the events api queries and mutations
@@ -445,3 +446,59 @@ class MutateEventTestCase(BaseEventTestCase):
         self.request.user = self.non_event_creator.user
         result = self.client.execute(query, context_value=self.request)
         self.assertMatchSnapshot(result)
+
+    def test_event_with_an_existing_location(self):
+        query = f"""
+        mutation CreateEvent{{
+            createEvent(input: {{
+                title:"test title",
+                description:"test description",
+                venue:"test venue",
+                startDate:"2018-08-09T18:00:00.000Z",
+                endDate:"2018-08-09T18:00:00.000Z",
+                timezone: "Africa/Algiers",
+                categoryId: "{to_global_id("CategoryNode", self.category.id)}",
+                featuredImage: "http://fake-image.com"
+            }}) {{
+                newEvent{{
+                title
+                description
+                }}
+            }}
+        }}
+        """
+
+        query = """
+            query {
+                eventsList(location_Icontains:"San-Fransisco"){
+                    edges{
+                    node{
+                        id
+                        }
+                    }
+                }
+            }
+        """
+        request = self.request
+        client = self.client
+        request.user = self.admin.user
+        response = client.execute(query, context_value=request)
+        self.assertMatchSnapshot(response)
+
+    def test_event_with_non_exixting_location(self):
+        query = """
+            query {
+                eventsList(location_Icontains:"Andela-lagos"){
+                    edges{
+                    node{
+                        id
+                        }
+                    }
+                }
+            }
+        """
+        request = self.request
+        client = self.client
+        request.user = self.admin.user
+        response = client.execute(query, context_value=request)
+        self.assertMatchSnapshot(response)
