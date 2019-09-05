@@ -1,8 +1,14 @@
 """Module that tests helper methods"""
+
+from tempfile import NamedTemporaryFile
 from unittest.mock import patch
+
+from django.core.exceptions import ValidationError
+
 from graphql_schemas.utils.helpers import (
     update_event_status_on_calendar,
     remove_event_from_all_calendars,
+    validate_image,
     add_event_to_calendar
 )
 from api.tests.base_test_setup import BaseSetup
@@ -89,3 +95,38 @@ class HelperTests(BaseSetup):
         self.assertEqual(mock_build.call_count, 1)
         self.assertEqual(event.event_id_in_calendar, 1)
         mock_build_patcher.stop()
+    def test_validate_image_passes_for_valid_image(self):
+        """
+        Test method that validates images are valid before uploading
+        """
+        valid_image = NamedTemporaryFile(suffix=".jpg")
+        valid_image.size = 200  # less than limit of 2.0 MB
+        res = validate_image(valid_image)
+        # the function returns nothing if the image file is valid
+        self.assertEqual(res, None)
+
+    def test_validate_image_fails_for_large_images(self):
+        """
+        Test that image validation should fail if the file size
+        exceeds the set limit
+        """
+        large_image = NamedTemporaryFile(suffix=".jpg")
+        large_image.size = 900000000000000000
+        with self.assertRaises(ValidationError) as e:
+            validate_image(large_image)
+
+        self.assertEqual(e.exception.message, "Max file size is 2.0MB")
+
+    def test_validate_image_fails_for_invalid_image_formats(self):
+        """
+        Test that image validation fails if the file extension is
+        not supported
+        """
+
+        invalid_image = NamedTemporaryFile(suffix=".invalid")
+        invalid_image.size = 20
+        with self.assertRaises(ValidationError) as e:
+            validate_image(invalid_image)
+
+        self.assertEquals(
+            e.exception.message, "You can only upload image files")
