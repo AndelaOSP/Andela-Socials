@@ -4,7 +4,7 @@ set -e
 set -o pipefail # if any code doesn't return 0, exit the script
 
 function start_client() {
-  cd client
+  cd client/v1
   yarn start:dev &
 }
 

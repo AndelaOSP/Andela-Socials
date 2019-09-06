@@ -31,8 +31,8 @@ module.exports = merge(webpackCommonConfig, {
       'Access-Control-Allow-Headers':
         'X-Requested-With, content-type, Content-Type, Authorization, accept, accept-encoding, authorization, dnt, origin, user-agent, x-csrftoken, x-requested-with'
     },
-    publicPath: 'http://0.0.0.0:9000/',
-    port: 9000,
+    publicPath: 'http://0.0.0.0:3000/',
+    port: 3000,
     compress: true,
     proxy: {
       '/api/v1': {

@@ -32,10 +32,10 @@ services:
     ports:
       - "8000:8000"
 
-  client:
+  client_v1:
     container_name: dev_andela_social_client
     build:
-      context: ../../client
+      context: ../../client/v1
       dockerfile: ../docker/dev/client/Dockerfile
     env_file:
       - ./dev.env
@@ -44,5 +44,20 @@ services:
     ports:
       - "9000:9000"
     volumes:
-      - ../../client:/andela_social
+      - ../../client/v1:/andela_social
+      - a_socials_node_modules:/andela_social/node_modules
+
+  client_v2:
+    container_name: dev_andela_social_client_v2
+    build:
+      context: ../../client/v2
+      dockerfile: ../docker/dev/client/Dockerfile
+    env_file:
+      - ./dev.env
+    depends_on:
+      - server
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../../client/v2:/andela_social
       - a_socials_node_modules:/andela_social/node_modules
