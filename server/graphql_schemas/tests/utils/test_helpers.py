@@ -1,6 +1,10 @@
 """Module that tests helper methods"""
 from unittest.mock import patch
-from graphql_schemas.utils.helpers import update_event_status_on_calendar, remove_event_from_all_calendars
+from graphql_schemas.utils.helpers import (
+    update_event_status_on_calendar,
+    remove_event_from_all_calendars,
+    add_event_to_calendar
+)
 from api.tests.base_test_setup import BaseSetup
 
 
@@ -64,4 +68,24 @@ class HelperTests(BaseSetup):
         self.assertEqual(mock_build.called, True)
         self.assertEqual(mock_build.return_value.events.return_value.delete.called, True)
         self.assertEqual(mock_build.call_count, 1)
+        mock_build_patcher.stop()
+
+    def test_add_event_to_calendar(self):
+        """
+        Test that users can successfully add events to the calendar
+        """
+
+        mock_build_patcher = patch('graphql_schemas.utils.helpers.build')
+        user, event = self.andela_user1, self.event_1
+        mock_build = mock_build_patcher.start()
+        mock_build.return_value.events.return_value.insert.return_value.execute.return_value = {
+            'id': 1
+        }
+        add_event_to_calendar(user, event)
+
+        self.assertEqual(mock_build.called, True)
+        self.assertEqual(
+            mock_build.return_value.events.return_value.insert.called, True)
+        self.assertEqual(mock_build.call_count, 1)
+        self.assertEqual(event.event_id_in_calendar, 1)
         mock_build_patcher.stop()
