@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.utils import timezone
+from datetime import datetime, timedelta
 
 from api.models import (AndelaUserProfile, Event, Category, UserProxy)
 
@@ -34,3 +35,28 @@ class BaseSetup(TestCase):
             social_event=self.category1,
             active=True
         )
+
+        self.event_2 = Event.objects.create(
+            title='event2',
+            description='event2 description',
+            venue='event2 venue',
+            start_date = str(datetime.now()),
+            end_date = (datetime.now()),
+            creator=self.andela_user1,
+            social_event=self.category1,
+            active=True,
+            timezone = 'utc'
+        )
+
+        self.event_3 = Event.objects.create(
+            title='event3',
+            description='event3 description',
+            venue='event3 venue',
+            start_date = str(timezone.now() + timedelta(hours=24)),
+            end_date = (timezone.now() + timedelta(hours=25)),
+            creator=self.andela_user1,
+            social_event=self.category1,
+            active=True,
+            timezone = 'utc'
+        )
+        
