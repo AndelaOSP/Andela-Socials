@@ -2,6 +2,7 @@
 
 from tempfile import NamedTemporaryFile
 from unittest.mock import patch
+import datetime
 
 from django.core.exceptions import ValidationError
 
@@ -9,7 +10,8 @@ from graphql_schemas.utils.helpers import (
     update_event_status_on_calendar,
     remove_event_from_all_calendars,
     validate_image,
-    add_event_to_calendar
+    add_event_to_calendar,
+    normalize_dates
 )
 from api.tests.base_test_setup import BaseSetup
 
@@ -95,6 +97,7 @@ class HelperTests(BaseSetup):
         self.assertEqual(mock_build.call_count, 1)
         self.assertEqual(event.event_id_in_calendar, 1)
         mock_build_patcher.stop()
+
     def test_validate_image_passes_for_valid_image(self):
         """
         Test method that validates images are valid before uploading
@@ -130,3 +133,29 @@ class HelperTests(BaseSetup):
 
         self.assertEquals(
             e.exception.message, "You can only upload image files")
+
+    def test_normalize_dates_function_success(self):
+        """
+        Test that dates have to be in the present for them to be accepted
+        """
+        start_date = datetime.date.today()
+        end_date = start_date + datetime.timedelta(days=1)
+
+        result = normalize_dates(end_date, start_date, datetime.date.today())
+
+        self.assertEqual(
+            result, {'status': True, 'message': 'Validation successful'})
+
+    def test_normalize_dates_function_if_end_date_invalid(self):
+        """
+        Test that the event must end in the future, after the event start date
+        """
+        start_date = datetime.date.today() + datetime.timedelta(days=2)
+        end_date = datetime.date.today()
+
+        result = normalize_dates(end_date, start_date, datetime.date.today())
+
+        self.assertEqual(
+            result, {
+                'status': False,
+                'message': 'Sorry, end date must be after start date'})
