@@ -1,0 +1,19 @@
+@import '../../assets/style.scss';
+
+.avatar-group {
+  display: flex;
+  align-items: center;
+  z-index: 1;
+
+  .avatar-item {
+    width: 25px;
+  }
+
+  .img-count {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 25px;
+    font-size: 1.125rem;
+    color: map-get($colors, grey);
+  }
+}

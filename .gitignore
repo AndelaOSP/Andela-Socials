@@ -35,6 +35,7 @@ cypress.json
 yarn-error.log
 .coverage
 /client/coverage
+/clientV2/coverage
 .tox
 warning.log
 client/dist
