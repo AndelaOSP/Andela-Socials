@@ -11,7 +11,7 @@ install_yarn_packages: &install_yarn_packages
     run:
       name: install dependencies
       command: |
-        yarn --cwd client/package.json install
+        yarn --cwd clientV2/package.json install
 
 attach_workspace: &attach_workspace
   attach_workspace:
@@ -77,7 +77,7 @@ jobs:
           - run:
               name: Verify and Check Yarn packages for vulnerabilities
               command: |
-                yarn --cwd client/package.json check --integrity
+                yarn --cwd clientV2/package.json check --integrity
 
     # If lint check is required uncomment the block of code below
     # lint:
@@ -100,9 +100,9 @@ jobs:
           - run:
               name: Run frontend test
               command: |
-                yarn --cwd client/package.json test
-                ls ./client/
-                ./tmp/cc-test-reporter format-coverage -t lcov -o tmp/codeclimate.frontend.json ./client/coverage/lcov.info
+                yarn --cwd clientV2/package.json test
+                ls ./clientV2/
+                ./tmp/cc-test-reporter format-coverage -t lcov -o tmp/codeclimate.frontend.json ./clientV2/coverage/lcov.info
           - persist_to_workspace:
               root: tmp
               paths: 

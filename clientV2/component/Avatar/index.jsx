@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 /**
  * @description - This component displays a single Avatar
  *
- * @export
+ * @export Avatar
  * @param {object} { imgUrl, classes, altText }
- * @returns JSX
+ * @returns {JSX}
  */
 export const Avatar = ({ imgUrl, classes, altText }) => {
   return <img className={`avatar ${classes}`} src={imgUrl} alt={altText} />;
