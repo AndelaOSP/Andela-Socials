@@ -92,10 +92,10 @@ Or run the command below:
 make server test
 ```
 
-To run cypress test for the client side, navigate to the client folder
+To run cypress test for the client side, navigate to the client folder and choose which version
 
 ```sh
-cd client
+cd client/{v1 or v2}
 ```
 
 For e2e tests, ensure you have `cypress.json`, start the server and run:
@@ -131,7 +131,9 @@ After the build is complete, spin up the docker containers with:
 make start
 ```
 
-Then you can access the client application; served by webpack-dev-server at `http://localhost:9000`, and the backend application; served by the django development server at `http://localhost:8000`
+Then you can access the client/v1 application; served by webpack-dev-server at `http://localhost:9000`,
+or the client/v2 application; served by webpack-dev-server at `http://localhost:9000`,
+and the backend application; served by the django development server at `http://localhost:8000`
 
 To stop the application, you can pull down the containers with:
 

@@ -12,7 +12,7 @@ function setup_server() {
 }
 
 function setup_client() {
-	cd client
+	cd client/v1
 
 	yarn -v
 	export status=$?

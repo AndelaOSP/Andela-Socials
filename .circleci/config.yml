@@ -6,12 +6,12 @@ defaults: &defaults
         - TERM: xterm-256color
         - CC_TEST_REPORTER_ID: $CC_TEST_REPORTER_ID
   working_directory: ~/andela-socials
-  
+
 install_yarn_packages: &install_yarn_packages
     run:
       name: install dependencies
       command: |
-        yarn --cwd client/package.json install
+        yarn --cwd client/v1/package.json install
 
 attach_workspace: &attach_workspace
   attach_workspace:
@@ -63,7 +63,7 @@ jobs:
                       ./tmp/cc-test-reporter format-coverage -t coverage.py -o tmp/codeclimate.backend.json coverage.xml
             - persist_to_workspace:
                 root: tmp
-                paths: 
+                paths:
                     - codeclimate.backend.json
             - store_artifacts:
                   path: test-reports
@@ -77,7 +77,7 @@ jobs:
           - run:
               name: Verify and Check Yarn packages for vulnerabilities
               command: |
-                yarn --cwd client/package.json check --integrity
+                yarn --cwd client/v1/package.json check --integrity
 
     # If lint check is required uncomment the block of code below
     # lint:
@@ -88,7 +88,7 @@ jobs:
     #         - run:
     #             name: Run lint
     #             command: |
-    #                 yarn --cwd client/package.json lint
+    #                 yarn --cwd client/v1/package.json lint
 
     frontend_test:
         <<: *defaults
@@ -100,12 +100,12 @@ jobs:
           - run:
               name: Run frontend test
               command: |
-                yarn --cwd client/package.json test
-                ls ./client/
-                ./tmp/cc-test-reporter format-coverage -t lcov -o tmp/codeclimate.frontend.json ./client/coverage/lcov.info
+                yarn --cwd client/v1/package.json test
+                ls ./client/v1/
+                ./tmp/cc-test-reporter format-coverage -t lcov -o tmp/codeclimate.frontend.json ./client/v1/coverage/lcov.info
           - persist_to_workspace:
               root: tmp
-              paths: 
+              paths:
                 - codeclimate.frontend.json
 
     upload_coverage:
@@ -162,10 +162,10 @@ workflows:
             # - lint
             - build
             - backend_test:
-                requires: 
+                requires:
                   - build
             - frontend_test:
-                requires: 
+                requires:
                   - build
             - upload_coverage:
                 requires:

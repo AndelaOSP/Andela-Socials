@@ -20,7 +20,7 @@ fi
 
 
 function start_client() {
-  cd client
+  cd client/v1
   yarn start &
 }
 

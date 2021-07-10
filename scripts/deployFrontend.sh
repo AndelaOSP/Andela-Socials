@@ -31,7 +31,7 @@ authorize_docker() {
 deploy_image() {
 
     echo ${FRONTEND_BASE_URL} ${SERVER_API_BASE_URL} ${G_SUITE_DOMAIN} ${ANDELA_API_BASE_URL} ${CLIENT_ID}
-    cd client && yarn install
+    cd client/v1 && yarn install
 
     export NODE_ENV=production
 
